@@ -1,0 +1,32 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    notas.txt                                          :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: fpinho-d <fpinho-d@student.42porto.com>    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/09/07 20:14:53 by fpinho-d          #+#    #+#              #
+#    Updated: 2023/09/07 21:23:18 by fpinho-d         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+Comportamento do Shell:
+
+-> recebe um commando
+-> lê o commando (divide em types-> tambem chamado parsing ou tokinization) e passa ao kernel para interpretar
+-> kernel interpreta o comando (busca nos diretorios o ficheiro executavel (tem que ser feito) relacionado com o comando)
+-> kernel executa o comando
+
+
+Tipos de command:
+
+1 - Executable command;
+    -> call by names
+    -> ls, touch
+    -> estao disponiveis em bibliotecas
+
+2 - Built-in command: 
+
+- nao sao ficheiros executaveis como 'ls' ou 'touch'
+- exemplo: cd (temos que expicificar claramente o que esperamos dele)
+- definidos pelo desenvolvedor
