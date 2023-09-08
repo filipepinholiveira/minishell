@@ -6,7 +6,7 @@
 /*   By: fpinho-d <fpinho-d@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 23:31:02 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/09/08 05:37:41 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2023/09/08 05:51:14 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int main(int ac, char **av)
             free (lineptr);
             return (-1);
         }
-        printf("Input: %s", lineptr);
+        printf("Input: %s\n", lineptr);
         linptr_cpy = malloc(sizeof (char) * nchars_read);
         if (!linptr_cpy)
             return(printf("erro malloc"), 1);
