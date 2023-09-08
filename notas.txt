@@ -6,7 +6,7 @@
 #    By: fpinho-d <fpinho-d@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/07 20:14:53 by fpinho-d          #+#    #+#              #
-#    Updated: 2023/09/07 21:23:18 by fpinho-d         ###   ########.fr        #
+#    Updated: 2023/09/08 05:59:51 by fpinho-d         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,3 +30,19 @@ Tipos de command:
 - nao sao ficheiros executaveis como 'ls' ou 'touch'
 - exemplo: cd (temos que expicificar claramente o que esperamos dele)
 - definidos pelo desenvolvedor
+
+LINKS UTEIS
+
+https://blog.ehoneahobed.com/building-a-simple-shell-in-c-part-1
+
+https://blog.ehoneahobed.com/building-a-simple-shell-in-c-part-2
+
+https://www.codevivek.com/writing-a-shell-in-c/
+
+https://www.dmulholl.com/lets-build/a-command-line-shell.html
+
+https://indradhanush.github.io/blog/writing-a-unix-shell-part-1/
+
+https://www.grymoire.com/Unix/Csh.html
+
+https://danishpraka.sh/posts/write-a-shell/
