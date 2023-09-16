@@ -6,7 +6,7 @@
 /*   By: fpinho-d <fpinho-d@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 03:21:19 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/09/16 15:54:49 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2023/09/16 17:46:34 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char *    ft_tokenize(char *input, char **av)
     }
     av = malloc (sizeof(char) * nbr_tokens);
     if (!av)
-        return (printf("Erro alocar memoria av no ft_tokanize\n"), 1);
+        return (printf("Erro alocar memoria av no ft_tokanize\n"), NULL);
     printf("numero de tokens: %ld\n", nbr_tokens);
     printf("input que sai tokanize fim: %s\n", input);
     return (token);
