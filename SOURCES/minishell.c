@@ -6,7 +6,7 @@
 /*   By: fpinho-d <fpinho-d@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 23:31:02 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/09/08 05:51:14 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2023/09/16 16:01:14 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ int main(int ac, char **av)
         if (!linptr_cpy)
             return(printf("erro malloc"), 1);
         linptr_cpy = strcpy(linptr_cpy, lineptr);
-        ft_tokenize(linptr_cpy, av);
+        while(linptr_cpy)
+        {
+            linptr_cpy = ft_tokenize(linptr_cpy, av);
+        }
     }
     free (lineptr);
     return (0);

@@ -10,6 +10,6 @@
 #include "../SOURCES/LIBFT/libft.h"
 
 // ft_tokenize
-void    ft_tokenize(char *input, char **av);
+char *    ft_tokenize(char *input, char **av);
 
 #endif

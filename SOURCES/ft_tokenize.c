@@ -6,7 +6,7 @@
 /*   By: fpinho-d <fpinho-d@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 03:21:19 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/09/08 05:53:28 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2023/09/16 15:54:49 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ para serem tratadas ou executadas*/
 
 #include "minishell.h"
 
-void    ft_tokenize(char *input, char **av)
+char *    ft_tokenize(char *input, char **av)
 {
     size_t nbr_tokens = 0;
     printf("input que entra tokanize inicio: %s\n", input);
@@ -27,8 +27,10 @@ void    ft_tokenize(char *input, char **av)
         nbr_tokens++;
         token = strtok(NULL, " ");
     }
-    free(token);
-    (void) av;
+    av = malloc (sizeof(char) * nbr_tokens);
+    if (!av)
+        return (printf("Erro alocar memoria av no ft_tokanize\n"), 1);
     printf("numero de tokens: %ld\n", nbr_tokens);
     printf("input que sai tokanize fim: %s\n", input);
+    return (token);
 }
