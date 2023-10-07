@@ -6,7 +6,7 @@
 #    By: fpinho-d <fpinho-d@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/07 20:14:53 by fpinho-d          #+#    #+#              #
-#    Updated: 2023/09/08 05:59:51 by fpinho-d         ###   ########.fr        #
+#    Updated: 2023/09/26 16:05:42 by fpinho-d         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,27 @@ Tipos de command:
 - nao sao ficheiros executaveis como 'ls' ou 'touch'
 - exemplo: cd (temos que expicificar claramente o que esperamos dele)
 - definidos pelo desenvolvedor
+
+
+Questões a serem resolvidas:
+
+- não podemos usar getline (minishell.c), temos que usar readline
+
+
+
+Resolvido:
+
+- não podemos usar strtok (ft_tokanize.c), temos que fazer o nosso ft_strtok:
+
+    char *strtok(char *str, const char *delim);
+
+    str represents the string to be tokenize
+
+delim represents what can of characters we expect to be separating 
+the string which should be used as a guide to break the string into smaller chunks. 
+
+
+
 
 LINKS UTEIS
 
