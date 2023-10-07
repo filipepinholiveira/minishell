@@ -6,7 +6,7 @@
 /*   By: fpinho-d <fpinho-d@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 23:31:02 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/10/07 15:57:17 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2023/10/07 19:37:34 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int main(int ac, char **av)
         {
             lineptr = ft_tokenize(lineptr, av, &nbr_tokens);
         }
-        nbr_tokens = 0;
+        //nbr_tokens = 0;
     }
     free ((char *)lineptr);
     return (0);
