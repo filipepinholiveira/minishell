@@ -6,7 +6,7 @@
 /*   By: fpinho-d <fpinho-d@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 03:21:19 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/10/07 20:27:32 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2023/10/08 07:29:06 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char *    ft_tokenize(const char *input, char **av, size_t *nbr_tokens)
     //printf("input no inicio: %s\n", input);
     char *token = ft_strtok((char *)input, " "); // identifica e cria o primeiro token 
     //printf("input apos strtok: %s\n", input);
-    printf("\n\nAV[0] recebido:%s\n", av[0]);
+    //printf("\n\nAV[0] recebido:%s\n", av[0]);
 
     while (token != NULL) // conto o numero de tokens
     {
@@ -47,7 +47,7 @@ char *    ft_tokenize(const char *input, char **av, size_t *nbr_tokens)
     token = ft_strtok(input_copy, " "); //volto a criar e identificar o primeiro token ca string copiada
     Token_list[i] = malloc (sizeof(char) * ft_strlen(av[0]) + 1);
     ft_strlcpy(Token_list[i], av[0], ft_strlen(av[0]) + 1);
-    printf("Token[%ld] %s\n", i, Token_list[i]);
+    //printf("Token[%ld] %s\n", i, Token_list[i]);
 
     while (i <= tokens_nbr && token != NULL)
     {
@@ -55,7 +55,7 @@ char *    ft_tokenize(const char *input, char **av, size_t *nbr_tokens)
         {
             Token_list[i] = malloc (sizeof(char) * ft_strlen(av[0]) + 1);
             ft_strlcpy(Token_list[i], av[0], ft_strlen(av[0]) + 1);
-            printf("Token[%ld] %s\n", i, Token_list[i]);
+            //printf("Token[%ld] %s\n", i, Token_list[i]);
             i++;
         }
         else
@@ -65,27 +65,34 @@ char *    ft_tokenize(const char *input, char **av, size_t *nbr_tokens)
                 return (printf("Erro alocar memoria av[i] no ft_tokanize\n"), NULL);
             ft_strlcpy(Token_list[i], token, ft_strlen(token) + 1);
             token = ft_strtok(NULL, " ");
-            printf("Token[%ld] %s\n", i, Token_list[i]);
+            //printf("Token[%ld] %s\n", i, Token_list[i]);
             i++;
         }
+        Token_list[i] = NULL;
     }
 
-    // if (i > 3) // se tivesse 4 ou mais args o token 0 deixava de ser ./minishell!!!! (resolver isto)
-    //     {
-    //         i = 0;
-    //         Token_list[i] = malloc (sizeof(char) * ft_strlen(av[0]) + 1);
-    //         ft_strlcpy(Token_list[i], av[0], ft_strlen(av[0]) + 1);
-    //     }
+    
 
-    printf("\nApós o loops:\n\n");
-    printf("numero de tokens: %ld\n", tokens_nbr);
-    printf("\nVerificaçao dos tokens:\n");
+    // printf("\nApós o loops:\n\n");
+    // printf("numero de tokens: %ld\n", tokens_nbr);
+    // printf("\nVerificaçao dos tokens:\n");
     while(j <= tokens_nbr)
     {
-        printf("Token[%ld]: %s\n", j, Token_list[j]);
+        //printf("Token[%ld]: %s\n", j, Token_list[j]);
         j++;
     }
-    free(Token_list);
+    j--;
+
+    ft_execmd(Token_list);
+
+    while (j > 0)
+    {
+        if (Token_list[j] != NULL)
+            free(Token_list[j]);
+        j--;
+    }
+    //free(Token_list[j]);
+    //free(Token_list);
     free(input_copy);
     //printf("input no fim: %s\n", input);
     //printf("Token_list: %s\n", token);

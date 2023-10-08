@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <readline/readline.h>
@@ -20,5 +22,8 @@ char *    ft_tokenize(const char *input, char **av, size_t *nbr_tokens);
 // ft_strtok
 
 char *ft_strtok(char *src_str, char *delim);
+
+//ft_execmd.c
+void    ft_execmd (char **Token_list);
 
 #endif
