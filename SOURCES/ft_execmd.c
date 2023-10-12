@@ -12,17 +12,25 @@
 
 #include "minishell.h"
 
-void    ft_execmd (char **Token_list)
+void    ft_execmd (char **Token_list, int tokens_nbr)
 {
     char *command = NULL;
+    char *actual_command = NULL;
+
+    int i = 1;
 
     if (Token_list && Token_list[0])
     {
         //printf("entra no execmd\n");
         //printf("%s\n", Token_list[0]);
-        command = Token_list[1];
-        if (execve(command, Token_list, NULL) == -1)
-            perror("Error:\n");
+        while (i <= tokens_nbr)
+        {
+            command = Token_list[i];
+            actual_command = get_location(command);
+            if (execve(actual_command, Token_list, NULL) == -1)
+                perror("Error:\n");
+            i++;
+        }
 
     }
 

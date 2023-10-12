@@ -4,6 +4,7 @@ MAND = SOURCES/minishell.c \
 	SOURCES/ft_tokenize.c \
 	SOURCES/ft_strtok.c \
 	SOURCES/ft_execmd.c \
+	SOURCES/ft_get_location.c \
 	SOURCES/LIBFT/ft_strlcpy.c \
 	SOURCES/LIBFT/ft_strlen.c \
 	SOURCES/LIBFT/ft_strncmp.c \
