@@ -82,7 +82,7 @@ char *    ft_tokenize(const char *input, char **av, size_t *nbr_tokens)
         j++;
     }
     j--;
-
+    
     ft_execmd(Token_list, tokens_nbr);
 
     while (j > 0)

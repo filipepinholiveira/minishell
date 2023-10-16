@@ -46,6 +46,8 @@ void    ft_execmd (char **Token_list, int tokens_nbr)
         else
             wait(NULL);
     }
+    free(command);
+    free (actual_command);
 
 }
 
