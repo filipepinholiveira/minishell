@@ -32,11 +32,41 @@ Tipos de command:
 - definidos pelo desenvolvedor
 
 
-Questões a serem resolvidas:
-
-- não podemos usar getline (minishell.c), temos que usar readline
 
 
+
+
+
+
+
+--------------------------------------------------------------------------------------
+https://www.youtube.com/watch?v=ubt-UjcQUYg:
+
+PARSECMD - resursive descendent parser
+RUNCMD   - walk the tree recursively. Execute the nodes. create child processes as required (fork)
+--------------------------------------------------------------------------------------
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------
+https://www.youtube.com/watch?v=2xayf6AMNtU:
+
+QUESTIONS
+What is PID and PPID?
+- process id and parent process id
+PID from init is always = 1 (like a grandfather of all PID, so when a PPID is dead init will take 
+care of child process but can create zumbie process as consequence)
+What are the 3 prothotypes of main?
+- int main (void)
+- int main (int ac, char **av)
+- int main (int ac, char ** av, char ** env)
+  
+How to suspend a process until childrens terminetae?
+
+---------------------------------------------------------------------------------------------
 
 Resolvido:
 

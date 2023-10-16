@@ -11,8 +11,6 @@
 #include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 #include "../SOURCES/LIBFT/libft.h"
 
 // ft_tokenize

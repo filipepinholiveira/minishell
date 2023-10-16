@@ -16,22 +16,35 @@ void    ft_execmd (char **Token_list, int tokens_nbr)
 {
     char *command = NULL;
     char *actual_command = NULL;
+    pid_t child_pid = fork();
 
     int i = 1;
 
     if (Token_list && Token_list[0])
     {
+        if (child_pid == -1)
+        {
+            perror("fork");
+            exit(EXIT_FAILURE);
+        }
+        else if (child_pid == 0)
+        {
         //printf("entra no execmd\n");
         //printf("%s\n", Token_list[0]);
-        while (i <= tokens_nbr)
-        {
-            command = Token_list[i];
-            actual_command = get_location(command);
-            if (execve(actual_command, Token_list, NULL) == -1)
-                perror("Error:\n");
-            i++;
+            while (i <= tokens_nbr)
+            {
+                command = Token_list[i];
+                actual_command = get_location(command);
+                if (execve(actual_command, Token_list, NULL) == -1)
+                {
+                    perror("Error:\n");
+                    exit(EXIT_FAILURE);
+                }
+                i++;
+            }
         }
-
+        else
+            wait(NULL);
     }
 
 }
