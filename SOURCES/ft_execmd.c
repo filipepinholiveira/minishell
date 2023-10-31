@@ -12,68 +12,64 @@
 
 #include "minishell.h"
 
-void    ft_execmd (char **Token_list, int tokens_nbr)
+
+void ft_execmd(char **Token_list, int tokens_nbr) 
 {
-    char *command = NULL;
-    char *actual_command = NULL;
-    pid_t child_pid = fork();
+        int i = 0;
+        (void) tokens_nbr;
 
-    int i = 1;
+        printf("Numero de tokens é: %d\n", tokens_nbr);
 
-    if (Token_list && Token_list[0])
-    {
-        if (child_pid == -1)
+        if (strcmp(Token_list[i], "cd") == 0) 
         {
-            perror("fork");
-            exit(EXIT_FAILURE);
+            cd_command(Token_list);
+            //printf("executar executavel cd\n");
+            wait(NULL);
         }
-        else if (child_pid == 0)
+        if (strcmp(Token_list[i], "|") == 0)
         {
-        //printf("entra no execmd\n");
-        //printf("%s\n", Token_list[0]);
-            while (i <= tokens_nbr)
+            printf("Pipe reconhecido\n");
+        }
+
+//         // Lidar com o comando "ls" diretamente, por exemplo, chamando uma função personalizada para listar diretórios.
+//     } else if (strcmp(Token_list[0], "cd") == 0) {
+//         // Lidar com o comando "cd" diretamente, por exemplo, chamando chdir() para mudar o diretório.
+
+        else 
+        {
+            pid_t child_pid = fork();
+
+            if (child_pid == -1) 
             {
-                command = Token_list[i];
-                actual_command = get_location(command);
-                if (execve(actual_command, Token_list, NULL) == -1)
-                {
-                    perror("Error:\n");
+                perror("fork");
+                exit(EXIT_FAILURE);
+            }
+            else if (child_pid == 0) 
+            {
+                // Processo filho
+                char *command = get_location(Token_list[i]);
+                if (command != NULL) {
+                    if (execve(command, Token_list, NULL) == -1) {
+                        perror("Error");
+                        exit(EXIT_FAILURE);
+                    }
+                } else {
+                    // Tratar comandos que não existem no caminho especificado
+                    printf("Comando não encontrado: %s\n", Token_list[i]);
                     exit(EXIT_FAILURE);
                 }
-                i++;
+            } 
+            else 
+            {
+                // Processo pai
+                wait(NULL);
             }
+            i++;
         }
-        else
-            wait(NULL);
-    }
-    free(command);
-    free (actual_command);
-
 }
 
 
 
 
 
-// void    ft_execmd (char **Token_list)
-// {
-//     printf("entra no execmd\n");
-//     char *command;
-//     int result;
-//     if (Token_list && Token_list[0])
-//     {
-//         char * exec_path = "../bin/ls";
-//         command = malloc (sizeof(char) * (ft_strlen(exec_path) + 1));
-//         ft_strlcpy(command, exec_path, (ft_strlen(exec_path) + 1));
-//         printf("command: %s\n\n", command);
-//         printf("meio no execmd\n");
-//         result = execve(command, Token_list, NULL);
-//         printf("result:%d\n", result);
-//         if (result == -1)
-//         {
-//             perror("Erro na execução do programa");
-//         }
-//         else
-//             printf("comando pronto para ser executado\n");
-//     }
-// }
+

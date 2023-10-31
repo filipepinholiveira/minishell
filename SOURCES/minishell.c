@@ -18,7 +18,7 @@ int main(int ac, char **av)
 
     (void) ac;
 
-    char *prompt = "(Shell do Antonio e do Filipe $) > ";
+    char *prompt = "(Versao teste $) > ";
     const char *lineptr = NULL;
     const char *exit_shell = "exit";
     size_t nbr_tokens = 0;
@@ -44,6 +44,6 @@ int main(int ac, char **av)
         }
     }
     free ((char *)lineptr);
-    //free((char *) exit_shell);
+    free((char *) exit_shell);
     return (0);
 }

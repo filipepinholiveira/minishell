@@ -29,4 +29,7 @@ void    ft_execmd (char **Token_list, int tokens_nbr);
 
 char *get_location(char *command);
 
+//ft_cd.c
+int cd_command(char **args);
+
 #endif

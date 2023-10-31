@@ -1,5 +1,6 @@
 
 
+
 #include "minishell.h"
 
 char *get_location(char *command){
