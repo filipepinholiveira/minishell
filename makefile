@@ -5,7 +5,7 @@ MAND = SOURCES/minishell.c \
 	SOURCES/ft_strtok.c \
 	SOURCES/ft_execmd.c \
 	SOURCES/ft_cd.c \
-	SOURCES\pipelines.c \
+	SOURCES/pipelines.c \
 	SOURCES/ft_get_location.c \
 	SOURCES/LIBFT/ft_strlcpy.c \
 	SOURCES/LIBFT/ft_strlen.c \

@@ -18,7 +18,7 @@ void ft_execmd(char **Token_list, int tokens_nbr)
         int i = 0;
         (void) tokens_nbr;
 
-        printf("Numero de tokens é: %d\n", tokens_nbr);
+        //printf("Numero de tokens é: %d\n", tokens_nbr);
 
         if (strcmp(Token_list[i], "cd") == 0) 
         {
@@ -26,7 +26,7 @@ void ft_execmd(char **Token_list, int tokens_nbr)
             //printf("executar executavel cd\n");
             wait(NULL);
         }
-        if (strcmp(Token_list[i], "|") == 0)
+        else if (strcmp(Token_list[i], "|") == 0)
         {
             printf("Pipe reconhecido\n");
         }
