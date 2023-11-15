@@ -1,3 +1,4 @@
+# rteste de alteracao de af
 CFLAGS = -Wall -Wextra -Werror -pedantic # Use -pedantic if you want to strictly enforce the rules of the C standard.
 
 MAND = SOURCES/minishell.c \
