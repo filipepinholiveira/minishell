@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tokenize.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpinho-d <fpinho-d@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 03:21:19 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/10/08 07:29:06 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2023/11/15 17:45:44 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ para serem tratadas ou executadas*/
 
 char *    ft_tokenize(const char *input, char **av, size_t *nbr_tokens)
 {
-    size_t tokens_nbr = 0; // conar os tokens
+    size_t tokens_nbr = 0; // contar os tokens
     size_t i = 0;
     size_t j = 0;
     char * input_copy = NULL; // para copiar a string a usar no strtok e identificar tokens
@@ -32,9 +32,9 @@ char *    ft_tokenize(const char *input, char **av, size_t *nbr_tokens)
     (void) nbr_tokens;
     //ft_strlcpy(Token_list, av[0], ft_strlen(av[0]) + 1);
     ft_strlcpy(input_copy, (char *) input, ft_strlen(input) + 1); // copiar a string a usar no strtok e identificar tokens
-    
+
     //printf("input no inicio: %s\n", input);
-    char *token = ft_strtok((char *)input, " "); // identifica e cria o primeiro token 
+    char *token = ft_strtok((char *)input, " "); // identifica e cria o primeiro token
     //printf("input apos strtok: %s\n", input);
     //printf("\n\nAV[0] recebido:%s\n", av[0]);
 
@@ -48,7 +48,7 @@ char *    ft_tokenize(const char *input, char **av, size_t *nbr_tokens)
     ft_strlcpy(Token_list, av[0], ft_strlen(av[0]) + 1);
     av = malloc (sizeof(char) * tokens_nbr + 1); // crio memoria para o numero de pointers necessarios
     if (!av)
-        return (printf("Erro alocar memoria av no ft_tokanize\n"), NULL);    
+        return (printf("Erro alocar memoria av no ft_tokanize\n"), NULL);
     //av[i] = malloc (sizeof(char) * ft_strlen(Token_list) + 1);
     token = ft_strtok(input_copy, " "); //volto a criar e identificar o primeiro token ca string copiada
     //printf("Token[%ld] %s\n", i, av[i]);
@@ -74,7 +74,7 @@ char *    ft_tokenize(const char *input, char **av, size_t *nbr_tokens)
     }
     av[i] = NULL;
 
-    
+
 
     // printf("\nApós o loops:\n\n");
     // printf("numero de tokens: %ld\n", tokens_nbr);
@@ -85,7 +85,7 @@ char *    ft_tokenize(const char *input, char **av, size_t *nbr_tokens)
         j++;
     }
     j--;
-    
+
     ft_execmd(av, tokens_nbr);
 
     // while (j > 0)

@@ -2,7 +2,7 @@
 
 #include "minishell.h"
 
-int cd_command(char **args) 
+int cd_command(char **args)
 {
     if (args[1] == NULL) {
         // Nenhum diretório fornecido, volte para o diretório inicial do usuário.

@@ -3,48 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpinho-d <fpinho-d@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 23:55:20 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/10/08 07:29:09 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2023/11/15 17:46:53 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-void ft_execmd(char **Token_list, int tokens_nbr) 
+void ft_execmd(char **Token_list, int tokens_nbr)
 {
         int i = 0;
         (void) tokens_nbr;
 
         //printf("Numero de tokens é: %d\n", tokens_nbr);
 
-        if (strcmp(Token_list[i], "cd") == 0) 
+        if (strcmp(Token_list[i], "cd") == 0)
         {
             cd_command(Token_list);
             //printf("executar executavel cd\n");
             wait(NULL);
-        }
-        else if (strcmp(Token_list[i], "|") == 0)
-        {
-            printf("Pipe reconhecido\n");
-        }
-
 //         // Lidar com o comando "ls" diretamente, por exemplo, chamando uma função personalizada para listar diretórios.
 //     } else if (strcmp(Token_list[0], "cd") == 0) {
 //         // Lidar com o comando "cd" diretamente, por exemplo, chamando chdir() para mudar o diretório.
-
-        else 
+		}
+        else
         {
             pid_t child_pid = fork();
 
-            if (child_pid == -1) 
+            if (child_pid == -1)
             {
                 perror("fork");
                 exit(EXIT_FAILURE);
             }
-            else if (child_pid == 0) 
+            else if (child_pid == 0)
             {
                 // Processo filho
                 char *command = get_location(Token_list[i]);
@@ -58,8 +52,8 @@ void ft_execmd(char **Token_list, int tokens_nbr)
                     printf("Comando não encontrado: %s\n", Token_list[i]);
                     exit(EXIT_FAILURE);
                 }
-            } 
-            else 
+            }
+            else
             {
                 // Processo pai
                 wait(NULL);
@@ -67,9 +61,3 @@ void ft_execmd(char **Token_list, int tokens_nbr)
             i++;
         }
 }
-
-
-
-
-
-

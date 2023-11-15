@@ -11,7 +11,7 @@ char *get_location(char *command){
     path = getenv("PATH");
 
     if (path){
-        /* Duplicate the path string -> remember to free up memory for this because strdup allocates memory that needs to be freed*/ 
+        /* Duplicate the path string -> remember to free up memory for this because strdup allocates memory that needs to be freed*/
         path_copy = strdup(path);
         /* Get length of the command that was passed */
         command_length = strlen(command);
@@ -48,7 +48,7 @@ char *get_location(char *command){
 
         }
 
-        /* if we don't get any file_path that exists for the command, we return NULL but we need to free up memory for path_copy */ 
+        /* if we don't get any file_path that exists for the command, we return NULL but we need to free up memory for path_copy */
         free(path_copy);
 
         /* before we exit without luck, let's see if the command itself is a file_path that exists */

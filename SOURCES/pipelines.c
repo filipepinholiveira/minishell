@@ -4,16 +4,16 @@
 
 /*
 
-Para adicionar suporte a pipes (tubos) em seu minishell, você precisará fazer várias modificações em seu código. 
+Para adicionar suporte a pipes (tubos) em seu minishell, você precisará fazer várias modificações em seu código.
 Abaixo estão as alterações sugeridas:
 
 Modifique a função ft_tokenize para detectar pipes:
 
-No loop while, verifique se a linha de entrada contém o caractere de pipe (|). Se encontrar, divida a linha em duas partes: 
+No loop while, verifique se a linha de entrada contém o caractere de pipe (|). Se encontrar, divida a linha em duas partes:
 antes do pipe e após o pipe.
 Crie estruturas para representar cada comando:
 
-Você pode criar uma estrutura para representar um comando único, com campos para o nome do comando e seus argumentos. 
+Você pode criar uma estrutura para representar um comando único, com campos para o nome do comando e seus argumentos.
 Também crie uma estrutura para representar uma sequência de comandos conectados por pipes.
 Analise as partes antes e depois dos pipes:
 
@@ -178,9 +178,9 @@ Aqui está uma estrutura de código sugerida que incorpora essas modificações:
 
 /*
 
-Este código é um exemplo básico de como você pode implementar pipelines em seu minishell. 
-Você pode ajustá-lo de acordo com suas necessidades e requisitos específicos. 
-Certifique-se de incluir verificações de erros e lidar com a limpeza adequada da memória 
+Este código é um exemplo básico de como você pode implementar pipelines em seu minishell.
+Você pode ajustá-lo de acordo com suas necessidades e requisitos específicos.
+Certifique-se de incluir verificações de erros e lidar com a limpeza adequada da memória
 e dos descritores de arquivo para evitar vazamentos de recursos.
 
 */
