@@ -97,3 +97,5 @@ https://indradhanush.github.io/blog/writing-a-unix-shell-part-1/
 https://www.grymoire.com/Unix/Csh.html
 
 https://danishpraka.sh/posts/write-a-shell/
+
+https://www.notion.so/Links-teis-Minishell-define-M-f829e8eb90a44457b94b7137e08ac7eb
