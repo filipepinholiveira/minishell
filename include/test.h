@@ -6,15 +6,15 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 09:54:43 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/11/18 12:28:34 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/11/18 15:39:37 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TEST_H
 # define TEST_H
 
-# include "../libft/libft.h"
-# include "../libft/gnl.h"
+# include "../lib/libft/libft.h"
+# include "../lib/libft/gnl.h"
 # include "constants.h"
 # include "debug.h"
 # include "colors.h"

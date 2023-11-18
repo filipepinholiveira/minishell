@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:00:39 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/11/17 19:17:36 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/11/18 16:12:06 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ unsigned int is_delim(char c, char *delim)
         if(c == *delim)
             return 1;
         delim++;
+        //ft_printf("delim = %s\n", delim);
     }
     return 0;
 }

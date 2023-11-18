@@ -6,18 +6,19 @@
 #    By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/24 21:23:27 by antoda-s          #+#    #+#              #
-#    Updated: 2023/11/18 12:28:56 by antoda-s         ###   ########.fr        #
+#    Updated: 2023/11/18 16:10:05 by antoda-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # name
 NAME 		= minishell
 NAMET 		= test
+
 # libs and includes
 LIBFT 		= libft.a
 
 
-LFT_PATH 	= ./libft/
+LFT_PATH 	= ./lib/libft/
 
 # includes dir
 INCLUDES 	= ./include/
@@ -42,6 +43,8 @@ FILES	+=	ft_get_location.c
 TEST	=	test.c
 TEST	+=	test1.c
 
+
+
 SRC = $(addprefix $(SRCDIR), $(FILES))
 OBJ = $(addprefix $(OBJDIR), $(FILES:.c=.o))
 
@@ -49,8 +52,8 @@ SRCT = $(addprefix $(SRCDIRT), $(TEST))
 OBJT = $(addprefix $(OBJDIRT), $(TEST:.c=.o))
 
 #compilation
-CF 			= -Wall -Wextra -Werror -g
 CC 			= cc
+CF 			= -Wall -Wextra -Werror -g
 I_HEADER	= -I include
 I_LIBFT 	= -I libft
 LNK_LIBFT 	= -L $(LFT_PATH) -lft
@@ -64,7 +67,7 @@ LF 			= --leak-check=full \
         		--track-origins=yes \
         		--verbose \
         		--log-file=$(LEAKS_FILE) \
-        		$(NAME) # args??
+        		./$(NAME) # args??
 
 # common commands
 RM 			= rm -f
@@ -81,7 +84,7 @@ BOLD	= \033[1m
 
 # messages
 _INFO		=	[$(CYN)INFO$(WTH)]
-_SUCCESS	=	[$(GRN)DONE$(WTH)]
+_SUCCESS	=	[$(GRN)$(BOLD)DONE$(WTH)]
 _WARNING	=	[$(YLW)WARNING$(WTH)]
 _ERROR		=	[$(RED)ERROR$(WTH)]
 
@@ -90,17 +93,17 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
 	@printf "\n$(GRN)$(NAME) objects ready!$(WTH)\n\n"
-	@printf "\n$(CYN)Generating $(NAME) executable...$(WTH)\n"
+	@printf "\n$(_INFO) $(CYN)Generating $(NAME) executable...$(WTH)\n"
 	@$(CC) $(CF) $(OBJ) $(LNK_LIBFT) $(LNK_READLINE) -o $@
 	@printf "$(GRN)█$(WHT)"
-	@printf "\n$(GRN)$(NAME) ready!$(WTH)\n\n"
+	@printf "\n$(GRN)$(NAME) $(_SUCCESS)!$(WTH)\n\n"
 
-build:
+mkbuilddir:
 	@mkdir -p $(OBJDIR)
 	@printf "\n$(CYN)Compiling source files...$(WTH)\n"
 
-$(OBJDIR)%.o: $(SRCDIR)%.c | build
-	@$(CC) $(CF) -c $(I_LIBFT) $(I_HEADER) $< -o $@
+$(OBJDIR)%.o: $(SRCDIR)%.c | mkbuilddir
+	$(CC) $(CF) -c $(I_LIBFT) $(I_HEADER) $< -o $@
 	@printf "$(YLW)█$(WHT)"
 
 test: $(NAMET)
