@@ -6,7 +6,7 @@
 #    By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/08/22 12:51:39 by myoung            #+#    #+#              #
-#    Updated: 2023/11/17 17:39:30 by antoda-s         ###   ########.fr        #
+#    Updated: 2023/11/17 19:55:21 by antoda-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,16 +63,15 @@ re: fclean all
 
 $(NAME): $(OBJECTS)
 	@echo
-	@echo "$(BLU)$(NAME) Objects ready!$(WTH)"
-	@echo "Creating $@"
+	@echo "$(GRN)$@ objects ready!$(WTH)"
+	@echo "$(CYN)Creating $@"
 	@$(AR) crs $@ $(OBJECTS)
-	@echo "Ready $@"
+	@echo "$(GRN)$(NAME) ready!!$(WTH)"
 
 build:
 	@mkdir -p build/
 
 build/%.o: srcs/%.c | build
-# @echo "Building $@"
 	@printf "$(RED)█$(WHT)"
 	@$(CC) $(CFLAGS) -c $< -o $@
 

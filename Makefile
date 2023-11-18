@@ -6,21 +6,18 @@
 #    By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/24 21:23:27 by antoda-s          #+#    #+#              #
-#    Updated: 2023/11/17 19:15:38 by antoda-s         ###   ########.fr        #
+#    Updated: 2023/11/18 12:28:56 by antoda-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # name
 NAME 		= minishell
-# NAMEB 		= main_bonus
+NAMET 		= test
 # libs and includes
 LIBFT 		= libft.a
-# LIBGFX 		= libgfx.a
-# MLX 		= minilibx.a
+
 
 LFT_PATH 	= ./libft/
-# GFX_PATH 	= ./libgfx/
-# MLX_PATH 	= ./minilibx-linux/
 
 # includes dir
 INCLUDES 	= ./include/
@@ -28,8 +25,9 @@ INCLUDES 	= ./include/
 # sources and objects dirs
 SRCDIR 	= srcs/
 OBJDIR 	= build/
-# SRCDIRB 	= srcsb/
-# OBJDIRB 	= buildb/
+
+SRCDIRT 	= tester/
+OBJDIRT 	= builder/
 
 # sources and objects base project
 # FILES	=	main.c 				# Top level function
@@ -40,29 +38,24 @@ FILES	+=	ft_execmd.c
 FILES	+=	ft_cd.c
 FILES	+=	pipelines.c
 FILES	+=	ft_get_location.c
-# FILES	+=	add files names 1 file name per line # Describe function
 
-# sources and objects bonus project
-# FILESB	=	main_bonus.c
-# FILESB	+=	fdf_bonus.c			# Top level fdf functions
+TEST	=	test.c
+TEST	+=	test1.c
 
 SRC = $(addprefix $(SRCDIR), $(FILES))
 OBJ = $(addprefix $(OBJDIR), $(FILES:.c=.o))
 
-# SRCB = $(addprefix $(SRCDIRB), $(FILESB))
-# OBJB = $(addprefix $(OBJDIRB), $(FILESB:.c=.o))
+SRCT = $(addprefix $(SRCDIRT), $(TEST))
+OBJT = $(addprefix $(OBJDIRT), $(TEST:.c=.o))
 
 #compilation
 CF 			= -Wall -Wextra -Werror -g
 CC 			= cc
-# MLX_CF 		= -lm -lX11 -lXext
 I_HEADER	= -I include
-# I_MLX 		= -I minilibx
 I_LIBFT 	= -I libft
-# I_GFX 		= -I libgfx
 LNK_LIBFT 	= -L $(LFT_PATH) -lft
-# LNK_MLX 	= -L $(MLX_PATH) -lmlx
-# LNK_GFX 	= -L $(GFX_PATH) -lgfx
+LNK_READLINE = -lreadline
+
 
 LEAKS 		= valgrind
 LEAKS_FILE	= valgrind-log.txt
@@ -95,36 +88,41 @@ _ERROR		=	[$(RED)ERROR$(WTH)]
 # rules
 all: $(NAME)
 
-# $(NAME): $(GFX) $(LIBFT) $(MLX) $(OBJ)
-$(NAME): $(LIBFT) $(OBJ) | build
-	@printf "$(GRN)Objects ready!$(WTH)\n\n"
+$(NAME): $(LIBFT) $(OBJ)
+	@printf "\n$(GRN)$(NAME) objects ready!$(WTH)\n\n"
 	@printf "\n$(CYN)Generating $(NAME) executable...$(WTH)\n"
-	@printf "$(RED)██$(WHT)"
-#	$(CC) $(CF) $(OBJ) $(LNK_LIBFT) $(LNK_GFX) $(LNK_MLX) $(MLX_CF) -o $@
-	@$(CC) $(CF) $(OBJ) $(LNK_LIBFT) -o $@
-	@printf "$(GRN)Done!$(WTH)\n\n"
-
-# $(NAMEB): $(GFX) $(LIBFT) $(MLX) $(OBJB)
-# 	@printf "$(GRN)Objects ready!$(WTH)\n\n"
-# 	@printf "\n$(CYN)Generating $(NAMEB) executable...$(WTH)\n"
-# 	$(CC) $(CF) $(OBJB) $(LNK_LIBFT) $(LNK_GFX) $(LNK_MLX) $(MLX_CF) -o $@
-# 	@printf "$(GRN)Done!$(WTH)\n\n"
+	@$(CC) $(CF) $(OBJ) $(LNK_LIBFT) $(LNK_READLINE) -o $@
+	@printf "$(GRN)█$(WHT)"
+	@printf "\n$(GRN)$(NAME) ready!$(WTH)\n\n"
 
 build:
 	@mkdir -p $(OBJDIR)
-#	@mkdir -p $(OBJDIR)
 	@printf "\n$(CYN)Compiling source files...$(WTH)\n"
 
-# buildb:
-# 	@mkdir -p $(OBJDIRB)
-# 	@printf "\n$(CYN)Compiling source files...$(WTH)\n"
-
 $(OBJDIR)%.o: $(SRCDIR)%.c | build
-	$(CC) $(CF) -c $(I_LIBFT) $(I_HEADER) $< -o $@
-	@printf "$(CYN)██$(WHT)"
+	@$(CC) $(CF) -c $(I_LIBFT) $(I_HEADER) $< -o $@
+	@printf "$(YLW)█$(WHT)"
+
+test: $(NAMET)
+
+$(NAMET): $(LIBFT) $(OBJT)
+	@printf "\n$(GRN)$(NAMET) objects ready!$(WTH)\n\n"
+	@printf "\n$(CYN)Generating $(NAMET) executable...$(WTH)\n"
+	@$(CC) $(CF) $(OBJT) $(LNK_LIBFT) -o $@
+	@printf "$(GRN)█$(WHT)"
+	@printf "\n$(GRN)$(NAMET) ready!$(WTH)\n\n"
+
+
+buildt:
+	@mkdir -p $(OBJDIRT)
+	@printf "\n$(CYN)Compiling test files...$(WTH)\n"
+
+$(OBJDIRT)%.o: $(SRCDIRT)%.c | buildt
+	@$(CC) $(CF) -c $(I_LIBFT) $(I_HEADER) $< -o $@
+	@printf "$(YLW)█$(WHT)"
 
 $(LIBFT):
-	@printf "\n$(GRN)Generating Libft...$(WTH)\n"
+	@printf "\n$(CYN)Generating Libft...$(WTH)\n"
 	@make -C $(LFT_PATH)
 	@printf "$(GRN)Libft created!$(WTH)\n\n"
 
@@ -137,23 +135,32 @@ leaks:
 	@printf "$(GRN)Leaks log ready! Check valgrind-out.txt $(WTH)\n\n"
 
 cleanleaks:
-	$(RM) $(LEAKS_FILE)
-	@printf "$(GRN)Leaks log file deleted.$(WTH)\n\n"
+	@$(RM) $(LEAKS_FILE)
 
 clean:
 	@printf "\n$(YLW)Cleaning all object files from project...$(WTH)\n"
 	$(RM) -rf $(OBJ) $(OBJDIR)
-#	$(RM) -rf $(OBJB) $(OBJDIRB)
+	@printf "$(GRN)All object files removed!$(WTH)\n\n"
 
 fclean: clean
-	@printf "\n$(YLW)Cleaning all additional objects and libraries...$(WTH)\n"
-	$(RM) -rf $(NAME)
-#	$(RM) -rf $(NAMEB)
+	@printf "\n$(YLW)Cleaning $(NAME) and additional files...$(WTH)\n"
+	@$(RM) -rf $(NAME)
+	@printf "$(GRN)$(NAME) and additional files removed!$(WTH)\n\n"
+	@printf "$(YLW)Cleaning Libft...$(WTH)\n"
 	@make fclean -C $(LFT_PATH)
-#	@make fclean -C $(GFX_PATH)
-#	@make clean -C $(MLX_PATH)
 	@printf "$(GRN)All libraries removed!$(WTH)\n\n"
-	make cleanleaks
+	@printf "$(YLW)Cleaning Leaks log file.$(WTH)\n"
+	@make cleanleaks
+	@printf "$(GRN)Leaks log file deleted.$(WTH)\n\n"
+
+fcleant:
+	@printf "\n$(YLW)Cleaning all object files from project...$(WTH)\n"
+	@$(RM) -rf $(OBJT) $(OBJDIRT)
+	@printf "$(GRN)All object files removed!$(WTH)\n\n"
+	@printf "\n$(YLW)Cleaning $(NAMET) and additional files...$(WTH)\n"
+	@$(RM) -rf $(NAMET)
+	@printf "$(GRN)$(NAMET) and additional files removed!$(WTH)\n\n"
+
 
 # install:
 # 	sudo apt-get install gcc make xorg libxext-dev libbsd-dev -y
@@ -163,29 +170,19 @@ fclean: clean
 
 show:
 	@echo ""
-	@echo "$(YLW)[ALL PATHS 			*invoked with > make show* $(WTH)]"
+	@echo "$(YLW)ALL PATHS (*invoked with > make show*) $(WTH)]"
 	@echo ""
-	@echo "$(GRN)██ LIBFT Directory $(WTH) :"
-	@echo "$(LFT_PATH)$(WTH) $(WTH)"
+	@echo "$(YLW)██ Current directory    : $(WTH)$(CURDIR) $(WTH)"
+	@echo "$(GRN)██ LIBFT Directory      : $(WTH)$(LFT_PATH)$(WTH) $(WTH)"
+	@echo "$(RED)██ Sources directory    : $(WTH)./$(SRCDIR)$(WTH)"
+	@echo "$(YLW)██ Include directory    : $(WTH)$(INCLUDES)"
+	@echo "$(CYN)██ Objects Directory    : $(WTH)./$(OBJDIR)$(WTH)"
+	@echo "$(YLW)██ Executable directory : $(WTH)$(CURDIR) $(WTH)"
 	@echo ""
-	@echo "$(GRN)██ LIBFT File $(WTH) :"
-	@echo "$(WTH) $(LIBFT) $(WTH)"
-
-	@echo ""
-	@echo "$(RED)██ Sources directory :"
-	@echo "$(BLU)./$(SRCDIR)$(WTH)"
-	@echo ""
-	@echo "$(RED)██ Sources files : $(WTH)"
-	@echo "$(BLU)$(notdir $(FILES)) $(WTH)\n"
-	@echo ""
-	@echo "$(YLW)██ Executable file directory $(WTH) :"
-	@echo "$(BLU)$(CURDIR) $(WTH)"
-	@echo ""
-	@echo "$(YLW)██ Executable file $(WTH) :"
-	@echo "$(BLU)$(notdir $(NAME)) $(WTH)"
-	@echo ""
-	@echo "$(YLW)[GLOBAL OBJS DIR 	= $(WTH)$(BLU) $(OBJDIR)$(WTH) $(YLW)]$(WTH)"
-	@echo "$(YLW)[MANDATORY OBJS FILE 	= $(WTH) $(notdir $(CYN)██ $(OBJ)) $(YLW)]$(WTH)"
+	@echo "$(GRN)██ LIBFT File           : $(WTH)$(LIBFT) $(WTH)"
+	@echo "$(RED)██ Sources files        : $(WTH)$(notdir $(FILES))"
+	@echo "$(CYN)██ Objects files        : $(WTH)$(notdir $(OBJ))"
+	@echo "$(YLW)██ Executable file      : $(WTH)$(notdir $(NAME))"
 	@echo ""
 
 .SILENT: show

@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 17:21:20 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/11/17 17:22:26 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/11/18 12:38:40 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 /// @brief 		reverts the order of an array contents
 /// @param str	the array to revert
-/// @param j	length of the array pointed by str
+/// @param j	reversion stop index: 0 reverts all, otherwise reverts until
+///				the specified index (index excluded, so j = 1 reverts until
+///				the first element)
 /// @return		the reverted array
 char	*ft_strrev(char *str, int j)
 {
@@ -22,7 +24,8 @@ char	*ft_strrev(char *str, int j)
 	int		i;
 
 	i = 0;
-	j = ft_strlen(str) - 1;
+	if (!j)
+		j = ft_strlen(str) - 1;
 	if ((j - i) <= 0)
 		return (str);
 	while (i <= j)
