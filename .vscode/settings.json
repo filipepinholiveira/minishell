@@ -2,6 +2,13 @@
     "files.associations": {
         "stat.h": "c",
         "minishell.h": "c",
-        "readline.h": "c"
+        "readline.h": "c",
+        "*.tcc": "c",
+        "deque": "c",
+        "string": "c",
+        "unordered_map": "c",
+        "vector": "c",
+        "system_error": "c",
+        "atomic": "c"
     }
 }

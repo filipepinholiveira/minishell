@@ -1,24 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 17:42:50 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/11/17 18:46:35 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/11/22 00:39:42 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/name.h"
+// C program to illustrate
+// pipe system call in C
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#define MSGSIZE 16
 
-int	main(int argc, char **argv)
+
+int	main(void)
 {
-	(void)argc;
-	(void)argv;
-	ft_printf("argv[1] = %s\n", argv[1]);
-	argv[1] = ft_strrev(argv[1], 0);
-	ft_printf("argv[1] = %s\n", argv[1]);
-	ft_printf("argv[1] = %s\n", ft_strrev(argv[1], 0));
+	char	*msg1 = "hello, world #1";
+	char	*msg2 = "hallo, monde #2";
+	char	*msg3 = "ola,   mundo #3";
+	char	inbuf[MSGSIZE];
+	int		p[2];
+	int		i;
+	int		j;
+
+	if (pipe(p) < 0)
+		exit(1);
+
+	write(p[1], msg1, MSGSIZE);
+	write(p[1], msg2, MSGSIZE);
+	write(p[1], msg3, MSGSIZE);
+	write(p[1], msg2, MSGSIZE);
+
+	i = -1;
+	while (++i < 5)
+	{
+		j = read(p[0], inbuf, MSGSIZE);
+		printf("j = %d, %s\n", j, inbuf);
+	}
 	return (0);
 }

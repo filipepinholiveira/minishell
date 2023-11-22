@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:27:05 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/11/17 19:47:56 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/11/20 17:37:11 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,9 @@
 int	main(int ac, char **av)
 {
 	char		*prompt = "(Versao teste $) > ";
-	char	*lineptr = NULL;
+	char		*lineptr = NULL;
 	const char	*exit_shell = "exit";
 	size_t		nbr_tokens = 0;
-	// char *readline (const char *prompt);
 
 	(void)ac;
 	while (1)

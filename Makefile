@@ -6,7 +6,7 @@
 #    By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/24 21:23:27 by antoda-s          #+#    #+#              #
-#    Updated: 2023/11/18 16:10:05 by antoda-s         ###   ########.fr        #
+#    Updated: 2023/11/20 17:22:13 by antoda-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ FILES	+=	ft_get_location.c
 
 TEST	=	test.c
 TEST	+=	test1.c
+TEST	+=	test2.c
 
 
 
@@ -111,7 +112,7 @@ test: $(NAMET)
 $(NAMET): $(LIBFT) $(OBJT)
 	@printf "\n$(GRN)$(NAMET) objects ready!$(WTH)\n\n"
 	@printf "\n$(CYN)Generating $(NAMET) executable...$(WTH)\n"
-	@$(CC) $(CF) $(OBJT) $(LNK_LIBFT) -o $@
+	@$(CC) $(CF) $(OBJT) $(LNK_LIBFT) $(LNK_READLINE) -o $@
 	@printf "$(GRN)█$(WHT)"
 	@printf "\n$(GRN)$(NAMET) ready!$(WTH)\n\n"
 
