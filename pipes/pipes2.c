@@ -6,10 +6,9 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 00:40:43 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/11/22 00:44:40 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/11/22 00:51:38 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 // C program to illustrate
 // pipe system call in C
@@ -19,7 +18,6 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-
 
 #define MSGSIZE 16
 char* msg1 = "hello, world #1";
@@ -33,25 +31,29 @@ int main()
 
 	if (pipe(p) < 0)
 		exit(1);
-
 	/* continued */
-	if ((pid = fork()) > 0) {
+	pid = fork();
+	if (pid > 0)
+	{
 		write(p[1], msg1, MSGSIZE);
 		write(p[1], msg2, MSGSIZE);
 		write(p[1], msg3, MSGSIZE);
-
 		// Adding this line will
 		// not hang the program
 		close(p[1]);
 		wait(NULL);
 	}
-
-	else {
+	else
+	{
 		// Adding this line will
 		// not hang the program
 		close(p[1]);
-		while ((nbytes = read(p[0], inbuf, MSGSIZE)) > 0)
+		nbytes = read(p[0], inbuf, MSGSIZE);
+		while (nbytes > 0)
+		{
 			printf("%s\n", inbuf);
+			nbytes = read(p[0], inbuf, MSGSIZE);
+		}
 		if (nbytes != 0)
 			exit(2);
 		printf("Finished reading\n");
