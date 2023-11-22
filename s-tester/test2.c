@@ -41,10 +41,10 @@ HISTORY_STATE	*init_history(void)
 
 	using_history();
 	hist_state = history_get_history_state();
-	state->entries = NULL;
-	state->offset = 0;
-	state->length = 0;
-	state->size = 0;
-	state->flags = 0;
+	hist_state->entries = NULL;
+	hist_state->offset = 0;
+	hist_state->length = 0;
+	hist_state->size = 0;
+	hist_state->flags = 0;
 }
 

@@ -27,7 +27,7 @@ INCLUDES 	= ./include/
 SRCDIR 	= srcs/
 OBJDIR 	= build/
 
-SRCDIRT 	= tester/
+SRCDIRT 	= s-tester/
 OBJDIRT 	= builder/
 
 # sources and objects base project

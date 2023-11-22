@@ -45,7 +45,7 @@ int	main(int ac, char **av)
 			lineptr = ft_tokenize(lineptr, av, &nbr_tokens);
 		}
 	}
-	free ((char *)lineptr);
+	free((char *)lineptr);
 	free((char *) exit_shell);
 	return (0);
 }

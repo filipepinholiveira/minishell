@@ -20,7 +20,7 @@ int	main(int argc, char **argv)
 	char			input_str[MAXCOM];
 	char			*parsed_args[MAXLIST];
 	char			*parsed_args_piped[MAXLIST];
-	int 			execFlag = 0;
+	int 			exec_flag = 0;
 
 	(void)argc;
 	(void)argv;
@@ -46,17 +46,17 @@ int	main(int argc, char **argv)
 		if (get_input(input_str))
 			continue;
 		// process
-		execFlag = process_str(input_str, parsed_args, parsed_args_piped);
-		// execflag returns zero if there is no command
+		exec_flag = process_str(input_str, parsed_args, parsed_args_piped);
+		// exec_flag returns zero if there is no command
 		// or it is a builtin command,
 		// 1 if it is a simple command
 		// 2 if it is including a pipe.
 
 		// execute
-		if (execFlag == 1)
+		if (exec_flag == 1)
 			exec_args(parsed_args);
 
-		if (execFlag == 2)
+		if (exec_flag == 2)
 			exec_args_piped(parsed_args, parsed_args_piped);
 	}
 	return (0);

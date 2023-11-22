@@ -1,3 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipes.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: antoda-s <antoda-s@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/22 11:48:13 by antoda-s          #+#    #+#             */
+/*   Updated: 2023/11/22 11:50:46 by antoda-s         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../include/minishell.h"
+
 
 
 #include "../include/minishell.h"
@@ -37,7 +51,7 @@ Aqui está uma estrutura de código sugerida que incorpora essas modificações:
 
 */
 
-
+    
 typedef struct Command {
     char *name;
     char **args;

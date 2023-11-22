@@ -1,0 +1,7 @@
+total 40
+drwxr-xr-x 2 antoda-s 2022_porto  4096 Nov 22 12:47 ./
+drwxr-xr-x 9 antoda-s 2022_porto  4096 Nov 22 09:48 ../
+-rwxr-xr-x 1 antoda-s 2022_porto 21040 Nov 22 12:28 a.out
+-rw-r--r-- 1 antoda-s 2022_porto     0 Nov 22 12:47 lsfile.txt
+-rw-r--r-- 1 antoda-s 2022_porto  1487 Nov 22 12:28 pipe.c
+-rw-r--r-- 1 antoda-s 2022_porto  1681 Nov 22 09:45 pipes2.c
