@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 00:40:43 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/11/22 00:51:38 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/11/22 00:53:02 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,29 +24,24 @@ char* msg1 = "hello, world #1";
 char* msg2 = "hello, world #2";
 char* msg3 = "hello, world #3";
 
-int main()
+int main(void)
 {
 	char inbuf[MSGSIZE];
 	int p[2], pid, nbytes;
 
 	if (pipe(p) < 0)
 		exit(1);
-	/* continued */
 	pid = fork();
 	if (pid > 0)
 	{
 		write(p[1], msg1, MSGSIZE);
 		write(p[1], msg2, MSGSIZE);
 		write(p[1], msg3, MSGSIZE);
-		// Adding this line will
-		// not hang the program
 		close(p[1]);
 		wait(NULL);
 	}
 	else
 	{
-		// Adding this line will
-		// not hang the program
 		close(p[1]);
 		nbytes = read(p[0], inbuf, MSGSIZE);
 		while (nbytes > 0)
@@ -58,5 +53,5 @@ int main()
 			exit(2);
 		printf("Finished reading\n");
 	}
-	return 0;
+	return (0);
 }

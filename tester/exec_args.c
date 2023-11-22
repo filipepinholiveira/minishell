@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 17:13:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/11/22 00:35:57 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/11/22 01:12:08 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,13 @@ void	exec_args_piped(char **parsed, char **parsedpipe)
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
 		path = find_path(parsed[0]);
-		if (execve(path, parsed[0], parsed) < 0)
+		/*execve if of type main(int argc, char **argv, char **envp)*/
+		/* argv[argc] = NULL */
+		/* meaning that:
+		=> parsed[n] = NULL
+		=> parsed[0] = cmd related to filenamed path
+		=> envp an array of environement args*/
+		if (execve(path, parsed[0], NULL) < 0)
 		{
 			perror("\nCould not execute command 1..");
 			exit(0);
@@ -86,17 +92,17 @@ void	exec_args_piped(char **parsed, char **parsedpipe)
 			perror("\nCould not fork");
 			return (ERROR_FORK);
 		}
-
 		// Child 2 executing..
 		// It only needs to read at the read end
-		if (p2 == 0)
+		if (pid2 == 0)
 		{
 			close(pipefd[1]);
 			dup2(pipefd[0], STDIN_FILENO);
 			close(pipefd[0]);
-			if (execvp(parsedpipe[0], parsedpipe) < 0)
+			path = find_path(parsedpipe[0]);
+			if (execve(path, parsedpipe[0], NULL) < 0)
 			{
-				printf("\nCould not execute command 2..");
+				perror("\nCould not execute command 2..");
 				exit(0);
 			}
 		}
