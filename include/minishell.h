@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: antoda-s <antoda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/11/21 23:23:23 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/11/25 17:05:43 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 // ft_tokenize
 
 //char *    ft_tokenize(char *input);
-char	*ft_tokenize(const char *input, char **av, size_t *nbr_tokens);
+char	*ft_tokenize(const char *input, size_t *nbr_tokens);
 
 // ft_strtok
 

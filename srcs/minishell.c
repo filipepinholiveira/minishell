@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: antoda-s <antoda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:27:05 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/11/20 17:37:11 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/11/25 17:33:14 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	main(int ac, char **av)
 	size_t		nbr_tokens = 0;
 
 	(void)ac;
+	(void)av;
 	while (1)
 	{
 		printf("%s", prompt);
@@ -42,7 +43,7 @@ int	main(int ac, char **av)
 		}
 		while(lineptr != NULL)
 		{
-			lineptr = ft_tokenize(lineptr, av, &nbr_tokens);
+			lineptr = ft_tokenize(lineptr, &nbr_tokens);
 		}
 	}
 	free((char *)lineptr);
