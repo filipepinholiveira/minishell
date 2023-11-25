@@ -11,9 +11,6 @@ void	*routine(void *i)
 	sleep(3);
 	printf("exiting thread %d\n", *(int *)i);
 	*k = *(int *)i + 10;
-printf("routine &k = %p\n", k);
-printf("routine k = %d\n", *k);
-
 	return ((void *)&k);
 }
 
@@ -40,16 +37,11 @@ int	main(int argc, char *argv[])
 		printf("error joining thread\n");
 		return (3);
 	}
-printf("&k = %p\n", k);
-printf("k = %d\n", *k);
-
-	//i = *k;
 	if (pthread_join(t2, (void **)&l) != 0)
 	{
 		printf("error joining thread\n");
 		return (4);
 	}
-	//j = *k;
 	printf("all threads finished, i = %d, j = %d\n", i, j);
 	return (0);
 }

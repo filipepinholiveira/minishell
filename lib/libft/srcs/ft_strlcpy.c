@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: antoda-s <antoda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 15:59:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/10/26 11:49:56 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/11/25 15:26:03 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,23 @@
 /// @brief 			Copy strings
 /// @param dst		Destination string
 /// @param src		Source string
-/// @param dst_size	Maximum size of the destination string
+/// @param size		Maximum size of the copy
 /// @return			The total length of the string they tried to create
-size_t	ft_strlcpy(char *dst, const char *src, size_t dst_size)
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
 	size_t	src_size;
 
 	src_size = ft_strlen(src);
-	if (dst_size == 0)
+	if (size == 0)
 		return (src_size);
-	else if (src_size < dst_size)
+	else if (src_size < size)
 	{
 		while (*src)
 			*dst++ = *src++;
 	}
 	else
 	{
-		while (--dst_size)
+		while (--size)
 			*dst++ = *src++;
 	}
 	*dst = '\0';

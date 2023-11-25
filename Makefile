@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+         #
+#    By: antoda-s <antoda-s@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/24 21:23:27 by antoda-s          #+#    #+#              #
-#    Updated: 2023/11/20 17:22:13 by antoda-s         ###   ########.fr        #
+#    Updated: 2023/11/25 15:47:28 by antoda-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ FILES	+=	ft_tokenize.c
 FILES	+=	ft_strtok.c
 FILES	+=	ft_execmd.c
 FILES	+=	ft_cd.c
-FILES	+=	pipelines.c
+# FILES	+=	pipelines.c
 FILES	+=	ft_get_location.c
 
 TEST	=	test.c
