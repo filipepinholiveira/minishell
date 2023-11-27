@@ -10,7 +10,8 @@
     "vector": "c",
     "system_error": "c",
     "atomic": "c",
-    "cstdlib": "c"
+    "cstdlib": "c",
+    "stdio.h": "c"
   },
   "C_Cpp_Runner.cCompilerPath": "gcc",
   "C_Cpp_Runner.cppCompilerPath": "g++",

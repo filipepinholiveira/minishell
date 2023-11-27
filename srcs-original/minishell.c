@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:27:05 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/11/27 17:25:56 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/11/27 17:12:00 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,66 +15,6 @@
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-
-
-int	invalid_argc(int argc)
-{
-	if (argc != 1)
-	{
-		printf("Invalid number of arguments\n");
-		return (ERROR);
-	}
-	return (SUCCESS);
-}
-
-int invalid_argv(char **argv)
-{
-
-
-	if (argv[0] == NULL)
-	{
-		printf("Invalid argument\n");
-		return (ERROR);
-	}
-	return (SUCCESS);
-}
-
-int invlaid_quotes(char **cmdline)
-{
-	int i;
-	int j;
-	int k;
-
-	i = 0;
-	j = 0;
-	k = 0;
-	while (cmdline[i] != NULL)
-	{
-		while (cmdline[i][j] != '\0')
-		{
-			if (cmdline[i][j] == '\"')
-				k++;
-			j++;
-		}
-		if (k % 2 != 0)
-		{
-			printf("Invalid quotes\n");
-			return (ERROR);
-		}
-		i++;
-	}
-	return (SUCCESS);
-}
-
-int parse_shell(char **cmdline)
-{
-	while (*cmdline != NULL)
-	{
-		if (invalid_quotes(cmdline))
-			return (ERROR);
-		*cmdline = ft_tokenize(*cmdline);
-	}
-}
 
 
 //static init_all(char **)
@@ -89,7 +29,7 @@ int parse_shell(char **cmdline)
 // }
 
 
-int	main(int argc, char **argv)
+int	main(int ac, char **av)
 {
 	char		*prompt = "(Versao teste $) > ";
 	char		*lineptr = NULL;
@@ -97,25 +37,10 @@ int	main(int argc, char **argv)
 	size_t		nbr_tokens = 0;
 	//t_cmd		pcmd;
 
-//	(void)ac;
-//	(void)av;
+	(void)ac;
+	(void)av;
 
-	if (argc != 1)
-	{
-		printf("Invalid number of arguments\n");
-		return (-1);
-	}
-
-	if (invalid_argv(++argv))
-		return (ERROR);
-	else
-		printf("Valid arguments\n");
-	return (0);
-}
-
-void continue_main_here(void)
-{
-	//	init_shell();
+//	init_shell();
 	while (1)
 	{
 		printf("%s", prompt);

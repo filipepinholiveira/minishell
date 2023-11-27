@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoda-s <antoda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/11/27 13:22:17 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/11/27 17:17:56 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ typedef struct s_line
 {
 	char	*line;
 	char	**tokens_list;
-	int		tokens_nbr;
+	int		tokens_n;
 	char	piped;
 	char	parse_state;
-} t_line;
+}	t_line;
 
 typedef struct s_token
 {
@@ -58,6 +58,14 @@ typedef struct s_cmd
 # endif
 # ifndef INWORD
 #  define INWORD 12
+# endif
+
+# ifndef OUTWORD
+#  define OUTWORD 13
+# endif
+
+# ifndef INQUOTE
+#  define INQUOTE 14
 # endif
 
 

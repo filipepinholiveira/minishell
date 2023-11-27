@@ -3,25 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: antoda-s <antoda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:44:02 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/11/27 17:15:20 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/11/27 13:25:41 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+#include "philo.h"
 
 /// @brief 		Creates a new philosofer and initializes it
 /// @param id	Philosofer's id
 /// @param info	Pointer to the t_info structure
 /// @return		Pointer to the new philosofer
-t_cmd	*new_cmd(int id, t_info *info)
+t_philo	*new_philo(int id, t_info *info)
 {
-	t_cmd	*c;
+	t_philo	*p;
 
 	p = malloc(sizeof(t_philo));
 	if (!p)
