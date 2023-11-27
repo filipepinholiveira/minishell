@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/11/25 17:05:43 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/11/27 13:22:17 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,42 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../lib/libft/libft.h"
+
+/* ************************************************************************** */
+///	STRUCTS
+/* ************************************************************************** */
+typedef struct s_line
+{
+	char	*line;
+	char	**tokens_list;
+	int		tokens_nbr;
+	char	piped;
+	char	parse_state;
+} t_line;
+
+typedef struct s_token
+{
+	int				cmd_i;
+	char			**cmd_full;
+	struct s_token	*n;
+	struct s_token	*p;
+}					t_token;
+
+typedef struct s_cmd
+{
+	struct s_token	*head;
+	char			*line;
+	int				pipes_q;
+}					t_cmd;
+
+# ifndef CPIPE
+#  define CPIPE 11
+# endif
+# ifndef INWORD
+#  define INWORD 12
+# endif
+
+
 
 // ft_tokenize
 

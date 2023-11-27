@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:27:05 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/11/25 17:33:14 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/11/27 13:28:36 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,31 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+
+static init_all(char **)
+
+
+
+int	main(int argc, char **argv)
+{
+	if (invalid_argc(argc) || invalid_argv(argv))
+		return (ERROR);
+	return (init_all(argv));
+}
+
+
 int	main(int ac, char **av)
 {
 	char		*prompt = "(Versao teste $) > ";
 	char		*lineptr = NULL;
 	const char	*exit_shell = "exit";
 	size_t		nbr_tokens = 0;
+	t_cmd		pcmd;
 
 	(void)ac;
 	(void)av;
+
+	init_shell();
 	while (1)
 	{
 		printf("%s", prompt);
