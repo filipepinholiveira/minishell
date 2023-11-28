@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:27:05 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/11/27 17:25:56 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/11/27 18:24:01 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int invalid_argv(char **argv)
 	return (SUCCESS);
 }
 
-int invlaid_quotes(char **cmdline)
+int invalid_quotes(char **cmdline)
 {
 	int i;
 	int j;
