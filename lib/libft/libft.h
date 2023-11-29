@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 15:21:17 by hmaciel-          #+#    #+#             */
-/*   Updated: 2023/11/17 17:37:27 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/11/29 00:03:36 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,15 +100,16 @@ void			*ft_memmove(void *dest, const void *src, size_t n);
 void			*ft_memset(void *s, int c, size_t n);
 void			ft_putchar_fd(char c, int fd);
 void			ft_putchar(char c);
-void			ft_putendl_fd(char *s, int fd);
+void			ft_putendl_fd(const char *s, int fd);
 void			ft_putendl(const char *s);
 void			ft_putnbr_fd(int n, int fd);
 void			ft_putnbr(int n);
-void			ft_putstr_fd(char *s, int fd);
+void			ft_putstr_fd(const char *s, int fd);
 void			ft_putstr(const char *str);
 
 char			*ft_strrev(char *str, int j);
 char			**ft_split(char const *s, char c);
+char			**ft_split_set(char *str, char *charset);
 char			*ft_strchr(const char *s, int c);
 char			*ft_strdup(const char *s);
 char			*ft_strjoin(char const *s1, char const *s2);

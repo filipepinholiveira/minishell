@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/11/28 15:22:45 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/11/29 00:00:45 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,16 @@
 /* ************************************************************************** */
 ///	STRUCTS
 /* ************************************************************************** */
+
+typedef enum e_token_type
+{
+	TOKEN_EAT,
+	TOKEN_PIPE,
+	TOKEN_REDIR_IN,
+	TOKEN_REDIR_OUT,
+	TOKEN_NAME
+}			t_token_type;
+
 typedef struct s_line
 {
 	char	*line;
@@ -41,19 +51,36 @@ typedef struct s_line
 	char	parse_state;
 }	t_line;
 
+// typedef struct s_token
+// {
+// 	int				cmd_i;
+// 	char			**cmd_full;
+
+// 	struct s_token	*n;
+// }					t_token;
+
+/*********************************************/
+
 typedef struct s_token
 {
-	int				cmd_i;
-	char			**cmd_full;
-	struct s_token	*n;
-	struct s_token	*p;
-}					t_token;
+	char			*cmd;
+	int				size;
+	t_token_type	type;
+	struct s_token	*next;
+}				t_token;
+/*********************************************/
 
 typedef struct s_cmd
 {
 	struct s_token	*head;
 	char			*line;
 	int				pipes_q;
+	int				pipe_i;
+	int				redir_q;
+	int				redir_i;
+	int				redir_type;
+	int				redir_fd1;
+	int				redir_fd2;
 }					t_cmd;
 
 # ifndef CPIPE
@@ -71,6 +98,68 @@ typedef struct s_cmd
 #  define INQUOTE 14
 # endif
 
+
+/* ************************************************************************** */
+///	parser.c
+/* ************************************************************************** */
+
+/// @brief 			Checks if the number of arguments is valid
+/// @param argc		Number of arguments
+/// @return			SUCCESS if valid, ERROR if invalid
+int		invalid_argc(int argc);
+
+/// @brief 			Checks if str has paired quotes and double quotes
+/// @param str		String to parse
+/// @param c		Character to check
+/// @return
+int		invalid_pair(char *str, char *c);
+
+/// @brief 				Checks if the quotes are valid
+/// @param cmdline		Command line
+/// @return				SUCCESS if valid, ERROR if invalid
+int		invalid_quotes(char *line);
+
+/// @brief 			Checks if the argument is valid
+/// @param argv		Argument
+/// @return			SUCCESS if valid, ERROR if invalid
+int		invalid_line(char *line);
+
+
+
+/* ************************************************************************** */
+///	error.c
+/* ************************************************************************** */
+
+/// @brief 			Shows error and program sourcing it
+/// @param msg		Message to show
+/// @param system	Shows system error if true
+/// @return			SUCCESS
+int		return_error(const char *msg, int system);
+
+
+
+/* ************************************************************************** */
+///	debug.c
+/* ************************************************************************** */
+
+/// @brief 				Shows the function name and status
+/// @param func_name	Name of the function
+/// @param status		Status of the function
+/// @return				Status of the function
+int		show_func(const char *func_name, int status);
+
+/* ************************************************************************** */
+///	trimmer.c
+/* ************************************************************************** */
+
+/// @brief 				Trims the token command from whitespaces
+/// @param token		Token to be trimmed
+/// @param trimmer		Trimmer characters
+char	*trimmer(char *line, const char *trimmer);
+
+/* ************************************************************************** */
+///	xxxxx.c
+/* ************************************************************************** */
 
 
 // ft_tokenize

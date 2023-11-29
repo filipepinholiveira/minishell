@@ -6,13 +6,13 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 14:37:46 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/10/26 11:49:55 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/11/29 00:04:00 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-void	ft_putstr_fd(char *s, int fd)
+void	ft_putstr_fd(const char *s, int fd)
 {
 	if (s)
 		while (*s)

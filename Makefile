@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: antoda-s <antoda-s@student.42.fr>          +#+  +:+       +#+         #
+#    By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/24 21:23:27 by antoda-s          #+#    #+#              #
-#    Updated: 2023/11/25 15:47:28 by antoda-s         ###   ########.fr        #
+#    Updated: 2023/11/29 00:10:59 by antoda-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,12 +33,16 @@ OBJDIRT 	= builder/
 # sources and objects base project
 # FILES	=	main.c 				# Top level function
 FILES 	=	minishell.c
-FILES	+=	ft_tokenize.c
-FILES	+=	ft_strtok.c
-FILES	+=	ft_execmd.c
-FILES	+=	ft_cd.c
-# FILES	+=	pipelines.c
-FILES	+=	ft_get_location.c
+FILES	+=	parser.c
+FILES	+=	trimmer.c
+FILES	+=	error.c
+FILES	+=	debug.c
+# FILES	+=	ft_tokenize.c
+# FILES	+=	ft_strtok.c
+# FILES	+=	ft_execmd.c
+# FILES	+=	ft_cd.c
+# # FILES	+=	pipelines.c
+# FILES	+=	ft_get_location.c
 
 TEST	=	test.c
 TEST	+=	test1.c
@@ -84,27 +88,27 @@ RESET	= \033[0m
 BOLD	= \033[1m
 
 # messages
-_INFO		=	[$(CYN)INFO$(WTH)]
-_SUCCESS	=	[$(GRN)$(BOLD)DONE$(WTH)]
-_WARNING	=	[$(YLW)WARNING$(WTH)]
-_ERROR		=	[$(RED)ERROR$(WTH)]
+_INFO		=	$(WTH)[$(CYN)INFO$(WTH)]
+_SUCCESS	=	$(WTH)[$(GRN)$(BOLD)READY$(WTH)]
+_WARNING	=	$(WTH)[$(YLW)WARNING$(WTH)]
+_ERROR		=	$(WTH)[$(RED)ERROR$(WTH)]
 
 # rules
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	@printf "\n$(GRN)$(NAME) objects ready!$(WTH)\n\n"
-	@printf "\n$(_INFO) $(CYN)Generating $(NAME) executable...$(WTH)\n"
+	@printf "\n$(_SUCCESS) $(GRN)$(NAME) objects!$(WTH)\n"
+	@printf "$(_INFO) $(CYN)Generating $(NAME) executable...$(WTH)\n"
 	@$(CC) $(CF) $(OBJ) $(LNK_LIBFT) $(LNK_READLINE) -o $@
 	@printf "$(GRN)█$(WHT)"
-	@printf "\n$(GRN)$(NAME) $(_SUCCESS)!$(WTH)\n\n"
+	@printf "\n$(_SUCCESS) $(GRN)$(NAME) executable!$(WTH)\n\n"
 
 mkbuilddir:
 	@mkdir -p $(OBJDIR)
-	@printf "\n$(CYN)Compiling source files...$(WTH)\n"
+	@printf "$(_INFO) $(CYN)Compiling source files...$(WTH)\n"
 
 $(OBJDIR)%.o: $(SRCDIR)%.c | mkbuilddir
-	$(CC) $(CF) -c $(I_LIBFT) $(I_HEADER) $< -o $@
+	@$(CC) $(CF) -c $(I_LIBFT) $(I_HEADER) $< -o $@
 	@printf "$(YLW)█$(WHT)"
 
 test: $(NAMET)
@@ -126,9 +130,9 @@ $(OBJDIRT)%.o: $(SRCDIRT)%.c | buildt
 	@printf "$(YLW)█$(WHT)"
 
 $(LIBFT):
-	@printf "\n$(CYN)Generating Libft...$(WTH)\n"
+	@printf "\n$(_INFO) $(CYN)Generating Libft...$(WTH)\n"
 	@make -C $(LFT_PATH)
-	@printf "$(GRN)Libft created!$(WTH)\n\n"
+	@printf "$(_INFO) $(GRN)Libft created!$(WTH)\n\n"
 
 re: fclean all
 
@@ -170,7 +174,7 @@ fcleant:
 # 	sudo apt-get install gcc make xorg libxext-dev libbsd-dev -y
 # 	@printf "$(GRN)All dependencies ready!$(WTH)\n\n"
 
-.PHONY: clean fclean re rebonus all bonus build
+.PHONY: show clean fclean re rebonus all bonus build
 
 show:
 	@echo ""
@@ -189,4 +193,4 @@ show:
 	@echo "$(YLW)██ Executable file      : $(WTH)$(notdir $(NAME))"
 	@echo ""
 
-.SILENT: show
+.SILENT:

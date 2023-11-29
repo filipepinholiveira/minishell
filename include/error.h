@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 18:49:28 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/11/21 22:35:08 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/11/28 22:30:59 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 #  define SUCCESS 0
 # endif
 
-# ifndef MAP_ERROR
-#  define MAP_ERROR 50
+# ifndef LINE_ERROR
+#  define LINE_ERROR 50
 # endif
 # ifndef MLX_ERROR
 #  define MLX_ERROR 51
