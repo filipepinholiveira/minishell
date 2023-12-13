@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/11/29 00:00:45 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/11/29 21:33:09 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 # define MINISHELL_H
 
 # include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <string.h>
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <sys/wait.h>
-# include <signal.h>
 # include <errno.h>
+# include <fcntl.h>
+# include <limits.h>
+# include <signal.h>
+# include <sys/stat.h>
+# include <termios.h>
+# include <unistd.h>
+# include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../lib/libft/libft.h"
@@ -33,55 +33,83 @@
 ///	STRUCTS
 /* ************************************************************************** */
 
+int	g_exit_status;
+
+/// @brief 				Enum to hold the token types
+/// @param TOKEN_WS	Empty token
+/// @param TOKEN_PIPE	Pipe token
+/// @param TOKEN_R_IN	Redirection input token
+/// @param TOKEN_R_OUT	Redirection output token
+/// @param TOKEN_NAME	Name token
 typedef enum e_token_type
 {
-	TOKEN_EAT,
+	TOKEN_WS,
 	TOKEN_PIPE,
-	TOKEN_REDIR_IN,
-	TOKEN_REDIR_OUT,
+	TOKEN_R_IN,
+	TOKEN_R_OUT,
 	TOKEN_NAME
 }			t_token_type;
 
-typedef struct s_line
+/// @brief 				Struct to hold the token variables (see t_token_type)
+/// @param op			Token char set
+/// @param size			Token char set length
+/// @param type			Token type (as per enum t_token_type)
+typedef struct s_operations
 {
-	char	*line;
-	char	**tokens_list;
-	int		tokens_n;
-	char	piped;
-	char	parse_state;
-}	t_line;
+	const char		*op;
+	int				size;
+	t_token_type	type;
+}				t_operations;
 
-// typedef struct s_token
-// {
-// 	int				cmd_i;
-// 	char			**cmd_full;
-
-// 	struct s_token	*n;
-// }					t_token;
-
-/*********************************************/
-
+/// @brief 				Struct to hold the token variables
+/// @param content		Token content
+/// @param size			Token size
+/// @param type			Token type
+/// @param next			Next token
 typedef struct s_token
 {
-	char			*cmd;
+	char			*content;
 	int				size;
 	t_token_type	type;
 	struct s_token	*next;
 }				t_token;
-/*********************************************/
 
-typedef struct s_cmd
+typedef struct s_redirection
 {
-	struct s_token	*head;
-	char			*line;
-	int				pipes_q;
-	int				pipe_i;
-	int				redir_q;
-	int				redir_i;
-	int				redir_type;
-	int				redir_fd1;
-	int				redir_fd2;
-}					t_cmd;
+	char	*name;
+	int		flag;
+	t_list	*heredoc;
+}				t_redirection;
+
+/// @brief 				Struct to hold the command variables
+/// @param cmd			Command itself
+/// @param argc			Number of arguments
+/// @param argv			Arguments
+/// @param out			Redirection output content
+/// @param in			Redirection input content
+typedef struct s_command
+{
+	char			*cmd;
+	int				argc;
+	char			**argv;
+	t_redirection	out;
+	t_redirection	in;
+}				t_command;
+
+/// @brief 				Struct to hold the minishell variables
+/// @param commands		Commands to be executed
+/// @param cmd_count	Number of commands
+/// @param exit_status	Exit status
+/// @param envp			Environment variables
+/// @param termios_p	Terminal settings
+typedef struct s_script
+{
+	t_command		*commands;
+	int				cmd_count;
+	int				exit_status;
+	char			**envp;
+	struct termios	termios_p;
+}				t_script;
 
 # ifndef CPIPE
 #  define CPIPE 11
@@ -98,6 +126,33 @@ typedef struct s_cmd
 #  define INQUOTE 14
 # endif
 
+/* ************************************************************************** */
+///	main.c
+/* ************************************************************************** */
+
+
+
+/* ************************************************************************** */
+///	signal.c
+/* ************************************************************************** */
+
+/// @brief 			Handles signal SIGINT (Ctrl+C) and SIGQUIT (Ctrl+\)
+///					Instead of exiting, the sig handler provides a new line
+/// @param signum	The signal number
+/// @return			void
+void	sig_handler(int signum);
+
+/// @brief 			Handles signal SIGINT (Ctrl+C) and SIGQUIT (Ctrl+\)
+///					Instead of exiting, the sig handler provides a new line
+/// @param signum	The signal number
+/// @return			void
+void	sig_handler_fork(int signum);
+
+/// @brief 			Handles the signal SIGINT when in heredoc
+///					Exits with status 130 Command terminated by user
+/// @param signum	The signal number
+/// @return			void
+void	sig_handler_heredoc(int signum);
 
 /* ************************************************************************** */
 ///	parser.c

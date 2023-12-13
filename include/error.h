@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 18:49:28 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/11/28 22:30:59 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/11/29 18:46:53 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@
 #  define ARGS_ERROR 52
 # endif
 
-# ifndef MATRIX_ERROR
-#  define MATRIX_ERROR 54
+# ifndef SYNTAX_ERROR
+#  define SYNTAX_ERROR 54
 # endif
 # ifndef COLOR_ERROR
 #  define COLOR_ERROR 55

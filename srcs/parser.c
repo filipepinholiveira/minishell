@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:28:14 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/11/29 00:16:20 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/11/29 19:05:46 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,46 @@ int	invalid_line(char *line)
 			return (show_func(__func__, ERROR));
 	}
 	return (show_func(__func__, SUCCESS));
+}
+
+/**********************************************************************/
+/**********************************************************************/
+/**********************************************************************/
+/**********************************************************************/
+/**********************************************************************/
+
+/// @brief 				Trims the token command from whitespaces
+/// @param line_buffer	string input with script
+/// @param head			pointer to the head of the token list
+/// @param script		script structure
+/// @return				SUCCESS if valid, ERROR if invalid
+static int	tokenize(char **line, t_token **head, t_script *script)
+{
+	t_token	*tmp;
+	char	*bis;
+
+	if (!tokenizer(*line, head))
+		//return (return_error("Syntax Error", 0));
+		return (show_func(__func__, SYNTAX_ERROR));
+	tmp = *head;
+	while (tmp)
+	{
+		bis = tmp->content;
+		tmp->content = replace_env_var(bis, script->envp, 0, 0);
+		free(bis);
+		tmp = tmp->next;
+	}
+	return (show_func(__func__, SUCCESS));
+}
+
+int	minishel_parser(t_script *script, char **line_buffer)
+{
+	t_token	*head;
+
+	head = NULL;
+	if (!line_buffer)
+		return (show_func(__func__, ERROR));
+	add_history(*line_buffer);
+	if (tokenize(line_buffer, &head, script))
+		return (free_tokens(&head));
 }
