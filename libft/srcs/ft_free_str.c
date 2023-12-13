@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd_cmd.c                                          :+:      :+:    :+:   */
+/*   ft_free_str.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/12/13 16:48:25 by antoda-s         ###   ########.fr       */
+/*   Created: 2023/02/27 04:12:07 by antoda-s          #+#    #+#             */
+/*   Updated: 2023/11/02 21:30:50 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../libft.h"
 
-int pwd_print(void)
+/// @brief 		Free allocated memory of a string and inicialize pointer to NULL
+/// @param str	Pointer to string
+void	ft_free_str(char **str)
 {
-   char s[100];
-   printf("%s\n", getcwd(s, 100));
-   return (0);
+	if (*str)
+	{
+		free(*str);
+		*str = NULL;
+	}
 }

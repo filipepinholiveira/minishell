@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd_cmd.c                                          :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/12/13 16:48:25 by antoda-s         ###   ########.fr       */
+/*   Created: 2022/11/07 22:45:42 by antoda-s          #+#    #+#             */
+/*   Updated: 2023/10/26 11:49:57 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../libft.h"
 
-int pwd_print(void)
+/// @brief 		Converts an upper-case letter to the corresponding
+///				lower-case letter
+/// @param c	Character to convert
+/// @return		Lower-case letter if `c` is an upper-case letter, `c` otherwise
+int	ft_tolower(int c)
 {
-   char s[100];
-   printf("%s\n", getcwd(s, 100));
-   return (0);
+	if (c >= 'A' && c <= 'Z')
+	{
+		c = c + 32;
+	}
+	return (c);
 }

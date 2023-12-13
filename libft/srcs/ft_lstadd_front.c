@@ -1,20 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd_cmd.c                                          :+:      :+:    :+:   */
+/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/12/13 16:48:25 by antoda-s         ###   ########.fr       */
+/*   Created: 2022/11/18 18:41:34 by antoda-s          #+#    #+#             */
+/*   Updated: 2023/10/26 11:53:09 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../libft.h"
 
-int pwd_print(void)
+/// @brief 		Adds the element ’new’ at the beginning of the list.
+/// @param lst	The address of a pointer to the first link of a list.
+/// @param	new	The address of a pointer to the element to be added to the list.
+void	ft_lstadd_front(t_list **lst, t_list *new)
 {
-   char s[100];
-   printf("%s\n", getcwd(s, 100));
-   return (0);
+	if (lst && new)
+	{
+		(*new).next = *lst;
+		*lst = new;
+	}
 }

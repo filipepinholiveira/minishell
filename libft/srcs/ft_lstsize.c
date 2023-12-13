@@ -1,20 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd_cmd.c                                          :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/12/13 16:48:25 by antoda-s         ###   ########.fr       */
+/*   Created: 2022/11/18 19:25:53 by antoda-s          #+#    #+#             */
+/*   Updated: 2023/10/26 11:49:46 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../libft.h"
 
-int pwd_print(void)
+/// @brief 		Counts the number of elements (or length) in a list.
+/// @param lst	The beginning of the list.
+/// @return		Length of the list.
+int	ft_lstsize(t_list *lst)
 {
-   char s[100];
-   printf("%s\n", getcwd(s, 100));
-   return (0);
+	int	i;
+
+	i = 0;
+	while (lst)
+	{
+		lst = (*lst).next;
+		i++;
+	}
+	return (i);
 }

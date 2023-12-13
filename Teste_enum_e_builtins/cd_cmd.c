@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cd_cmd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 11:06:46 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/12/06 14:39:09 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2023/12/13 16:47:39 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include "../SOURCES/minishell.h"
+#include "../include/minishell.h"
 
 
 int arg_count(char **cmd)
@@ -23,7 +23,7 @@ int arg_count(char **cmd)
 }
 
 
-int cd_cmd(char **args) 
+int cd_cmd(char **args)
 {
     int count = arg_count(args);
     if (count > 2)
@@ -35,20 +35,20 @@ int cd_cmd(char **args)
     {
         // Nenhum diretório fornecido, volte para o diretório inicial do usuário.
         char *home = getenv("HOME");
-        if (home == NULL) 
+        if (home == NULL)
         {
             perror("Minishell: cd");
             return 1;
         }
-        if (chdir(home) != 0) 
+        if (chdir(home) != 0)
         {
             perror("Minishell: cd");
             return 1;
         }
-    } 
-    else 
+    }
+    else
     {
-        if (chdir(args[1]) != 0) 
+        if (chdir(args[1]) != 0)
         {
             perror("Minishell: cd");
             return 1;

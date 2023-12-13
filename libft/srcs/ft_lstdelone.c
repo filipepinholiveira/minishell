@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd_cmd.c                                          :+:      :+:    :+:   */
+/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/12/13 16:48:25 by antoda-s         ###   ########.fr       */
+/*   Created: 2022/11/18 19:43:10 by antoda-s          #+#    #+#             */
+/*   Updated: 2023/10/26 11:53:10 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../libft.h"
 
-int pwd_print(void)
+/// @brief 		Takes as a parameter an element and frees the memory of the
+/// @param lst	The element to free.
+/// @param del	The address of the function used to delete the content.
+void	ft_lstdelone(t_list *lst, void (*del)(void*))
 {
-   char s[100];
-   printf("%s\n", getcwd(s, 100));
-   return (0);
+	if (!lst || !del)
+		return ;
+	del((*lst).content);
+	free(lst);
 }

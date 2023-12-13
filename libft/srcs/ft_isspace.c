@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd_cmd.c                                          :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/12/13 16:48:25 by antoda-s         ###   ########.fr       */
+/*   Created: 2023/07/06 00:02:10 by antoda-s          #+#    #+#             */
+/*   Updated: 2023/10/26 11:53:08 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../libft.h"
 
-int pwd_print(void)
+/// @brief 		Checks if a char is a space
+/// @param c	The char to check
+/// @return		TRUE if is sapce, FALSE otherwise
+int	ft_isspace(int c)
 {
-   char s[100];
-   printf("%s\n", getcwd(s, 100));
-   return (0);
+	if (c == ' ' || c == '\n' || c == '\t' \
+	|| c == '\v' || c == '\f' || c == '\r')
+		return (TRUE);
+	return (FALSE);
 }

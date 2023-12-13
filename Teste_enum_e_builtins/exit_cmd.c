@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exit_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 15:09:01 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/12/06 16:42:12 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2023/12/13 16:48:11 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../SOURCES/minishell.h"
+#include "../include/minishell.h"
 
 
 int	ft_is_str_digit(char *str)
@@ -41,7 +41,7 @@ int arg_count_again(char **cmd)
 
 
 int	exit_shell(char **args)
-{	
+{
 	int count = arg_count_again(args);
 	//free_all(arg)
 	if (count == 1)

@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd_cmd.c                                          :+:      :+:    :+:   */
+/*   ft_itoc_base.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/12/13 16:48:25 by antoda-s         ###   ########.fr       */
+/*   Created: 2023/11/17 17:38:13 by antoda-s          #+#    #+#             */
+/*   Updated: 2023/11/17 17:38:40 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../libft.h"
 
-int pwd_print(void)
+/// @brief 			convert int number <n> to a printable equivalente char
+/// @param n		int <n> to convert to printable char
+/// @param radix	base of numeration of str n
+/// @return			c char converted
+char	ft_itoc_base(const int n, char base)
 {
-   char s[100];
-   printf("%s\n", getcwd(s, 100));
-   return (0);
+	if (n >= 0 && n <= 9)
+		return ((char)n + '0');
+	else if (n > 9 && n < 16)
+		return ((char)((n - 10) + (base - 23)));
+	else
+		return ((char)n);
 }

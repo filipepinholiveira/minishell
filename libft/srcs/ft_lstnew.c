@@ -1,20 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd_cmd.c                                          :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/12/13 16:48:25 by antoda-s         ###   ########.fr       */
+/*   Created: 2022/11/18 18:41:34 by antoda-s          #+#    #+#             */
+/*   Updated: 2023/10/26 11:53:12 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../libft.h"
 
-int pwd_print(void)
+/// @brief 			Allocates and returns a new element.
+/// @param content	The content to create the new element with.
+/// @return			The new element.
+t_list	*ft_lstnew(void *content)
 {
-   char s[100];
-   printf("%s\n", getcwd(s, 100));
-   return (0);
+	t_list	*lstnew;
+
+	lstnew = (t_list *)malloc(sizeof(t_list));
+	if (!lstnew)
+		return (NULL);
+	else
+	{
+		(*lstnew).content = content;
+		(*lstnew).next = NULL;
+	}
+	return (lstnew);
 }

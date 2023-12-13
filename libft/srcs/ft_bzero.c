@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd_cmd.c                                          :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/12/13 16:48:25 by antoda-s         ###   ########.fr       */
+/*   Created: 2022/11/08 16:12:42 by antoda-s          #+#    #+#             */
+/*   Updated: 2023/10/26 11:53:04 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../libft.h"
 
-int pwd_print(void)
+/// @brief 		Fills a byte string with zeros.
+/// @param s	Pointer to string
+/// @param n	Number of bytes to fill
+void	ft_bzero(void *s, size_t n)
 {
-   char s[100];
-   printf("%s\n", getcwd(s, 100));
-   return (0);
+	ft_memset(s, 0, n);
+	return ;
 }

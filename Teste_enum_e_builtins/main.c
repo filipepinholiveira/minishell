@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 11:06:39 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/12/06 16:44:53 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2023/12/13 16:47:22 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
-#include "../SOURCES/minishell.h"
+#include "../include/minishell.h"
 
 #define MAX_CMDS 7
 #define ERROR -1
@@ -32,7 +30,7 @@ int main(int ac, char **av, char **envp)
         {
             str = readline("Minishell: ");
             cmd = ft_split(str, ' ');
-            
+
             if (strcmp(cmd[0], "echo") == 0)
                 echo_print(cmd); // FEITO???
             else if (strcmp(cmd[0], "cd") == 0)
@@ -57,12 +55,12 @@ int main(int ac, char **av, char **envp)
                 {
             pid_t child_pid = fork();
 
-            if (child_pid == -1) 
+            if (child_pid == -1)
             {
                 perror("fork");
                 exit(EXIT_FAILURE);
             }
-            else if (child_pid == 0) 
+            else if (child_pid == 0)
             {
                 // Processo filho
                 char *command = get_location(cmd[0]);
@@ -76,13 +74,13 @@ int main(int ac, char **av, char **envp)
                     printf("%s: command not found\n", cmd[0]);
                     exit(EXIT_FAILURE);
                 }
-            } 
-            else 
+            }
+            else
             {
                 // Processo pai
                 wait(NULL);
             }
-            
+
         }
         }
 
