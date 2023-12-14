@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   99ms_error.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/08 16:12:42 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/12/04 22:03:17 by antoda-s         ###   ########.fr       */
+/*   Created: 2023/11/28 22:37:00 by antoda-s          #+#    #+#             */
+/*   Updated: 2023/12/13 23:12:34 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "../include/minishell.h"
 
-/// @see		ft_memset
-/// @brief 		Fills a byte string with zeros.
-/// @param s	Pointer to string
-/// @param n	Number of bytes to fill
-void	ft_bzero(void *s, size_t n)
+/// @brief 			Shows error and program sourcing it
+/// @param msg		Message to show
+/// @param system	Shows system error if true
+/// @return			SUCCESS
+int	return_error(const char *msg, int system)
 {
-	ft_memset(s, 0, n);
-	return ;
+	show_func(__func__, MY_START);
+	ft_putstr_fd("Minishell: ", 2);
+	if (system)
+		perror(msg);
+	else
+		ft_putendl_fd(msg, 2);
+	show_func(__func__, SUCCESS);
+	return (1);
 }

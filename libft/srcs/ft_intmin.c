@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   ft_intmin.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/08 16:12:42 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/12/04 22:03:17 by antoda-s         ###   ########.fr       */
+/*   Created: 2023/12/04 21:52:04 by antoda-s          #+#    #+#             */
+/*   Updated: 2023/12/04 21:53:26 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-/// @see		ft_memset
-/// @brief 		Fills a byte string with zeros.
-/// @param s	Pointer to string
-/// @param n	Number of bytes to fill
-void	ft_bzero(void *s, size_t n)
+int	ft_max(int a, int b)
 {
-	ft_memset(s, 0, n);
-	return ;
+	if (a < b)
+		return (a);
+	return (b);
 }

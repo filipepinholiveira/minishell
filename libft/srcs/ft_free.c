@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/08 16:12:42 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/12/04 22:03:17 by antoda-s         ###   ########.fr       */
+/*   Created: 2023/02/27 04:12:07 by antoda-s          #+#    #+#             */
+/*   Updated: 2023/12/04 23:33:41 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-/// @see		ft_memset
-/// @brief 		Fills a byte string with zeros.
-/// @param s	Pointer to string
-/// @param n	Number of bytes to fill
-void	ft_bzero(void *s, size_t n)
+/// @see		free
+/// @brief 		Free allocated memory of a string and inicialize pointer to NULL
+/// @param str	Pointer to string
+void	ft_free(char *str)
 {
-	ft_memset(s, 0, n);
-	return ;
+	if (str)
+	{
+		free(str);
+		str = NULL;
+	}
 }
