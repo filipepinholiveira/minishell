@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:28:14 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/12/13 23:25:01 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/12/15 15:33:06 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,18 +263,18 @@ int	parser(t_script *script, char **line_buffer)
 
 	show_func(__func__, MY_START);
 	head = NULL;
-	*line_buffer = readline("\001\033[1;35m\002\001\033[1;1m\002Minishell ᐅ \001\033[0m\002");
+	*line_buffer = readline("\001\033[1;35m\002\001\033[1;1m\002Minishell > \001\033[0m\002");
 	if (!*line_buffer)
 	{
 		show_func(__func__, MALLOC_ERROR);
 		return (2);
 	}
 	add_history(*line_buffer);
-	/*********************************/
+	/********************************
 	printf("(>) %s : line buffer = %s\n",__func__, *line_buffer);
 	if (!ft_strncmp(*line_buffer, "exit", 5))
 		exit(0);
-	/*********************************/
+	********************************/
 	if (tokenize(line_buffer, &head, script))
 		return (free_tokens(&head));
 	remove_blank_tokens(head);

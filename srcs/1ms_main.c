@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:27:05 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/12/14 20:18:02 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/12/15 15:30:55 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,22 +111,17 @@ int	ms_loop(t_script *script, char **line_buffer)
 	{
 		script->cmd_count = 0;
 		sig_setter();
-		printf("%s : 1 ***************************\n", __func__);
 		result = parser(script, line_buffer);
-		printf("%s : 2 ***************************\n", __func__);
 		ft_free_str(line_buffer);
-		printf("%s : 3 ***************************\n", __func__);
 		if (result == 1)
 			continue ;
 		else if (result == 2)
 		{
-			printf("%s : X ***************************\n", __func__);
 			ft_putendl_fd("exit", 2);
 			break ;
 		}
 		if (script->cmd_count > 0)
 		{
-			printf("%s : 4 ***************************\n", __func__);
 			if (execute(script))
 				break ;
 		}
