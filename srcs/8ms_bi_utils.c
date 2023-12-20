@@ -12,6 +12,20 @@
 
 #include "../include/minishell.h"
 
+
+/// @brief              count the number or env variables
+/// @param envp         current environment variables
+/// @return             number or varibles
+int env_count(char **envp)
+{
+    int count = 0;
+    while (envp && envp[count])
+    {
+        count++;
+    }
+    return count;
+}
+
 int	arg_count(char **args)
 {
 	show_func(__func__, MY_START);

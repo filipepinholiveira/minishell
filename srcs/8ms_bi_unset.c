@@ -19,30 +19,45 @@
 	20: o PWD = getcwd(p, cd)
 */
 
-int	unset(char *args[])
-{
-	show_func(__func__, MY_START);
-	int	count;
-	int	i;
 
-	count = arg_count(args);
-	i = 0;
-	if (count == 1)
-	{
-		printf("Minishell: unset: not enough arguments\n");
-		show_func(__func__, ERROR);
-		return (ERROR);
-	}
-	while (args[i] != NULL)
-	{
-		if (ft_strncmp(args[i], "OLDPWD", 7) == 0)
-		{
-			printf("Minishell: unset: OLDPWD: cannot unset: readonly variable\n");
-			show_func(__func__, ERROR);
-			return (ERROR);
-		}
-		i++;
-	}
-	show_func(__func__, SUCCESS);
-	return (SUCCESS);
+/// @brief Remove a variable from the environment
+/// @param arg Arguments passed to unset command
+/// @param envp Current environment variables
+/// @return Updated environment variables
+char **unset_cmd(char **arg, char **envp)
+{
+    show_func(__func__, MY_START);
+    int env_count = 0;
+
+    // Count the number of environment variables
+    while (envp && envp[env_count])
+        env_count++;
+
+    if (arg[1] == NULL)
+    {
+        printf("Unset sem argumentos válidos\n");
+        return envp;
+    }
+
+    // Allocate memory for the new environment array
+    char **new_env = (char **)malloc(sizeof(char *) * (env_count + 1));
+    if (!new_env)
+        return NULL;
+
+    int i = 0;
+    int j = 0;
+
+    // Copy the variables from the old environment to the new one,
+    // excluding the one specified in the arguments
+    while (i < env_count)
+    {
+        if (ft_strncmp(arg[1], envp[i], ft_strlen(arg[1])) != 0)
+        {
+            new_env[j] = ft_strdup(envp[i]);
+            j++;
+        }
+        i++;
+    }
+    new_env[j] = NULL;
+    return new_env;
 }

@@ -409,6 +409,24 @@ int		return_error(const char *msg, int system);
 ///	ms_bi_***.c
 /* ************************************************************************** */
 
+/// @brief Remove a variable from the environment
+/// @param arg Arguments passed to unset command
+/// @param envp Current environment variables
+/// @return Updated environment variables
+char **unset_cmd(char **arg, char **envp);
+
+/// @brief              count the number or env variables
+/// @param envp         current environment variables
+/// @return             number or varibles
+int env_count(char **envp);
+
+/// @brief          add new environment variable to env
+/// @param arg      new env variable to add 
+/// @param env      environment variables lis 
+/// @return         new env list
+/// STILL TESTING 
+char	**export_cmd(char **arg, char **envp);
+
 /// @brief 			Builtin cd command
 /// @param args		Builtin command arguments
 /// @return			SUCCESS or ERROR

@@ -56,9 +56,15 @@ int	execute_do(t_script *s)
 	else if (ft_strncmp(s->commands[0].argv[0], "pwd", 4) == 0)
 		pwd_print();
 	else if (ft_strncmp(s->commands[0].argv[0], "export", 7) == 0)
+	{
 		printf("Execute export with no options\n");
+		s->envp = export_cmd(s->commands[0].argv, s->envp);
+	}
 	else if (ft_strncmp(s->commands[0].argv[0], "unset", 6) == 0)
+	{
 		printf("Execute unset with no options\n");
+		s->envp = unset_cmd(s->commands[0].argv, s->envp);
+	}
 	else if (ft_strncmp(s->commands[0].argv[0], "env", 4) == 0)
 		env_print(s->commands[0].argv, s->envp);
 	else if (ft_strncmp(s->commands[0].argv[0], "exit", 5) == 0)

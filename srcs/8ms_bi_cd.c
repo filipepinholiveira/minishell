@@ -12,6 +12,14 @@
 
 #include "../include/minishell.h"
 
+/*
+para tratar, se localizaçao tiver espaço no nome conta como 2 args
+e nao apenas 1
+*/
+
+
+
+
 /// @brief 			Builtin cd command
 /// @param args		Builtin command arguments
 /// @return			SUCCESS or ERROR

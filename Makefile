@@ -45,6 +45,7 @@ FILES	+=	8ms_bi_pwd.c
 FILES	+=	8ms_bi_utils.c
 FILES	+=	8ms_bi_echo.c
 FILES	+=	8ms_bi_exit.c
+FILES	+=	8ms_bi_export.c
 FILES	+=	8ms_bi_unset.c
 FILES	+=	99ms_error.c
 FILES	+=	999ms_free.c
