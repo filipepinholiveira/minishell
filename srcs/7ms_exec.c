@@ -58,7 +58,8 @@ int	execute_do(t_script *s)
 	else if (ft_strncmp(s->commands[0].argv[0], "export", 7) == 0)
 	{
 		printf("Execute export with no options\n");
-		s->envp = export_cmd(s->commands[0].argv, s->envp);
+		//s->envp = export_cmd(s->commands[0].argv, s->envp);
+		s->envp = export_cmd(s);
 	}
 	else if (ft_strncmp(s->commands[0].argv[0], "unset", 6) == 0)
 	{
