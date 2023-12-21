@@ -15,19 +15,19 @@
 /// @brief 			Builtin exit command
 /// @param args		Builtin command arguments
 /// @return			exit status or ERROR
-int	exit_shell(char **args)
+int	exit_shell(t_script *s)
 {
 	show_func(__func__, MY_START);
-	int	count;
+	//int	count;
 
-	count = arg_count(args);
-	if (count == 1)
+	//count = arg_count(args);
+	if (s->commands->argc == 1)
 		exit (0);
-	if (count > 2)
+	if (s->commands->argc > 2)
 	{
-		if (ft_is_str_digit(args[1]) == 1)
+		if (ft_is_str_digit(s->commands->argv[1]) == 1)
 		{
-			printf("exit\nbash: exit: %s numeric argument required\n", args[1]);
+			printf("exit\nbash: exit: %s numeric argument required\n", s->commands->argv[1]);
 			show_func(__func__, SUCCESS);
 			exit (2);
 		}
@@ -38,5 +38,32 @@ int	exit_shell(char **args)
 		}
 	}
 	show_func(__func__, SUCCESS);
-	exit (ft_atoi(args[1]));
+	exit (ft_atoi(s->commands->argv[1]));
 }
+
+
+// int	exit_shell(char **args)
+// {
+// 	show_func(__func__, MY_START);
+// 	int	count;
+
+// 	count = arg_count(args);
+// 	if (count == 1)
+// 		exit (0);
+// 	if (count > 2)
+// 	{
+// 		if (ft_is_str_digit(args[1]) == 1)
+// 		{
+// 			printf("exit\nbash: exit: %s numeric argument required\n", args[1]);
+// 			show_func(__func__, SUCCESS);
+// 			exit (2);
+// 		}
+// 		else
+// 		{
+// 			printf("exit\nbash: exit: too many arguments\n");
+// 			return (1);
+// 		}
+// 	}
+// 	show_func(__func__, SUCCESS);
+// 	exit (ft_atoi(args[1]));
+// }

@@ -16,18 +16,36 @@
 /// @param args		Builtin command arguments
 /// @param envp		Environment variables
 /// @return			SUCCESS or ERROR
-int	env_print(char **args, char **envp)
+int	env_print(t_script *s)
 {
 	show_func(__func__, MY_START);
 	int	count;
 
 	count = 0;
-	(void)args;
-	while (envp[count] != NULL)
+	
+	while (s->envp[count] != NULL)
 	{
-		printf("%s\n", envp[count]); // nao usar printf
+		printf("%s\n", s->envp[count]); // nao usar printf
 		count++;
 	}
 	show_func(__func__, SUCCESS);
 	return (count);
 }
+
+
+
+// int	env_print(char **args, char **envp)
+// {
+// 	show_func(__func__, MY_START);
+// 	int	count;
+
+// 	count = 0;
+// 	(void)args;
+// 	while (envp[count] != NULL)
+// 	{
+// 		printf("%s\n", envp[count]); // nao usar printf
+// 		count++;
+// 	}
+// 	show_func(__func__, SUCCESS);
+// 	return (count);
+// }

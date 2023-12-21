@@ -23,19 +23,16 @@ e nao apenas 1
 /// @brief 			Builtin cd command
 /// @param args		Builtin command arguments
 /// @return			SUCCESS or ERROR
-int	cd_cmd(char **args)
+int	cd_cmd(t_script *s)
 {
 	show_func(__func__, MY_START);
-	int		count;
 	char	*home;
-
-	count = arg_count(args);
-	if (count > 2)
+	if (s->commands->argc > 2)
 	{
 		printf("Minishell: cd: too many arguments\n");
 		return (ERROR);
 	}
-	if (args[1] == NULL)
+	if (s->commands->argv[1] == NULL)
 	{
 		home = getenv("HOME");
 		if (home == NULL)
@@ -51,7 +48,7 @@ int	cd_cmd(char **args)
 	}
 	else
 	{
-		if (chdir(args[1]) != 0)
+		if (chdir(s->commands->argv[1]) != 0)
 		{
 			perror("Minishell: cd");
 			return (ERROR);
@@ -60,3 +57,43 @@ int	cd_cmd(char **args)
 	show_func(__func__, SUCCESS);
 	return (SUCCESS);
 }
+
+// ANTIGA SEM ARGUMENTO T_SCRIPT
+
+// int	cd_cmd(char **args)
+// {
+// 	show_func(__func__, MY_START);
+// 	int		count;
+// 	char	*home;
+
+// 	count = arg_count(args);
+// 	if (count > 2)
+// 	{
+// 		printf("Minishell: cd: too many arguments\n");
+// 		return (ERROR);
+// 	}
+// 	if (args[1] == NULL)
+// 	{
+// 		home = getenv("HOME");
+// 		if (home == NULL)
+// 		{
+// 			perror("Minishell: cd");
+// 			return (ERROR);
+// 		}
+// 		if (chdir(home) != 0)
+// 		{
+// 			perror("Minishell: cd");
+// 			return (ERROR);
+// 		}
+// 	}
+// 	else
+// 	{
+// 		if (chdir(args[1]) != 0)
+// 		{
+// 			perror("Minishell: cd");
+// 			return (ERROR);
+// 		}
+// 	}
+// 	show_func(__func__, SUCCESS);
+// 	return (SUCCESS);
+// }

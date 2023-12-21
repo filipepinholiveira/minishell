@@ -50,26 +50,29 @@ int	execute_do(t_script *s)
 	char *cmd_path;
 
 	if (ft_strncmp(s->commands[0].argv[0], "echo", 5) == 0)
-		echo_print(s->commands[0].argv);
+		//echo_print(s->commands[0].argv);
+		echo_print(s);
 	else if (ft_strncmp(s->commands[0].argv[0], "cd", 3) == 0)
-		cd_cmd(s->commands[0].argv);
+		//cd_cmd(s->commands[0].argv);
+		cd_cmd(s);
 	else if (ft_strncmp(s->commands[0].argv[0], "pwd", 4) == 0)
 		pwd_print();
 	else if (ft_strncmp(s->commands[0].argv[0], "export", 7) == 0)
 	{
-		printf("Execute export with no options\n");
 		//s->envp = export_cmd(s->commands[0].argv, s->envp);
 		s->envp = export_cmd(s);
 	}
 	else if (ft_strncmp(s->commands[0].argv[0], "unset", 6) == 0)
 	{
-		printf("Execute unset with no options\n");
-		s->envp = unset_cmd(s->commands[0].argv, s->envp);
+		//s->envp = unset_cmd(s->commands[0].argv, s->envp);
+		s->envp = unset_cmd(s);
 	}
 	else if (ft_strncmp(s->commands[0].argv[0], "env", 4) == 0)
-		env_print(s->commands[0].argv, s->envp);
+		//env_print(s->commands[0].argv, s->envp);
+		env_print(s);
 	else if (ft_strncmp(s->commands[0].argv[0], "exit", 5) == 0)
-		exit_shell(s->commands[0].argv);
+		//exit_shell(s->commands[0].argv);
+		exit_shell(s);
 	else
 	{
 		child_pid = fork();

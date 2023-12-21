@@ -413,7 +413,8 @@ int		return_error(const char *msg, int system);
 /// @param arg Arguments passed to unset command
 /// @param envp Current environment variables
 /// @return Updated environment variables
-char **unset_cmd(char **arg, char **envp);
+//char **unset_cmd(char **arg, char **envp);
+char **unset_cmd(t_script *s);
 
 /// @brief              count the number or env variables
 /// @param envp         current environment variables
@@ -424,29 +425,33 @@ int env_count(char **envp);
 /// @param arg      new env variable to add 
 /// @param env      environment variables lis 
 /// @return         new env list
-/// STILL TESTING 
-char	**export_cmd(char **arg, char **envp);
+/// STILL TESTING
+char    **export_cmd(t_script *s);
 
 /// @brief 			Builtin cd command
 /// @param args		Builtin command arguments
 /// @return			SUCCESS or ERROR
-int		cd_cmd(char **args);
+//int		cd_cmd(char **args);
+int	cd_cmd(t_script *s);
 
 /// @brief 			Builtin echo command
 /// @param args		Builtin command arguments
 /// @return			SUCCESS or ERROR
-int		echo_print(char **args);
+//int		echo_print(char **args);
+int	echo_print(t_script *s);
 
 /// @brief 			Builtin env command
 /// @param args		Builtin command arguments
 /// @param envp		Environment variables
 /// @return			SUCCESS or ERROR
-int		env_print(char **args, char **envp);
+//int		env_print(char **args, char **envp);
+int	env_print(t_script *s);
 
 /// @brief 			Builtin exit command
 /// @param args		Builtin command arguments
 /// @return			SUCCESS or ERROR
-int		exit_shell(char **args);
+//int		exit_shell(char **args);
+int	exit_shell(t_script *s);
 
 /// @brief 			Builtin pwd command
 /// @param void		Builtin command arguments not required
