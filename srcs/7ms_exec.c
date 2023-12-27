@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   7ms_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 09:55:51 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/12/14 20:16:48 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/12/27 13:32:52 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,10 @@ int	execute_do(t_script *s)
 int	execute(t_script *s)
 {
 	show_func(__func__, MY_START);
-	//char	**path_env;
+	char	**path_env;
 
 	execute_show(s);
-	// path_env = split_paths(s->envp);
+	path_env = split_path(s->envp, ':');
 	if (s->cmd_count == 1)
 	{
 		if (execute_do(s))

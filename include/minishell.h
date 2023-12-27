@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/12/14 20:13:13 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/12/27 12:38:18 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -394,6 +394,15 @@ char	*get_env_content(char *str, char **envp);
 /// @param script 	Script contents
 int		execute(t_script *script);
 
+/* ************************************************************************** */
+///	ms_exec_utils.c
+/* ************************************************************************** */
+
+/// @brief 				Splits a string into an array of strings using a delimiter.
+/// @param path 		String to be splited
+/// @param delimiter 	character used as delimiter
+/// @return 			String array containing splited string
+char **split_path(char **path, char delimiter);
 
 /* ************************************************************************** */
 ///	ms_error.c

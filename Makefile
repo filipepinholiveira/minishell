@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+         #
+#    By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/24 21:23:27 by antoda-s          #+#    #+#              #
-#    Updated: 2023/12/14 20:10:04 by antoda-s         ###   ########.fr        #
+#    Updated: 2023/12/27 12:32:10 by fpinho-d         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ FILES 	+=	4ms_quotes.c
 FILES 	+=	5ms_tokens.c
 FILES 	+=	6ms_env.c
 FILES 	+=	7ms_exec.c
+FILES	+=	7ms_exec_utils.c
 FILES	+=	8ms_bi_cd.c
 FILES	+=	8ms_bi_env.c
 FILES	+=	8ms_bi_pwd.c
