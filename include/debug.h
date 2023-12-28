@@ -6,7 +6,7 @@
 /*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 18:49:28 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/12/28 13:12:16 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2023/12/28 17:04:56 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 #  define _SHOW_KEY_ 0
 # endif
 # ifndef MY_DEBUG
-#  define MY_DEBUG 0
+#  define MY_DEBUG 1
 # endif
 # ifndef MY_START
 #  define MY_START 255
