@@ -6,7 +6,7 @@
 /*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 09:55:51 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/12/27 14:21:07 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2023/12/28 13:52:12 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,10 @@ int	execute_do(t_script *s)
 int	execute(t_script *s)
 {
 	show_func(__func__, MY_START);
-	char	**path_env;
+	//char	**path_env;
 
 	execute_show(s);
-	path_env = split_path(s->envp, ':');
+	//path_env = split_path(s->envp, ':');
 	if (s->cmd_count == 1)
 	{
 		if (execute_do(s))
@@ -124,9 +124,9 @@ int	execute(t_script *s)
 			return (1);
 		}
 	}
-	// else
-	// 	if (pipex(s, path_env))
-	// 		return (1);
+	else
+		if (pipex(s, s->envp))
+			return (1);
 	//execute_do(s);
 	termios_setter(&s->termios_p);
 	show_func(__func__, SUCCESS);

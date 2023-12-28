@@ -6,7 +6,7 @@
 /*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/12/27 12:38:18 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2023/12/28 13:04:27 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -390,6 +390,9 @@ char	*get_env_content(char *str, char **envp);
 ///	ms_exec.c
 /* ************************************************************************** */
 
+// int main(int ac, char **av, char **envp)
+int	execute_do(t_script *s);
+
 /// @brief 			Script exec function
 /// @param script 	Script contents
 int		execute(t_script *script);
@@ -397,6 +400,20 @@ int		execute(t_script *script);
 /* ************************************************************************** */
 ///	ms_exec_utils.c
 /* ************************************************************************** */
+
+/// @brief 				Executa um comando em um processo filho.
+/// @param argv			Array de strings contendo os argumentos do comando, com o
+///             		nome do comando na primeira posição. 
+/// @param envp			Array de strings representando as variáveis de ambiente. 
+/// @param input_fd		O descritor de arquivo para a entrada padrão (stdin) do processo filho. Pode ser STDIN_FILENO ou um descritor de arquivo de um pipe.
+/// @param ouput_fd		O descritor de arquivo para a saída padrão (stdout) do processo filho. Pode ser STDOUT_FILENO ou um descritor de arquivo de um pipe.
+void execute_do_command(char **argv, char **envp, int input_fd, int output_fd);
+
+/// @brief 					Executa dois comandos em sequência com um pipe entre eles.
+/// @param s				Estrutura contendo informações sobre os comandos a serem executados.
+/// @param path_env			Array de strings representando o caminho do ambiente.
+/// @return					0 em caso de sucesso, encerra o programa em caso de falha. 
+int pipex(t_script *s, char **path_env);
 
 /// @brief 				Splits a string into an array of strings using a delimiter.
 /// @param path 		String to be splited
