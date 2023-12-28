@@ -6,7 +6,7 @@
 /*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 09:55:51 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/12/28 13:52:12 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2023/12/28 15:38:58 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int	execute(t_script *s)
 		if (pipex(s, s->envp))
 			return (1);
 	//execute_do(s);
-	termios_setter(&s->termios_p);
+	//termios_setter(&s->termios_p);
 	show_func(__func__, SUCCESS);
 	return (SUCCESS);
 }

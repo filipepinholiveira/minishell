@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   8ms_bi_cd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 11:06:46 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/12/14 19:09:47 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/12/28 16:47:29 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,31 @@ e nao apenas 1
 int	cd_cmd(t_script *s)
 {
 	show_func(__func__, MY_START);
-	char	*home;
+	char		*home;
+	char	*special_path;
+	int			i;
+	
+	i = 1;
+	special_path = ft_strdup(s->commands->argv[i]);
 	if (s->commands->argc > 2)
 	{
-		printf("Minishell: cd: too many arguments\n");
-		return (ERROR);
+		while (i < s->commands->argc && s->commands->argv[i + 1] != NULL)
+		{
+			
+			special_path = ft_strjoin(special_path, " ");
+			special_path = ft_strjoin(special_path, s->commands->argv[i + 1]);
+			i++;
+		}
+		if (chdir(special_path) != 0)
+		{
+			printf("Minishell: cd: too many arguments\n");
+			return (ERROR);	
+		}
+		else
+		{
+			show_func(__func__, SUCCESS);
+			return (SUCCESS);
+		}
 	}
 	if (s->commands->argv[1] == NULL)
 	{

@@ -6,7 +6,7 @@
 /*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 12:00:28 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/12/28 14:14:38 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2023/12/28 15:32:15 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void execute_do_command(char **argv, char **envp, int input_fd, int output_fd)
 
         // Se o execve falhar
         perror("execve");
-		fprintf(stderr, "Failed to execute: %s\n", argv[0]); //Isso imprimirá o caminho do executável junto com a mensagem de erro. 
 		//Com essa informação, você poderá identificar se há algum problema com o caminho do executável ou se o arquivo executável está ausente.
         exit(EXIT_FAILURE);
     } 
@@ -60,10 +59,10 @@ void execute_do_command(char **argv, char **envp, int input_fd, int output_fd)
         int status;
         waitpid(child_pid, &status, 0);
 
-        // Aqui você pode verificar o status se necessário
-        if (WIFEXITED(status)) {
-            printf("Child process exited with status %d\n", WEXITSTATUS(status));
-        }
+        // verificar o status se necessário
+        // if (WIFEXITED(status)) {
+        //     printf("Child process exited with status %d\n", WEXITSTATUS(status));
+        // }
     }
 	show_func(__func__, SUCCESS);
 }
