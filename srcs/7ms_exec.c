@@ -6,35 +6,35 @@
 /*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 09:55:51 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/12/28 15:38:58 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2023/12/29 13:41:37 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-
 static void	execute_show(t_script *s)
 {
-	show_func(__func__, MY_START);
 	int	i = -1;
 	int	j = -1;
 
+	show_func(__func__, MY_START);
 	printf("s->com_count: %i\n", s->cmd_count);
-
 	while (++j < s->cmd_count)
 	{
 		printf("\n");
 		while (++i < s->commands[j].argc)
 		{
-			printf("# s->commands[%i].argv[%i]: %s\n", j, i, s->commands[j].argv[i]);
+			printf("# s->commands[%i].argv[%i]: %s\n", 
+				j, i, s->commands[j].argv[i]);
 		}
 		printf("  s->commands[%i].out.name: %s\n", j, s->commands[j].out.name);
 		printf("  s->commands[%i].out.flag: %d\n", j, s->commands[j].out.flag);
-		printf("  s->commands[%i].out->heredoc: %p\n", j, s->commands[j].out.heredoc);
-
+		printf("  s->commands[%i].out->heredoc: %p\n", 
+			j, s->commands[j].out.heredoc);
 		printf("  s->commands[%i].in.name: %s\n", j, s->commands[j].in.name);
 		printf("  s->commands[%i].in.flag: %d\n", j, s->commands[j].in.flag);
-		printf("  s->commands[%i].in->heredoc: %p\n", j, s->commands[j].in.heredoc);
+		printf("  s->commands[%i].in->heredoc: %p\n", 
+			j, s->commands[j].in.heredoc);
 		i = -1;
 	}
 	printf("\n");
@@ -42,13 +42,12 @@ static void	execute_show(t_script *s)
 	return ;
 }
 
-// int main(int ac, char **av, char **envp)
 int	execute_do(t_script *s)
 {
-	show_func(__func__, MY_START);
-	pid_t child_pid;
-	char *cmd_path;
+	pid_t	child_pid;
+	char	*cmd_path;
 
+	show_func(__func__, MY_START);
 	if (ft_strncmp(s->commands[0].argv[0], "echo", 5) == 0)
 		//echo_print(s->commands[0].argv);
 		echo_print(s);
@@ -99,9 +98,7 @@ int	execute_do(t_script *s)
 			}
 		}
 		else
-		{
 			wait(NULL);
-		}
 	}
 	show_func(__func__, SUCCESS);
 	return (0);
@@ -113,7 +110,6 @@ int	execute(t_script *s)
 {
 	show_func(__func__, MY_START);
 	//char	**path_env;
-
 	execute_show(s);
 	//path_env = split_path(s->envp, ':');
 	if (s->cmd_count == 1)

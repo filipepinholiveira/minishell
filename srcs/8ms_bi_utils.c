@@ -3,46 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   8ms_bi_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 15:09:01 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/12/14 19:58:32 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/12/29 13:53:32 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-
 /// @brief              count the number or env variables
 /// @param envp         current environment variables
 /// @return             number or varibles
-int env_count(char **envp)
+int	env_count(char **envp)
 {
-    int count = 0;
-    while (envp && envp[count])
-    {
-        count++;
-    }
-    return count;
+	int	count;
+
+	count = 0;
+	while (envp && envp[count])
+	{
+		count++;
+	}
+	return (count);
 }
 
 int	arg_count(char **args)
 {
-	show_func(__func__, MY_START);
 	int	count;
 
+	show_func(__func__, MY_START);
 	count = 0;
 	while (args[count])
-			count++;
+		count++;
 	show_func(__func__, SUCCESS);
 	return (count);
 }
 
 int	ft_is_str_digit(char *str)
 {
-	show_func(__func__, MY_START);
 	int	i;
 
+	show_func(__func__, MY_START);
 	i = 0;
 	while (str[i])
 	{
@@ -59,17 +60,16 @@ int	ft_is_str_digit(char *str)
 
 char	*get_location(char *command)
 {
+	char		*path;
+	char		*path_copy;
+	char		*path_token;
+	char		*file_path;
+	int			command_length;
+	int			directory_length;
+	struct stat	buffer;
+
 	show_func(__func__, MY_START);
-	char	*path;
-	char	*path_copy;
-	char	*path_token;
-	char	*file_path;
-	int		command_length;
-	int		directory_length;
-	struct stat buffer;
-
 	path = getenv("PATH");
-
 	if (path)
 	{
 		path_copy = strdup(path);

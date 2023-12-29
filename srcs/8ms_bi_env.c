@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   8ms_bi_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/12/14 19:47:53 by antoda-s         ###   ########.fr       */
+/*   Updated: 2023/12/29 13:36:50 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,10 @@
 /// @return			SUCCESS or ERROR
 int	env_print(t_script *s)
 {
-	show_func(__func__, MY_START);
 	int	count;
 
+	show_func(__func__, MY_START);
 	count = 0;
-	
 	while (s->envp[count] != NULL)
 	{
 		printf("%s\n", s->envp[count]); // nao usar printf
@@ -31,21 +30,3 @@ int	env_print(t_script *s)
 	show_func(__func__, SUCCESS);
 	return (count);
 }
-
-
-
-// int	env_print(char **args, char **envp)
-// {
-// 	show_func(__func__, MY_START);
-// 	int	count;
-
-// 	count = 0;
-// 	(void)args;
-// 	while (envp[count] != NULL)
-// 	{
-// 		printf("%s\n", envp[count]); // nao usar printf
-// 		count++;
-// 	}
-// 	show_func(__func__, SUCCESS);
-// 	return (count);
-// }
