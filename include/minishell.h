@@ -6,7 +6,7 @@
 /*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/12/28 13:04:27 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2024/01/02 15:46:50 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # include "../include/colors.h"
 # include "../include/debug.h"
 
-extern int g_exit_status;
+extern int	g_exit_status;
 
 /* ************************************************************************** */
 ///	STRUCTS
@@ -391,7 +391,7 @@ char	*get_env_content(char *str, char **envp);
 /* ************************************************************************** */
 
 // int main(int ac, char **av, char **envp)
-int	execute_do(t_script *s);
+int		execute_do(t_script *s);
 
 /// @brief 			Script exec function
 /// @param script 	Script contents
@@ -402,24 +402,28 @@ int		execute(t_script *script);
 /* ************************************************************************** */
 
 /// @brief 				Executa um comando em um processo filho.
-/// @param argv			Array de strings contendo os argumentos do comando, com o
-///             		nome do comando na primeira posição. 
-/// @param envp			Array de strings representando as variáveis de ambiente. 
-/// @param input_fd		O descritor de arquivo para a entrada padrão (stdin) do processo filho. Pode ser STDIN_FILENO ou um descritor de arquivo de um pipe.
-/// @param ouput_fd		O descritor de arquivo para a saída padrão (stdout) do processo filho. Pode ser STDOUT_FILENO ou um descritor de arquivo de um pipe.
-void execute_do_command(char **argv, char **envp, int input_fd, int output_fd);
+/// @param argv			Array de strings contendo os argumentos do comando
+///             		com o nome do comando na primeira posição. 
+/// @param envp			Array de strings representando variáveis de ambiente. 
+/// @param input_fd		O descritor de arquivo para a entrada padrão (stdin) 
+///do processo filho. Pode ser STDIN_FILENO 
+///ou um descritor de arquivo de um pipe.
+/// @param ouput_fd		O descritor de arquivo para a saída padrão (stdout) 
+/// do processo filho. Pode ser STDOUT_FILENO 
+///ou um descritor de arquivo de um pipe.
+void	execute_do_cmd(char **argv, char **envp, int input_fd, int output_fd);
 
-/// @brief 					Executa dois comandos em sequência com um pipe entre eles.
-/// @param s				Estrutura contendo informações sobre os comandos a serem executados.
-/// @param path_env			Array de strings representando o caminho do ambiente.
-/// @return					0 em caso de sucesso, encerra o programa em caso de falha. 
-int pipex(t_script *s, char **path_env);
+/// @brief 			Executa dois comandos em sequência com um pipe entre eles.
+/// @param s		Estrutura contendo informações cmd a serem executados.
+/// @param path_env		Array de strings representando o caminho do ambiente.
+/// @return			0 em caso de sucesso, encerra o programa em caso de falha. 
+int		pipex(t_script *s, char **path_env);
 
-/// @brief 				Splits a string into an array of strings using a delimiter.
+/// @brief 			Splits a string into an array of strings using delimiter.
 /// @param path 		String to be splited
 /// @param delimiter 	character used as delimiter
 /// @return 			String array containing splited string
-char **split_path(char **path, char delimiter);
+char	**split_path(char **path, char delimiter);
 
 /* ************************************************************************** */
 ///	ms_error.c
@@ -440,44 +444,44 @@ int		return_error(const char *msg, int system);
 /// @param envp Current environment variables
 /// @return Updated environment variables
 //char **unset_cmd(char **arg, char **envp);
-char **unset_cmd(t_script *s);
+char	**unset_cmd(t_script *s);
 
 /// @brief              count the number or env variables
 /// @param envp         current environment variables
 /// @return             number or varibles
-int env_count(char **envp);
+int		env_count(char **envp);
 
 /// @brief          add new environment variable to env
 /// @param arg      new env variable to add 
 /// @param env      environment variables lis 
 /// @return         new env list
 /// STILL TESTING
-char    **export_cmd(t_script *s);
+char	**export_cmd(t_script *s);
 
 /// @brief 			Builtin cd command
 /// @param args		Builtin command arguments
 /// @return			SUCCESS or ERROR
 //int		cd_cmd(char **args);
-int	cd_cmd(t_script *s);
+int		cd_cmd(t_script *s);
 
 /// @brief 			Builtin echo command
 /// @param args		Builtin command arguments
 /// @return			SUCCESS or ERROR
 //int		echo_print(char **args);
-int	echo_print(t_script *s);
+int		echo_print(t_script *s);
 
 /// @brief 			Builtin env command
 /// @param args		Builtin command arguments
 /// @param envp		Environment variables
 /// @return			SUCCESS or ERROR
 //int		env_print(char **args, char **envp);
-int	env_print(t_script *s);
+int		env_print(t_script *s);
 
 /// @brief 			Builtin exit command
 /// @param args		Builtin command arguments
 /// @return			SUCCESS or ERROR
 //int		exit_shell(char **args);
-int	exit_shell(t_script *s);
+int		exit_shell(t_script *s);
 
 /// @brief 			Builtin pwd command
 /// @param void		Builtin command arguments not required
@@ -498,7 +502,6 @@ int		arg_count(char **cmd);
 /// @param str		String to be checked
 /// @return			TRUE if valid, FALSE if invalid
 int		ft_is_str_digit(char *str);
-
 
 /// @brief 			Checks if the given string is a valid number
 /// @param command	Command to be checked

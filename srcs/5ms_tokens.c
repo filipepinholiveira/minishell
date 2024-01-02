@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   5ms_tokens.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:10:37 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/12/13 23:10:39 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/02 14:54:09 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_ops	search_token_type(const char *s)
 {
 	t_ops	ex_ops[12];
 	t_ops	blank;
-	int				i;
+	int		i;
 
 	show_func(__func__, MY_START);
 	blank = (t_ops){0, 0, 0};
@@ -105,7 +105,6 @@ t_ops	search_token_type(const char *s)
 	ex_ops[10] = (t_ops){"\f", 1, TOKEN_WS};
 	ex_ops[11] = (t_ops){NULL, 1, 0};
 	i = -1;
-
 	// if (s)
 	// 	printf("s token = %s\n", s);
 	// else
@@ -128,10 +127,10 @@ t_ops	search_token_type(const char *s)
 /// @return				1 if success, 0 if error
 int	token_getter(char *str, t_token **head)
 {
-	show_func(__func__, MY_START);
 	t_ops	curr;
 	char	*prev;
 
+	show_func(__func__, MY_START);
 	prev = str;
 	while (str && *str)
 	{
@@ -149,7 +148,7 @@ int	token_getter(char *str, t_token **head)
 		{
 			show_func(__func__, ERROR);
 			return (0);
-		}	//	return (0);
+		}
 		else
 			++str;
 	}

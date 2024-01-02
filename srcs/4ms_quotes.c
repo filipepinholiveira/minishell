@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   4ms_quotes.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:10:37 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/12/13 22:57:49 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/02 15:14:12 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ int	treat_quotes(char **str)
 	{
 		show_func(__func__, ERROR);
 		return (0);
-	}	//	return (0);
+	}
 	show_func(__func__, SUCCESS);
 	return (1);
 }
@@ -178,4 +178,3 @@ char	*remove_quotes(char *str)
 	show_func(__func__, SUCCESS);
 	return (end_remove_quotes(tmp, copy, i));
 }
-

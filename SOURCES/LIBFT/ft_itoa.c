@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpinho-d <fpinho-d@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 17:23:39 by fpinho-d          #+#    #+#             */
-/*   Updated: 2022/11/23 17:28:56 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2024/01/02 15:48:31 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
+
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -51,7 +51,7 @@ char	*ft_itoa(int n)
 	{
 		k = -k;
 		ptr[0] = '-';
-	}		
+	}
 	ptr[i--] = '\0';
 	while (k > 0)
 	{

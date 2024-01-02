@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoda-s <antoda-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 18:49:28 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/12/04 14:49:00 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/02 15:47:18 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@
 # ifndef COLOR_ERROR
 #  define COLOR_ERROR 55
 # endif
-
 
 /* ************************************************************************** */
 ///	MALLOC ERROR CODES
@@ -221,7 +220,6 @@
 #  define FORK_NOT_EXECUTED 511
 # endif
 
-
 /* ************************************************************************** */
 ///	EXEC ERROR CODES and STATUS
 /* ************************************************************************** */
@@ -261,7 +259,6 @@
 # ifndef EXEC_NOT_EXECUTED
 #  define EXEC_NOT_EXECUTED 611
 # endif
-
 
 /* ************************************************************************** */
 ///	CD ERROR CODES and STATUS
@@ -306,6 +303,5 @@
 // # ifndef FILE_ERROR
 // #  define FILE_ERROR 21
 // # endif
-
 
 #endif

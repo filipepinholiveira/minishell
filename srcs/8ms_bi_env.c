@@ -6,7 +6,7 @@
 /*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/12/29 13:36:50 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2024/01/02 15:28:10 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	env_print(t_script *s)
 	count = 0;
 	while (s->envp[count] != NULL)
 	{
-		printf("%s\n", s->envp[count]); // nao usar printf
+		write(STDOUT_FILENO, s->envp[count], ft_strlen(s->envp[count]));
+		write(STDOUT_FILENO, "\n", 1);
 		count++;
 	}
 	show_func(__func__, SUCCESS);

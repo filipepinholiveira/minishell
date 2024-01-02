@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   6ms_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/12/13 22:03:37 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/02 16:09:58 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,11 +142,11 @@ char	*replace_multiple_space(char *str)
 /// @return		Content of the variable
 char	*get_env_content(char *str, char **envp)
 {
-	show_func(__func__, MY_START);
 	char	*tmp;
 	char	*ret;
 	int		len;
 
+	show_func(__func__, MY_START);
 	tmp = ft_strjoin(str, "=");
 	len = ft_strlen(tmp);
 	ret = NULL;

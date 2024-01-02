@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   999ms_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 12:26:48 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/12/13 22:35:48 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/02 15:52:03 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,10 @@ int	free_tokens(t_token **head)
 /// @return 		SUCCESS or ERROR ?? needs coherence check
 int	free_commands(t_command *cmd, int cmd_idx)
 {
-	show_func(__func__, MY_START);
 	int	i;
 	int	j;
 
+	show_func(__func__, MY_START);
 	i = -1;
 	while (++i < cmd_idx)
 	{
@@ -94,4 +94,3 @@ int	free_commands(t_command *cmd, int cmd_idx)
 	show_func(__func__, SUCCESS);
 	return (1);
 }
-

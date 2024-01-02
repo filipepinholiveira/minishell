@@ -6,7 +6,7 @@
 /*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/12/29 13:57:18 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2024/01/02 14:50:19 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,24 +78,25 @@
 /// @param envp     environment variables lis 
 /// @return         the new env variables
 /// STILL TESTING 
-char    **export_cmd(t_script *s)
-{   
-	int i;
-	int j;
-	
+char	**export_cmd(t_script *s)
+{
+	int		i;
+	int		j;
+	char	**new_env;
+
 	i = 0;
 	j = 1;
 	show_func(__func__, MY_START);
 	// Se não houver argumentos ou o argumento não contiver '=', 
 	//retorna o ambiente existente
-	if (s->commands->argc == 1 || !ft_strrchr(s->commands->argv[1], (int)'='))
+	if (s->commands->argc == 1 || !ft_strrchr(s->commands->argv[1], (int) '='))
 	{
 		show_func(__func__, SUCCESS);
-		return s->envp;
+		return (s->envp);
 	}
 	// Aloca memória para o novo array de strings
-	char **new_env = (char **)malloc(sizeof(char *) * (s->commands->argc + env_count(s->envp) + 1));
-
+	new_env = (char **)malloc(sizeof(char *) * 
+			(s->commands->argc + env_count(s->envp) + 1));
 	if (!new_env)
 	{
 		perror("Malloc failed");
@@ -114,8 +115,8 @@ char    **export_cmd(t_script *s)
 		i++;
 		j++;
 	}
-
-	new_env[i] = NULL; // Define a última entrada como NULL para indicar o fim do array
+	new_env[i] = NULL; // Define a última entrada como 
+	//						NULL para indicar o fim do array
 	show_func(__func__, SUCCESS);
-	return new_env;
+	return (new_env);
 }

@@ -6,37 +6,28 @@
 /*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 11:06:46 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/12/28 16:47:29 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2024/01/02 15:25:22 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-/*
-para tratar, se localizaçao tiver espaço no nome conta como 2 args
-e nao apenas 1
-*/
-
-
-
 
 /// @brief 			Builtin cd command
 /// @param args		Builtin command arguments
 /// @return			SUCCESS or ERROR
 int	cd_cmd(t_script *s)
 {
-	show_func(__func__, MY_START);
-	char		*home;
+	char	*home;
 	char	*special_path;
-	int			i;
-	
+	int		i;
+
+	show_func(__func__, MY_START);
 	i = 1;
 	special_path = ft_strdup(s->commands->argv[i]);
 	if (s->commands->argc > 2)
 	{
 		while (i < s->commands->argc && s->commands->argv[i + 1] != NULL)
 		{
-			
 			special_path = ft_strjoin(special_path, " ");
 			special_path = ft_strjoin(special_path, s->commands->argv[i + 1]);
 			i++;
@@ -44,7 +35,7 @@ int	cd_cmd(t_script *s)
 		if (chdir(special_path) != 0)
 		{
 			printf("Minishell: cd: too many arguments\n");
-			return (ERROR);	
+			return (ERROR);
 		}
 		else
 		{

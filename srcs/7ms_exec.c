@@ -6,7 +6,7 @@
 /*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 09:55:51 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/12/29 13:41:37 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2024/01/02 14:51:48 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 static void	execute_show(t_script *s)
 {
-	int	i = -1;
-	int	j = -1;
+	int	i;
+	int	j;
 
+	i = -1;
+	j = -1;
 	show_func(__func__, MY_START);
 	printf("s->com_count: %i\n", s->cmd_count);
 	while (++j < s->cmd_count)
