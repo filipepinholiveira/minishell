@@ -6,7 +6,7 @@
 /*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 12:00:28 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/02 15:12:57 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2024/01/02 16:25:33 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,14 @@ int	pipex(t_script *s, char **path_env)
 	if (pipe(pipe_fd) == -1)
 	{
 		perror("pipe");
+		show_func(__func__, ERROR);
 		exit(EXIT_FAILURE);
 	}
 	child_pid = fork();
 	if (child_pid == -1)
 	{
 		perror("fork");
+		show_func(__func__, ERROR);
 		exit(EXIT_FAILURE);
 	}
 	else if (child_pid == 0)
@@ -111,6 +113,7 @@ int	pipex(t_script *s, char **path_env)
 		// Executa o primeiro comando
 		execute_do_cmd(s->commands[0].argv, path_env, 
 			STDIN_FILENO, pipe_fd[1]);
+		show_func(__func__, SUCCESS);
 		exit(EXIT_SUCCESS);
 	}
 	else 
