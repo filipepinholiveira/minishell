@@ -1,1 +1,0 @@
--rwxr-xr-x  1 fpinho-d 2022_porto 76384 Jan  2 16:14 minishell

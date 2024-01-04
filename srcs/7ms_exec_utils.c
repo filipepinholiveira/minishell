@@ -6,7 +6,7 @@
 /*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 12:00:28 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/02 16:25:33 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2024/01/04 14:09:03 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 void	execute_do_cmd(char **argv, char **envp, int input_fd, int output_fd)
 {
 	pid_t	child_pid;
-	int		status;
+	//int		status;
 	char	*cmd_path;
 		// verificar o status se necessário
 		// if (WIFEXITED(status)) {
@@ -59,6 +59,8 @@ void	execute_do_cmd(char **argv, char **envp, int input_fd, int output_fd)
 			close(output_fd);
 		}
 		cmd_path = get_location(argv[0]);
+		if (cmd_path != NULL)
+		{
 		execve(cmd_path, argv, envp);
 		// Se o execve falhar
 		perror ("execve");
@@ -66,17 +68,18 @@ void	execute_do_cmd(char **argv, char **envp, int input_fd, int output_fd)
 		/// algum problema com o caminho do executável 
 		/// ou se o arquivo executável está ausente.
 		exit(EXIT_FAILURE);
+		}
 	}
-	else 
-	{
-		// Processo pai
-		waitpid (child_pid, &status, 0);
-		// verificar o status se necessário
-		// if (WIFEXITED(status)) {
-		//     printf("Child process exited with status %d\n", 
-		//		WEXITSTATUS(status));
-		// }
-	}
+	// else 
+	// {
+	// 	// Processo pai
+	// 	waitpid (child_pid, &status, 0);
+	// 	// verificar o status se necessário
+	// 	// if (WIFEXITED(status)) {
+	// 	//     printf("Child process exited with status %d\n", 
+	// 	//		WEXITSTATUS(status));
+	// 	// }
+	// }
 	show_func(__func__, SUCCESS);
 }
 
