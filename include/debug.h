@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 18:49:28 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/04 14:15:11 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2024/01/06 14:16:11 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 #  define _SHOW_KEY_ 0
 # endif
 # ifndef MY_DEBUG
-#  define MY_DEBUG 0
+#  define MY_DEBUG 1
 # endif
 # ifndef MY_START
 #  define MY_START 255
