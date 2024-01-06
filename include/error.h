@@ -37,7 +37,9 @@
 # ifndef COLOR_ERROR
 #  define COLOR_ERROR 55
 # endif
-
+# ifndef CHILD_EXIT
+#  define CHILD_EXIT 56
+# endif
 /* ************************************************************************** */
 ///	MALLOC ERROR CODES
 /* ************************************************************************** */

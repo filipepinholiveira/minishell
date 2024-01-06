@@ -31,7 +31,7 @@
 void	execute_do_cmd(char **argv, char **envp, int input_fd, int output_fd)
 {
 	pid_t	child_pid;
-	//int		status;
+	int		status;
 	char	*cmd_path;
 		// verificar o status se necessário
 		// if (WIFEXITED(status)) {
@@ -40,6 +40,7 @@ void	execute_do_cmd(char **argv, char **envp, int input_fd, int output_fd)
 		// }
 	show_func(__func__, MY_START);
 	child_pid = fork();
+	printf("entrou no fork\n");
 	if (child_pid == -1) 
 	{
 		perror("fork");
@@ -47,6 +48,7 @@ void	execute_do_cmd(char **argv, char **envp, int input_fd, int output_fd)
 	}
 	else if (child_pid == 0) 
 	{
+		printf("child_pid = 0 no execute_do_cmd\n");
 		// Processo filho
 		if (input_fd != STDIN_FILENO) 
 		{
@@ -58,28 +60,33 @@ void	execute_do_cmd(char **argv, char **envp, int input_fd, int output_fd)
 			dup2(output_fd, STDOUT_FILENO);
 			close(output_fd);
 		}
+		printf("ARGV 0: %s\n", argv[0]);
 		cmd_path = get_location(argv[0]);
+		printf("CMD_PATH: %s\n", cmd_path);
 		if (cmd_path != NULL)
 		{
-		execve(cmd_path, argv, envp);
-		// Se o execve falhar
-		perror ("execve");
-		//Com essa informação, você poderá identificar se há
-		/// algum problema com o caminho do executável 
-		/// ou se o arquivo executável está ausente.
-		exit(EXIT_FAILURE);
+			printf("EXECVE entrada");
+			if (execve(cmd_path, argv, envp) == 1)
+			{
+			// Se o execve falhar
+			perror("execve");
+			//Com essa informação, você poderá identificar se há
+			/// algum problema com o caminho do executável 
+			/// ou se o arquivo executável está ausente.
+			exit(EXIT_FAILURE);
+			}
 		}
 	}
-	// else 
-	// {
-	// 	// Processo pai
-	// 	waitpid (child_pid, &status, 0);
-	// 	// verificar o status se necessário
-	// 	// if (WIFEXITED(status)) {
-	// 	//     printf("Child process exited with status %d\n", 
-	// 	//		WEXITSTATUS(status));
-	// 	// }
-	// }
+	else 
+	{
+		// Processo pai
+		waitpid (child_pid, &status, 0);
+		// verificar o status se necessário
+		// if (WIFEXITED(status)) {
+		//     printf("Child process exited with status %d\n", 
+		//		WEXITSTATUS(status));
+		// }
+	}
 	show_func(__func__, SUCCESS);
 }
 
@@ -109,27 +116,41 @@ int	pipex(t_script *s, char **path_env)
 	else if (child_pid == 0)
 	{
 		// Processo filho
+		printf("Executa o primeiro comando child\n");
 		close(pipe_fd[0]); // Fecha a extremidade de leitura do pipe
 		// Redireciona stdout para a extremidade de escrita do pipe
-		dup2(pipe_fd[1], STDOUT_FILENO);
-		close(pipe_fd[1]); // Fecha a extremidade de escrita do pipe
-		// Executa o primeiro comando
-		execute_do_cmd(s->commands[0].argv, path_env, 
+		//dup2(pipe_fd[1], STDOUT_FILENO);
+		printf("Executa o primeiro comando child 2\n");
+
+		int i = 0;
+		while(s->commands[i].argv)
+		{
+			int j = 0;
+			while (s->commands[i].argv[j])
+			{
+				execute_do_cmd(s->commands[i].argv, path_env, 
 			STDIN_FILENO, pipe_fd[1]);
-		show_func(__func__, SUCCESS);
+			i++;
+			}
+		}
+		// execute_do_cmd(s->commands[i].argv, path_env, 
+		// 	STDIN_FILENO, pipe_fd[1]);
+		close(pipe_fd[1]); // Fecha a extremidade de escrita do pipe
+		printf("Executa o primeiro comando child 3\n");
+		show_func(__func__, CHILD_EXIT);
 		exit(EXIT_SUCCESS);
 	}
 	else 
 	{
 		// Processo pai
-		close(pipe_fd[1]); // Fecha a extremidade de escrita do pipe
-		// Redireciona stdin para a extremidade de leitura do pipe
-		dup2(pipe_fd[0], STDIN_FILENO);
-		close(pipe_fd[0]); // Fecha a extremidade de leitura do pipe
-		// Executa o segundo comando
-		execute_do_cmd(s->commands[1].argv, path_env, pipe_fd[0], 
-			STDOUT_FILENO);
-		// Aguarda o processo filho terminar
+		// close(pipe_fd[1]); // Fecha a extremidade de escrita do pipe
+		// // Redireciona stdin para a extremidade de leitura do pipe
+		// dup2(pipe_fd[0], STDIN_FILENO);
+		// // Executa o segundo comando
+		// execute_do_cmd(s->commands[1].argv, path_env, pipe_fd[0], 
+		// close(pipe_fd[0]); // Fecha a extremidade de leitura do pipe
+		// 	STDOUT_FILENO);
+		// // Aguarda o processo filho terminar
 		wait(NULL);
 	}
 	show_func(__func__, SUCCESS);

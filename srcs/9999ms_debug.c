@@ -30,7 +30,9 @@ int	show_func(const char *func_name, int status)
 			printf ("%s(>)%s %s : MALLOC_ERROR%s\n", SYLW, SYLW, 
 				func_name, SWHT);
 		else if (status == FILE_ERROR)
-			printf ("%s(>)%s %s : FILE_ERROR%s\n", SYLW, SYLW, func_name, SWHT);
+			printf ("%s(X)%s %s : FILE_ERROR%s\n", SYLW, SRED, func_name, SWHT);
+		else if (status == CHILD_EXIT)
+			printf ("%s(X)%s %s : CHILD_EXIT%s\n", SYLW, SRED, func_name, SWHT);
 	}
 	return (status);
 }
