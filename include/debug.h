@@ -30,7 +30,7 @@
 #  define _SHOW_KEY_ 0
 # endif
 # ifndef MY_DEBUG
-#  define MY_DEBUG 0
+#  define MY_DEBUG 1
 # endif
 # ifndef MY_START
 #  define MY_START 255
