@@ -40,6 +40,7 @@ void	execute_do_cmd(char **argv, char **envp, int input_fd, int output_fd)
 		// }
 	show_func(__func__, MY_START);
 	child_pid = fork();
+	printf("entrou no fork\n");
 	if (child_pid == -1) 
 	{
 		perror("fork");
@@ -47,6 +48,7 @@ void	execute_do_cmd(char **argv, char **envp, int input_fd, int output_fd)
 	}
 	else if (child_pid == 0) 
 	{
+		printf("child_pid = 0 no execute_do_cmd\n");
 		// Processo filho
 		if (input_fd != STDIN_FILENO) 
 		{
@@ -64,13 +66,15 @@ void	execute_do_cmd(char **argv, char **envp, int input_fd, int output_fd)
 		if (cmd_path != NULL)
 		{
 			printf("EXECVE entrada");
-			execve(cmd_path, argv, envp);
+			if (execve(cmd_path, argv, envp) == 1)
+			{
 			// Se o execve falhar
 			perror("execve");
 			//Com essa informação, você poderá identificar se há
 			/// algum problema com o caminho do executável 
 			/// ou se o arquivo executável está ausente.
 			exit(EXIT_FAILURE);
+			}
 		}
 	}
 	else 
@@ -117,9 +121,20 @@ int	pipex(t_script *s, char **path_env)
 		// Redireciona stdout para a extremidade de escrita do pipe
 		//dup2(pipe_fd[1], STDOUT_FILENO);
 		printf("Executa o primeiro comando child 2\n");
-		printf("Comando a ser executado no child: %s: \n", s->commands[0].argv[0]);
-		execute_do_cmd(s->commands[0].argv, path_env, 
+
+		int i = 0;
+		while(s->commands[i].argv)
+		{
+			int j = 0;
+			while (s->commands[i].argv[j])
+			{
+				execute_do_cmd(s->commands[i].argv, path_env, 
 			STDIN_FILENO, pipe_fd[1]);
+			i++;
+			}
+		}
+		// execute_do_cmd(s->commands[i].argv, path_env, 
+		// 	STDIN_FILENO, pipe_fd[1]);
 		close(pipe_fd[1]); // Fecha a extremidade de escrita do pipe
 		printf("Executa o primeiro comando child 3\n");
 		show_func(__func__, CHILD_EXIT);
