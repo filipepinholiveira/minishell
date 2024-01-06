@@ -6,7 +6,7 @@
 /*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:27:05 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/12/27 16:36:15 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2024/01/04 13:13:14 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ char	**envp_getter(char **envp)
 	char	**ms_envp;
 	int		i;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	i = 0;
 	while (envp[i])
 		i++;
 	ms_envp = malloc(sizeof(char *) * (i + 1));
 	if (!ms_envp)
 	{
-		show_func(__func__, ERROR);
+		show_func(__func__, ERROR, NULL);
 		return (NULL);
 	}
 	i = 0;
@@ -38,13 +38,13 @@ char	**envp_getter(char **envp)
 		ms_envp[i] = ft_strdup(envp[i]);
 		if (!ms_envp[i])
 		{
-			show_func(__func__, ERROR);
+			show_func(__func__, ERROR, NULL);
 			return (NULL);
 		}
 		i++;
 	}
 	ms_envp[i] = NULL;
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (ms_envp);
 }
 
@@ -52,7 +52,7 @@ char	**envp_getter(char **envp)
 /// @param termios_p	Pointer to the termios settings structure
 void	termios_getter(struct termios *termios_p)
 {
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	if (tcgetattr(STDIN_FILENO, termios_p) != 0)
 		perror("tcgetattr() error");
 	else
@@ -71,12 +71,12 @@ void	termios_getter(struct termios *termios_p)
 			ft_putstr("ECHO is not set\n");
 		printf("The end-of-file character is x'%02x'\n", termios_p->c_cc[VEOF]);
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 }
 
 void	termios_setter(struct termios *termios_p)
 {
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, termios_p) != 0)
 		perror("tcsetattr() error");
 	else
@@ -95,7 +95,7 @@ void	termios_setter(struct termios *termios_p)
 			ft_putstr("ECHO is not set\n");
 		printf("The end-of-file character is x'%02x'\n", termios_p->c_cc[VEOF]);
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 }
 
 /// @brief 				Initializes the shell and keeps looping until exit
@@ -106,7 +106,7 @@ int	ms_loop(t_script *script, char **line_buffer)
 {
 	int	result;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	while (1)
 	{
 		script->cmd_count = 0;
@@ -129,7 +129,7 @@ int	ms_loop(t_script *script, char **line_buffer)
 	}
 	if (script->cmd_count > 0)
 		free_commands(script->commands, script->cmd_count);
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }
 
@@ -140,7 +140,7 @@ int	ms_loop(t_script *script, char **line_buffer)
 /// @return
 int	main(int argc, char **argv, char **envp)
 {
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	t_script	script;
 	char		*line_buffer;
 
@@ -151,6 +151,6 @@ int	main(int argc, char **argv, char **envp)
 	termios_getter(&script.termios_p);
 	ms_loop(&script, &line_buffer);
 	free_envp(script.envp);
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }

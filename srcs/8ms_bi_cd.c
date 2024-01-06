@@ -21,7 +21,7 @@ int	cd_cmd(t_script *s)
 	char	*special_path;
 	int		i;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	i = 1;
 	special_path = ft_strdup(s->commands->argv[i]);
 	if (s->commands->argc > 2)
@@ -39,7 +39,7 @@ int	cd_cmd(t_script *s)
 		}
 		else
 		{
-			show_func(__func__, SUCCESS);
+			show_func(__func__, SUCCESS, NULL);
 			return (SUCCESS);
 		}
 	}
@@ -65,7 +65,7 @@ int	cd_cmd(t_script *s)
 			return (ERROR);
 		}
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);
 }
 
@@ -73,7 +73,7 @@ int	cd_cmd(t_script *s)
 
 // int	cd_cmd(char **args)
 // {
-// 	show_func(__func__, MY_START);
+// 	show_func(__func__, MY_START, NULL);
 // 	int		count;
 // 	char	*home;
 
@@ -105,6 +105,6 @@ int	cd_cmd(t_script *s)
 // 			return (ERROR);
 // 		}
 // 	}
-// 	show_func(__func__, SUCCESS);
+// 	show_func(__func__, SUCCESS, NULL);
 // 	return (SUCCESS);
 // }

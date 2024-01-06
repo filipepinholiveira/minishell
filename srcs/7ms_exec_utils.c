@@ -6,7 +6,7 @@
 /*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 12:00:28 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/02 16:25:33 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2024/01/04 14:09:03 by fpinho-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ void	execute_do_cmd(char **argv, char **envp, int input_fd, int output_fd)
 		//     printf("Child process exited with status %d\n", 
 		// 			WEXITSTATUS(status));
 		// }
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	child_pid = fork();
+	printf("entrou no fork\n");
 	if (child_pid == -1) 
 	{
 		perror("fork");
@@ -47,6 +48,7 @@ void	execute_do_cmd(char **argv, char **envp, int input_fd, int output_fd)
 	}
 	else if (child_pid == 0) 
 	{
+		printf("child_pid = 0 no execute_do_cmd\n");
 		// Processo filho
 		if (input_fd != STDIN_FILENO) 
 		{
@@ -58,14 +60,22 @@ void	execute_do_cmd(char **argv, char **envp, int input_fd, int output_fd)
 			dup2(output_fd, STDOUT_FILENO);
 			close(output_fd);
 		}
+		printf("ARGV 0: %s\n", argv[0]);
 		cmd_path = get_location(argv[0]);
-		execve(cmd_path, argv, envp);
-		// Se o execve falhar
-		perror ("execve");
-		//Com essa informação, você poderá identificar se há
-		/// algum problema com o caminho do executável 
-		/// ou se o arquivo executável está ausente.
-		exit(EXIT_FAILURE);
+		printf("CMD_PATH: %s\n", cmd_path);
+		if (cmd_path != NULL)
+		{
+			printf("EXECVE entrada");
+			if (execve(cmd_path, argv, envp) == 1)
+			{
+			// Se o execve falhar
+			perror("execve");
+			//Com essa informação, você poderá identificar se há
+			/// algum problema com o caminho do executável 
+			/// ou se o arquivo executável está ausente.
+			exit(EXIT_FAILURE);
+			}
+		}
 	}
 	else 
 	{
@@ -77,7 +87,7 @@ void	execute_do_cmd(char **argv, char **envp, int input_fd, int output_fd)
 		//		WEXITSTATUS(status));
 		// }
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 }
 
 /// @brief 		Executa dois comandos em sequência com um pipe entre eles.
@@ -86,50 +96,84 @@ void	execute_do_cmd(char **argv, char **envp, int input_fd, int output_fd)
 /// @return			0 em caso de sucesso, encerra o programa em caso de falha. 
 int	pipex(t_script *s, char **path_env)
 {
-	int		pipe_fd[2];
+	show_func(__func__, MY_START, NULL);
+	int		p[2];
 	pid_t	child_pid;
-
-	show_func(__func__, MY_START);
-	if (pipe(pipe_fd) == -1)
+	int 	i;
+	
+	i = 1;
+	if (pipe(p) == -1)
 	{
 		perror("pipe");
-		show_func(__func__, ERROR);
+		show_func(__func__, EXIT_FAILURE, NULL);
 		exit(EXIT_FAILURE);
 	}
 	child_pid = fork();
 	if (child_pid == -1)
 	{
 		perror("fork");
-		show_func(__func__, ERROR);
+		show_func(__func__, ERROR, NULL);
 		exit(EXIT_FAILURE);
 	}
 	else if (child_pid == 0)
 	{
 		// Processo filho
-		close(pipe_fd[0]); // Fecha a extremidade de leitura do pipe
+		printf("Executa o primeiro comando child\n");
+		//close(pipe_fd[0]); // Fecha a extremidade de leitura do pipe
 		// Redireciona stdout para a extremidade de escrita do pipe
-		dup2(pipe_fd[1], STDOUT_FILENO);
-		close(pipe_fd[1]); // Fecha a extremidade de escrita do pipe
-		// Executa o primeiro comando
-		execute_do_cmd(s->commands[0].argv, path_env, 
-			STDIN_FILENO, pipe_fd[1]);
-		show_func(__func__, SUCCESS);
+		//dup2(pipe_fd[1], STDOUT_FILENO);
+		//printf("Executa o primeiro comando child 2\n");
+
+		while(i <= s->cmd_count)
+		{
+			int j = 0;
+			if (i == 1)
+			{
+				//first command
+				close(p[0]);
+				execute_do_cmd_1(s->commands[i-1].argv, path_env, p[1]);
+			}
+			else if (i == s->cmd_count)
+			{
+				//last command
+				close(p[1]);
+				execute_do_cmd_n(s->commands[i-1].argv, path_env, p[0], STDOUT_FILENO);
+				close(p[0]);
+			}
+			else
+			{
+				dup2(p[0], STDIN_FILENO);
+				dup2(p[1], STDOUT_FILENO);
+				execute_do_cmd_i(s->commands[i-1].argv, path_env, STDIN_FILENO, p[1]);
+				// inbetween commands
+			}
+			while (s->commands[i].argv[j])
+			{
+				execute_do_cmd(s->commands[i-1].argv, path_env, STDIN_FILENO, p[1]);
+				i++;
+			}
+		}
+		// execute_do_cmd(s->commands[i].argv, path_env, 
+		// 	STDIN_FILENO, pipe_fd[1]);
+		close(p[1]); // Fecha a extremidade de escrita do pipe
+		printf("Executa o primeiro comando child 3\n");
+		show_func(__func__, CHILD_EXIT, NULL);
 		exit(EXIT_SUCCESS);
 	}
 	else 
 	{
 		// Processo pai
-		close(pipe_fd[1]); // Fecha a extremidade de escrita do pipe
-		// Redireciona stdin para a extremidade de leitura do pipe
-		dup2(pipe_fd[0], STDIN_FILENO);
-		close(pipe_fd[0]); // Fecha a extremidade de leitura do pipe
-		// Executa o segundo comando
-		execute_do_cmd(s->commands[1].argv, path_env, pipe_fd[0], 
-			STDOUT_FILENO);
-		// Aguarda o processo filho terminar
+		// close(pipe_fd[1]); // Fecha a extremidade de escrita do pipe
+		// // Redireciona stdin para a extremidade de leitura do pipe
+		// dup2(pipe_fd[0], STDIN_FILENO);
+		// // Executa o segundo comando
+		// execute_do_cmd(s->commands[1].argv, path_env, pipe_fd[0], 
+		// close(pipe_fd[0]); // Fecha a extremidade de leitura do pipe
+		// 	STDOUT_FILENO);
+		// // Aguarda o processo filho terminar
 		wait(NULL);
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }
 
@@ -146,7 +190,7 @@ char	**split_path(char **path, char delimiter)
 	char	*current;
 	char	**result;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	// Encontrar o número total de segmentos
 	i = 0;
 	count = 0;
@@ -177,7 +221,7 @@ char	**split_path(char **path, char delimiter)
 		{
 			if (*current == delimiter)
 			{
-				result[j] = strndup(path[i] + start, current - path[i] - start);
+				result[j] = ft_strdup(path[i] + start);
 				if (result[j] == NULL)
 					return (NULL);
 				j++;
@@ -186,7 +230,7 @@ char	**split_path(char **path, char delimiter)
 			current++;
 		}
 		// Adiciona o último segmento
-		result[j] = strdup(path[i] + start);
+		result[j] = ft_strdup(path[i] + start);
 		if (result[j] == NULL)
 			return (NULL);
 		j++;
@@ -194,6 +238,6 @@ char	**split_path(char **path, char delimiter)
 	}
 	// Adiciona NULL para indicar o final do novo array
 	result[j] = NULL;
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (result);
 }

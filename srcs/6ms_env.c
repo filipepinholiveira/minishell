@@ -20,7 +20,7 @@
 /// @return		replace variable
 char	*replace_loop(char *str, char **envp, int *i)
 {
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	char	*tmp;
 	char	c;
 
@@ -40,7 +40,7 @@ char	*replace_loop(char *str, char **envp, int *i)
 	str[*i] = '\0';
 	tmp = get_env_content(str, envp); // envp_getter.c
 	str[*i] = c;
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (tmp);
 }
 
@@ -52,7 +52,7 @@ char	*replace_loop(char *str, char **envp, int *i)
 /// @return			Split string
 char	**init_split_before(char *line_buf, char **before, int *i)
 {
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	char	**split;
 
 	split = ft_split(line_buf, '$');
@@ -63,7 +63,7 @@ char	**init_split_before(char *line_buf, char **before, int *i)
 	}
 	else
 		*before = ft_strdup("");
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (split);
 }
 
@@ -81,7 +81,7 @@ char	*replace_env_var(char *line_buf, char **envp, int i, int j)
 	char	*before;
 	char	*tmp;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	before = NULL;
 	split = init_split_before(line_buf, &before, &i);
 	while (split[i])
@@ -102,7 +102,7 @@ char	*replace_env_var(char *line_buf, char **envp, int i, int j)
 	if (line_buf[ft_strlen(line_buf) - 1] == '$')
 		before = ft_strjoin_free(before, ft_strdup("$"));
 	free_split(split);
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (before);
 }
 
@@ -111,7 +111,7 @@ char	*replace_env_var(char *line_buf, char **envp, int i, int j)
 /// @return		String with multiple spaces replaced by a single space
 char	*replace_multiple_space(char *str)
 {
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	char	**split;
 	char	*tmp;
 	int		i;
@@ -130,7 +130,7 @@ char	*replace_multiple_space(char *str)
 	}
 	free(split);
 	free(str);
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (tmp);
 }
 
@@ -146,7 +146,7 @@ char	*get_env_content(char *str, char **envp)
 	char	*ret;
 	int		len;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	tmp = ft_strjoin(str, "=");
 	len = ft_strlen(tmp);
 	ret = NULL;
@@ -166,6 +166,6 @@ char	*get_env_content(char *str, char **envp)
 		if (!ret)
 			return (NULL);
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (replace_multiple_space(ret));
 }

@@ -20,13 +20,13 @@ int	first_quote(char *str)
 {
 	int	i;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	i = 0;
 	while (str[i] && !(str[i] == '\'' || str[i] == '\"'))
 		i++;
 	if (str[i] == '\'')
 		return (1);
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }
 
@@ -41,7 +41,7 @@ int	odd_before(char **str, int i, char c)
 	int	count;
 	int	j;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	count = 0;
 	while (i--)
 	{
@@ -53,7 +53,7 @@ int	odd_before(char **str, int i, char c)
 			j++;
 		}
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (count % 2);
 }
 
@@ -68,7 +68,7 @@ int	odd_after(char **str, int i, char c)
 	int	count;
 	int	j;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	count = 0;
 	while (str[i])
 	{
@@ -81,7 +81,7 @@ int	odd_after(char **str, int i, char c)
 		}
 		i++;
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (count % 2);
 }
 
@@ -92,14 +92,14 @@ int	odd_after(char **str, int i, char c)
 /// @param i 		destination index ?? NEEDS REFACTOR with LIBFT
 void	copy_in_quotes(char *start, char *end, char **str, int *i)
 {
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	while (start != end)
 	{
 		(*str)[*i] = *start;
 		start++;
 		(*i)++;
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 }
 
 /// @brief 		advances the given pointer to the next character that it is on
@@ -115,17 +115,17 @@ int	treat_quotes(char **str)
 {
 	char	open_quote;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	open_quote = **str;
 	++(*str);
 	while (**str && **str != open_quote)
 		++(*str);
 	if (!**str || (**str != open_quote))
 	{
-		show_func(__func__, ERROR);
+		show_func(__func__, ERROR, NULL);
 		return (0);
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (1);
 }
 
@@ -138,12 +138,12 @@ char	*end_remove_quotes(char *tmp, char *copy, int i)
 {
 	char	*ret;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	tmp[i] = '\0';
 	ret = ft_strdup(tmp);
 	ft_free(tmp);
 	ft_free(copy);
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (ret);
 }
 
@@ -157,7 +157,7 @@ char	*remove_quotes(char *str)
 	char	*start;
 	int		i;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	i = 0;
 	copy = str;
 	tmp = malloc(sizeof(char) * (ft_strlen(str) + 1));
@@ -175,6 +175,6 @@ char	*remove_quotes(char *str)
 			tmp[i++] = *str;
 		str++;
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (end_remove_quotes(tmp, copy, i));
 }

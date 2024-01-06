@@ -17,7 +17,7 @@
 /// @return			exit status or ERROR
 int	exit_shell(t_script *s)
 {
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	if (s->commands->argc == 1)
 		exit (0);
 	if (s->commands->argc > 2)
@@ -26,7 +26,7 @@ int	exit_shell(t_script *s)
 		{
 			printf("exit\nbash: exit: %s numeric argument required\n", 
 				s->commands->argv[1]);
-			show_func(__func__, SUCCESS);
+			show_func(__func__, SUCCESS, NULL);
 			exit (2);
 		}
 		else
@@ -35,6 +35,6 @@ int	exit_shell(t_script *s)
 			return (1);
 		}
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	exit (ft_atoi(s->commands->argv[1]));
 }

@@ -21,7 +21,7 @@
 /// STILL TESTING 
 // char    **export_cmd(char **arg, char **envp)
 // {   
-//     show_func(__func__, MY_START);
+//     show_func(__func__, MY_START, NULL);
 
 //     int count;
 
@@ -31,7 +31,7 @@
 //retorna o ambiente existente
 //     if (count == 1 || !ft_strrchr(arg[1], (int)'='))
 //     {
-//         show_func(__func__, SUCCESS);
+//         show_func(__func__, SUCCESS, NULL);
 //         printf("Export sem argumentos válidos\n"); // Indicação apenas 
 //para teste, 
 //não aparece no shell
@@ -69,7 +69,7 @@
 //     new_env[i] = NULL; // Define a última entrada como NULL para 
 //indicar o fim do array
 
-//     show_func(__func__, SUCCESS);
+//     show_func(__func__, SUCCESS, NULL);
 //     return new_env;
 // }
 // NOVA VERSAO PARA IMPLEMENTAR ESTRUTURA, COM INDEX
@@ -86,12 +86,12 @@ char	**export_cmd(t_script *s)
 
 	i = 0;
 	j = 1;
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	// Se não houver argumentos ou o argumento não contiver '=', 
 	//retorna o ambiente existente
 	if (s->commands->argc == 1 || !ft_strrchr(s->commands->argv[1], (int) '='))
 	{
-		show_func(__func__, SUCCESS);
+		show_func(__func__, SUCCESS, NULL);
 		return (s->envp);
 	}
 	// Aloca memória para o novo array de strings
@@ -117,6 +117,6 @@ char	**export_cmd(t_script *s)
 	}
 	new_env[i] = NULL; // Define a última entrada como 
 	//						NULL para indicar o fim do array
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (new_env);
 }

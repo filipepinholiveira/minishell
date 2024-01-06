@@ -16,10 +16,10 @@
 /// @param		No parameter required
 void	sig_setter(void)
 {
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, SIG_IGN);
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 }
 
 /// @brief 			Handles signal SIGINT (Ctrl+C) and SIGQUIT (Ctrl+\)
@@ -28,7 +28,7 @@ void	sig_setter(void)
 /// @return			void
 void	sig_handler(int signum)
 {
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	if (signum == SIGQUIT)
 	{
 		write(1, "Quit: 3\n", 8);
@@ -43,7 +43,7 @@ void	sig_handler(int signum)
 		rl_redisplay();
 		g_exit_status = 130;
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 }
 
 /// @brief 			Handles signal SIGINT (Ctrl+C) and SIGQUIT (Ctrl+\)
@@ -52,7 +52,7 @@ void	sig_handler(int signum)
 /// @return			void
 void	sig_handler_fork(int signum)
 {
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	if (signum == SIGQUIT)
 	{
 		write(1, "Quit: 3\n", 8);
@@ -64,7 +64,7 @@ void	sig_handler_fork(int signum)
 		write(1, "\n", 1);
 		rl_on_new_line();
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 }
 
 /// @brief 			Handles the signal SIGINT when in heredoc
@@ -73,8 +73,8 @@ void	sig_handler_fork(int signum)
 /// @return			void
 void	sig_handler_heredoc(int signum)
 {
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	if (signum == SIGINT)
 		exit(130);
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 }
