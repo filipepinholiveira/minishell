@@ -31,11 +31,11 @@ int	arg_count(char **args)
 {
 	int	count;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	count = 0;
 	while (args[count])
 		count++;
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (count);
 }
 
@@ -43,18 +43,18 @@ int	ft_is_str_digit(char *str)
 {
 	int	i;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	i = 0;
 	while (str[i])
 	{
 		if (str[i] < 48 || str[i] > 57)
 		{
-			show_func(__func__, ERROR);
+			show_func(__func__, ERROR, NULL);
 			return (1);
 		}
 		i++;
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }
 
@@ -68,7 +68,7 @@ char	*get_location(char *command)
 	int			directory_length;
 	struct stat	buffer;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	path = getenv("PATH");
 	if (path)
 	{
@@ -86,7 +86,7 @@ char	*get_location(char *command)
 			if (stat(file_path, &buffer) == 0)
 			{
 				free(path_copy);
-				show_func(__func__, SUCCESS);
+				show_func(__func__, SUCCESS, NULL);
 				return (file_path);
 			}
 			else
@@ -100,9 +100,9 @@ char	*get_location(char *command)
 		{
 			return (command);
 		}
-		show_func(__func__, SUCCESS);
+		show_func(__func__, SUCCESS, NULL);
 		return (NULL);
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (NULL);
 }

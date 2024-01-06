@@ -23,7 +23,7 @@ char	**unset_cmd(t_script *s)
 	char	**new_env;
 	int		env_count;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	i = 0;
 	j = 0;
 	env_count = 0;

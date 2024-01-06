@@ -18,12 +18,12 @@
 /// @return			SUCCESS
 int	return_error(const char *msg, int system)
 {
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	ft_putstr_fd("Minishell: ", 2);
 	if (system)
 		perror(msg);
 	else
 		ft_putendl_fd(msg, 2);
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (1);
 }

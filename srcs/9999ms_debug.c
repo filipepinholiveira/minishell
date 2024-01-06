@@ -16,10 +16,13 @@
 /// @param func_name	Name of the function
 /// @param status		Status of the function
 /// @return				Status of the function
-int	show_func(const char *func_name, int status)
+int	show_func(const char *func_name, int status, char *msg)
 {
 	if (MY_DEBUG)
 	{
+		if (!msg)
+			printf("msg is empty!\n");
+		
 		if (status == ERROR)
 			printf ("%s(X)%s %s : ERROR%s\n", SYLW, SRED, func_name, SWHT);
 		else if (status == SUCCESS)
@@ -33,6 +36,9 @@ int	show_func(const char *func_name, int status)
 			printf ("%s(X)%s %s : FILE_ERROR%s\n", SYLW, SRED, func_name, SWHT);
 		else if (status == CHILD_EXIT)
 			printf ("%s(X)%s %s : CHILD_EXIT%s\n", SYLW, SRED, func_name, SWHT);
+		else if (status == EXIT_FAILURE)
+			printf ("%s(X)%s %s : EXIT_FAILURE%s\n", SYLW, SRED, func_name, SWHT);
+		
 	}
 	return (status);
 }

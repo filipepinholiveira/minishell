@@ -21,7 +21,7 @@ int	check_syntax(t_token *head)
 	// t_token	*tmp;
 
 	// tmp = head;
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	if (head && head->type == TOKEN_PIPE)
 		return (return_error("Syntax error", 0));
 	while (head)
@@ -38,7 +38,7 @@ int	check_syntax(t_token *head)
 			return (return_error("Syntax error", 0));
 		head = head->next;
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }
 
@@ -49,7 +49,7 @@ int	check_syntax(t_token *head)
 /// @return			Number of commands
 int	get_cmd_count(t_token *head)
 {
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	int	count;
 
 	count = 0;
@@ -61,7 +61,7 @@ int	get_cmd_count(t_token *head)
 			count ++;
 		head = head->next;
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (count);
 }
 
@@ -73,7 +73,7 @@ void	trim_spaces(t_token *head)
 {
 	char	*tmp;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	while (head)
 	{
 	// if (s)
@@ -85,7 +85,7 @@ void	trim_spaces(t_token *head)
 		free(tmp);
 		head = head->next;
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return ;
 }
 
@@ -100,7 +100,7 @@ void	get_num_args(t_token *head, t_script *script)
 	t_token	*tmp;
 	int		i;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	i = 0;
 	while (i < script->cmd_count)
 	// if (s)
@@ -122,7 +122,7 @@ void	get_num_args(t_token *head, t_script *script)
 			head = head->next;
 		i++;
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return ;
 }
 
@@ -134,7 +134,7 @@ void	set_filenames_null(t_command *commands, int max, t_token *head)
 {
 	int	i;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	i = -1;
 	while (++i < max)
 	{
@@ -147,7 +147,7 @@ void	set_filenames_null(t_command *commands, int max, t_token *head)
 		head->content = remove_quotes(head->content);
 		head = head->next;
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return ;
 }
 
@@ -161,13 +161,13 @@ void	set_filenames_null(t_command *commands, int max, t_token *head)
 /// @return		0 if success, 1 if failure
 int	parse_commands(t_token *head, t_command *cmd, int i, int j)
 {
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	while (head)
 	{
 		cmd[i].argv = malloc(sizeof(char *) * (cmd[i].argc + 1));
 		if (!cmd[i].argv)
 		{
-			show_func(__func__, ERROR);
+			show_func(__func__, ERROR, NULL);
 			return (1);
 		}
 		j = 0;
@@ -178,13 +178,13 @@ int	parse_commands(t_token *head, t_command *cmd, int i, int j)
 			else if (head->type == TOKEN_R_IN && redir(head, &cmd[i].in))
 			{
 				printf("%s : exit 01\n", __func__);
-				show_func(__func__, SUCCESS);
+				show_func(__func__, SUCCESS, NULL);
 				return (free_commands(cmd, i + 1));
 			}
 			else if (head->type == TOKEN_R_OUT && redir(head, &cmd[i].out))
 			{
 				printf("%s : exit 02\n", __func__);
-				show_func(__func__, SUCCESS);
+				show_func(__func__, SUCCESS, NULL);
 				return (free_commands(cmd, i + 1));
 			}
 			if (head->type == TOKEN_R_IN || head->type == TOKEN_R_OUT)
@@ -198,7 +198,7 @@ int	parse_commands(t_token *head, t_command *cmd, int i, int j)
 		i++;
 	}
 	printf("%s : exit 03\n", __func__);
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }
 
@@ -212,7 +212,7 @@ int	redir(t_token *head, t_redirection *file)
 {
 	int		ret;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	if (file->name)
 		free(file->name);
 	if (!head->next || head->next->type != TOKEN_NAME)
@@ -232,7 +232,7 @@ int	redir(t_token *head, t_redirection *file)
 	if (ret == -1)
 		return (return_error(file->name, 1));
 	close(ret);
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }
 
@@ -243,14 +243,14 @@ void	fill_heredoc(t_redirection *file)
 {
 	t_list	*tmp;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	tmp = ft_lstnew(ft_strdup(file->name));
 	if (file->heredoc == NULL)
 		file->heredoc = tmp;
 	else
 		ft_lstadd_back(&file->heredoc, tmp);
 	file->flag = -1;
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 }
 
 /// @brief 				The script parser main function. All parsing starts here
@@ -261,12 +261,12 @@ int	parser(t_script *script, char **line_buffer)
 {
 	t_token	*head;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	head = NULL;
 	*line_buffer = readline("\001\033[1;35m\002\001\033[1;1m\002Minishell > \001\033[0m\002");
 	if (!*line_buffer)
 	{
-		show_func(__func__, MALLOC_ERROR);
+		show_func(__func__, MALLOC_ERROR, NULL);
 		return (2);
 	}
 	add_history(*line_buffer);
@@ -290,10 +290,10 @@ int	parser(t_script *script, char **line_buffer)
 
 	if (parse_commands(head, script->commands, 0, 0))
 	{
-		show_func(__func__, SUCCESS);
+		show_func(__func__, SUCCESS, NULL);
 		return (free_tokens(&head));
 	}
 	free_tokens(&head);
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }

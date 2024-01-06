@@ -19,15 +19,15 @@ int	pwd_print(void)
 {
 	char	s[100];
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	if (getcwd(s, sizeof(s)) == NULL)
 	{
 		perror("getcwd");
-		show_func(__func__, ERROR);
+		show_func(__func__, ERROR, NULL);
 		return (1);
 	}
 	write (STDOUT_FILENO, s, strlen(s));
 	write (STDOUT_FILENO, "\n", 1);
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }

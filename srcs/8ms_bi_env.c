@@ -20,7 +20,7 @@ int	env_print(t_script *s)
 {
 	int	count;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	count = 0;
 	while (s->envp[count] != NULL)
 	{
@@ -28,6 +28,6 @@ int	env_print(t_script *s)
 		write(STDOUT_FILENO, "\n", 1);
 		count++;
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (count);
 }

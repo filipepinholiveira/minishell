@@ -38,7 +38,7 @@ void	execute_do_cmd(char **argv, char **envp, int input_fd, int output_fd)
 		//     printf("Child process exited with status %d\n", 
 		// 			WEXITSTATUS(status));
 		// }
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	child_pid = fork();
 	printf("entrou no fork\n");
 	if (child_pid == -1) 
@@ -87,7 +87,7 @@ void	execute_do_cmd(char **argv, char **envp, int input_fd, int output_fd)
 		//		WEXITSTATUS(status));
 		// }
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 }
 
 /// @brief 		Executa dois comandos em sequência com um pipe entre eles.
@@ -96,48 +96,68 @@ void	execute_do_cmd(char **argv, char **envp, int input_fd, int output_fd)
 /// @return			0 em caso de sucesso, encerra o programa em caso de falha. 
 int	pipex(t_script *s, char **path_env)
 {
-	int		pipe_fd[2];
+	show_func(__func__, MY_START, NULL);
+	int		p[2];
 	pid_t	child_pid;
-
-	show_func(__func__, MY_START);
-	if (pipe(pipe_fd) == -1)
+	int 	i;
+	
+	i = 1;
+	if (pipe(p) == -1)
 	{
 		perror("pipe");
-		show_func(__func__, ERROR);
+		show_func(__func__, EXIT_FAILURE, NULL);
 		exit(EXIT_FAILURE);
 	}
 	child_pid = fork();
 	if (child_pid == -1)
 	{
 		perror("fork");
-		show_func(__func__, ERROR);
+		show_func(__func__, ERROR, NULL);
 		exit(EXIT_FAILURE);
 	}
 	else if (child_pid == 0)
 	{
 		// Processo filho
 		printf("Executa o primeiro comando child\n");
-		close(pipe_fd[0]); // Fecha a extremidade de leitura do pipe
+		//close(pipe_fd[0]); // Fecha a extremidade de leitura do pipe
 		// Redireciona stdout para a extremidade de escrita do pipe
 		//dup2(pipe_fd[1], STDOUT_FILENO);
-		printf("Executa o primeiro comando child 2\n");
+		//printf("Executa o primeiro comando child 2\n");
 
-		int i = 0;
-		while(s->commands[i].argv)
+		while(i <= s->cmd_count)
 		{
 			int j = 0;
+			if (i == 1)
+			{
+				//first command
+				close(p[0]);
+				execute_do_cmd_1(s->commands[i-1].argv, path_env, p[1]);
+			}
+			else if (i == s->cmd_count)
+			{
+				//last command
+				close(p[1]);
+				execute_do_cmd_n(s->commands[i-1].argv, path_env, p[0], STDOUT_FILENO);
+				close(p[0]);
+			}
+			else
+			{
+				dup2(p[0], STDIN_FILENO);
+				dup2(p[1], STDOUT_FILENO);
+				execute_do_cmd_i(s->commands[i-1].argv, path_env, STDIN_FILENO, p[1]);
+				// inbetween commands
+			}
 			while (s->commands[i].argv[j])
 			{
-				execute_do_cmd(s->commands[i].argv, path_env, 
-			STDIN_FILENO, pipe_fd[1]);
-			i++;
+				execute_do_cmd(s->commands[i-1].argv, path_env, STDIN_FILENO, p[1]);
+				i++;
 			}
 		}
 		// execute_do_cmd(s->commands[i].argv, path_env, 
 		// 	STDIN_FILENO, pipe_fd[1]);
-		close(pipe_fd[1]); // Fecha a extremidade de escrita do pipe
+		close(p[1]); // Fecha a extremidade de escrita do pipe
 		printf("Executa o primeiro comando child 3\n");
-		show_func(__func__, CHILD_EXIT);
+		show_func(__func__, CHILD_EXIT, NULL);
 		exit(EXIT_SUCCESS);
 	}
 	else 
@@ -153,7 +173,7 @@ int	pipex(t_script *s, char **path_env)
 		// // Aguarda o processo filho terminar
 		wait(NULL);
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }
 
@@ -170,7 +190,7 @@ char	**split_path(char **path, char delimiter)
 	char	*current;
 	char	**result;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	// Encontrar o número total de segmentos
 	i = 0;
 	count = 0;
@@ -218,6 +238,6 @@ char	**split_path(char **path, char delimiter)
 	}
 	// Adiciona NULL para indicar o final do novo array
 	result[j] = NULL;
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (result);
 }

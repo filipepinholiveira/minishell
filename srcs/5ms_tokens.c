@@ -21,7 +21,7 @@ void	remove_blank_tokens(t_token *head)
 {
 	t_token	*tmp;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	while (head)
 	{
 		if (head->type != TOKEN_PIPE && head->next && !head->next->content[0])
@@ -34,7 +34,7 @@ void	remove_blank_tokens(t_token *head)
 		else
 			head = head->next;
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 }
 
 /// @brief 				Creates a new token
@@ -46,7 +46,7 @@ t_token	*create_token(const char *string, int size, t_token_type type)
 {
 	t_token	*token;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	token = (t_token *)malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
@@ -54,7 +54,7 @@ t_token	*create_token(const char *string, int size, t_token_type type)
 	token->size = size;
 	token->type = type;
 	token->next = NULL;
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (token);
 }
 
@@ -65,7 +65,7 @@ void	add_token(t_token **head, t_token *new)
 {
 	t_token	*tmp;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	if (!head || !new)
 		return ;
 	if (!*head)
@@ -77,7 +77,7 @@ void	add_token(t_token **head, t_token *new)
 			tmp = tmp->next;
 		tmp->next = new;
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 }
 
 /// @brief 			Searches for a token type by token char set
@@ -90,7 +90,7 @@ t_ops	search_token_type(const char *s)
 	t_ops	blank;
 	int		i;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	blank = (t_ops){0, 0, 0};
 	ex_ops[0] = (t_ops){">>", 2, TOKEN_R_OUT};
 	ex_ops[1] = (t_ops){"<<", 2, TOKEN_R_IN};
@@ -113,11 +113,11 @@ t_ops	search_token_type(const char *s)
 	{
 		if (!ft_strncmp(s, ex_ops[i].op, ex_ops[i].size))
 		{
-			show_func(__func__, SUCCESS);
+			show_func(__func__, SUCCESS, NULL);
 			return (ex_ops[i]);
 		}
 	}
-	show_func(__func__, ERROR);
+	show_func(__func__, ERROR, NULL);
 	return (blank);
 }
 
@@ -130,7 +130,7 @@ int	token_getter(char *str, t_token **head)
 	t_ops	curr;
 	char	*prev;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	prev = str;
 	while (str && *str)
 	{
@@ -146,7 +146,7 @@ int	token_getter(char *str, t_token **head)
 		}
 		else if ((*str == '\"' || *str == '\'') && !treat_quotes(&str))
 		{
-			show_func(__func__, ERROR);
+			show_func(__func__, ERROR, NULL);
 			return (0);
 		}
 		else
@@ -154,7 +154,7 @@ int	token_getter(char *str, t_token **head)
 	}
 	if (prev != str)
 		add_token(head, create_token(prev, str - prev, TOKEN_NAME));
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (1);
 }
 
@@ -168,10 +168,10 @@ int	tokenize(char **line, t_token **head, t_script *script)
 	t_token	*tmp;
 	char	*bis;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	if (!token_getter(*line, head))
 	{
-		show_func(__func__, ERROR);
+		show_func(__func__, ERROR, NULL);
 		return (return_error("Syntax Error", 0));
 	}
 	tmp = *head;
@@ -182,6 +182,6 @@ int	tokenize(char **line, t_token **head, t_script *script)
 		free(bis);
 		tmp = tmp->next;
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }

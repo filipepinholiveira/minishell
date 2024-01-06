@@ -539,6 +539,6 @@ int		free_commands(t_command *cmd, int cmd_idx);
 /// @param func_name	Name of the function
 /// @param status		Status of the function
 /// @return				Status of the function
-int		show_func(const char *func_name, int status);
+int		show_func(const char *func_name, int status, char *msg);
 
 #endif

@@ -18,7 +18,7 @@ void	free_envp(char **my_envp)
 {
 	int	i;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	i = 0;
 	while (my_envp[i])
 	{
@@ -26,7 +26,7 @@ void	free_envp(char **my_envp)
 		i++;
 	}
 	free(my_envp);
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 }
 
 /// @brief 			Frees the content of a split string
@@ -35,7 +35,7 @@ void	free_split(char **split)
 {
 	int	i;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	i = 0;
 	while (split[i])
 	{
@@ -43,7 +43,7 @@ void	free_split(char **split)
 		i++;
 	}
 	free(split);
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 }
 
 /// @brief 		Frees the token list
@@ -53,7 +53,7 @@ int	free_tokens(t_token **head)
 {
 	t_token	*tmp;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	while (*head)
 	{
 		tmp = (*head)->next;
@@ -61,7 +61,7 @@ int	free_tokens(t_token **head)
 		free(*head);
 		*head = tmp;
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (1);
 }
 
@@ -74,7 +74,7 @@ int	free_commands(t_command *cmd, int cmd_idx)
 	int	i;
 	int	j;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	i = -1;
 	while (++i < cmd_idx)
 	{
@@ -91,6 +91,6 @@ int	free_commands(t_command *cmd, int cmd_idx)
 		free(cmd[i].argv);
 	}
 	free(cmd);
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (1);
 }

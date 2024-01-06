@@ -19,7 +19,7 @@ static void	execute_show(t_script *s)
 
 	i = -1;
 	j = -1;
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	printf("s->com_count: %i\n", s->cmd_count);
 	while (++j < s->cmd_count)
 	{
@@ -40,7 +40,7 @@ static void	execute_show(t_script *s)
 		i = -1;
 	}
 	printf("\n");
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return ;
 }
 
@@ -49,7 +49,7 @@ int	execute_do(t_script *s)
 	pid_t	child_pid;
 	char	*cmd_path;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	if (ft_strncmp(s->commands[0].argv[0], "echo", 5) == 0)
 		//echo_print(s->commands[0].argv);
 		echo_print(s);
@@ -102,7 +102,7 @@ int	execute_do(t_script *s)
 		else
 			wait(NULL);
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }
 
@@ -110,7 +110,7 @@ int	execute_do(t_script *s)
 /// @param s 	Script contents
 int	execute(t_script *s)
 {
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	char	**path_env;
 	
 	execute_show(s);
@@ -119,7 +119,7 @@ int	execute(t_script *s)
 	{
 		if (execute_do(s))
 		{
-			show_func(__func__, SUCCESS);
+			show_func(__func__, SUCCESS, NULL);
 			return (1);
 		}
 	}
@@ -128,7 +128,7 @@ int	execute(t_script *s)
 			return (1);
 	//execute_do(s);
 	//termios_setter(&s->termios_p);
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);
 }
 
@@ -166,7 +166,7 @@ int	execute(t_script *s)
 		else if (chil	// t_token	*tmp;
 
 	// tmp = head;
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	if (head && head->type == TOKEN_PIPE)
 		return (return_error("Syntax error", 0));
 	while (head)
@@ -183,7 +183,7 @@ int	execute(t_script *s)
 			return (return_error("Syntax error", 0));
 		head = head->next;
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }
 
@@ -194,7 +194,7 @@ int	execute(t_script *s)
 /// @return			Number of commands
 int	get_cmd_count(t_token *head)
 {
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	int	count;
 
 	count = 0;
@@ -206,7 +206,7 @@ int	get_cmd_count(t_token *head)
 			count ++;
 		head = head->next;
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (count);
 }
 
@@ -218,7 +218,7 @@ void	trim_spaces(t_token *head)
 {
 	char	*tmp;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	while (head)
 	{
 	// if (s)
@@ -230,7 +230,7 @@ void	trim_spaces(t_token *head)
 		free(tmp);
 		head = head->next;
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return ;
 }
 
@@ -245,7 +245,7 @@ void	get_num_args(t_token *head, t_script *script)
 	t_token	*tmp;
 	int		i;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	i = 0;
 	while (i < script->cmd_count)
 	// if (s)
@@ -267,7 +267,7 @@ void	get_num_args(t_token *head, t_script *script)
 			head = head->next;
 		i++;
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return ;
 }
 
@@ -279,7 +279,7 @@ void	set_filenames_null(t_command *commands, int max, t_token *head)
 {
 	int	i;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	i = -1;
 	while (++i < max)
 	{
@@ -292,7 +292,7 @@ void	set_filenames_null(t_command *commands, int max, t_token *head)
 		head->content = remove_quotes(head->content);
 		head = head->next;
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return ;
 }
 
@@ -306,13 +306,13 @@ void	set_filenames_null(t_command *commands, int max, t_token *head)
 /// @return		0 if success, 1 if failure
 int	parse_commands(t_token *head, t_command *cmd, int i, int j)
 {
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	while (head)
 	{
 		cmd[i].argv = malloc(sizeof(char *) * (cmd[i].argc + 1));
 		if (!cmd[i].argv)
 		{
-			show_func(__func__, ERROR);
+			show_func(__func__, ERROR, NULL);
 			return (1);
 		}
 		j = 0;
@@ -323,13 +323,13 @@ int	parse_commands(t_token *head, t_command *cmd, int i, int j)
 			else if (head->type == TOKEN_R_IN && redir(head, &cmd[i].in))
 			{
 				printf("%s : exit 01\n", __func__);
-				show_func(__func__, SUCCESS);
+				show_func(__func__, SUCCESS, NULL);
 				return (free_commands(cmd, i + 1));
 			}
 			else if (head->type == TOKEN_R_OUT && redir(head, &cmd[i].out))
 			{
 				printf("%s : exit 02\n", __func__);
-				show_func(__func__, SUCCESS);
+				show_func(__func__, SUCCESS, NULL);
 				return (free_commands(cmd, i + 1));
 			}
 			if (head->type == TOKEN_R_IN || head->type == TOKEN_R_OUT)
@@ -343,7 +343,7 @@ int	parse_commands(t_token *head, t_command *cmd, int i, int j)
 		i++;
 	}
 	printf("%s : exit 03\n", __func__);
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }
 
@@ -357,7 +357,7 @@ int	redir(t_token *head, t_redirection *file)
 {
 	int		ret;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	if (file->name)
 		free(file->name);
 	if (!head->next || head->next->type != TOKEN_NAME)
@@ -377,7 +377,7 @@ int	redir(t_token *head, t_redirection *file)
 	if (ret == -1)
 		return (return_error(file->name, 1));
 	close(ret);
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }d_pid == 0)
 		{

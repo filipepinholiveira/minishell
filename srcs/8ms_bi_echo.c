@@ -19,7 +19,7 @@ int	echo_print(t_script *s)
 {
 	int	i;
 
-	show_func(__func__, MY_START);
+	show_func(__func__, MY_START, NULL);
 	if (s->commands->argc == 1)
 		printf("\n");
 	else if ((s->commands->argc == 2) && (strcmp(s->commands->argv[1], 
@@ -52,6 +52,6 @@ int	echo_print(t_script *s)
 		}
 		write (1, "\n", 1);
 	}
-	show_func(__func__, SUCCESS);
+	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }
