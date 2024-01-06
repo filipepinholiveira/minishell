@@ -180,7 +180,7 @@ char	**split_path(char **path, char delimiter)
 		{
 			if (*current == delimiter)
 			{
-				result[j] = strndup(path[i] + start, current - path[i] - start);
+				result[j] = ft_strdup(path[i] + start);
 				if (result[j] == NULL)
 					return (NULL);
 				j++;
@@ -189,7 +189,7 @@ char	**split_path(char **path, char delimiter)
 			current++;
 		}
 		// Adiciona o último segmento
-		result[j] = strdup(path[i] + start);
+		result[j] = ft_strdup(path[i] + start);
 		if (result[j] == NULL)
 			return (NULL);
 		j++;
