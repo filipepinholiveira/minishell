@@ -98,9 +98,14 @@ int	pipex(t_script *s, char **path_env)
 {
 	show_func(__func__, MY_START, NULL);
 	int		p[2];
+	/*
+	p[0] -> read
+	p[1] -> write
+	*/
 	pid_t	child_pid;
 	int 	i;
-	
+
+	signal(SIGINT, sig_handler_fork);
 	i = 1;
 	if (pipe(p) == -1)
 	{
@@ -131,12 +136,13 @@ int	pipex(t_script *s, char **path_env)
 			{
 				//first command
 				close(p[0]);
-				execute_do_cmd_1(s->commands[i-1].argv, path_env, p[1]);
+				execute_do_cmd_1(s->commands[i-1].argv, path_env, p[1]); // nao e preciso STDOUT_FILENO ???? Filipe 8 jan
+				close(p[1]); // Filipe 8 jan
 			}
 			else if (i == s->cmd_count)
 			{
 				//last command
-				close(p[1]);
+				close(p[1]); // podemos fechar? nao temos que fazer write no final para o fd? Filipe 8 jan
 				execute_do_cmd_n(s->commands[i-1].argv, path_env, p[0], STDOUT_FILENO);
 				close(p[0]);
 			}
@@ -162,6 +168,22 @@ int	pipex(t_script *s, char **path_env)
 	}
 	else 
 	{
+		/* no caso de ls -lap | grep mini nao sera aqui que e executado o ls? ao executar o pipex, é criado um child process e mantem se o parent tambem
+		e se calhar executamos os child (if child_pid = 0), e no final executamos aqui o ls, e saimos para o minishell que é outro processo parent
+		
+		uma coisa util quando ha varios child a serem criados no caso de multi fork é garantir que nao ha nenhum parent a terminar antes de todos os child e 
+		podemos fazer a seguinte verificaçao
+
+		while(wait(NULL) != -1 || errno != ECHILD)
+			printf("Waited for a child to finish\n"); explicado em:
+
+			https://www.youtube.com/watch?v=94URLRsjqMQ
+		
+		-----------------------------------------------------------------------------------------------------------Filipe 8 jan */
+
+
+
+
 		// Processo pai
 		// close(pipe_fd[1]); // Fecha a extremidade de escrita do pipe
 		// // Redireciona stdin para a extremidade de leitura do pipe
