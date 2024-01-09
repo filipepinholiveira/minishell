@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 12:38:24 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/12/13 23:14:51 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/09 18:29:35 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /// @brief		Signal processing functions setter
 /// @param		No parameter required
-void	sig_setter(void)
+void	signal_setter(void)
 {
 	show_func(__func__, MY_START, NULL);
 	signal(SIGINT, sig_handler);

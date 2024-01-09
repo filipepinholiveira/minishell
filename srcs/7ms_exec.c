@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 09:55:51 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/09 00:21:48 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/09 18:03:09 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	get_cmd_type(char *cmd)
 		return (CMD_EXEC);
 }
 
-int	exec_bi(t_script *s, int bi_func)
+int	exec_bi(t_script *s, int bi_func, int i)
 {
 	show_func(__func__, MY_START, NULL);
 	if (bi_func == CMD_ECHO)
@@ -76,7 +76,7 @@ int	exec_bi(t_script *s, int bi_func)
 	else if (bi_func == CMD_PWD)
 		g_exit_status = bi_pwd_print(s->envp);
 	else if (bi_func == CMD_EXPORT)
-		s->envp = export_cmd(s);
+		g_exit_status = bi_export(s, s->commands[i]);
 	else if (bi_func == CMD_UNSET)
 		s->envp = unset_cmd(s);
 	else if (bi_func == CMD_ENV)
@@ -98,7 +98,7 @@ int	exec_one(t_script *s)
 
 	if (cmd_type != CMD_EXEC)
 	{
-		exec_bi(s, cmd_type);
+		exec_bi(s, cmd_type, 0);
 	}
 	else
 	{

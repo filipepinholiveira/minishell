@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/09 12:53:15 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/09 18:42:57 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ void	termios_setter(struct termios *termios_p);
 /// @param script		Script structure (see minishell struct)
 /// @param line_buffer	Line buffer
 /// @return				void
-int		ms_loop(t_script *script, char **line_buffer);
+/// static int	ms_loop(t_script *script);
 
 /* ************************************************************************** */
 ///	signal.c
@@ -173,7 +173,7 @@ int		ms_loop(t_script *script, char **line_buffer);
 
 /// @brief 		Signal processing functions setter
 /// @param  	No parameter required
-void	sig_setter(void);
+void	signal_setter(void);
 
 /// @brief 			Handles signal SIGINT (Ctrl+C) and SIGQUIT (Ctrl+\)
 ///					Instead of exiting, the sig handler provides a new line
@@ -472,7 +472,8 @@ int		env_count(char **envp);
 /// @param env      environment variables lis
 /// @return         new env list
 /// STILL TESTING
-char	**export_cmd(t_script *s);
+int		bi_export(t_script *s, t_command commands);
+//char	**export_cmd(t_script *s);
 
 /// @brief 			Builtin cd command
 /// @param args		Builtin command arguments
@@ -504,7 +505,7 @@ int		exit_shell(t_script *s);
 /// @brief 			Builtin pwd command
 /// @param void		Builtin command arguments not required
 /// @return			SUCCESS or ERROR
-int	bi_pwd_print(char **envp);
+int		bi_pwd_print(char **envp);
 //int		bi_pwd_print(void);
 
 /// @brief 			Builtin unset command

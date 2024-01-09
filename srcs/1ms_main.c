@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:27:05 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/09 12:02:02 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/09 18:40:46 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ int	g_exit_status;
 /// @return 	array copy of system environment variables
 char	**envp_getter(char **envp)
 {
+	show_func(__func__, MY_START, envp[0]);
 	char	**ms_envp;
 	int		i;
 
-	show_func(__func__, MY_START, NULL);
 	i = 0;
 	while (envp[i])
 		i++;
@@ -102,33 +102,36 @@ void	termios_setter(struct termios *termios_p)
 /// @param script		Script structure (see minishell struct)
 /// @param line_buffer	Line buffer
 /// @return				void
-int	ms_loop(t_script *script, char **line_buffer)
+//int	ms_loop(t_script *s, char **line_buffer)
+static int	ms_loop(t_script *s)
 {
-	int	result;
-
 	show_func(__func__, MY_START, NULL);
+	int		status;
+	char	*line_buffer;
+
+	line_buffer = NULL;
 	while (1)
 	{
-		script->cmd_count = 0;
-		sig_setter();
-		result = parser(script, line_buffer);
-		ft_free_str(line_buffer);
-		if (result == 1)
+		s->cmd_count = 0;
+		signal_setter();
+		status = parser(s, &line_buffer);
+		ft_free_str(&line_buffer);
+		if (status == 1)
 			continue ;
-		else if (result == 2)
+		else if (status == 2)
 		{
 			ft_putendl_fd("exit", 2);
 			break ;
 		}
-		if (script->cmd_count > 0)
+		if (s->cmd_count > 0)
 		{
-			if (execute(script))
+			if (execute(s))
 				break ;
 		}
-		free_commands(script->commands, script->cmd_count);
+		free_commands(s->commands, s->cmd_count);
 	}
-	if (script->cmd_count > 0)
-		free_commands(script->commands, script->cmd_count);
+	if (s->cmd_count > 0)
+		free_commands(s->commands, s->cmd_count);
 	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }
@@ -142,14 +145,15 @@ int	main(int argc, char **argv, char **envp)
 {
 	show_func(__func__, MY_START, NULL);
 	t_script	s;
-	char		*line_buffer;
+	//char		*line_buffer;
 
-	line_buffer = NULL;
+	//line_buffer = NULL;
 	(void)argc;
 	(void)argv;
 	s.envp = envp_getter(envp);
 	termios_getter(&s.termios_p);
-	ms_loop(&s, &line_buffer);
+	//ms_loop(&s, &line_buffer);
+	ms_loop(&s);//, &line_buffer);
 	free_envp(s.envp);
 	show_func(__func__, SUCCESS, NULL);
 	return (0);

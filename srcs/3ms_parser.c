@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:28:14 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/09 11:55:52 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/09 18:52:31 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,7 +261,6 @@ int	parser(t_script *s, char **line_buffer)
 	show_func(__func__, MY_START, NULL);
 	head = NULL;
 	*line_buffer = readline("\001\033[1;94m\002 Minishell > \001\033[0m\002");
-	//*line_buffer = readline("\001\033[1;35m\002\001\033[1;1m\002Minishell > \001\033[0m\002");
 	if (!*line_buffer)
 	{
 		show_func(__func__, MALLOC_ERROR, NULL);
