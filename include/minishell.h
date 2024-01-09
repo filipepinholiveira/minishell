@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/02 15:46:50 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2024/01/09 00:06:51 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 # include "../include/colors.h"
 # include "../include/debug.h"
 
+# define MAX_PATH_LEN 4096
+
 extern int	g_exit_status;
 
 /* ************************************************************************** */
@@ -52,6 +54,18 @@ typedef enum e_token_type
 	TOKEN_NAME
 }			t_token_type;
 
+typedef enum e_cmd_type
+{
+	CMD_EXEC,
+	CMD_ECHO,
+	CMD_CD,
+	CMD_PWD,
+	CMD_EXPORT,
+	CMD_UNSET,
+	CMD_ENV,
+	CMD_EXIT
+}			t_cmd_type;
+
 /// @brief 				Struct to hold the token variables (see t_token_type)
 /// @param op			Token char set
 /// @param size			Token char set length
@@ -62,6 +76,14 @@ typedef struct s_operations
 	int				size;
 	t_token_type	type;
 }				t_ops;
+
+typedef struct s_debug_msg
+{
+	const char		*msg;
+	int				status;
+	int				len;
+	const char		*msg_header;
+}				t_debug_msg;
 
 /// @brief 				Struct to hold the token variables
 /// @param content		Token content
@@ -384,14 +406,14 @@ char	*replace_multiple_space(char *str);
 /// @param str	Variable to be found
 /// @param envp	Environment variables
 /// @return		Content of the variable
-char	*get_env_content(char *str, char **envp);
+char	*get_env_ms(char *str, char **envp);
 
 /* ************************************************************************** */
 ///	ms_exec.c
 /* ************************************************************************** */
 
 // int main(int ac, char **av, char **envp)
-int		execute_do(t_script *s);
+int		exec_one(t_script *s);
 
 /// @brief 			Script exec function
 /// @param script 	Script contents
@@ -403,27 +425,28 @@ int		execute(t_script *script);
 
 /// @brief 				Executa um comando em um processo filho.
 /// @param argv			Array de strings contendo os argumentos do comando
-///             		com o nome do comando na primeira posição. 
-/// @param envp			Array de strings representando variáveis de ambiente. 
-/// @param input_fd		O descritor de arquivo para a entrada padrão (stdin) 
-///do processo filho. Pode ser STDIN_FILENO 
+///             		com o nome do comando na primeira posição.
+/// @param envp			Array de strings representando variáveis de ambiente.
+/// @param input_fd		O descritor de arquivo para a entrada padrão (stdin)
+///do processo filho. Pode ser STDIN_FILENO
 ///ou um descritor de arquivo de um pipe.
-/// @param ouput_fd		O descritor de arquivo para a saída padrão (stdout) 
-/// do processo filho. Pode ser STDOUT_FILENO 
+/// @param ouput_fd		O descritor de arquivo para a saída padrão (stdout)
+/// do processo filho. Pode ser STDOUT_FILENO
 ///ou um descritor de arquivo de um pipe.
 void	execute_do_cmd(char **argv, char **envp, int input_fd, int output_fd);
 
 /// @brief 			Executa dois comandos em sequência com um pipe entre eles.
 /// @param s		Estrutura contendo informações cmd a serem executados.
 /// @param path_env		Array de strings representando o caminho do ambiente.
-/// @return			0 em caso de sucesso, encerra o programa em caso de falha. 
+/// @return			0 em caso de sucesso, encerra o programa em caso de falha.
 int		pipex(t_script *s, char **path_env);
 
 /// @brief 			Splits a string into an array of strings using delimiter.
 /// @param path 		String to be splited
 /// @param delimiter 	character used as delimiter
 /// @return 			String array containing splited string
-char	**split_path(char **path, char delimiter);
+//char	**split_path(char **path, char delimiter);
+char	**split_path(char **path);
 
 /* ************************************************************************** */
 ///	ms_error.c
@@ -452,8 +475,8 @@ char	**unset_cmd(t_script *s);
 int		env_count(char **envp);
 
 /// @brief          add new environment variable to env
-/// @param arg      new env variable to add 
-/// @param env      environment variables lis 
+/// @param arg      new env variable to add
+/// @param env      environment variables lis
 /// @return         new env list
 /// STILL TESTING
 char	**export_cmd(t_script *s);
@@ -461,14 +484,16 @@ char	**export_cmd(t_script *s);
 /// @brief 			Builtin cd command
 /// @param args		Builtin command arguments
 /// @return			SUCCESS or ERROR
-//int		cd_cmd(char **args);
-int		cd_cmd(t_script *s);
+//int		bi_cd_cmd(char **args);
+int		bi_cd_cmd(t_command commands, char **envp);
+//int		bi_cd_cmd(t_script *s);
 
 /// @brief 			Builtin echo command
 /// @param args		Builtin command arguments
 /// @return			SUCCESS or ERROR
-//int		echo_print(char **args);
-int		echo_print(t_script *s);
+//int		bi_echo_print(char **args);
+int		bi_echo_print(t_command command);
+/// ******** int		bi_echo_print(t_script *s);
 
 /// @brief 			Builtin env command
 /// @param args		Builtin command arguments
@@ -486,7 +511,8 @@ int		exit_shell(t_script *s);
 /// @brief 			Builtin pwd command
 /// @param void		Builtin command arguments not required
 /// @return			SUCCESS or ERROR
-int		pwd_print(void);
+int	bi_pwd_print(char **envp);
+//int		bi_pwd_print(void);
 
 /// @brief 			Builtin unset command
 /// @param args		Builtin command arguments

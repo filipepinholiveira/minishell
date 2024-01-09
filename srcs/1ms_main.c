@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   1ms_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:27:05 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/04 13:13:14 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2024/01/09 12:02:02 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,16 +141,16 @@ int	ms_loop(t_script *script, char **line_buffer)
 int	main(int argc, char **argv, char **envp)
 {
 	show_func(__func__, MY_START, NULL);
-	t_script	script;
+	t_script	s;
 	char		*line_buffer;
 
 	line_buffer = NULL;
 	(void)argc;
 	(void)argv;
-	script.envp = envp_getter(envp);
-	termios_getter(&script.termios_p);
-	ms_loop(&script, &line_buffer);
-	free_envp(script.envp);
+	s.envp = envp_getter(envp);
+	termios_getter(&s.termios_p);
+	ms_loop(&s, &line_buffer);
+	free_envp(s.envp);
 	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   3ms_parser.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:28:14 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/04 10:11:59 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2024/01/09 11:55:52 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ int	parse_commands(t_token *head, t_command *cmd, int i, int j)
 		cmd[i].argv = malloc(sizeof(char *) * (cmd[i].argc + 1));
 		if (!cmd[i].argv)
 		{
-			show_func(__func__, ERROR, NULL);
+			show_func(__func__, MALLOC_ERROR, "!cmd[i].argv");
 			return (1);
 		}
 		j = 0;
@@ -177,14 +177,12 @@ int	parse_commands(t_token *head, t_command *cmd, int i, int j)
 				cmd[i].argv[j++] = ft_strdup(head->content);
 			else if (head->type == TOKEN_R_IN && redir(head, &cmd[i].in))
 			{
-				printf("%s : exit 01\n", __func__);
-				show_func(__func__, SUCCESS, NULL);
+				show_func(__func__, SUCCESS, "01");
 				return (free_commands(cmd, i + 1));
 			}
 			else if (head->type == TOKEN_R_OUT && redir(head, &cmd[i].out))
 			{
-				printf("%s : exit 02\n", __func__);
-				show_func(__func__, SUCCESS, NULL);
+				show_func(__func__, SUCCESS, "02");
 				return (free_commands(cmd, i + 1));
 			}
 			if (head->type == TOKEN_R_IN || head->type == TOKEN_R_OUT)
@@ -197,8 +195,7 @@ int	parse_commands(t_token *head, t_command *cmd, int i, int j)
 		cmd[i].argv[j] = NULL;
 		i++;
 	}
-	printf("%s : exit 03\n", __func__);
-	show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, "03");
 	return (0);
 }
 
@@ -257,38 +254,34 @@ void	fill_heredoc(t_redirection *file)
 /// @param script		The script pointer
 /// @param line_buffer	The line buffer to parse
 /// @return
-int	parser(t_script *script, char **line_buffer)
+int	parser(t_script *s, char **line_buffer)
 {
 	t_token	*head;
 
 	show_func(__func__, MY_START, NULL);
 	head = NULL;
-	*line_buffer = readline("\001\033[1;35m\002\001\033[1;1m\002Minishell > \001\033[0m\002");
+	*line_buffer = readline("\001\033[1;94m\002 Minishell > \001\033[0m\002");
+	//*line_buffer = readline("\001\033[1;35m\002\001\033[1;1m\002Minishell > \001\033[0m\002");
 	if (!*line_buffer)
 	{
 		show_func(__func__, MALLOC_ERROR, NULL);
 		return (2);
 	}
 	add_history(*line_buffer);
-	/********************************
-	printf("(>) %s : line buffer = %s\n",__func__, *line_buffer);
-	if (!ft_strncmp(*line_buffer, "exit", 5))
-		exit(0);
-	********************************/
-	if (tokenize(line_buffer, &head, script))
+	if (tokenize(line_buffer, &head, s))
 		return (free_tokens(&head));
 	remove_blank_tokens(head);
 	if (check_syntax(head))
 		return (free_tokens(&head));
-	script->cmd_count = get_cmd_count(head);
-	script->commands = malloc(sizeof(t_command) * script->cmd_count);
-	if (!script->commands || script->cmd_count <= 0)
+	s->cmd_count = get_cmd_count(head);
+	s->commands = malloc(sizeof(t_command) * s->cmd_count);
+	if (!s->commands || s->cmd_count <= 0)
 		return (free_tokens(&head));
 	trim_spaces(head);
-	get_num_args(head, script);
-	set_filenames_null(script->commands, script->cmd_count, head);
+	get_num_args(head, s);
+	set_filenames_null(s->commands, s->cmd_count, head);
 
-	if (parse_commands(head, script->commands, 0, 0))
+	if (parse_commands(head, s->commands, 0, 0))
 	{
 		show_func(__func__, SUCCESS, NULL);
 		return (free_tokens(&head));

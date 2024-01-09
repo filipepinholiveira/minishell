@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   7ms_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 09:55:51 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/04 11:10:21 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2024/01/09 00:21:48 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,16 @@ static void	execute_show(t_script *s)
 		printf("\n");
 		while (++i < s->commands[j].argc)
 		{
-			printf("# s->commands[%i].argv[%i]: %s\n", 
+			printf("# s->commands[%i].argv[%i]: %s\n",
 				j, i, s->commands[j].argv[i]);
 		}
 		printf("  s->commands[%i].out.name: %s\n", j, s->commands[j].out.name);
 		printf("  s->commands[%i].out.flag: %d\n", j, s->commands[j].out.flag);
-		printf("  s->commands[%i].out->heredoc: %p\n", 
+		printf("  s->commands[%i].out->heredoc: %p\n",
 			j, s->commands[j].out.heredoc);
 		printf("  s->commands[%i].in.name: %s\n", j, s->commands[j].in.name);
 		printf("  s->commands[%i].in.flag: %d\n", j, s->commands[j].in.flag);
-		printf("  s->commands[%i].in->heredoc: %p\n", 
+		printf("  s->commands[%i].in->heredoc: %p\n",
 			j, s->commands[j].in.heredoc);
 		i = -1;
 	}
@@ -44,36 +44,62 @@ static void	execute_show(t_script *s)
 	return ;
 }
 
-int	execute_do(t_script *s)
+
+int	get_cmd_type(char *cmd)
+{
+	show_func(__func__, MY_START, NULL);
+	if (ft_strncmp(cmd, "echo", 5) == SUCCESS)
+		return (CMD_ECHO);
+	else if (ft_strncmp(cmd, "cd", 3) == SUCCESS)
+		return (CMD_CD);
+	else if (ft_strncmp(cmd, "pwd", 4) == SUCCESS)
+		return (CMD_PWD);
+	else if (ft_strncmp(cmd, "export", 7) == SUCCESS)
+		return (CMD_EXPORT);
+	else if (ft_strncmp(cmd, "unset", 6) == SUCCESS)
+		return (CMD_UNSET);
+	else if (ft_strncmp(cmd, "env", 4) == SUCCESS)
+		return (CMD_ENV);
+	else if (ft_strncmp(cmd, "exit", 5) == SUCCESS)
+		return (CMD_EXIT);
+	else
+		return (CMD_EXEC);
+}
+
+int	exec_bi(t_script *s, int bi_func)
+{
+	show_func(__func__, MY_START, NULL);
+	if (bi_func == CMD_ECHO)
+		g_exit_status = bi_echo_print(*s->commands);
+	else if (bi_func == CMD_CD)
+		g_exit_status = bi_cd_cmd(*s->commands, s->envp);
+	else if (bi_func == CMD_PWD)
+		g_exit_status = bi_pwd_print(s->envp);
+	else if (bi_func == CMD_EXPORT)
+		s->envp = export_cmd(s);
+	else if (bi_func == CMD_UNSET)
+		s->envp = unset_cmd(s);
+	else if (bi_func == CMD_ENV)
+		env_print(s);
+	else if (bi_func == CMD_EXIT)
+		exit_shell(s);
+	show_func(__func__, SUCCESS, NULL);
+	return (0);
+}
+int	exec_one(t_script *s)
 {
 	pid_t	child_pid;
 	char	*cmd_path;
+	int		cmd_type;
 
 	show_func(__func__, MY_START, NULL);
-	if (ft_strncmp(s->commands[0].argv[0], "echo", 5) == 0)
-		//echo_print(s->commands[0].argv);
-		echo_print(s);
-	else if (ft_strncmp(s->commands[0].argv[0], "cd", 3) == 0)
-		//cd_cmd(s->commands[0].argv);
-		cd_cmd(s);
-	else if (ft_strncmp(s->commands[0].argv[0], "pwd", 4) == 0)
-		pwd_print();
-	else if (ft_strncmp(s->commands[0].argv[0], "export", 7) == 0)
+
+	cmd_type = get_cmd_type(s->commands[0].argv[0]);
+
+	if (cmd_type != CMD_EXEC)
 	{
-		//s->envp = export_cmd(s->commands[0].argv, s->envp);
-		s->envp = export_cmd(s);
+		exec_bi(s, cmd_type);
 	}
-	else if (ft_strncmp(s->commands[0].argv[0], "unset", 6) == 0)
-	{
-		//s->envp = unset_cmd(s->commands[0].argv, s->envp);
-		s->envp = unset_cmd(s);
-	}
-	else if (ft_strncmp(s->commands[0].argv[0], "env", 4) == 0)
-		//env_print(s->commands[0].argv, s->envp);
-		env_print(s);
-	else if (ft_strncmp(s->commands[0].argv[0], "exit", 5) == 0)
-		//exit_shell(s->commands[0].argv);
-		exit_shell(s);
 	else
 	{
 		child_pid = fork();
@@ -112,12 +138,13 @@ int	execute(t_script *s)
 {
 	show_func(__func__, MY_START, NULL);
 	char	**path_env;
-	
+
 	execute_show(s);
-	path_env = split_path(s->envp, ':');
+	//path_env = split_path(s->envp, ':');
+	path_env = split_path(s->envp);
 	if (s->cmd_count == 1)
 	{
-		if (execute_do(s))
+		if (exec_one(s))
 		{
 			show_func(__func__, SUCCESS, NULL);
 			return (1);
@@ -126,7 +153,7 @@ int	execute(t_script *s)
 	else
 		if (pipex(s, path_env))
 			return (1);
-	//execute_do(s);
+	//exec_one(s);
 	//termios_setter(&s->termios_p);
 	show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);
@@ -135,12 +162,12 @@ int	execute(t_script *s)
 /*
 
 		if (strcmp(cmd[0], "echo") == 0)
-			echo_print(cmd); // FEITO???
+			bi_echo_print(cmd); // FEITO???
 		else if (strcmp(cmd[0], "cd") == 0)
-			cd_cmd(cmd); // FEITO
+			bi_cd_cmd(cmd); // FEITO
 		else if (strcmp(cmd[0], "pwd") == 0)
 		{
-			pwd_print(); // FEITO???
+			bi_pwd_print(); // FEITO???
 		}
 		else if (strcmp(cmd[0], "export") == 0)
 			printf("Execute export with no options\n");

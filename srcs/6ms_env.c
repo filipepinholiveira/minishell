@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   6ms_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/02 16:09:58 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2024/01/09 00:17:40 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*replace_loop(char *str, char **envp, int *i)
 		(*i)++;
 	c = str[*i];
 	str[*i] = '\0';
-	tmp = get_env_content(str, envp); // envp_getter.c
+	tmp = get_env_ms(str, envp); // envp_getter.c
 	str[*i] = c;
 	show_func(__func__, SUCCESS, NULL);
 	return (tmp);
@@ -77,11 +77,11 @@ char	**init_split_before(char *line_buf, char **before, int *i)
 /// @return				String with ARGS replaced by envp vars
 char	*replace_env_var(char *line_buf, char **envp, int i, int j)
 {
+	show_func(__func__, MY_START, NULL);
 	char	**split;
 	char	*before;
 	char	*tmp;
 
-	show_func(__func__, MY_START, NULL);
 	before = NULL;
 	split = init_split_before(line_buf, &before, &i);
 	while (split[i])
@@ -140,14 +140,14 @@ char	*replace_multiple_space(char *str)
 /// @param str	Variable to be found
 /// @param envp	Environment variables
 /// @return		Content of the variable
-char	*get_env_content(char *str, char **envp)
+char	*get_env_ms(char *var, char **envp)
 {
+	show_func(__func__, MY_START, var);
 	char	*tmp;
 	char	*ret;
 	int		len;
 
-	show_func(__func__, MY_START, NULL);
-	tmp = ft_strjoin(str, "=");
+	tmp = ft_strjoin(var, "=");
 	len = ft_strlen(tmp);
 	ret = NULL;
 	while (*envp)
