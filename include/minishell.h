@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/09 00:06:51 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/09 12:53:15 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ typedef enum e_token_type
 	TOKEN_PIPE,
 	TOKEN_R_IN,
 	TOKEN_R_OUT,
-	TOKEN_NAME
+	TOKEN_NAME,
+	TOKEN_EQUAL
 }			t_token_type;
 
 typedef enum e_cmd_type
@@ -76,14 +77,6 @@ typedef struct s_operations
 	int				size;
 	t_token_type	type;
 }				t_ops;
-
-typedef struct s_debug_msg
-{
-	const char		*msg;
-	int				status;
-	int				len;
-	const char		*msg_header;
-}				t_debug_msg;
 
 /// @brief 				Struct to hold the token variables
 /// @param content		Token content
@@ -350,7 +343,7 @@ void	add_token(t_token **head, t_token *new);
 /// @param s		String to be searched for token char set
 /// @return			Struct with token type information: token char set, size
 ///					and token type
-t_ops	search_token_type(const char *s);
+t_ops	token_type_getter(const char *s);
 
 /// @brief 				Initializes the token_getter
 /// @param str			String to be tokenized

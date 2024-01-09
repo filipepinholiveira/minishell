@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:29:02 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/09 12:16:23 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/09 13:08:47 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	show_func_msg(const char *msg)
 	if (MY_DEBUG)
 	{
 		if (!msg)
-			write(2, "\n", 1);
+			write(2, "#\n", 2);
 		else
 		{
 			write(2, "-> ", 3);
@@ -36,16 +36,17 @@ int	show_func(const char *func_name, int status, char *msg)
 {
 	int					i;
 	const t_debug_msg	debug_msg[] = {
-	{" START", MY_START, 6, "\n(>) "},
-	{" ERROR", ERROR, 6, "\n(x) "},
-	{" SUCCESS", SUCCESS, 8, "\n(x) "},
-	{" MALLOC_ERROR", MALLOC_ERROR, 13, "\n(x) "},
-	{" MALLOC_NOT_ALLOCATED", MALLOC_NOT_ALLOCATED, 22, "\n(x) "},
-	{" FILE_ERROR", FILE_ERROR, 11, "\n(x) "},
-	{" CHILD_EXIT", CHILD_EXIT, 11, "\n(x) "},
-	{" EXIT_FAILURE", EXIT_FAILURE, 14, "\n(x) "},
-	{" FILE_NOT_DELETED", FILE_NOT_DELETED, 17, "\n(x) "},
-	{NULL, 0, 0, NULL}};
+	{" START", MY_START, 6, "\n(>) ", SHBLU},
+	{" ERROR", ERROR, 6, "\n(x) ", SHRED},
+	{" SUCCESS", SUCCESS, 8, "\n(x) ", SHGRN},
+	{" MALLOC_ERROR", MALLOC_ERROR, 13, "\n(x) ", SBHRED},
+	{" MALLOC_NOT_ALLOCATED", MALLOC_NOT_ALLOCATED, 22, "\n(x) ", SBHCYN},
+	{" FILE_ERROR", FILE_ERROR, 11, "\n(x) ", SBHRED},
+	{" CHILD_EXIT", CHILD_EXIT, 11, "\n(x) ", SBHYLW},
+	{" EXIT_FAILURE", EXIT_FAILURE, 14, "\n(x) ", SBHRED},
+	{" FILE_NOT_FOUND", FILE_NOT_FOUND, 16, "\n(x) ", SBHRED},
+	{" FILE_NOT_DELETED", FILE_NOT_DELETED, 17, "\n(x) ", SBHRED},
+	{NULL, 0, 0, NULL, NULL}};
 
 	if (MY_DEBUG)
 	{
@@ -53,9 +54,15 @@ int	show_func(const char *func_name, int status, char *msg)
 		while (debug_msg[++i].status)
 			if (debug_msg[i].status == status)
 				break ;
-		write(2, debug_msg[i].msg_header, 5);
-		write(2, func_name, ft_strlen(func_name));
-		write(2, debug_msg[i].msg, debug_msg[i].len);
+		if (MY_DEBUG_COLOR)
+			printf("%s%s%s%s%s%s", debug_msg[i].msg_header, SBWHT, func_name,
+				debug_msg[i].color, debug_msg[i].msg, SRST);
+		else
+		{
+			write(2, debug_msg[i].msg_header, 5);
+			write(2, func_name, ft_strlen(func_name));
+			write(2, debug_msg[i].msg, debug_msg[i].len);
+		}
 		show_func_msg(msg);
 	}
 	return (status);

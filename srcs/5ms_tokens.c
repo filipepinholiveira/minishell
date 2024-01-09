@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   5ms_tokens.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:10:37 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/02 14:54:09 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2024/01/09 13:28:06 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,40 +84,29 @@ void	add_token(t_token **head, t_token *new)
 /// @param s		String to be searched for token char set
 /// @return			Struct with token type information: token char set, size
 ///					and token type
-t_ops	search_token_type(const char *s)
+t_ops	token_type_getter(const char *s)
 {
-	t_ops	ex_ops[12];
-	t_ops	blank;
-	int		i;
-
 	show_func(__func__, MY_START, NULL);
+	t_ops		blank;
+	int			i;
+	const t_ops	ops[13] = {{">>", 2, TOKEN_R_OUT}, {"<<", 2, TOKEN_R_IN},
+	{"|", 1, TOKEN_PIPE}, {">", 1, TOKEN_R_OUT}, {"<", 1, TOKEN_R_IN},
+	{" ", 1, TOKEN_WS}, {"\n", 1, TOKEN_WS}, {"\v", 1, TOKEN_WS},
+	{"\t", 1, TOKEN_WS}, {"\r", 1, TOKEN_WS}, {"\f", 1, TOKEN_WS},
+	{"=", 1, TOKEN_EQUAL}, {NULL, 1, 0}};
+
 	blank = (t_ops){0, 0, 0};
-	ex_ops[0] = (t_ops){">>", 2, TOKEN_R_OUT};
-	ex_ops[1] = (t_ops){"<<", 2, TOKEN_R_IN};
-	ex_ops[2] = (t_ops){"|", 1, TOKEN_PIPE};
-	ex_ops[3] = (t_ops){">", 1, TOKEN_R_OUT};
-	ex_ops[4] = (t_ops){"<", 1, TOKEN_R_IN};
-	ex_ops[5] = (t_ops){" ", 1, TOKEN_WS};
-	ex_ops[6] = (t_ops){"\n", 1, TOKEN_WS};
-	ex_ops[7] = (t_ops){"\v", 1, TOKEN_WS};
-	ex_ops[8] = (t_ops){"\t", 1, TOKEN_WS};
-	ex_ops[9] = (t_ops){"\r", 1, TOKEN_WS};
-	ex_ops[10] = (t_ops){"\f", 1, TOKEN_WS};
-	ex_ops[11] = (t_ops){NULL, 1, 0};
 	i = -1;
-	// if (s)
-	// 	printf("s token = %s\n", s);
-	// else
-	// 	printf("s is empry\n");
-	while (ex_ops[++i].op)
+	while (ops[++i].op)
 	{
-		if (!ft_strncmp(s, ex_ops[i].op, ex_ops[i].size))
+		if (!ft_strncmp(s, ops[i].op, ops[i].size))
 		{
-			show_func(__func__, SUCCESS, NULL);
-			return (ex_ops[i]);
+			show_func(__func__, SUCCESS, ft_strjoin("Found token: ", (char *)ops[i].op));
+			//show_func(__func__, SUCCESS, "MESSAGE");
+			return (ops[i]);
 		}
 	}
-	show_func(__func__, ERROR, NULL);
+	show_func(__func__, ERROR, "Character is not a TOKEN");
 	return (blank);
 }
 
@@ -134,7 +123,7 @@ int	token_getter(char *str, t_token **head)
 	prev = str;
 	while (str && *str)
 	{
-		curr = search_token_type(str);
+		curr = token_type_getter(str);
 		if (curr.op != 0 && prev != str)
 			add_token(head, create_token(prev, str - prev, TOKEN_NAME));
 		if (curr.op != 0)
@@ -185,3 +174,36 @@ int	tokenize(char **line, t_token **head, t_script *script)
 	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }
+// t_ops	token_type_getter(const char *s)
+// {
+// 	show_func(__func__, MY_START, NULL);
+// 	t_ops	ops[13];
+// 	t_ops	blank;
+// 	int		i;
+
+// 	blank = (t_ops){0, 0, 0};
+// 	ops[0] = (t_ops){">>", 2, TOKEN_R_OUT};
+// 	ops[1] = (t_ops){"<<", 2, TOKEN_R_IN};
+// 	ops[2] = (t_ops){"|", 1, TOKEN_PIPE};
+// 	ops[3] = (t_ops){">", 1, TOKEN_R_OUT};
+// 	ops[4] = (t_ops){"<", 1, TOKEN_R_IN};
+// 	ops[5] = (t_ops){" ", 1, TOKEN_WS};
+// 	ops[6] = (t_ops){"\n", 1, TOKEN_WS};
+// 	ops[7] = (t_ops){"\v", 1, TOKEN_WS};
+// 	ops[8] = (t_ops){"\t", 1, TOKEN_WS};
+// 	ops[9] = (t_ops){"\r", 1, TOKEN_WS};
+// 	ops[10] = (t_ops){"\f", 1, TOKEN_WS};
+// 	ops[11] = (t_ops){"=", 1, TOKEN_EQUAL};
+// 	ops[11] = (t_ops){NULL, 1, 0};
+// 	i = -1;
+// 	while (ops[++i].op)
+// 	{
+// 		if (!ft_strncmp(s, ops[i].op, ops[i].size))
+// 		{
+// 			show_func(__func__, SUCCESS, (char *)ops[i].op);
+// 			return (ops[i]);
+// 		}
+// 	}
+// 	show_func(__func__, ERROR, "Character is not a TOKEN");
+// 	return (blank);
+// }
