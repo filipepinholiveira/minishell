@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/09 22:30:03 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/10 22:46:46 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,51 @@
 /// @param envp     environment variables lis
 /// @return         the new env variables
 /// STILL TESTING
-int	bi_export(t_script *s, t_command cmd)
+//int	bi_export(t_script *s, t_command cmd)
+int	bi_export(t_script *s, int n)
 {
 	show_func(__func__, MY_START, NULL);
-	int	i;
+	int		i;
+	char	*var_t1;
+	char 	*var_t2;
 
-	if (!s->envp || !cmd.argv[1] || !cmd.argv[1][0])
+	if (!s->envp || !s->commands[n].argv[1] || !s->commands[n].argv[1][0])
 	{
-		show_func(__func__, SUCCESS, NULL);
+		show_func(__func__, ERROR, "EXPORT args is empty");
 		return (ERROR);
 	}
-	i = -1;
-	while (cmd.argv[++i])
+	i = 1;
+	while (s->commands[n].argv[i])
 	{
-		printf("%s EXPORT vars cmd.argv[%d] = %s%s\n", SBRED, i, cmd.argv[i], SRST);
+		var_t2 = env_var_getter(s->commands[n].argv[i], s->envp);
+		printf("%s EXPORT (11) vars argv[%d] = '%s'%s\n",
+			SBRED, i, s->commands[n].argv[i], SRST);
+		printf("%s EXPORT (12) vars var_t2[%d] = '%s'%s\n",
+			SBRED, i, var_t2, SRST);
+		if (s->commands[n].argv[i + 1])
+		{
+			printf("%s EXPORT (21) vars argv[%d] = '%s'%s\n",
+				SBRED, i + 1, s->commands[n].argv[i + 1], SRST);
+			env_var_setter((s->commands[n].argv[i + 1]),
+				(s->commands[n].argv[i]), &s->envp);
+		}
+		else
+		{
+			printf("%s EXPORT (31) vars argv[%d] = '%s'%s\n",
+				SBRED, i, s->commands[n].argv[i], SRST);
+			var_t1 = env_var_getter(s->commands[n].argv[i], s->envt);
+			if (var_t1)
+			{
+				printf("%s EXPORT (41) vars argv[%d] = '%s'%s\n",
+					SBRED, i, s->commands[n].argv[i], SRST);
+				env_var_setter(var_t1, s->commands[n].argv[i], &s->envp);
+			}
+			show_func(__func__, SUCCESS, var_t1);
+			return (SUCCESS);
+		}
+		i += 2;
 	}
+	show_envp(s->envp);
 	show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);
 }

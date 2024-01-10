@@ -6,11 +6,125 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/09 00:17:40 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/10 22:33:49 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+/// @brief 				This function prints the environment variables
+/// @param envp			Environment variables
+/// @return				void
+void	show_envp(char **envp)
+{
+	show_func(__func__, MY_START, NULL);
+	int i = -1;
+
+	if (!envp)
+		return ;
+	while (envp[++i])
+	{
+		printf("envp[%i] = %s\n", i, envp[i]);
+	}
+	show_func(__func__, SUCCESS, NULL);
+}
+
+/// @brief 			This function gets the environment variable index
+/// @param var 		variable to be found
+/// @param envp 	Environment variables
+/// @return			Index of the variable
+int	env_var_index_getter(char *var, char **envp)
+{
+	show_func(__func__, MY_START, NULL);
+	show_func(__func__, SHOW_MSG, var);
+	show_func(__func__, SHOW_MSG, *envp);
+	int		index;
+
+	index = 0;
+	while (envp[index])
+	{
+		if (ft_strncmp(var, envp[index], ft_strlen(var)) == SUCCESS)
+		{
+			show_func(__func__, SUCCESS, ft_itoa(index));
+			return (index);
+		}
+		index++;
+	}
+	return (-1);
+}
+
+/// @brief 				This function sets the environment variable
+/// @param val 			Value to be set
+/// @param var 			Variable to be set
+/// @param envp 		Environment variables
+/// @return 			0 if success, -1 if error
+int	env_var_setter(char *val, char *var, char ***envp)
+{
+	show_func(__func__, MY_START, NULL);
+	show_func(__func__, SHOW_MSG, var);
+	show_func(__func__, SHOW_MSG, val);
+	show_func(__func__, SHOW_MSG, **envp);
+	int		index;
+	char *var_t1;
+
+	var_t1 = ft_strjoin(var, "=");
+
+	index = env_var_index_getter(var, *envp);
+	if (index == -1)
+	{
+		index = 0;
+		while ((*envp)[index])
+			index++;
+		(*envp)[index] = ft_strjoin_free(ft_strdup(var_t1), val);
+		(*envp)[index + 1] = NULL;
+		show_func(__func__, SUCCESS, (*envp)[index]);
+		return (0);
+	}
+	(*envp)[index] = ft_strjoin(var_t1, val);
+	show_func(__func__, SUCCESS, (*envp)[index]);
+	return (0);
+}
+
+/// @brief		This function iterates over the environment variables to
+///				find whether or not the given variable (str) is defined and
+///				returns the content or an empty freeable string.
+/// @param str	Variable to be found
+/// @param envp	Environment variables
+/// @return		Content of the variable
+char	*env_var_getter(char *var, char **envp)
+{
+	show_func(__func__, MY_START, var);
+	char	*tmp;
+	char	*ret;
+	int		len;
+
+	if (!envp)
+	{
+		show_func(__func__, ERROR, "envp is NULL");
+		return (NULL);
+	}
+	tmp = ft_strjoin(var, "=");
+	len = ft_strlen(tmp);
+	ret = NULL;
+	while (*envp)
+	{
+		if (!ft_strncmp(tmp, *envp, len))
+		{
+			ret = ft_strdup(*envp + len);
+			break ;
+		}
+		envp++;
+	}
+	free(tmp);
+	if (!ret)
+	{
+		ret = ft_strdup("");
+		if (!ret)
+			return (NULL);
+	}
+	show_func(__func__, SUCCESS, ret);
+	return (replace_multiple_space(ret));
+}
 
 /// @brief 		This function gets the environment variable name after a $ and
 ///				returns its corresponding value in the environment.
@@ -38,7 +152,7 @@ char	*replace_loop(char *str, char **envp, int *i)
 		(*i)++;
 	c = str[*i];
 	str[*i] = '\0';
-	tmp = get_env_ms(str, envp); // envp_getter.c
+	tmp = env_var_getter(str, envp); // envp_getter.c
 	str[*i] = c;
 	show_func(__func__, SUCCESS, NULL);
 	return (tmp);
@@ -134,38 +248,3 @@ char	*replace_multiple_space(char *str)
 	return (tmp);
 }
 
-/// @brief		This function iterates over the environment variables to
-///				find whether or not the given variable (str) is defined and
-///				returns the content or an empty freeable string.
-/// @param str	Variable to be found
-/// @param envp	Environment variables
-/// @return		Content of the variable
-char	*get_env_ms(char *var, char **envp)
-{
-	show_func(__func__, MY_START, var);
-	char	*tmp;
-	char	*ret;
-	int		len;
-
-	tmp = ft_strjoin(var, "=");
-	len = ft_strlen(tmp);
-	ret = NULL;
-	while (*envp)
-	{
-		if (!ft_strncmp(tmp, *envp, len))
-		{
-			ret = ft_strdup(*envp + len);
-			break ;
-		}
-		envp++;
-	}
-	free(tmp);
-	if (!ret)
-	{
-		ret = ft_strdup("");
-		if (!ret)
-			return (NULL);
-	}
-	show_func(__func__, SUCCESS, NULL);
-	return (replace_multiple_space(ret));
-}

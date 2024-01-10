@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   8ms_bi_unset.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2023/12/29 13:43:26 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2024/01/10 12:14:27 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /// @param arg Arguments passed to unset command
 /// @param envp Current environment variables
 /// @return Updated environment variables
-char	**unset_cmd(t_script *s)
+char	**bi_unset(t_script *s)
 {
 	int		i;
 	int		j;
@@ -43,7 +43,7 @@ char	**unset_cmd(t_script *s)
 	// excluding the one specified in the arguments
 	while (i < env_count)
 	{
-		if (ft_strncmp(s->commands->argv[1], s->envp[i], 
+		if (ft_strncmp(s->commands->argv[1], s->envp[i],
 				ft_strlen(s->commands->argv[1])) != 0)
 		{
 			new_env[j] = ft_strdup(s->envp[i]);

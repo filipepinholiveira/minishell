@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:29:02 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/09 21:20:53 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/10 23:00:13 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	show_func_msg(const char *msg)
 		{
 			write(2, "-> ", 3);
 			write(2, msg, ft_strlen(msg));
-			write(2, "\n", 1);
+			//write(2, "\n", 1);
 		}
 	}
 }
@@ -35,7 +35,8 @@ void	show_func_msg(const char *msg)
 int	show_func(const char *func_name, int status, char *msg)
 {
 	int					i;
-	const t_debug_msg	debug_msg[] = {
+	const t_debug_msg	debug_msg[12] = {
+	{" INFO", SHOW_MSG, 5, "(ii) ", SBHPPL},
 	{" START", MY_START, 6, "\n(>) ", SHBLU},
 	{" ERROR", ERROR, 6, "(xx) ", SHRED},
 	{" SUCCESS", SUCCESS, 8, "(xx) ", SHGRN},
@@ -51,9 +52,11 @@ int	show_func(const char *func_name, int status, char *msg)
 	if (MY_DEBUG)
 	{
 		i = -1;
-		while (debug_msg[++i].status)
+		while (debug_msg[++i].status != status && debug_msg[i].msg)
+		{
 			if (debug_msg[i].status == status)
 				break ;
+		}
 		if (MY_DEBUG_COLOR)
 		{
 			printf("%s%s%s%s%s%s%s", SBHWHT, debug_msg[i].msg_header, SBWHT, func_name,
@@ -73,23 +76,3 @@ int	show_func(const char *func_name, int status, char *msg)
 	}
 	return (status);
 }
-
-		// if (status == MY_START)
-		// 	printf("\n%s(>)%s %s : START%s ", SWHT, SYLW, func_name, SWHT);
-		// else if (status == ERROR)
-		// 	printf("%s(X)%s %s : ERROR%s ", SWHT, SRED, func_name, SWHT);
-		// else if (status == SUCCESS)
-		// 	printf("%s(X)%s %s : SUCCESS%s  ", SWHT, SGRN, func_name, SWHT);
-		// else if (status == MALLOC_ERROR)
-		// 	printf("%s(x)%s %s : MALLOC_ERROR%s ", SWHT, SYLW,
-		// 		func_name, SWHT);
-		// else if (status == MALLOC_NOT_ALLOCATED)
-		// 	printf("%s(x)%s %s : MALLOC_NOT_ALLOCATED%s ", SWHT, SYLW,
-		// 		func_name, SWHT);
-		// else if (status == FILE_ERROR)
-		// 	printf("%s(X)%s %s : FILE_ERROR%s ", SWHT, SRED, func_name, SWHT);
-		// else if (status == CHILD_EXIT)
-		// 	printf("%s(X)%s %s : CHILD_EXIT%s ", SWHT, SRED, func_name, SWHT);
-		// else if (status == EXIT_FAILURE)
-		// 	printf("%s(X)%s %s : EXIT_FAILURE%s\n", SWHT, SRED,
-		// 		func_name, SWHT);

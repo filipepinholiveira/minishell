@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/09 23:32:27 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/10 19:25:09 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,18 @@ typedef struct s_token
 	struct s_token	*next;
 }				t_token;
 
+/// @brief 				Struct to hold the builtin command variables
+/// @param bi_cmd		Builtin command
+/// @param bi_func		Builtin function
+/// @param va_args		Variable arguments
+typedef struct s_bi_cmd
+{
+	const char		*bi_cmd;
+	const void		*bi_func;
+	void			*va_args;
+	int				n;
+}				t_bi_cmd;
+
 typedef struct s_redirection
 {
 	char	*name;
@@ -125,6 +137,7 @@ typedef struct s_script
 	int				cmd_count;
 	int				exit_status;
 	char			**envp;
+	char			**envt;
 	struct termios	termios_p;
 }				t_script;
 
@@ -404,7 +417,25 @@ char	*replace_multiple_space(char *str);
 /// @param str	Variable to be found
 /// @param envp	Environment variables
 /// @return		Content of the variable
-char	*get_env_ms(char *str, char **envp);
+char	*env_var_getter(char *str, char **envp);
+
+/// @brief 				This function prints the environment variables
+/// @param envp			Environment variables
+/// @return				void
+void	show_envp(char **envp);
+
+/// @brief 			This function gets the environment variable index
+/// @param var 		variable to be found
+/// @param envp 	Environment variables
+/// @return			Index of the variable
+int		env_var_index_getter(char *var, char **envp);
+
+/// @brief 				This function sets the environment variable
+/// @param val 			Value to be set
+/// @param var 			Variable to be set
+/// @param envp 		Environment variables
+/// @return 			0 if success, -1 if error
+int		env_var_setter(char *val, char *var, char ***envp);
 
 /* ************************************************************************** */
 ///	ms_exec.c
@@ -464,8 +495,8 @@ int		return_error(const char *msg, int system);
 /// @param arg Arguments passed to unset command
 /// @param envp Current environment variables
 /// @return Updated environment variables
-//char **unset_cmd(char **arg, char **envp);
-char	**unset_cmd(t_script *s);
+//char **bi_unset(char **arg, char **envp);
+char	**bi_unset(t_script *s);
 
 /// @brief              count the number or env variables
 /// @param envp         current environment variables
@@ -477,41 +508,42 @@ int		env_count(char **envp);
 /// @param env      environment variables lis
 /// @return         new env list
 /// STILL TESTING
-int		bi_export(t_script *s, t_command commands);
+int		bi_export(t_script *s, int n);
 //char	**export_cmd(t_script *s);
 
 /// @brief 			Builtin cd command
 /// @param args		Builtin command arguments
 /// @return			SUCCESS or ERROR
-//int		bi_cd_cmd(char **args);
-int		bi_cd_cmd(t_command commands, char **envp);
-//int		bi_cd_cmd(t_script *s);
+//int		bi_cd(char **args);
+//int		bi_cd(t_command commands, char **envp);
+int		bi_cd(t_script *s, int n);
 
 /// @brief 			Builtin echo command
 /// @param args		Builtin command arguments
 /// @return			SUCCESS or ERROR
-//int		bi_echo_print(char **args);
-int		bi_echo_print(t_command command);
-/// ******** int		bi_echo_print(t_script *s);
+//int		bi_echo(char **args);
+//int		bi_echo(t_command command);
+int		bi_echo(t_script *s, int n);
+/// ******** int		bi_echo(t_script *s);
 
 /// @brief 			Builtin env command
 /// @param args		Builtin command arguments
 /// @param envp		Environment variables
 /// @return			SUCCESS or ERROR
-//int		env_print(char **args, char **envp);
-int		env_print(t_script *s);
+//int		bi_env(char **args, char **envp);
+int		bi_env(t_script *s);
 
 /// @brief 			Builtin exit command
 /// @param args		Builtin command arguments
 /// @return			SUCCESS or ERROR
-//int		exit_shell(char **args);
-int		exit_shell(t_script *s);
+//int		bi_exit(char **args);
+int		bi_exit(t_script *s);
 
 /// @brief 			Builtin pwd command
 /// @param void		Builtin command arguments not required
 /// @return			SUCCESS or ERROR
-int		bi_pwd_print(char **envp);
-//int		bi_pwd_print(void);
+int		bi_pwd(t_script *s, int n);
+//int		bi_pwd(void);
 
 /// @brief 			Builtin unset command
 /// @param args		Builtin command arguments

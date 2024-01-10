@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 09:55:51 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/09 23:03:57 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/10 18:11:34 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,26 +66,45 @@ int	get_cmd_type(char *cmd)
 		return (CMD_EXEC);
 }
 
-int	exec_bi(t_script *s, int bi_func, int i)
+
+
+//int	exec_bi(t_script *s, int bi_func, int i)
+int	exec_bi(int (*f)(t_script*), t_script *s)
 {
 	show_func(__func__, MY_START, NULL);
-	if (bi_func == CMD_ECHO)
-		g_exit_status = bi_echo_print(*s->commands);
-	else if (bi_func == CMD_CD)
-		g_exit_status = bi_cd_cmd(*s->commands, s->envp);
-	else if (bi_func == CMD_PWD)
-		g_exit_status = bi_pwd_print(s->envp);
-	else if (bi_func == CMD_EXPORT)
-		g_exit_status = bi_export(s, s->commands[i]);
-	else if (bi_func == CMD_UNSET)
-		s->envp = unset_cmd(s);
-	else if (bi_func == CMD_ENV)
-		env_print(s);
-	else if (bi_func == CMD_EXIT)
-		exit_shell(s);
 	show_func(__func__, SUCCESS, NULL);
-	return (0);
+	return (f(s));
 }
+static int	bi_cmd_getter(t_script *s, int n)
+{
+	show_func(__func__, MY_START, NULL);
+	const t_bi_cmd	bi_cmd[9] = {
+	{"echo", bi_echo, s, n},
+	{"cd", bi_cd, s, n},
+	{"pwd", bi_pwd, s, n},
+	{"export", bi_export, s, n},
+	{"unset", bi_unset, s, n},
+	{"env", bi_env, s, n},
+	{"exit", bi_exit, s, n},
+	{NULL, NULL, NULL, 0}
+	};
+	int				i;
+	int			(*f)(t_script*, int);
+
+	i = -1;
+	while (bi_cmd[++i].bi_cmd)
+	{
+		if (!ft_strncmp(bi_cmd[i].bi_cmd, s->commands[n].argv[0], ft_strlen(bi_cmd[i].bi_cmd)))
+		{
+			show_func(__func__, SUCCESS, "Built in found and executed");
+			f = bi_cmd[i].bi_func;
+			return (f(bi_cmd[i].va_args, bi_cmd[i].n));
+		}
+	}
+	show_func(__func__, ERROR, "Built in NOT found");
+	return (-1);
+}
+
 int	exec_one(t_script *s)
 {
 	pid_t	child_pid;
@@ -98,7 +117,8 @@ int	exec_one(t_script *s)
 
 	if (cmd_type != CMD_EXEC)
 	{
-		exec_bi(s, cmd_type, 0);
+		g_exit_status = bi_cmd_getter(s, 0);
+		//exec_bi(s, cmd_type, 0);
 	}
 	else
 	{
@@ -164,10 +184,10 @@ int	execute(t_script *s)
 		if (strcmp(cmd[0], "echo") == 0)
 			bi_echo_print(cmd); // FEITO???
 		else if (strcmp(cmd[0], "cd") == 0)
-			bi_cd_cmd(cmd); // FEITO
+			bi_cd(cmd); // FEITO
 		else if (strcmp(cmd[0], "pwd") == 0)
 		{
-			bi_pwd_print(); // FEITO???
+			bi_pwd(); // FEITO???
 		}
 		else if (strcmp(cmd[0], "export") == 0)
 			printf("Execute export with no options\n");
@@ -175,11 +195,11 @@ int	execute(t_script *s)
 			printf("Execute unset with no options\n");
 		else if (strcmp(cmd[0], "env") == 0)
 		{
-			env_print(cmd, envp); // FEITO
+			bi_env(cmd, envp); // FEITO
 		}
 		else if (strcmp(cmd[0], "exit") == 0)
 		{
-				exit_shell(cmd); // FEITO
+				bi_exit(cmd); // FEITO
 		}
 		else
 			{

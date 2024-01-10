@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 18:49:28 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/02 15:47:18 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2024/01/10 21:45:22 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@
 # endif
 # ifndef CHILD_EXIT
 #  define CHILD_EXIT 56
+# endif
+# ifndef SHOW_MSG
+#  define SHOW_MSG 70
 # endif
 /* ************************************************************************** */
 ///	MALLOC ERROR CODES

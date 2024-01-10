@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:27:05 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/10 00:00:57 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/10 22:47:34 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	**envp_getter(char **envp)
 			show_func(__func__, ERROR, NULL);
 			return (NULL);
 		}
-			show_func(__func__, SUCCESS, ft_strjoin(ft_strjoin(ft_itoa(i), " = "), ms_envp[i]));
+			//show_func(__func__, SUCCESS, ft_strjoin(ft_strjoin(ft_itoa(i), " = "), ms_envp[i]));
 
 		i++;
 	}
@@ -130,11 +130,17 @@ static int	ms_loop(t_script *s)
 			if (execute(s))
 				break ;
 		}
+		show_func(__func__, SHOW_MSG, ft_strjoin("11 - s->cmd_count = ", ft_itoa(s->cmd_count)));
 		free_commands(s->commands, s->cmd_count);
+		show_func(__func__,SHOW_MSG, ft_strjoin("12 - s->cmd_count = ", ft_itoa(s->cmd_count)));
 	}
 	if (s->cmd_count > 0)
+	{
+		show_func(__func__, SHOW_MSG, ft_strjoin("21- s->cmd_count = ", ft_itoa(s->cmd_count)));
 		free_commands(s->commands, s->cmd_count);
-	show_func(__func__, SUCCESS, NULL);
+		show_func(__func__, SHOW_MSG, ft_strjoin("22 s->cmd_count = ", ft_itoa(s->cmd_count)));
+	}
+	show_func(__func__, SHOW_MSG, "MSG = SUCCESS");
 	return (0);
 }
 
@@ -147,15 +153,13 @@ int	main(int argc, char **argv, char **envp)
 {
 	show_func(__func__, MY_START, NULL);
 	t_script	s;
-	//char		*line_buffer;
 
-	//line_buffer = NULL;
 	(void)argc;
 	(void)argv;
 	s.envp = envp_getter(envp);
+	s.envt = NULL;
 	termios_getter(&s.termios_p);
-	//ms_loop(&s, &line_buffer);
-	ms_loop(&s);//, &line_buffer);
+	ms_loop(&s);
 	free_envp(s.envp);
 	show_func(__func__, SUCCESS, NULL);
 	return (0);

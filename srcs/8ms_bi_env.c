@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   8ms_bi_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/02 15:28:10 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2024/01/10 12:16:09 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /// @param args		Builtin command arguments
 /// @param envp		Environment variables
 /// @return			SUCCESS or ERROR
-int	env_print(t_script *s)
+int	bi_env(t_script *s)
 {
 	int	count;
 
