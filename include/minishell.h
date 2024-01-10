@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/09 18:42:57 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/09 23:32:27 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,19 @@ extern int	g_exit_status;
 /* ************************************************************************** */
 
 /// @brief 				Enum to hold the token types
-/// @param TOKEN_WS		Empty token
-/// @param TOKEN_PIPE	Pipe token
-/// @param TOKEN_R_IN	Redirection input token
-/// @param TOKEN_R_OUT	Redirection output token
-/// @param TOKEN_NAME	Name token
+/// @param TK_WS		Empty token
+/// @param TK_PIPE	Pipe token
+/// @param TK_R_IN	Redirection input token
+/// @param TK_R_OUT	Redirection output token
+/// @param TK_NAME	Name token
 typedef enum e_token_type
 {
-	TOKEN_WS,
-	TOKEN_PIPE,
-	TOKEN_R_IN,
-	TOKEN_R_OUT,
-	TOKEN_NAME,
-	TOKEN_EQUAL
+	TK_WS,
+	TK_PIPE,
+	TK_R_IN,
+	TK_R_OUT,
+	TK_NAME,
+	TK_EQUAL
 }			t_token_type;
 
 typedef enum e_cmd_type
@@ -302,7 +302,7 @@ void	copy_in_quotes(char *start, char *end, char **str, int *i);
 /// @param str	string to advance
 /// @return		0 if unclosed quotation mark (error), 1 otherwise (success)
 ///				MISLEADING CHANGE STATUS
-int		treat_quotes(char **str);
+int		closed_quotes_check(char **str);
 
 /// @brief 		cleanup after removing redundant quotes and frees up alloc
 /// @param tmp	string to clean up
@@ -332,31 +332,36 @@ void	remove_blank_tokens(t_token *head);
 /// @param size			Token size
 /// @param type			Token type (as per enum t_token_type)
 /// @return				New token
-t_token	*create_token(const char *string, int size, t_token_type type);
+t_token	*tk_addnew(const char *string, int size, t_token_type type);
+
+/// @brief 					get a pointer to last token in token list
+/// @param token_pointer	pointer to token list
+/// @return					pointer to last token
+t_token	*tk_lst_last_getter(t_token *token_pointer);
 
 /// @brief 			Adds new token to token list end
 /// @param head		Head of the token list
 /// @param new		New token to be added
-void	add_token(t_token **head, t_token *new);
+void	tk_lst_addback(t_token **head, t_token *new);
 
 /// @brief 			Searches for a token type by token char set
 /// @param s		String to be searched for token char set
 /// @return			Struct with token type information: token char set, size
 ///					and token type
-t_ops	token_type_getter(const char *s);
+t_ops	tk_type_getter(const char *s);
 
-/// @brief 				Initializes the token_getter
+/// @brief 				Initializes the tk_getter
 /// @param str			String to be tokenized
 /// @param head			Head of the token list
 /// @return				1 if success, 0 if error
-int		token_getter(char *str, t_token **head);
+int		tk_getter(char *str, t_token **head);
 
 /// @brief 				Trims the token command from whitespaces
 /// @param line_buffer	string input with script
 /// @param head			pointer to the head of the token list
 /// @param script		script structure
 /// @return				SUCCESS if valid, ERROR if invalid
-int		tokenize(char **line, t_token **head, t_script *script);
+int		tk_builder(char **line, t_token **head, t_script *script);
 
 /* ************************************************************************** */
 ///	ms_envp.c

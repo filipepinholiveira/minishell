@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 12:00:28 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/08 19:10:40 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/09 22:41:04 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	execute_do_cmd_i(char **argv, char **envp, int in_fd, int out_fd)
 		// 			WEXITSTATUS(status));
 		// }
 	child_pid = fork();
+	if (MY_DEBUG)
+		return ;
 	printf("entrou no fork\n");
 	if (child_pid == -1)
 	{
@@ -176,8 +178,7 @@ int	pipex(t_script *s, char **path_env)
 		// execute_do_cmd(s->commands[i].argv, path_env,
 		// 	STDIN_FILENO, pipe_fd[1]);
 		close(p[1]); // Fecha a extremidade de escrita do pipe
-		printf("Executa o primeiro comando child 3\n");
-		show_func(__func__, CHILD_EXIT, NULL);
+		show_func(__func__, CHILD_EXIT, "pipex simulator exit");
 		exit(EXIT_SUCCESS);
 	}
 	else

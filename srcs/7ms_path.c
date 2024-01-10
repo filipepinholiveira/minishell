@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 18:07:09 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/08 18:42:32 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/09 19:32:56 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	get_path_index(char **envp)
 
 char	**split_path(char **envp)
 {
-	show_func(__func__, MY_START, NULL);
+	//show_func(__func__, MY_START, NULL);
 	int		i;
 	char	**path;
 
@@ -47,8 +47,8 @@ char	**split_path(char **envp)
 	while (path[++i])
 	{
 		path[i] = ft_strjoin(path[i], "/");
-		show_func(__func__, MY_START, path[i]);
+		//show_func(__func__, MY_START, path[i]);
 	}
-	show_func(__func__, SUCCESS, NULL);
+	//show_func(__func__, SUCCESS, NULL);
 	return (path);
 }

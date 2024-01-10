@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:28:14 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/09 18:52:31 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/09 23:30:02 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,19 @@ int	check_syntax(t_token *head)
 
 	// tmp = head;
 	show_func(__func__, MY_START, NULL);
-	if (head && head->type == TOKEN_PIPE)
+	if (head && head->type == TK_PIPE)
 		return (return_error("Syntax error", 0));
 	while (head)
 	{
-		if (!head->next && (head->type == TOKEN_PIPE
-				|| head->type == TOKEN_R_IN
-				|| head->type == TOKEN_R_OUT))
+		if (!head->next && (head->type == TK_PIPE
+				|| head->type == TK_R_IN
+				|| head->type == TK_R_OUT))
 			return (return_error("Syntax error", 0));
-		if (head->type == TOKEN_PIPE && head->next
-			&& head->next->type == TOKEN_PIPE)
+		if (head->type == TK_PIPE && head->next
+			&& head->next->type == TK_PIPE)
 			return (return_error("Syntax error", 0));
-		if ((head->type == TOKEN_R_OUT || head->type == TOKEN_R_IN)
-			&& (head->next && head->next->type != TOKEN_NAME))
+		if ((head->type == TK_R_OUT || head->type == TK_R_IN)
+			&& (head->next && head->next->type != TK_NAME))
 			return (return_error("Syntax error", 0));
 		head = head->next;
 	}
@@ -57,7 +57,7 @@ int	get_cmd_count(t_token *head)
 	{
 		if (!count)
 			count = 1;
-		if (head->type == TOKEN_PIPE)
+		if (head->type == TK_PIPE)
 			count ++;
 		head = head->next;
 	}
@@ -110,10 +110,10 @@ void	get_num_args(t_token *head, t_script *script)
 	{
 		script->commands[i].argc = 0;
 		tmp = head;
-		while (head && head->type != TOKEN_PIPE)
+		while (head && head->type != TK_PIPE)
 		{
-			if (head->type == TOKEN_NAME && (tmp->type != TOKEN_R_IN
-					&& tmp->type != TOKEN_R_OUT))
+			if (head->type == TK_NAME && (tmp->type != TK_R_IN
+					&& tmp->type != TK_R_OUT))
 				script->commands[i].argc++;
 			tmp = head;
 			head = head->next;
@@ -171,21 +171,21 @@ int	parse_commands(t_token *head, t_command *cmd, int i, int j)
 			return (1);
 		}
 		j = 0;
-		while (head && head->type != TOKEN_PIPE)
+		while (head && head->type != TK_PIPE)
 		{
-			if (head->type == TOKEN_NAME)
+			if (head->type == TK_NAME)
 				cmd[i].argv[j++] = ft_strdup(head->content);
-			else if (head->type == TOKEN_R_IN && redir(head, &cmd[i].in))
+			else if (head->type == TK_R_IN && redir(head, &cmd[i].in))
 			{
 				show_func(__func__, SUCCESS, "01");
 				return (free_commands(cmd, i + 1));
 			}
-			else if (head->type == TOKEN_R_OUT && redir(head, &cmd[i].out))
+			else if (head->type == TK_R_OUT && redir(head, &cmd[i].out))
 			{
 				show_func(__func__, SUCCESS, "02");
 				return (free_commands(cmd, i + 1));
 			}
-			if (head->type == TOKEN_R_IN || head->type == TOKEN_R_OUT)
+			if (head->type == TK_R_IN || head->type == TK_R_OUT)
 				head = head->next;
 			if (head)
 				head = head->next;
@@ -212,7 +212,7 @@ int	redir(t_token *head, t_redirection *file)
 	show_func(__func__, MY_START, NULL);
 	if (file->name)
 		free(file->name);
-	if (!head->next || head->next->type != TOKEN_NAME)
+	if (!head->next || head->next->type != TK_NAME)
 		return (0);
 	file->name = ft_strdup(head->next->content);
 	if (!ft_strncmp(head->content, ">>", 2))
@@ -256,10 +256,10 @@ void	fill_heredoc(t_redirection *file)
 /// @return
 int	parser(t_script *s, char **line_buffer)
 {
-	t_token	*head;
+	t_token	*token;
 
 	show_func(__func__, MY_START, NULL);
-	head = NULL;
+	token = NULL;
 	*line_buffer = readline("\001\033[1;94m\002 Minishell > \001\033[0m\002");
 	if (!*line_buffer)
 	{
@@ -267,25 +267,25 @@ int	parser(t_script *s, char **line_buffer)
 		return (2);
 	}
 	add_history(*line_buffer);
-	if (tokenize(line_buffer, &head, s))
-		return (free_tokens(&head));
-	remove_blank_tokens(head);
-	if (check_syntax(head))
-		return (free_tokens(&head));
-	s->cmd_count = get_cmd_count(head);
+	if (tk_builder(line_buffer, &token, s))
+		return (free_tokens(&token));
+	remove_blank_tokens(token);
+	if (check_syntax(token))
+		return (free_tokens(&token));
+	s->cmd_count = get_cmd_count(token);
 	s->commands = malloc(sizeof(t_command) * s->cmd_count);
 	if (!s->commands || s->cmd_count <= 0)
-		return (free_tokens(&head));
-	trim_spaces(head);
-	get_num_args(head, s);
-	set_filenames_null(s->commands, s->cmd_count, head);
+		return (free_tokens(&token));
+	trim_spaces(token);
+	get_num_args(token, s);
+	set_filenames_null(s->commands, s->cmd_count, token);
 
-	if (parse_commands(head, s->commands, 0, 0))
+	if (parse_commands(token, s->commands, 0, 0))
 	{
 		show_func(__func__, SUCCESS, NULL);
-		return (free_tokens(&head));
+		return (free_tokens(&token));
 	}
-	free_tokens(&head);
+	free_tokens(&token);
 	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }

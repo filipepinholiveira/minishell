@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:10:37 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/09 18:12:02 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/09 23:52:24 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	remove_blank_tokens(t_token *head)
 	show_func(__func__, MY_START, NULL);
 	while (head)
 	{
-		if (head->type != TOKEN_PIPE && head->next && !head->next->content[0])
+		if (head->type != TK_PIPE && head->next && !head->next->content[0])
 		{
 			tmp = head->next->next;
 			free(head->next->content);
@@ -42,7 +42,7 @@ void	remove_blank_tokens(t_token *head)
 /// @param size			Token size
 /// @param type			Token type (as per enum t_token_type)
 /// @return				New token
-t_token	*create_token(const char *string, int size, t_token_type type)
+t_token	*tk_addnew(const char *string, int size, t_token_type type)
 {
 	t_token	*token;
 
@@ -54,46 +54,64 @@ t_token	*create_token(const char *string, int size, t_token_type type)
 	token->size = size;
 	token->type = type;
 	token->next = NULL;
+	/*************************************************************************/
+	printf("%s-> token created = token->content = '%s%s%s'%s\n",
+		SBHPPL, SBWHT, token->content, SBHPPL, SRST);
+	printf("%s-> token created = token->size = '%s%d%s'%s\n",
+		SBHPPL, SBWHT, token->size, SBHPPL, SRST);
+	printf("%s-> token created = token->type = '%s%d%s'%s\n",
+		SBHPPL, SBWHT, token->type, SBHPPL, SRST);
+	/*************************************************************************/
 	show_func(__func__, SUCCESS, NULL);
 	return (token);
 }
 
-/// @brief 				Adds new token to token list end
-/// @param head		Head of the token list
-/// @param new		New token to be added
-void	add_token(t_token **head, t_token *new)
+/// @brief 			Gets pointer to last node of token list
+/// @param head		Pointer to token list
+/// @return			last token list node
+t_token	*tk_lst_last_getter(t_token *token_pointer)
 {
-	t_token	*tmp;
-
-	show_func(__func__, MY_START, NULL);
-	if (!head || !new)
-		return ;
-	if (!*head)
-		*head = new;
-	else
+	if (!token_pointer)
+		return (NULL);
+	while (token_pointer)
 	{
-		tmp = *head;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new;
+		if ((*token_pointer).next == NULL)
+			return (token_pointer);
+		token_pointer = (*token_pointer).next;
 	}
-	show_func(__func__, SUCCESS, NULL);
+	return (token_pointer);
+}
+
+/// @brief 					Adds a new token to the end of the token list
+/// @param token_lst		Pointer to token list
+/// @param tk_addnew		Pointer to new token
+void	tk_lst_addback(t_token **token_lst, t_token *tk_new)
+{
+	t_token	*token_lst_last;
+
+	if (*token_lst)
+	{
+		token_lst_last = tk_lst_last_getter(*token_lst);
+		(*token_lst_last).next = &*tk_new;
+	}
+	else
+		*token_lst = tk_new;
 }
 
 /// @brief 			Searches for a token type by token char set
 /// @param s		String to be searched for token char set
 /// @return			Struct with token type information: token char set, size
 ///					and token type
-t_ops	token_type_getter(const char *s)
+t_ops	tk_type_getter(const char *s)
 {
 	show_func(__func__, MY_START, NULL);
 	t_ops		blank;
 	int			i;
-	const t_ops	ops[13] = {{">>", 2, TOKEN_R_OUT}, {"<<", 2, TOKEN_R_IN},
-	{"|", 1, TOKEN_PIPE}, {">", 1, TOKEN_R_OUT}, {"<", 1, TOKEN_R_IN},
-	{" ", 1, TOKEN_WS}, {"\n", 1, TOKEN_WS}, {"\v", 1, TOKEN_WS},
-	{"\t", 1, TOKEN_WS}, {"\r", 1, TOKEN_WS}, {"\f", 1, TOKEN_WS},
-	{"=", 1, TOKEN_EQUAL}, {NULL, 1, 0}};
+	const t_ops	ops[13] = {{">>", 2, TK_R_OUT}, {"<<", 2, TK_R_IN},
+	{"|", 1, TK_PIPE}, {">", 1, TK_R_OUT}, {"<", 1, TK_R_IN},
+	{" ", 1, TK_WS}, {"\n", 1, TK_WS}, {"\v", 1, TK_WS},
+	{"\t", 1, TK_WS}, {"\r", 1, TK_WS}, {"\f", 1, TK_WS},
+	{"=", 1, TK_EQUAL}, {NULL, 1, 0}};
 
 	blank = (t_ops){0, 0, 0};
 	i = -1;
@@ -101,50 +119,80 @@ t_ops	token_type_getter(const char *s)
 	{
 		if (!ft_strncmp(s, ops[i].op, ops[i].size))
 		{
-			show_func(__func__, SUCCESS, ft_strjoin("Found token: ", (char *)ops[i].op));
-			//show_func(__func__, SUCCESS, "MESSAGE");
+			show_func(__func__, SUCCESS,
+				ft_strjoin("TOKEN found: ", (char *)ops[i].op));
 			return (ops[i]);
 		}
 	}
-	show_func(__func__, ERROR, "Character is not a TOKEN");
+	show_func(__func__, ERROR, "TOKEN NOT found");
 	return (blank);
 }
 
-/// @brief 				Initializes the token_getter
+/// @brief 				Initializes the tk_getter
 /// @param str			String to be tokenized
 /// @param head			Head of the token list
 /// @return				1 if success, 0 if error
-int	token_getter(char *str, t_token **head)
+int	tk_getter(char *str, t_token **tk_lst)
 {
-	t_ops	curr;
+	show_func(__func__, MY_START, NULL);
+	t_ops	ptr;
 	char	*prev;
 
-	show_func(__func__, MY_START, NULL);
 	prev = str;
 	while (str && *str)
 	{
-		curr = token_type_getter(str);
-		if (curr.op != 0 && prev != str)
-			add_token(head, create_token(prev, str - prev, TOKEN_NAME));
-		if (curr.op != 0)
+		ptr = tk_type_getter(str);
+		/*********************************************************************/
+		printf("str = '%s%s%s'\n", SBHYLW, str, SRST);
+		printf("ptr.op = '%s%s%s'\n", SBHYLW, ptr.op, SRST);
+		printf("ptr.size = '%s%d%s'\n", SBHYLW, ptr.size, SRST);
+		printf("ptr.type = '%s%d%s'\n", SBHYLW, ptr.type, SRST);
+		/*********************************************************************/
+		if (ptr.op != 0 && prev != str)
 		{
-			str += curr.size;
-			if (curr.type != TOKEN_WS)
-				add_token(head, create_token(curr.op, curr.size, curr.type));
+			printf("%s1-> token found = '%s'%s\n", SBHPPL, ptr.op, SRST);
+			tk_lst_addback(tk_lst, tk_addnew(prev, str - prev, TK_NAME));
+		}
+		if (ptr.op != 0)
+		{
+			printf("%s2-> token found = '%s'%s\n", SBHPPL, ptr.op, SRST);
+			str += ptr.size;
+			if (ptr.type != TK_WS)
+				tk_lst_addback(tk_lst, tk_addnew(ptr.op, ptr.size, ptr.type));
 			prev = str;
 		}
-		else if ((*str == '\"' || *str == '\'') && !treat_quotes(&str))
+		else if ((*str == '\"' || *str == '\'') && !closed_quotes_check(&str))
 		{
-			show_func(__func__, ERROR, NULL);
-			return (0);
+			show_func(__func__, ERROR, ft_strjoin("quotes found", str));
+			return (ERROR);
 		}
 		else
 			++str;
 	}
 	if (prev != str)
-		add_token(head, create_token(prev, str - prev, TOKEN_NAME));
+	{
+		printf("%s3-> token found = '%s'%s\n", SBHPPL, ptr.op, SRST);
+		tk_lst_addback(tk_lst, tk_addnew(prev, str - prev, TK_NAME));
+	}
 	show_func(__func__, SUCCESS, NULL);
-	return (1);
+	return (SUCCESS);
+}
+
+void show_token_list(t_token *token)
+{
+	t_token *tk_ptr;
+
+	tk_ptr = token;
+	while (tk_ptr)
+	{
+		printf("%s-> token->content = '%s%s%s'%s\n",
+			SBHPPL, SBWHT, tk_ptr->content, SBHPPL, SRST);
+		printf("%s-> token->size = '%s%d%s'%s\n",
+			SBHPPL, SBWHT, tk_ptr->size, SBHPPL, SRST);
+		printf("%s-> token->type = '%s%d%s'%s\n",
+			SBHPPL, SBWHT, tk_ptr->type, SBHPPL, SRST);
+		tk_ptr = tk_ptr->next;
+	}
 }
 
 /// @brief 				Trims the token command from whitespaces
@@ -152,58 +200,30 @@ int	token_getter(char *str, t_token **head)
 /// @param head			pointer to the head of the token list
 /// @param script		script structure
 /// @return				SUCCESS if valid, ERROR if invalid
-int	tokenize(char **line, t_token **head, t_script *script)
+int	tk_builder(char **line, t_token **token, t_script *s)
 {
-	t_token	*tmp;
-	char	*bis;
-
 	show_func(__func__, MY_START, NULL);
-	if (!token_getter(*line, head))
+	t_token	*tk_ptr;
+	char	*content;
+
+	if (tk_getter(*line, token) == ERROR)
 	{
 		show_func(__func__, ERROR, NULL);
 		return (return_error("Syntax Error", 0));
 	}
-	tmp = *head;
-	while (tmp)
+	show_token_list(*token);
+	tk_ptr = *token;
+	while (tk_ptr)
 	{
-		bis = tmp->content;
-		tmp->content = replace_env_var(bis, script->envp, 0, 0);
-		free(bis);
-		tmp = tmp->next;
+		content = tk_ptr->content;
+		tk_ptr->content = replace_env_var(content, s->envp, 0, 0);
+		printf("%s-> content = '%s%s%s'%s\n",
+			SBHPPL, SBWHT, content, SBHPPL, SRST);
+		printf("%s-> token->content = '%s%s%s'%s\n",
+			SBHPPL, SBWHT, tk_ptr->content, SBHPPL, SRST);
+		free(content);
+		tk_ptr = tk_ptr->next;
 	}
 	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }
-// t_ops	token_type_getter(const char *s)
-// {
-// 	show_func(__func__, MY_START, NULL);
-// 	t_ops	ops[13];
-// 	t_ops	blank;
-// 	int		i;
-
-// 	blank = (t_ops){0, 0, 0};
-// 	ops[0] = (t_ops){">>", 2, TOKEN_R_OUT};
-// 	ops[1] = (t_ops){"<<", 2, TOKEN_R_IN};
-// 	ops[2] = (t_ops){"|", 1, TOKEN_PIPE};
-// 	ops[3] = (t_ops){">", 1, TOKEN_R_OUT};
-// 	ops[4] = (t_ops){"<", 1, TOKEN_R_IN};
-// 	ops[5] = (t_ops){" ", 1, TOKEN_WS};
-// 	ops[6] = (t_ops){"\n", 1, TOKEN_WS};
-// 	ops[7] = (t_ops){"\v", 1, TOKEN_WS};
-// 	ops[8] = (t_ops){"\t", 1, TOKEN_WS};
-// 	ops[9] = (t_ops){"\r", 1, TOKEN_WS};
-// 	ops[10] = (t_ops){"\f", 1, TOKEN_WS};
-// 	ops[11] = (t_ops){"=", 1, TOKEN_EQUAL};
-// 	ops[11] = (t_ops){NULL, 1, 0};
-// 	i = -1;
-// 	while (ops[++i].op)
-// 	{
-// 		if (!ft_strncmp(s, ops[i].op, ops[i].size))
-// 		{
-// 			show_func(__func__, SUCCESS, (char *)ops[i].op);
-// 			return (ops[i]);
-// 		}
-// 	}
-// 	show_func(__func__, ERROR, "Character is not a TOKEN");
-// 	return (blank);
-// }

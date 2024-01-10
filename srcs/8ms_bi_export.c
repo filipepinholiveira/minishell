@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/09 18:17:36 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/09 22:30:03 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	bi_export(t_script *s, t_command cmd)
 	i = -1;
 	while (cmd.argv[++i])
 	{
-		printf("%s EXPOORT vars cmd.argv[%d] = %s%s\n", SBRED, i, cmd.argv[i], SRST);
+		printf("%s EXPORT vars cmd.argv[%d] = %s%s\n", SBRED, i, cmd.argv[i], SRST);
 	}
 	show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);

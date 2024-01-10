@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:29:02 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/09 18:47:43 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/09 21:20:53 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	show_func(const char *func_name, int status, char *msg)
 				break ;
 		if (MY_DEBUG_COLOR)
 		{
-			printf("%s%s%s%s%s%s%s\n", SBHWHT, debug_msg[i].msg_header, SBWHT, func_name,
+			printf("%s%s%s%s%s%s%s", SBHWHT, debug_msg[i].msg_header, SBWHT, func_name,
 				debug_msg[i].color, debug_msg[i].msg, SRST);
 			if (msg)
 				printf("%s-> %s%s\n", SBHCYN, msg, SRST);

@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 09:55:51 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/09 18:03:09 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/09 23:03:57 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,16 +194,16 @@ int	execute(t_script *s)
 
 	// tmp = head;
 	show_func(__func__, MY_START, NULL);
-	if (head && head->type == TOKEN_PIPE)
+	if (head && head->type == T_PIPE)
 		return (return_error("Syntax error", 0));
 	while (head)
 	{
-		if (!head->next && (head->type == TOKEN_PIPE
+		if (!head->next && (head->type == T_PIPE
 				|| head->type == TOKEN_R_IN
 				|| head->type == TOKEN_R_OUT))
 			return (return_error("Syntax error", 0));
-		if (head->type == TOKEN_PIPE && head->next
-			&& head->next->type == TOKEN_PIPE)
+		if (head->type == T_PIPE && head->next
+			&& head->next->type == T_PIPE)
 			return (return_error("Syntax error", 0));
 		if ((head->type == TOKEN_R_OUT || head->type == TOKEN_R_IN)
 			&& (head->next && head->next->type != TOKEN_NAME))
@@ -229,7 +229,7 @@ int	get_cmd_count(t_token *head)
 	{
 		if (!count)
 			count = 1;
-		if (head->type == TOKEN_PIPE)
+		if (head->type == T_PIPE)
 			count ++;
 		head = head->next;
 	}
@@ -282,7 +282,7 @@ void	get_num_args(t_token *head, t_script *script)
 	{
 		script->commands[i].argc = 0;
 		tmp = head;
-		while (head && head->type != TOKEN_PIPE)
+		while (head && head->type != T_PIPE)
 		{
 			if (head->type == TOKEN_NAME && (tmp->type != TOKEN_R_IN
 					&& tmp->type != TOKEN_R_OUT))
@@ -343,7 +343,7 @@ int	parse_commands(t_token *head, t_command *cmd, int i, int j)
 			return (1);
 		}
 		j = 0;
-		while (head && head->type != TOKEN_PIPE)
+		while (head && head->type != T_PIPE)
 		{
 			if (head->type == TOKEN_NAME)
 				cmd[i].argv[j++] = ft_strdup(head->content);

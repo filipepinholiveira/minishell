@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   4ms_quotes.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:10:37 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/02 15:14:12 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2024/01/09 22:53:43 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,21 +111,21 @@ void	copy_in_quotes(char *start, char *end, char **str, int *i)
 /// @param str	string to advance
 /// @return		0 if unclosed quotation mark (error), 1 otherwise (success)
 ///				MISLEADING CHANGE STATUS
-int	treat_quotes(char **str)
+int	closed_quotes_check(char **str)
 {
+	show_func(__func__, MY_START, NULL);
 	char	open_quote;
 
-	show_func(__func__, MY_START, NULL);
 	open_quote = **str;
 	++(*str);
 	while (**str && **str != open_quote)
 		++(*str);
 	if (!**str || (**str != open_quote))
 	{
-		show_func(__func__, ERROR, NULL);
+		show_func(__func__, ERROR, "unclosed quotation mark");
 		return (0);
 	}
-	show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, "closed quotation mark");
 	return (1);
 }
 
@@ -168,7 +168,7 @@ char	*remove_quotes(char *str)
 		if (*str == '\"' || *str == '\'')
 		{
 			start = str + 1;
-			treat_quotes(&str);
+			closed_quotes_check(&str);
 			copy_in_quotes(start, str, &tmp, &i);
 		}
 		else
