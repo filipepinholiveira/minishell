@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 09:55:51 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/10 18:11:34 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/10 23:30:45 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,25 @@ int	get_cmd_type(char *cmd)
 		return (CMD_EXEC);
 }
 
-
-
 //int	exec_bi(t_script *s, int bi_func, int i)
-int	exec_bi(int (*f)(t_script*), t_script *s)
+
+/// @brief 		Executes built in functions
+/// @param f 	Builtin specific function to be called
+/// @param s 	Parsed script with command(s) to execute
+/// @param n 	Index of the command to be executed
+/// @return		0 if success, 1 if failure,...
+int	exec_bi(int (*f)(t_script*, int), t_script *s, int n)
 {
 	show_func(__func__, MY_START, NULL);
 	show_func(__func__, SUCCESS, NULL);
-	return (f(s));
+	return (f(s, n));
 }
-static int	bi_cmd_getter(t_script *s, int n)
+
+/// @brief 		Selects and Executes built in functions
+/// @param s 	Parsed script with command(s) to execute
+/// @param n 	Index of the command to be executed
+/// @return		0 if success, 1 if failure,...
+static int	bi_go(t_script *s, int n)
 {
 	show_func(__func__, MY_START, NULL);
 	const t_bi_cmd	bi_cmd[9] = {
@@ -86,17 +95,16 @@ static int	bi_cmd_getter(t_script *s, int n)
 	{"unset", bi_unset, s, n},
 	{"env", bi_env, s, n},
 	{"exit", bi_exit, s, n},
-	{NULL, NULL, NULL, 0}
-	};
+	{NULL, NULL, NULL, 0}};
 	int				i;
-	int			(*f)(t_script*, int);
+	int				(*f)(t_script*, int);
 
 	i = -1;
 	while (bi_cmd[++i].bi_cmd)
 	{
-		if (!ft_strncmp(bi_cmd[i].bi_cmd, s->commands[n].argv[0], ft_strlen(bi_cmd[i].bi_cmd)))
+		if (!ft_strncmp(bi_cmd[i].bi_cmd, s->commands[n].argv[0],
+				ft_strlen(bi_cmd[i].bi_cmd)))
 		{
-			show_func(__func__, SUCCESS, "Built in found and executed");
 			f = bi_cmd[i].bi_func;
 			return (f(bi_cmd[i].va_args, bi_cmd[i].n));
 		}
@@ -104,50 +112,55 @@ static int	bi_cmd_getter(t_script *s, int n)
 	show_func(__func__, ERROR, "Built in NOT found");
 	return (-1);
 }
+/// @brief 		Selects and Executes built in functions
+/// @param s 	Parsed script with command(s) to execute
+/// @param n 	Index of the command to be executed
+/// @return		0 if success, 1 if failure,...
+static int	exec_go(t_script *s, int n)
+{
+	show_func(__func__, MY_START, NULL);
+	show_func(__func__, SHOW_MSG, ft_itoa(n));
+	show_func(__func__, SUCCESS, NULL);
+	(void)s;
+	(void)n;
+	// pid_t	child_pid;
+	// char	*cmd_path;
+	//
+	// child_pid = fork();
+	// if (child_pid == -1)
+	// {
+	// 	perror("fork");
+	// 	exit(EXIT_FAILURE);
+	// }
+	// else if (child_pid == 0)
+	// {
+	// 	cmd_path = get_location(s->commands[0].argv[0]);
+	// 	if (cmd_path != NULL)
+	// 	{
+	// 		if (execve(cmd_path, s->commands[0].argv, NULL) == -1)
+	// 		{
+	// 			perror("Error");
+	// 			exit(EXIT_FAILURE);
+	// 		}
+	// 	}
+	// 	else
+	// 	{
+	// 		printf("%s: command not found\n", s->commands[0].argv[0]);
+	// 		exit(EXIT_FAILURE);
+	// 	}
+	// }
+	// else
+	// 	wait(NULL);
+	return (0);
+}
 
 int	exec_one(t_script *s)
 {
-	pid_t	child_pid;
-	char	*cmd_path;
-	int		cmd_type;
-
 	show_func(__func__, MY_START, NULL);
-
-	cmd_type = get_cmd_type(s->commands[0].argv[0]);
-
-	if (cmd_type != CMD_EXEC)
-	{
-		g_exit_status = bi_cmd_getter(s, 0);
-		//exec_bi(s, cmd_type, 0);
-	}
+	if (get_cmd_type(s->commands[0].argv[0]) != CMD_EXEC)
+		g_exit_status = bi_go(s, s->cmd_count - 1);
 	else
-	{
-		child_pid = fork();
-		if (child_pid == -1)
-		{
-			perror("fork");
-			exit(EXIT_FAILURE);
-		}
-		else if (child_pid == 0)
-		{
-			cmd_path = get_location(s->commands[0].argv[0]);
-			if (cmd_path != NULL)
-			{
-				if (execve(cmd_path, s->commands[0].argv, NULL) == -1)
-				{
-					perror("Error");
-					exit(EXIT_FAILURE);
-				}
-			}
-			else
-			{
-				printf("%s: command not found\n", s->commands[0].argv[0]);
-				exit(EXIT_FAILURE);
-			}
-		}
-		else
-			wait(NULL);
-	}
+		g_exit_status = exec_go(s, s->cmd_count - 1);
 	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }
@@ -174,7 +187,7 @@ int	execute(t_script *s)
 		if (pipex(s, path_env))
 			return (1);
 	//exec_one(s);
-	//termios_setter(&s->termios_p);
+	termios_setter(&s->termios_p);
 	show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);
 }
