@@ -6,7 +6,7 @@
 #    By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/24 21:23:27 by antoda-s          #+#    #+#              #
-#    Updated: 2024/01/08 18:24:02 by antoda-s         ###   ########.fr        #
+#    Updated: 2024/01/11 18:41:31 by antoda-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ FILES	+=	8ms_bi_utils.c
 FILES	+=	8ms_bi_echo.c
 FILES	+=	8ms_bi_exit.c
 FILES	+=	8ms_bi_export.c
+FILES	+=	8ms_bi_equal.c
 FILES	+=	8ms_bi_unset.c
 FILES	+=	99ms_error.c
 FILES	+=	999ms_free.c

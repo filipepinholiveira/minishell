@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/10 19:25:09 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/11 18:33:33 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -504,12 +504,19 @@ char	**bi_unset(t_script *s);
 int		env_count(char **envp);
 
 /// @brief          add new environment variable to env
-/// @param arg      new env variable to add
-/// @param env      environment variables lis
-/// @return         new env list
-/// STILL TESTING
+
+/// @brief 			Export PERMANENT environment variables
+/// @param s 		Script structure with commans and args
+/// @param n 		Index of command to be executed
+/// @return 		SUCCESS or ERROR
 int		bi_export(t_script *s, int n);
-//char	**export_cmd(t_script *s);
+
+/// @brief 			Export TEMPORARY environment variables
+/// @param s 		Script structure with commans and args
+/// @param n 		Index of command to be executed
+/// @return 		SUCCESS or ERROR
+int		bi_equal(t_script *s, int n);
+
 
 /// @brief 			Builtin cd command
 /// @param args		Builtin command arguments
@@ -537,7 +544,7 @@ int		bi_env(t_script *s);
 /// @param args		Builtin command arguments
 /// @return			SUCCESS or ERROR
 //int		bi_exit(char **args);
-int		bi_exit(t_script *s);
+int		bi_exit(t_script *s, int n);
 
 /// @brief 			Builtin pwd command
 /// @param void		Builtin command arguments not required
