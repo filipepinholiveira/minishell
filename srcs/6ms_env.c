@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/12 23:27:52 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/12 23:32:38 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	env_var_setter(char *val, char *var, char ***envp)
 		return (0);
 	}
 	old_record = (*envp)[index];
-	(*envp)[index] = ft_strjoin_free(var_t1, ft_strdup(val));
+	(*envp)[index] = ft_strjoin_free(var_new, ft_strdup(val));
 	free(old_record);
 	show_func(__func__, SUCCESS, (*envp)[index]);
 	return (0);
