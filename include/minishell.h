@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/11 18:33:33 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/12 20:48:55 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -496,7 +496,7 @@ int		return_error(const char *msg, int system);
 /// @param envp Current environment variables
 /// @return Updated environment variables
 //char **bi_unset(char **arg, char **envp);
-char	**bi_unset(t_script *s);
+//char	**bi_unset(t_script *s);
 
 /// @brief              count the number or env variables
 /// @param envp         current environment variables
@@ -555,7 +555,8 @@ int		bi_pwd(t_script *s, int n);
 /// @brief 			Builtin unset command
 /// @param args		Builtin command arguments
 /// @return			SUCCESS or ERROR
-int		unset(char *args[]);
+int		bi_unset(t_script *s, int n);
+//int		unset(char *args[]);
 
 /// @brief
 /// @param cmd
