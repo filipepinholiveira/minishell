@@ -12,22 +12,6 @@
 
 #include "../include/minishell.h"
 
-/// @brief 			Shows error and program sourcing it
-/// @param msg		Message to show
-/// @param system	Shows system error if true
-/// @return			SUCCESS
-static int	export_error(const char *msg, int system)
-{
-	show_func(__func__, MY_START, NULL);
-
-	ft_putstr_fd("Minishell: export: '", 2);
-	ft_putstr_fd(msg, 2);
-	ft_putstr_fd("': not a valid identifier\n", 2);
-	errno = system;
-	show_func(__func__, SUCCESS, NULL);
-	return (system);
-}
-
 /// @brief 			Export PERMANENT environment variables
 /// @param s 		Script structure with commans and args
 /// @param n 		Index of command to be executed

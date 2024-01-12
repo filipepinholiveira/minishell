@@ -16,6 +16,22 @@
 /// @param msg		Message to show
 /// @param system	Shows system error if true
 /// @return			SUCCESS
+int	export_error(const char *msg, int system)
+{
+	show_func(__func__, MY_START, NULL);
+
+	ft_putstr_fd("Minishell: export: '", 2);
+	ft_putstr_fd(msg, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
+	errno = system;
+	show_func(__func__, SUCCESS, NULL);
+	return (system);
+}
+
+/// @brief 			Shows error and program sourcing it
+/// @param msg		Message to show
+/// @param system	Shows system error if true
+/// @return			SUCCESS
 int	return_error(const char *msg, int system)
 {
 	show_func(__func__, MY_START, NULL);

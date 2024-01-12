@@ -491,6 +491,12 @@ char	**split_path(char **path);
 /// @param msg		Message to show
 /// @param system	Shows system error if true
 /// @return			SUCCESS
+int	export_error(const char *msg, int system);
+
+/// @brief 			Shows error and program sourcing it
+/// @param msg		Message to show
+/// @param system	Shows system error if true
+/// @return			SUCCESS
 int		return_error(const char *msg, int system);
 
 /* ************************************************************************** */
