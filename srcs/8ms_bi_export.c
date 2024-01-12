@@ -6,21 +6,18 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/10 22:46:46 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/11 18:53:01 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 
-// NOVA VERSAO PARA IMPLEMENTAR ESTRUTURA, COM INDEX
-/// @brief          add new environment variable to env
-/// @param arg      new env variable to add
-/// @param envp     environment variables lis
-/// @return         the new env variables
-/// STILL TESTING
-//int	bi_export(t_script *s, t_command cmd)
-int	bi_export(t_script *s, int n)
+/// @brief 			Export PERMANENT environment variables
+/// @param s 		Script structure with commans and args
+/// @param n 		Index of command to be executed
+/// @return 		SUCCESS or ERROR
+int		bi_export(t_script *s, int n)
 {
 	show_func(__func__, MY_START, NULL);
 	int		i;
@@ -35,11 +32,13 @@ int	bi_export(t_script *s, int n)
 	i = 1;
 	while (s->commands[n].argv[i])
 	{
+		printf("%s&s->envp = %p%s\n", SBHPPL, s->envp, SRST);
 		var_t2 = env_var_getter(s->commands[n].argv[i], s->envp);
 		printf("%s EXPORT (11) vars argv[%d] = '%s'%s\n",
 			SBRED, i, s->commands[n].argv[i], SRST);
 		printf("%s EXPORT (12) vars var_t2[%d] = '%s'%s\n",
 			SBRED, i, var_t2, SRST);
+
 		if (s->commands[n].argv[i + 1])
 		{
 			printf("%s EXPORT (21) vars argv[%d] = '%s'%s\n",
@@ -51,6 +50,7 @@ int	bi_export(t_script *s, int n)
 		{
 			printf("%s EXPORT (31) vars argv[%d] = '%s'%s\n",
 				SBRED, i, s->commands[n].argv[i], SRST);
+			printf("%s&s->envt = %p%s\n", SBHGRN, s->envt, SRST);
 			var_t1 = env_var_getter(s->commands[n].argv[i], s->envt);
 			if (var_t1)
 			{
@@ -63,7 +63,7 @@ int	bi_export(t_script *s, int n)
 		}
 		i += 2;
 	}
-	show_envp(s->envp);
+	//show_envp(s->envp);
 	show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);
 }

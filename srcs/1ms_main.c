@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:27:05 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/10 22:47:34 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/11 16:46:25 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ char	**envp_getter(char **envp)
 		show_func(__func__, ERROR, NULL);
 		return (NULL);
 	}
+	printf("%s&ms_envp = %p%s\n", SBHPPL, ms_envp, SRST);
 	i = 0;
 	while (envp[i])
 	{
@@ -130,7 +131,7 @@ static int	ms_loop(t_script *s)
 			if (execute(s))
 				break ;
 		}
-		show_func(__func__, SHOW_MSG, ft_strjoin("11 - s->cmd_count = ", ft_itoa(s->cmd_count)));
+		show_func(__func__, SHOW_MSG, ft_strjoin_free(ft_strdup("11 - s->cmd_count = "), ft_itoa(s->cmd_count)));
 		free_commands(s->commands, s->cmd_count);
 		show_func(__func__,SHOW_MSG, ft_strjoin("12 - s->cmd_count = ", ft_itoa(s->cmd_count)));
 	}

@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 09:55:51 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/10 23:30:45 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/11 18:48:13 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,10 +157,19 @@ static int	exec_go(t_script *s, int n)
 int	exec_one(t_script *s)
 {
 	show_func(__func__, MY_START, NULL);
-	if (get_cmd_type(s->commands[0].argv[0]) != CMD_EXEC)
-		g_exit_status = bi_go(s, s->cmd_count - 1);
+	if (s->commands[0].argc > 1 && !ft_strncmp(s->commands[0].argv[1], "=", 2))
+	{
+		show_func(__func__, SHOW_MSG, "Variable temp");
+		g_exit_status = bi_equal(s, s->cmd_count - 1);
+	}
 	else
-		g_exit_status = exec_go(s, s->cmd_count - 1);
+	{
+		if (get_cmd_type(s->commands[0].argv[0]) != CMD_EXEC)
+			g_exit_status = bi_go(s, s->cmd_count - 1);
+		else
+			g_exit_status = exec_go(s, s->cmd_count - 1);
+	}
+
 	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }
@@ -173,8 +182,9 @@ int	execute(t_script *s)
 	char	**path_env;
 
 	execute_show(s);
-	//path_env = split_path(s->envp, ':');
 	path_env = split_path(s->envp);
+//if (!ft_strncmp(->commands->argv[1], "=", 1))
+//criarna envt
 	if (s->cmd_count == 1)
 	{
 		if (exec_one(s))
@@ -186,7 +196,6 @@ int	execute(t_script *s)
 	else
 		if (pipex(s, path_env))
 			return (1);
-	//exec_one(s);
 	termios_setter(&s->termios_p);
 	show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);

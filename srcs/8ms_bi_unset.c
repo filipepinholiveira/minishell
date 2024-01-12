@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/10 12:14:27 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/11 18:38:52 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 /// @param envp Current environment variables
 /// @return Updated environment variables
 char	**bi_unset(t_script *s)
+//char	**bi_unset(t_script *s, int n)
 {
 	int		i;
 	int		j;

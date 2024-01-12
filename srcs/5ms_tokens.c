@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:10:37 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/09 23:52:24 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/11 22:11:12 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ t_ops	tk_type_getter(const char *s)
 	{"|", 1, TK_PIPE}, {">", 1, TK_R_OUT}, {"<", 1, TK_R_IN},
 	{" ", 1, TK_WS}, {"\n", 1, TK_WS}, {"\v", 1, TK_WS},
 	{"\t", 1, TK_WS}, {"\r", 1, TK_WS}, {"\f", 1, TK_WS},
-	{"=", 1, TK_EQUAL}, {NULL, 1, 0}};
+	{NULL, 1, 0},{NULL, 1, 0}};
+	//{"=", 1, TK_EQUAL}, {NULL, 1, 0}};
 
 	blank = (t_ops){0, 0, 0};
 	i = -1;

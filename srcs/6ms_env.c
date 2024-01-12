@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/10 22:33:49 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/11 17:02:07 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,20 +67,24 @@ int	env_var_setter(char *val, char *var, char ***envp)
 	int		index;
 	char *var_t1;
 
+	printf("%s&envp = %p%s\n", SBHPPL, *envp, SRST);
 	var_t1 = ft_strjoin(var, "=");
-
+	// malloc var_t1
+	printf("*envp = %p\n", *envp);
 	index = env_var_index_getter(var, *envp);
 	if (index == -1)
 	{
 		index = 0;
 		while ((*envp)[index])
 			index++;
-		(*envp)[index] = ft_strjoin_free(ft_strdup(var_t1), val);
+		(*envp)[index] = ft_strjoin_free(var_t1, ft_strdup(val));
+		// malloc (*envp)[index]: free(var_t1), free(malloc(strdup(val)))
+		// = var_t1 > z: val> valor: reesultado (*envp)[index] = var_t1 val
 		(*envp)[index + 1] = NULL;
 		show_func(__func__, SUCCESS, (*envp)[index]);
 		return (0);
 	}
-	(*envp)[index] = ft_strjoin(var_t1, val);
+	(*envp)[index] = ft_strjoin_free(var_t1, ft_strdup(val));
 	show_func(__func__, SUCCESS, (*envp)[index]);
 	return (0);
 }
@@ -88,7 +92,7 @@ int	env_var_setter(char *val, char *var, char ***envp)
 /// @brief		This function iterates over the environment variables to
 ///				find whether or not the given variable (str) is defined and
 ///				returns the content or an empty freeable string.
-/// @param str	Variable to be found
+/// @param var	Variable to be found
 /// @param envp	Environment variables
 /// @return		Content of the variable
 char	*env_var_getter(char *var, char **envp)
@@ -98,6 +102,14 @@ char	*env_var_getter(char *var, char **envp)
 	char	*ret;
 	int		len;
 
+	if (!envp)
+	{
+		show_func(__func__, ERROR, "envp is NULL");
+		return (NULL);
+	}
+	show_func(__func__, SHOW_MSG, var);
+	show_func(__func__, SHOW_MSG, *envp);
+	printf("%s&envp = %p%s\n", SBHPPL, envp, SRST);
 	if (!envp)
 	{
 		show_func(__func__, ERROR, "envp is NULL");
@@ -118,9 +130,13 @@ char	*env_var_getter(char *var, char **envp)
 	free(tmp);
 	if (!ret)
 	{
+		printf("Variable '%s' not found\n", var);
 		ret = ft_strdup("");
 		if (!ret)
+		{
+			show_func(__func__, MALLOC_ERROR, "ret is NULL");
 			return (NULL);
+		}
 	}
 	show_func(__func__, SUCCESS, ret);
 	return (replace_multiple_space(ret));

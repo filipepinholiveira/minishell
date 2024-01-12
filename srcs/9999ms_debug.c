@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:29:02 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/10 23:00:13 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/11 21:57:16 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	show_func_msg(const char *msg)
 			write(2, "\n", 2);
 		else
 		{
-			write(2, "-> ", 3);
-			write(2, msg, ft_strlen(msg));
+			write(STDOUT_FILENO, "-> ", 3);
+			write(STDOUT_FILENO, msg, ft_strlen(msg));
 			//write(2, "\n", 1);
 		}
 	}
@@ -68,9 +68,9 @@ int	show_func(const char *func_name, int status, char *msg)
 		}
 		else
 		{
-			write(2, debug_msg[i].msg_header, 5);
-			write(2, func_name, ft_strlen(func_name));
-			write(2, debug_msg[i].msg, debug_msg[i].len);
+			write(STDOUT_FILENO, debug_msg[i].msg_header, 5);
+			write(STDOUT_FILENO, func_name, ft_strlen(func_name));
+			write(STDOUT_FILENO, debug_msg[i].msg, debug_msg[i].len);
 			show_func_msg(msg);
 		}
 	}
