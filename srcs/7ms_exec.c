@@ -123,36 +123,91 @@ static int	exec_go(t_script *s, int n)
 	show_func(__func__, SUCCESS, NULL);
 	(void)s;
 	(void)n;
-	// pid_t	child_pid;
-	// char	*cmd_path;
-	//
-	// child_pid = fork();
-	// if (child_pid == -1)
-	// {
-	// 	perror("fork");
-	// 	exit(EXIT_FAILURE);
-	// }
-	// else if (child_pid == 0)
-	// {
-	// 	cmd_path = get_location(s->commands[0].argv[0]);
-	// 	if (cmd_path != NULL)
-	// 	{
-	// 		if (execve(cmd_path, s->commands[0].argv, NULL) == -1)
-	// 		{
-	// 			perror("Error");
-	// 			exit(EXIT_FAILURE);
-	// 		}
-	// 	}
-	// 	else
-	// 	{
-	// 		printf("%s: command not found\n", s->commands[0].argv[0]);
-	// 		exit(EXIT_FAILURE);
-	// 	}
-	// }
-	// else
-	// 	wait(NULL);
+	pid_t	child_pid;
+	char	**cmd_path;
+	char	*exec_path;
+	int		i;
+	
+	i = -1;
+	child_pid = fork();
+	if (child_pid == -1)
+	{
+		perror("fork");
+		exit(EXIT_FAILURE);
+	}
+	else if (child_pid == 0)
+	{
+		cmd_path = split_path(s->envp);
+		if (cmd_path != NULL)
+		{
+			while (cmd_path[++i] != NULL)
+			{
+				exec_path = ft_strjoin(cmd_path[i], s->commands[n].argv[0]);
+				// show_func(__func__, SHOW_MSG, exec_path);
+				// show_func(__func__, SHOW_MSG, s->commands[n].argv[0]);
+				if (execve(exec_path, s->commands[n].argv, NULL) == -1)
+				{
+					if (errno != ENOENT) // ENOENT é derivado de "Error NO ENTry" (Erro Sem Entrada). O código associado a ENOENT é geralmente 2.
+					{
+					perror("Error");
+					free(exec_path);
+					exit(EXIT_FAILURE);
+					}
+				}
+				free(exec_path);
+			}
+			printf("%s: command not found\n", s->commands[n].argv[0]);
+			exit(EXIT_FAILURE);
+		}
+		else
+		{
+			printf("%s: command not found\n", s->commands[n].argv[0]);
+			exit(EXIT_FAILURE);	
+		}
+	}
+	else
+		wait(NULL);
 	return (0);
 }
+
+// static int	exec_go(t_script *s, int n)
+// {
+// 	show_func(__func__, MY_START, NULL);
+// 	show_func(__func__, SHOW_MSG, ft_itoa(n));
+// 	show_func(__func__, SUCCESS, NULL);
+// 	(void)s;
+// 	(void)n;
+// 	pid_t	child_pid;
+// 	char	*cmd_path;
+	
+// 	child_pid = fork();
+// 	if (child_pid == -1)
+// 	{
+// 		perror("fork");
+// 		exit(EXIT_FAILURE);
+// 	}
+// 	else if (child_pid == 0)
+// 	{
+// 		cmd_path = get_location(s->commands[0].argv[0]); // nao vou usar get_location, tenho o split_path (ESTUDAR ACESS)
+// 		//cmd_path = split_path(s->envp);
+// 		if (cmd_path != NULL)
+// 		{
+// 			if (execve(cmd_path, s->commands[0].argv, NULL) == -1)
+// 			{
+// 				perror("Error");
+// 				exit(EXIT_FAILURE);
+// 			}
+// 		}
+// 		else
+// 		{
+// 			printf("%s: command not found\n", s->commands[0].argv[0]);
+// 			exit(EXIT_FAILURE);
+// 		}
+// 	}
+// 	else
+// 		wait(NULL);
+// 	return (0);
+// }
 
 int	exec_one(t_script *s)
 {

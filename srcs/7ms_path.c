@@ -34,7 +34,7 @@ static int	get_path_index(char **envp)
 
 char	**split_path(char **envp)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	int		i;
 	char	**path;
 
@@ -47,8 +47,8 @@ char	**split_path(char **envp)
 	while (path[++i])
 	{
 		path[i] = ft_strjoin(path[i], "/");
-		//show_func(__func__, MY_START, path[i]);
+		//show_func(__func__, SHOW_MSG, path[i]);
 	}
-	//show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 	return (path);
 }
