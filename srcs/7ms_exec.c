@@ -112,6 +112,29 @@ static int	bi_go(t_script *s, int n)
 	show_func(__func__, ERROR, "Built in NOT found");
 	return (-1);
 }
+
+
+
+static int exit_status_getter(int status)
+{
+	show_func(__func__, MY_START, NULL);
+	int i;
+
+	const t_execve_error ex_error[8] = {
+		{EACCES, 126},
+		{ENOMEM, 12},
+		{E2BIG, 7},
+		{EFAULT, 14},
+		{EINVAL, 22},
+		{EIO, 5},
+		{0, 0}};	
+	i = -1;
+	while (ex_error[++i].src_error)
+			if (ex_error[i].src_error == status)
+				return (ex_error[i].dest_error);
+	return (SUCCESS);
+}
+
 /// @brief 		Selects and Executes built in functions
 /// @param s 	Parsed script with command(s) to execute
 /// @param n 	Index of the command to be executed
@@ -121,21 +144,22 @@ static int	exec_go(t_script *s, int n)
 	show_func(__func__, MY_START, NULL);
 	show_func(__func__, SHOW_MSG, ft_itoa(n));
 	show_func(__func__, SUCCESS, NULL);
-	(void)s;
-	(void)n;
-	pid_t	child_pid;
+	pid_t	fork_pid;
 	char	**cmd_path;
 	char	*exec_path;
 	int		i;
-	
+	int		status;
+
 	i = -1;
-	child_pid = fork();
-	if (child_pid == -1)
+	
+	fork_pid = fork();
+	signal(SIGINT, sig_handler_fork);
+	if (fork_pid == -1)
 	{
 		perror("fork");
 		exit(EXIT_FAILURE);
 	}
-	else if (child_pid == 0)
+	if (fork_pid == 0)
 	{
 		cmd_path = split_path(s->envp);
 		if (cmd_path != NULL)
@@ -143,32 +167,87 @@ static int	exec_go(t_script *s, int n)
 			while (cmd_path[++i] != NULL)
 			{
 				exec_path = ft_strjoin(cmd_path[i], s->commands[n].argv[0]);
-				// show_func(__func__, SHOW_MSG, exec_path);
-				// show_func(__func__, SHOW_MSG, s->commands[n].argv[0]);
-				if (execve(exec_path, s->commands[n].argv, NULL) == -1)
-				{
-					if (errno != ENOENT) // ENOENT é derivado de "Error NO ENTry" (Erro Sem Entrada). O código associado a ENOENT é geralmente 2.
-					{
-					perror("Error");
-					free(exec_path);
-					exit(EXIT_FAILURE);
-					}
-				}
-				free(exec_path);
+				if (!access(exec_path, F_OK))
+					break ;
 			}
+			if (cmd_path[i])
+			{
+				status = execve(exec_path, s->commands[n].argv, NULL);
+				free (exec_path);
+				if (status)
+				{
+					perror("Error");
+					exit(exit_status_getter(errno));
+				}
+				exit(SUCCESS);
+			}
+			free(exec_path);
 			printf("%s: command not found\n", s->commands[n].argv[0]);
-			exit(EXIT_FAILURE);
-		}
-		else
-		{
-			printf("%s: command not found\n", s->commands[n].argv[0]);
-			exit(EXIT_FAILURE);	
+			exit(COMMAND_NOT_FOUND);
 		}
 	}
 	else
-		wait(NULL);
+	{
+		waitpid(fork_pid, &g_exit_status, 0);
+		if (WIFEXITED(g_exit_status))
+		{
+		    g_exit_status = WEXITSTATUS(g_exit_status);
+			printf("Child process exited with status %d\n", g_exit_status);
+		}
+		printf("Saiu do child\n)");
+	}
 	return (0);
 }
+
+
+//useful info :::
+
+					// printf("errno = %d \n", errno);
+					// perror("Error");
+					// free(exec_path);
+					// 	/*errno possiveis:
+
+					// EACCES (Permission denied):
+					// Indica que não há permissão para executar o arquivo. valor costuma ser 13
+
+					// ENOMEM (Out of memory):
+					// Indica que não há memória disponível para executar o novo programa.
+					// valor costuma ser 12
+
+					// E2BIG (Argument list too long):
+					// Indica que a soma do tamanho dos argumentos e do ambiente é maior 
+					// do que o permitido.
+					// valor costuma ser 7
+
+					// EFAULT (Bad address):
+					// Indica um problema com a estrutura de dados passada para a função execve. 
+					// Por exemplo, um ponteiro nulo ou inválido.
+					// valor costuma ser 14
+
+					// EINVAL (Invalid argument):
+					// Indica que um argumento passado para execve é inválido.
+					// valor costuma ser 22
+
+					// EIO    An I/O error occurred.
+					// usado para indicar erros relacionados à entrada/saída. Ele indica um erro geral 
+					// associado a operações de entrada/saída que não podem ser concluídas com sucesso.
+					// valor costuma ser 5
+
+					// */
+					// if (errno == EACCES)
+					// 	exit(PERMISSION_DENIED); // se colocarmos EACESS vai dar erro 13
+					// else if (errno == ENOMEM)
+					// 	exit(ENOMEM);
+					// else if (errno == E2BIG)
+					// 	exit(E2BIG);
+					// else if(errno == EFAULT)
+					// 	exit(EFAULT);
+					// else if(errno == EINVAL)
+					// 	exit(EINVAL);
+					// else if(errno == EIO)
+					// 	exit(EIO);
+					// else
+					// 	exit(ERROR);
 
 // static int	exec_go(t_script *s, int n)
 // {
@@ -179,7 +258,7 @@ static int	exec_go(t_script *s, int n)
 // 	(void)n;
 // 	pid_t	child_pid;
 // 	char	*cmd_path;
-	
+
 // 	child_pid = fork();
 // 	if (child_pid == -1)
 // 	{

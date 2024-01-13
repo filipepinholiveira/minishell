@@ -67,6 +67,15 @@ typedef enum e_cmd_type
 	CMD_EXIT
 }			t_cmd_type;
 
+/// @brief 				Struct to hold errors from execve
+/// @param src_error	error from execve status
+/// @param dest_error	error
+typedef struct s_execve_error
+{
+	const int src_error;
+	const int dest_error;
+}				t_execve_error;
+
 /// @brief 				Struct to hold the token variables (see t_token_type)
 /// @param op			Token char set
 /// @param size			Token char set length
