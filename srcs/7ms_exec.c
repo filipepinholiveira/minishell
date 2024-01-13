@@ -296,6 +296,19 @@ int	exec_one(t_script *s)
 		show_func(__func__, SHOW_MSG, "Variable temp");
 		g_exit_status = bi_equal(s, s->cmd_count - 1);
 	}
+	else if(s->commands[0].out.name)
+	{
+		printf("Temos que executar %s e enviar para %s\n", s->commands[0].argv[0], s->commands[0].out.name);
+		/*
+		echo filipe > f.txt > g.txt > j.txt
+		qq coisa como while (s->commands[0].argv[i])
+		{
+			contar o numero de >, e fazer pipes, escrever (fd1) o valor de cmd echo, e ler 
+			no ficheiro criado "f.txt" (fd0), escrevendo (fd1), lendo (fd) no g.txt, escrevendo (fd1)
+			e lendo finalmente (fd0) j.txt
+		}
+		*/
+	}
 	else
 	{
 		if (get_cmd_type(s->commands[0].argv[0]) != CMD_EXEC)
