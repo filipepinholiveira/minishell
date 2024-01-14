@@ -35,11 +35,61 @@ int	var_name_check(char *var)
 	return (SUCCESS);
 }
 
-static void	execute_do_cmd_1(char **argv, char **envp, int in_fd)
+// static void	execute_do_cmd_1(char **argv, char **envp, int in_fd)
+// {
+// 	show_func(__func__, MY_START, argv[0]);
+// 	printf("input fd: %d\n", in_fd);
+// 	printf("envp: %s\n", envp[0]);
+// 	show_func(__func__, SUCCESS, NULL);
+// 	return ;
+// }
+
+static void	execute_do_cmd_1(t_script *s, int index, int in_fd)
 {
-	show_func(__func__, MY_START, argv[0]);
+	show_func(__func__, MY_START, s->commands->argv[0]);
 	printf("input fd: %d\n", in_fd);
-	printf("envp: %s\n", envp[0]);
+	printf("envp: %s\n", s->envp[0]);
+
+	pid_t	fork_pid;
+	char	**cmd_path;
+	char	*exec_path;
+	int i;
+
+	i = -1;
+
+	signal(SIGINT, sig_handler_fork);
+	fork_pid = fork();
+	if (fork_pid == -1)
+	{
+		perror("fork");
+		exit(EXIT_FAILURE);
+	}
+	if (fork_pid == 0)
+	{
+		cmd_path = split_path(s->envp);
+		if (cmd_path != NULL)
+		{
+			while (cmd_path[++i] != NULL)
+			{
+				exec_path = ft_strjoin(cmd_path[i], s->commands[index].argv[0]);
+				if (!access(exec_path, F_OK))
+					break ;
+			}
+		if (cmd_path[i])
+		{
+			dup2(in_fd, STDOUT_FILENO);
+			int status = execve(exec_path, s->commands[index].argv, NULL); // atençao que se entra no exec jao nao faz free!!! Filipe 17 jan
+			
+			if (status)
+			{
+				perror("Error");
+				//exit(exit_status_getter(errno));
+			}
+		}
+		}
+	}
+
+	show_func(__func__, SUCCESS, NULL);
 	return ;
 }
 
@@ -49,6 +99,7 @@ static void	execute_do_cmd_n(char **argv, char **envp, int in_fd, int out_fd)
 	printf("input fd: %d\n", in_fd);
 	printf("output fd: %d\n", out_fd);
 	printf("envp: %s\n", envp[0]);
+	show_func(__func__, SUCCESS, NULL);
 	return ;
 }
 
@@ -133,6 +184,97 @@ void	execute_do_cmd_i(char **argv, char **envp, int in_fd, int out_fd)
 	show_func(__func__, SUCCESS, NULL);
 }
 
+// /// @brief 		Executa dois comandos em sequência com um pipe entre eles.
+// /// @param s	Estrutura contendo informações sobre cmds a serem executados.
+// /// @param path_env		Array de strings representando o caminho do ambiente.
+// /// @return			0 em caso de sucesso, encerra o programa em caso de falha.
+// int	pipex(t_script *s, char **path_env)
+// {
+// 	show_func(__func__, MY_START, NULL);
+// 	int		p[2];
+// 	pid_t	child_pid;
+// 	int 	i;
+
+// 	signal(SIGINT, sig_handler_fork);
+// 	i = 1;
+// 	if (pipe(p) == -1)
+// 	{
+// 		perror("pipe");
+// 		show_func(__func__, EXIT_FAILURE, NULL);
+// 		exit(EXIT_FAILURE);
+// 	}
+// 	child_pid = fork();
+// 	if (child_pid == -1)
+// 	{
+// 		perror("fork");
+// 		show_func(__func__, ERROR, NULL);
+// 		exit(EXIT_FAILURE);
+// 	}
+// 	else if (child_pid == 0)
+// 	{
+// 		// Processo filho
+// 		printf("Executa o primeiro comando child\n");
+// 		//close(pipe_fd[0]); // Fecha a extremidade de leitura do pipe
+// 		// Redireciona stdout para a extremidade de escrita do pipe
+// 		//dup2(pipe_fd[1], STDOUT_FILENO);
+// 		//printf("Executa o primeiro comando child 2\n");
+
+// 		while(i <= s->cmd_count)
+// 		{
+// //			int j = 0;
+// 			if (i == 1)
+// 			{
+// 				//first command
+// 				close(p[0]);
+// 				execute_do_cmd_1(s->commands[i-1].argv, path_env, p[1]);
+// 			}
+// 			else if (i == s->cmd_count)
+// 			{
+// 				//last command
+// 				close(p[1]);
+// 				execute_do_cmd_n(s->commands[i-1].argv, path_env, p[0], STDOUT_FILENO);
+// 				close(p[0]);
+// 			}
+// 			else
+// 			{
+// 				dup2(p[0], STDIN_FILENO);
+// 				dup2(p[1], STDOUT_FILENO);
+// 				execute_do_cmd_i(s->commands[i-1].argv, path_env, STDIN_FILENO, p[1]);
+// 				// inbetween commands
+// 			}
+// 			// while (s->commands[i].argv[j])
+// 			// {
+// 			// 	execute_do_cmd(s->commands[i-1].argv, path_env, STDIN_FILENO, p[1]);
+// 			// 	i++;
+// 			// }
+// 			i++;
+// 		}
+// 		// execute_do_cmd(s->commands[i].argv, path_env,
+// 		// 	STDIN_FILENO, pipe_fd[1]);
+// 		close(p[1]); // Fecha a extremidade de escrita do pipe
+// 		show_func(__func__, CHILD_EXIT, "pipex simulator exit");
+// 		exit(EXIT_SUCCESS);
+// 	}
+// 	else
+// 	{
+// 		// Processo pai
+// 		// close(pipe_fd[1]); // Fecha a extremidade de escrita do pipe
+// 		// // Redireciona stdin para a extremidade de leitura do pipe
+// 		// dup2(pipe_fd[0], STDIN_FILENO);
+// 		// // Executa o segundo comando
+// 		// execute_do_cmd(s->commands[1].argv, path_env, pipe_fd[0],
+// 		// close(pipe_fd[0]); // Fecha a extremidade de leitura do pipe
+// 		// 	STDOUT_FILENO);
+// 		// // Aguarda o processo filho terminar
+// 		wait(NULL);
+// 	}
+// 	show_func(__func__, SUCCESS, NULL);
+// 	return (0);
+// }
+
+
+
+
 /// @brief 		Executa dois comandos em sequência com um pipe entre eles.
 /// @param s	Estrutura contendo informações sobre cmds a serem executados.
 /// @param path_env		Array de strings representando o caminho do ambiente.
@@ -140,86 +282,100 @@ void	execute_do_cmd_i(char **argv, char **envp, int in_fd, int out_fd)
 int	pipex(t_script *s, char **path_env)
 {
 	show_func(__func__, MY_START, NULL);
-	int		p[2];
-	pid_t	child_pid;
+	int cmd_num = s-> cmd_count;
+	int		pipes[cmd_num + 1][2];
+	pid_t	child_pids[cmd_num];
 	int 	i;
 
-	signal(SIGINT, sig_handler_fork);
+	signal(SIGINT, sig_handler_fork);  // tratamento de sinais
+	
 	i = 1;
-	if (pipe(p) == -1)
+	while (++i < cmd_num) // criaçao dos pipes 
 	{
-		perror("pipe");
-		show_func(__func__, EXIT_FAILURE, NULL);
-		exit(EXIT_FAILURE);
-	}
-	child_pid = fork();
-	if (child_pid == -1)
-	{
-		perror("fork");
-		show_func(__func__, ERROR, NULL);
-		exit(EXIT_FAILURE);
-	}
-	else if (child_pid == 0)
-	{
-		// Processo filho
-		printf("Executa o primeiro comando child\n");
-		//close(pipe_fd[0]); // Fecha a extremidade de leitura do pipe
-		// Redireciona stdout para a extremidade de escrita do pipe
-		//dup2(pipe_fd[1], STDOUT_FILENO);
-		//printf("Executa o primeiro comando child 2\n");
-
-		while(i <= s->cmd_count)
+		if (pipe(pipes[i]) == -1)
 		{
-//			int j = 0;
+			perror("pipe");
+			show_func(__func__, EXIT_FAILURE, NULL);
+			exit(EXIT_FAILURE);
+		}
+	}
+	i = 0;
+	while(++i <= cmd_num) // criaçao dos processos nos childs
+	{
+		child_pids[i] = fork();
+		if (child_pids[i] == -1)
+		{
+			perror("fork");
+			show_func(__func__, ERROR, NULL);
+			exit(EXIT_FAILURE);
+		}
+		if (child_pids[i] == 0) 
+		{
+			// entra no processo child
+			int j = -1;
+			printf("i no pipex: %d\n", i);
+			printf("Cmd_num no pipex: %d\n", cmd_num);
+			while(++j < cmd_num)
+			{
+				if (i != j)
+					close(pipes[j][0]);
+				if (i + 1 != j)
+					close (pipes[j][1]);
+			}
+
+			// executar commando
 			if (i == 1)
 			{
 				//first command
-				close(p[0]);
-				execute_do_cmd_1(s->commands[i-1].argv, path_env, p[1]);
+				//close(p[0]);
+				char *teste;
+				execute_do_cmd_1(s, i, pipes[i][1]);
+				printf("enviado para pipe pelo 1o cmd:\n");
+				printf("%s\n", read(pipes[i][1], &teste, sizeof(char)));
 			}
 			else if (i == s->cmd_count)
 			{
 				//last command
-				close(p[1]);
-				execute_do_cmd_n(s->commands[i-1].argv, path_env, p[0], STDOUT_FILENO);
-				close(p[0]);
+				//close(p[1]);
+				execute_do_cmd_n(s->commands[i-1].argv, path_env, pipes[i][0], STDOUT_FILENO);
+				//close(p[0]);
 			}
 			else
 			{
-				dup2(p[0], STDIN_FILENO);
-				dup2(p[1], STDOUT_FILENO);
-				execute_do_cmd_i(s->commands[i-1].argv, path_env, STDIN_FILENO, p[1]);
+				dup2(pipes[j][0], STDIN_FILENO);
+				dup2(pipes[j][1], STDOUT_FILENO);
+				execute_do_cmd_i(s->commands[i-1].argv, path_env, STDIN_FILENO, pipes[i][1]);
 				// inbetween commands
 			}
-			// while (s->commands[i].argv[j])
-			// {
-			// 	execute_do_cmd(s->commands[i-1].argv, path_env, STDIN_FILENO, p[1]);
-			// 	i++;
-			// }
-			i++;
-		}
-		// execute_do_cmd(s->commands[i].argv, path_env,
-		// 	STDIN_FILENO, pipe_fd[1]);
-		close(p[1]); // Fecha a extremidade de escrita do pipe
+
+		close(pipes[i][0]);
+		close (pipes[i + 1][1]);
 		show_func(__func__, CHILD_EXIT, "pipex simulator exit");
 		exit(EXIT_SUCCESS);
+		}
 	}
-	else
+
+	// main process
+
+	i = -1;
+	while(++i < cmd_num)
 	{
-		// Processo pai
-		// close(pipe_fd[1]); // Fecha a extremidade de escrita do pipe
-		// // Redireciona stdin para a extremidade de leitura do pipe
-		// dup2(pipe_fd[0], STDIN_FILENO);
-		// // Executa o segundo comando
-		// execute_do_cmd(s->commands[1].argv, path_env, pipe_fd[0],
-		// close(pipe_fd[0]); // Fecha a extremidade de leitura do pipe
-		// 	STDOUT_FILENO);
-		// // Aguarda o processo filho terminar
-		wait(NULL);
+		if (i != cmd_num)
+			close(pipes[i][0]);
+		if (i != 0)
+			close (pipes[i][1]);
 	}
+
+
+	i = -1;
+	while (++i < cmd_num)
+		wait(NULL);
 	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }
+
+
+
 
 /// @brief 			Splits a string into an array of strings using a delimiter.
 /// @param path 		String to be splited
