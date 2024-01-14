@@ -172,7 +172,25 @@ static int	exec_go(t_script *s, int n)
 			}
 			if (cmd_path[i])
 			{
-				status = execve(exec_path, s->commands[n].argv, NULL);
+				if (s->commands[0].out.name)
+				{
+					printf("Reconhece p ficheiro de escrita\n");
+					int file = open(s->commands[0].out.name, O_CREAT | O_WRONLY);
+					if (file == -1)
+						return (ERROR);
+					dup2(file, STDOUT_FILENO);
+					close (file);
+				}
+				if (s->commands[0].in.name)
+				{
+					printf("Reconhece p ficheiro de leitura\n");
+					int file = open(s->commands[0].in.name, O_RDONLY);
+					if (file == -1)
+						return (ERROR);
+					dup2(file, STDIN_FILENO);
+					close (file);
+				}
+				status = execve(exec_path, s->commands[n].argv, NULL); // atençao que se entra no exec jao nao faz free!!! Filipe 17 jan
 				free (exec_path);
 				if (status)
 				{
@@ -296,19 +314,25 @@ int	exec_one(t_script *s)
 		show_func(__func__, SHOW_MSG, "Variable temp");
 		g_exit_status = bi_equal(s, s->cmd_count - 1);
 	}
-	else if(s->commands[0].out.name)
-	{
-		printf("Temos que executar %s e enviar para %s\n", s->commands[0].argv[0], s->commands[0].out.name);
-		/*
-		echo filipe > f.txt > g.txt > j.txt
-		qq coisa como while (s->commands[0].argv[i])
-		{
-			contar o numero de >, e fazer pipes, escrever (fd1) o valor de cmd echo, e ler 
-			no ficheiro criado "f.txt" (fd0), escrevendo (fd1), lendo (fd) no g.txt, escrevendo (fd1)
-			e lendo finalmente (fd0) j.txt
-		}
-		*/
-	}
+	// else if(s->commands[0].out.name)
+	// {
+	// 	printf("Temos que executar %s e enviar para %s\n", s->commands[0].argv[0], s->commands[0].out.name);
+	// 	int file = open(s->commands[0].out.name, O_RDONLY, 0777);
+	// 	if (file == -1)
+	// 		return (2);
+	// 	dup2(file, STDOUT_FILENO); // duplica o fd e altera
+	// 	close (file);
+		
+	// 	/*
+	// 	echo filipe > f.txt > g.txt > j.txt
+	// 	qq coisa como while (s->commands[0].argv[i])
+	// 	{
+	// 		contar o numero de >, e fazer pipes, escrever (fd1) o valor de cmd echo, e ler 
+	// 		no ficheiro criado "f.txt" (fd0), escrevendo (fd1), lendo (fd) no g.txt, escrevendo (fd1)
+	// 		e lendo finalmente (fd0) j.txt
+	// 	}
+	// 	*/
+	// }
 	else
 	{
 		if (get_cmd_type(s->commands[0].argv[0]) != CMD_EXEC)
