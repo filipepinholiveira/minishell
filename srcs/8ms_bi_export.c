@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/15 19:17:33 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/15 19:25:39 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	bi_export_new_var(t_script *s, int n, int i)
 
 	var = s->commands[n].argv[i];
 	show_func(__func__, SHOW_MSG, var);
-	if (env_var_getter(var, s->envp))
+	if (env_var_index_getter(var, s->envp) >= 0)
 		return ;
 	val = env_var_getter(var, s->envt);
 	show_func(__func__, SHOW_MSG, val);
