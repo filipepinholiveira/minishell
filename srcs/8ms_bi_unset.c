@@ -6,16 +6,16 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/12 23:53:08 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/15 18:22:05 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-/// @brief Remove a variable from the environment
-/// @param arg Arguments passed to unset command
-/// @param envp Current environment variables
-/// @return Updated environment variables
+/// @brief 			Remove a variable from the PERMANENT environment
+/// @param s 		Arguments passed to unset command
+/// @param n 		Current argument (variable)
+/// @return			Updated environment variables
 int	bi_unset(t_script *s, int n)
 {
 	show_func(__func__, MY_START, NULL);
@@ -39,6 +39,40 @@ int	bi_unset(t_script *s, int n)
 				j++;
 			}
 			s->envp[j] = NULL;
+		}
+		i++;
+	}
+	show_func(__func__, SUCCESS, NULL);
+	return (SUCCESS);
+}
+
+/// @brief 			Remove a variable from the TEMPORARY environment
+/// @param s 		Arguments passed to unset command
+/// @param n 		Current argument (variable)
+/// @return			Updated environment variables
+int	bi_unset_envt(t_script *s, int n)
+{
+	show_func(__func__, MY_START, NULL);
+	int		i;
+	int		j;
+	char	*var;
+
+	if (!s->envp || !s->commands[n].argv[1])
+		return (ERROR);
+	i = 1;
+	while (s->commands[n].argv[i])
+	{
+		if (!ft_strchr(s->commands[n].argv[i], '='))
+		{
+			j = env_var_index_getter(s->commands[n].argv[i], s->envt);
+			while (j >= 0 && s->envt[j] && s->envt[j + 1])
+			{
+				var = s->envp[j];
+				s->envt[j] = ft_strdup(s->envt[j + 1]);
+				free(var);
+				j++;
+			}
+			s->envt[j] = NULL;
 		}
 		i++;
 	}

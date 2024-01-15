@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/12 23:32:38 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/15 16:51:37 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,14 @@ int	env_var_index_getter(char *var, char **envp)
 {
 	show_func(__func__, MY_START, NULL);
 	show_func(__func__, SHOW_MSG, var);
-	show_func(__func__, SHOW_MSG, *envp);
+	//show_func(__func__, SHOW_MSG, *envp);
 	int		index;
 
+	if (!envp)
+	{
+		show_func(__func__, SHOW_MSG, "env array is NULL");
+		return (-1);
+	}
 	index = 0;
 	while (envp[index])
 	{
@@ -58,29 +63,40 @@ int	env_var_index_getter(char *var, char **envp)
 /// @param var 			Variable to be set
 /// @param envp 		Environment variables
 /// @return 			0 if success, -1 if error
-int	env_var_setter(char *val, char *var, char ***envp)
+int	env_var_setter(char *val, char *var, char ***envx)
 {
 	show_func(__func__, MY_START, NULL);
+	printf("env_var_setter: %s = %s, env& =%p\n", var, val, *envx);
 	int		index;
-	char *var_new;
-	char *old_record;
+	char	*var_new;
+	char	*old_record;
 
 	var_new = ft_strjoin(var, "=");
-	index = env_var_index_getter(var, *envp);
-	if (index == -1)
+	index = env_var_index_getter(var, *envx);
+	printf("%s , index = %i\n",__func__, index);
+	if (index == -1 && *envx)
 	{
 		index = 0;
-		while ((*envp)[index])
+		show_func(__func__, SHOW_MSG, (*envx)[index]);
+		while ((*envx)[index])
 			index++;
-		(*envp)[index] = ft_strjoin_free(var_new, ft_strdup(val));
-		(*envp)[index + 1] = NULL;
-		show_func(__func__, SUCCESS, (*envp)[index]);
+		(*envx)[index] = ft_strjoin_free(var_new, ft_strdup(val));
+		(*envx)[index + 1] = NULL;
+		show_func(__func__, SUCCESS, (*envx)[index]);
 		return (0);
 	}
-	old_record = (*envp)[index];
-	(*envp)[index] = ft_strjoin_free(var_new, ft_strdup(val));
+	else if (index == -1 && !*envx)
+	{
+		*envx = malloc(sizeof(char *) * (1 + 1));
+		(*envx)[0] = ft_strjoin_free(var_new, ft_strdup(val));
+		show_func(__func__, SHOW_MSG, (*envx)[0]);
+		(*envx)[1] = NULL;
+		return (0);
+	}
+	old_record = (*envx)[index];
+	(*envx)[index] = ft_strjoin_free(var_new, ft_strdup(val));
 	free(old_record);
-	show_func(__func__, SUCCESS, (*envp)[index]);
+	show_func(__func__, SUCCESS, (*envx)[index]);
 	return (0);
 }
 

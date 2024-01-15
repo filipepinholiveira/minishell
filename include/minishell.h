@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/15 10:56:16 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/15 17:45:53 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -567,8 +567,19 @@ int		bi_pwd(t_script *s, int n);
 /// @brief 			Builtin unset command
 /// @param args		Builtin command arguments
 /// @return			SUCCESS or ERROR
+
+/// @brief 			Remove a variable from the PERRMANENT environment
+/// @param s 		Arguments passed to unset command
+/// @param n 		Current argument (variable)
+/// @return			Updated environment variables
 int		bi_unset(t_script *s, int n);
 //int		unset(char *args[]);
+
+/// @brief 			Remove a variable from the TEMPORARY environment
+/// @param s 		Arguments passed to unset command
+/// @param n 		Current argument (variable)
+/// @return			Updated environment variables
+int	bi_unset_envt(t_script *s, int n);
 
 /// @brief
 /// @param cmd
