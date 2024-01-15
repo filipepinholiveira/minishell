@@ -6,11 +6,34 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 12:00:28 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/09 22:41:04 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/15 11:23:48 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+/// @brief		Test validity of shell variables
+/// @param var	Variable name to be tested
+/// @return		SUCCESS or ERROR
+int	var_name_check(char *var)
+{
+	show_func(__func__, MY_START, NULL);
+	int	i;
+
+	i = 0;
+	show_func(__func__, SHOW_MSG, var);
+	while (var[i] && var[i] != '=')
+	{
+		if (!ft_isalnum(var[i]) && var[i] != '_')
+		{
+			show_func(__func__, ERROR, NULL);
+			return (ERROR);
+		}
+		i++;
+	}
+	show_func(__func__, SUCCESS, NULL);
+	return (SUCCESS);
+}
 
 static void	execute_do_cmd_1(char **argv, char **envp, int in_fd)
 {

@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 09:55:51 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/11 18:48:13 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/15 10:42:50 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ static int	bi_go(t_script *s, int n)
 				ft_strlen(bi_cmd[i].bi_cmd)))
 		{
 			f = bi_cmd[i].bi_func;
-			return (f(bi_cmd[i].va_args, bi_cmd[i].n));
+			return (f(bi_cmd[i].script, bi_cmd[i].n));
 		}
 	}
 	show_func(__func__, ERROR, "Built in NOT found");
@@ -157,7 +157,7 @@ static int	exec_go(t_script *s, int n)
 int	exec_one(t_script *s)
 {
 	show_func(__func__, MY_START, NULL);
-	if (s->commands[0].argc > 1 && !ft_strncmp(s->commands[0].argv[1], "=", 2))
+	if (ft_strchr(s->commands[0].argv[0], '='))
 	{
 		show_func(__func__, SHOW_MSG, "Variable temp");
 		g_exit_status = bi_equal(s, s->cmd_count - 1);

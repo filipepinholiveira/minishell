@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/12 20:48:55 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/15 10:56:16 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ typedef struct s_bi_cmd
 {
 	const char		*bi_cmd;
 	const void		*bi_func;
-	void			*va_args;
+	void			*script;
 	int				n;
 }				t_bi_cmd;
 
@@ -451,6 +451,12 @@ int		execute(t_script *script);
 /* ************************************************************************** */
 ///	ms_exec_utils.c
 /* ************************************************************************** */
+
+/// @brief		Test validity of shell variables
+/// @param var	Variable name to be tested
+/// @return		SUCCESS or ERROR
+int	var_name_check(char *var);
+
 
 /// @brief 				Executa um comando em um processo filho.
 /// @param argv			Array de strings contendo os argumentos do comando

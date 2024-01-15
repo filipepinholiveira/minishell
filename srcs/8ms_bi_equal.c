@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/11 18:31:48 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/15 11:57:51 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ int		bi_equal(t_script *s, int n)
 	char	*var_tp;
 	char 	*var_tt;
 
-	if (!s->envp || !s->commands[n].argv[1] || !s->commands[n].argv[1][0])
+	if (!s->envp || !s->commands[n].argv[0] || !s->commands[n].argv[0][0])
 	{
 		show_func(__func__, ERROR, "EXPORT args is empty");
 		return (ERROR);
 	}
 	i = 0;
-	while (s->commands[n].argv[i] && s->commands[n].argv[i + 1][0] == '=')
+	while (s->commands[n].argv[i])
 	{
 		printf("%s&s->envp = %p%s\n", SBHPPL, s->envp, SRST);
 

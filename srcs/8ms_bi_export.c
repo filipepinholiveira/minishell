@@ -6,11 +6,27 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/12 23:21:12 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/15 11:50:46 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+/// @brief 			Shows error and program sourcing it
+/// @param msg		Message to show
+/// @param system	Shows system error if true
+/// @return			SUCCESS
+static int	export_error(const char *msg, int system)
+{
+	show_func(__func__, MY_START, NULL);
+
+	ft_putstr_fd("Minishell: export: '", 2);
+	ft_putstr_fd(msg, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
+	errno = system;
+	show_func(__func__, SUCCESS, NULL);
+	return (system);
+}
 
 /// @brief 			Export PERMANENT environment variables
 /// @param s 		Script structure with commans and args
@@ -26,16 +42,21 @@ int	bi_export(t_script *s, int n)
 	i = 1;
 	while (s->commands[n].argv[i])
 	{
-		if (ft_strchr(s->commands[n].argv[i], '='))
-		{
-			env_var_setter(ft_strchr(s->commands[n].argv[i], '=') + 1,
-				ft_substr(s->commands[n].argv[i], 0,
-					ft_strlen(s->commands[n].argv[i])
-					- ft_strlen(ft_strchr(s->commands[n].argv[i], '='))),
-				&s->envp);
-		}
+		if (var_name_check(s->commands[n].argv[i]))
+			export_error(s->commands[n].argv[i], 1);
 		else
-			env_var_setter("", s->commands[n].argv[i], &s->envp);
+		{
+			if (ft_strchr(s->commands[n].argv[i], '='))
+			{
+				env_var_setter(ft_strchr(s->commands[n].argv[i], '=') + 1,
+					ft_substr(s->commands[n].argv[i], 0,
+						ft_strlen(s->commands[n].argv[i])
+						- ft_strlen(ft_strchr(s->commands[n].argv[i], '='))),
+					&s->envp);
+			}
+			else
+				env_var_setter("", s->commands[n].argv[i], &s->envp);
+		}
 		i++;
 	}
 	show_func(__func__, SUCCESS, NULL);
