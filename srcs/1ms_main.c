@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:27:05 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/15 16:43:41 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/16 12:14:25 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	g_exit_status;
 /// @return 	array copy of system environment variables
 char	**envp_getter(char **envp)
 {
-	show_func(__func__, MY_START, envp[0]);
+	//show_func(__func__, MY_START, envp[0]);
 	char	**ms_envp;
 	int		i;
 
@@ -29,17 +29,16 @@ char	**envp_getter(char **envp)
 	ms_envp = malloc(sizeof(char *) * (i + 1));
 	if (!ms_envp)
 	{
-		show_func(__func__, ERROR, NULL);
+		//show_func(__func__, ERROR, NULL);
 		return (NULL);
 	}
-	printf("%s&ms_envp = %p%s\n", SBHPPL, ms_envp, SRST);
 	i = 0;
 	while (envp[i])
 	{
 		ms_envp[i] = ft_strdup(envp[i]);
 		if (!ms_envp[i])
 		{
-			show_func(__func__, ERROR, NULL);
+			//show_func(__func__, ERROR, NULL);
 			return (NULL);
 		}
 			//show_func(__func__, SUCCESS, ft_strjoin(ft_strjoin(ft_itoa(i), " = "), ms_envp[i]));
@@ -47,7 +46,7 @@ char	**envp_getter(char **envp)
 		i++;
 	}
 	ms_envp[i] = NULL;
-	show_func(__func__, SUCCESS, NULL);
+	//show_func(__func__, SUCCESS, NULL);
 	return (ms_envp);
 }
 
@@ -58,22 +57,24 @@ void	termios_getter(struct termios *termios_p)
 	show_func(__func__, MY_START, NULL);
 	if (tcgetattr(STDIN_FILENO, termios_p) != 0)
 		perror("tcgetattr() error");
-	else
-	{
-		if (termios_p->c_iflag & BRKINT)
-			ft_putstr("BRKINT is set\n");
-		else
-			ft_putstr("BRKINT is not set\n");
-		if (termios_p->c_cflag & PARODD)
-			ft_putstr("Odd parity is used\n");
-		else
-			puts("Even parity is used\n");
-		if (termios_p->c_lflag & ECHO)
-			ft_putstr("ECHO is set\n");
-		else
-			ft_putstr("ECHO is not set\n");
-		printf("The end-of-file character is x'%02x'\n", termios_p->c_cc[VEOF]);
-	}
+	// else
+	// {
+	// 	if (termios_p->c_iflag & BRKINT)
+	// 		show_func(__func__, SHOW_MSG, "BRKINT is set");
+	// 	else
+	// 		show_func(__func__, SHOW_MSG, "BRKINT is not set");
+	// 	if (termios_p->c_cflag & PARODD)
+	// 		show_func(__func__, SHOW_MSG, "Odd parity is used");
+	// 	else
+	// 		show_func(__func__, SHOW_MSG, "Even parity is used");
+	// 	if (termios_p->c_lflag & ECHO)
+	// 		show_func(__func__, SHOW_MSG, "ECHO is set");
+	// 	else
+	// 		show_func(__func__, SHOW_MSG, "ECHO is not set");
+	// 	show_func(__func__, SHOW_MSG,
+	// 		ft_strjoin(ft_strjoin("The end-of-file character is 0x",
+	// 				ft_itoa(termios_p->c_cc[VEOF])), "\n"));
+	// }
 	show_func(__func__, SUCCESS, NULL);
 }
 
@@ -82,22 +83,24 @@ void	termios_setter(struct termios *termios_p)
 	show_func(__func__, MY_START, NULL);
 	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, termios_p) != 0)
 		perror("tcsetattr() error");
-	else
-	{
-		if (termios_p->c_iflag & BRKINT)
-			ft_putstr("BRKINT is set\n");
-		else
-			ft_putstr("BRKINT is not set\n");
-		if (termios_p->c_cflag & PARODD)
-			ft_putstr("Odd parity is used\n");
-		else
-			puts("Even parity is used\n");
-		if (termios_p->c_lflag & ECHO)
-			ft_putstr("ECHO is set\n");
-		else
-			ft_putstr("ECHO is not set\n");
-		printf("The end-of-file character is x'%02x'\n", termios_p->c_cc[VEOF]);
-	}
+	// else
+	// {
+	// 	if (termios_p->c_iflag & BRKINT)
+	// 		show_func(__func__, SHOW_MSG, "BRKINT is set");
+	// 	else
+	// 		show_func(__func__, SHOW_MSG, "BRKINT is not set");
+	// 	if (termios_p->c_cflag & PARODD)
+	// 		show_func(__func__, SHOW_MSG, "Odd parity is used");
+	// 	else
+	// 		show_func(__func__, SHOW_MSG, "Even parity is used");
+	// 	if (termios_p->c_lflag & ECHO)
+	// 		show_func(__func__, SHOW_MSG, "ECHO is set");
+	// 	else
+	// 		show_func(__func__, SHOW_MSG, "ECHO is not set");
+	// 	show_func(__func__, SHOW_MSG,
+	// 		ft_strjoin(ft_strjoin("The end-of-file character is 0x",
+	// 				ft_itoa(termios_p->c_cc[VEOF])), "\n"));
+	// }
 	show_func(__func__, SUCCESS, NULL);
 }
 
@@ -131,15 +134,15 @@ static int	ms_loop(t_script *s)
 			if (execute(s))
 				break ;
 		}
-		show_func(__func__, SHOW_MSG, ft_strjoin_free(ft_strdup("11 - s->cmd_count = "), ft_itoa(s->cmd_count)));
+		//show_func(__func__, SHOW_MSG, ft_strjoin_free(ft_strdup("11 - s->cmd_count = "), ft_itoa(s->cmd_count)));
 		free_commands(s->commands, s->cmd_count);
-		show_func(__func__,SHOW_MSG, ft_strjoin("12 - s->cmd_count = ", ft_itoa(s->cmd_count)));
+		//show_func(__func__,SHOW_MSG, ft_strjoin("12 - s->cmd_count = ", ft_itoa(s->cmd_count)));
 	}
 	if (s->cmd_count > 0)
 	{
-		show_func(__func__, SHOW_MSG, ft_strjoin("21- s->cmd_count = ", ft_itoa(s->cmd_count)));
+		//show_func(__func__, SHOW_MSG, ft_strjoin("21- s->cmd_count = ", ft_itoa(s->cmd_count)));
 		free_commands(s->commands, s->cmd_count);
-		show_func(__func__, SHOW_MSG, ft_strjoin("22 s->cmd_count = ", ft_itoa(s->cmd_count)));
+		//show_func(__func__, SHOW_MSG, ft_strjoin("22 s->cmd_count = ", ft_itoa(s->cmd_count)));
 	}
 	show_func(__func__, SHOW_MSG, "MSG = SUCCESS");
 	return (0);

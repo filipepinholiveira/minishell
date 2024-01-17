@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/15 16:51:37 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/16 12:33:44 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,20 +177,30 @@ char	*replace_loop(char *str, char **envp, int *i)
 /// @param before	Pointer to the string before the first '$'
 /// @param i		Index start
 /// @return			Split string
-char	**init_split_before(char *line_buf, char **before, int *i)
+char	**init_split_before(char *token, char **newToken, int *i)
 {
 	show_func(__func__, MY_START, NULL);
+	show_func(__func__, SHOW_MSG, ft_strjoin("11 token = ", token));
+	//show_func(__func__, SHOW_MSG, ft_strjoin("before   = ", *before));
+	show_func(__func__, SHOW_MSG, ft_strjoin(ft_strjoin("12 i     = ",ft_itoa(*i)), "\n"));
+
 	char	**split;
 
-	split = ft_split(line_buf, '$');
-	if (line_buf[0] && line_buf[0] != '$')
+	split = ft_split(token, '$');
+	if (token[0] && token[0] != '$')
 	{
-		*before = ft_strdup(split[0]);
+		*newToken = ft_strdup(split[0]);
+		show_func(__func__, SHOW_MSG, ft_strjoin("21 [IF]   !$ newToken   = ", *newToken));
+
 		(*i)++;
 	}
 	else
-		*before = ft_strdup("");
-	show_func(__func__, SUCCESS, NULL);
+	{
+		*newToken = ft_strdup("");
+		show_func(__func__, SHOW_MSG, ft_strjoin("[22 ELSE] =$ newToken   = ", *newToken));
+	}
+	show_func(__func__, SUCCESS, ft_strjoin("31 token = ", token));
+	show_func(__func__, SUCCESS, ft_strjoin("32 i     = ",ft_itoa(*i)));
 	return (split);
 }
 
@@ -202,35 +212,58 @@ char	**init_split_before(char *line_buf, char **before, int *i)
 /// @param i			Index start
 /// @param j			Index end
 /// @return				String with ARGS replaced by envp vars
-char	*replace_env_var(char *line_buf, char **envp, int i, int j)
+char	*replace_env_var(char *token, char **envp, int i, int j)
 {
 	show_func(__func__, MY_START, NULL);
-	char	**split;
-	char	*before;
-	char	*tmp;
+	show_func(__func__, SHOW_MSG, ft_strjoin("\nTOKEN to EVALUATE = ", token));
+	show_func(__func__, SHOW_MSG, envp[0]);
 
-	before = NULL;
-	split = init_split_before(line_buf, &before, &i);
+	char	**split;
+	char	*newToken;
+	char	*tmp;
+	int k;
+
+	newToken = NULL;
+	printf("%s%s -> CALL%s\n",SBYLW, __func__, SRST);
+	split = init_split_before(token, &newToken, &i);
+	printf("%s%s -> CALL RETURN%s\n",SBYLW, __func__, SRST);
+	show_func(__func__, SHOW_MSG, ft_strjoin("newToken   = ", newToken));
+	k = -1;
+	while (split[++k])
+		printf("%s%s -> split[%d] = %s%s\n",SBHRED, __func__, k, split[k], SRST);
+	show_func(__func__, SHOW_MSG, ft_strjoin("i        = ", ft_itoa(i)));
 	while (split[i])
 	{
+		show_func(__func__, SHOW_MSG, "\nwhile check quotes");
+		printf("%s i = %d, split[i] = %s%s\n", SBHRED, i, split[i], SRST);
+		printf("%s%s -> CALL%s\n",SBYLW, __func__, SRST);
 		if ((odd_before(split, i, '\'') && odd_after(split, i, '\''))
-			&& (first_quote(line_buf) || !(odd_before(split, i, '\"')
+			&& (first_quote(token) || !(odd_before(split, i, '\"')
 					&& odd_after(split, i, '\"'))))
-			before = ft_strjoin_free(before, ft_strjoin("$", split[i]));
+		{
+			show_func(__func__, SHOW_MSG, ft_strjoin("\n[IF]   1 newToken = ", newToken));
+			newToken = ft_strjoin_free(newToken, ft_strjoin("$", split[i]));
+			show_func(__func__, SHOW_MSG, ft_strjoin("\n[IF]   2 newToken = ", newToken));
+		}
 		else
 		{
 			j = 0;
-			tmp = ft_strjoin_free(before, replace_loop(split[i], envp, &j));
-			before = ft_strjoin(tmp, split[i] + j);
+			show_func(__func__, SHOW_MSG, ft_strjoin("\n[ELSE] 1 newToken = ", newToken));
+			tmp = ft_strjoin_free(newToken, replace_loop(split[i], envp, &j));
+			newToken = ft_strjoin(tmp, split[i] + j);
+			show_func(__func__, SHOW_MSG, ft_strjoin("\n[ELSE] 2 newToken = ", newToken));
 			free(tmp);
 		}
 		i++;
 	}
-	if (line_buf[ft_strlen(line_buf) - 1] == '$')
-		before = ft_strjoin_free(before, ft_strdup("$"));
+	show_func(__func__, SHOW_MSG, ft_strjoin(" 1 -> ", newToken));
+
+	if (token[ft_strlen(token) - 1] == '$')
+		newToken = ft_strjoin_free(newToken, ft_strdup("$"));
+	show_func(__func__, SHOW_MSG, ft_strjoin(" 2 -> ", newToken));
 	free_split(split);
 	show_func(__func__, SUCCESS, NULL);
-	return (before);
+	return (newToken);
 }
 
 /// @brief		This function replaces multiple spaces with a single space
