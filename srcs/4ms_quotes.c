@@ -6,21 +6,21 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:10:37 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/09 22:53:43 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/15 23:59:38 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-/// @brief 		check if estring enclosing quotes are single or double
+/// @brief 		check if string enclosing quotes are single or double
 /// @param str	string to check
 /// @return		1 if single quotes (' '), 0 if double quotes (" ")
 ///				MISLEADING CHANGE STATUS
 int	first_quote(char *str)
 {
+	show_func(__func__, MY_START, NULL);
 	int	i;
 
-	show_func(__func__, MY_START, NULL);
 	i = 0;
 	while (str[i] && !(str[i] == '\'' || str[i] == '\"'))
 		i++;
@@ -36,23 +36,34 @@ int	first_quote(char *str)
 /// @param c	quotation mark to check
 /// @return		1 if #quotation before index i is odd, 0 if even
 ///				MISLEADING CHANGE STATUS
-int	odd_before(char **str, int i, char c)
+int	odd_before(char **split, int i, char c)
 {
+	show_func(__func__, MY_START, NULL);
+	show_func(__func__, SHOW_MSG, ft_strjoin("split = ", split[i]));
+	show_func(__func__, SHOW_MSG, ft_strjoin("i     = ", ft_itoa(i)));
+	show_func(__func__, SHOW_MSG, ft_charjoin("c     = ", c));
+
 	int	count;
 	int	j;
 
-	show_func(__func__, MY_START, NULL);
 	count = 0;
-	while (i--)
+	//while (i--)
+	while (i)
 	{
 		j = 0;
-		while (str[i] && str[i][j])
+		show_func(__func__, SHOW_MSG, ft_strjoin("split = ", split[i]));
+		while (split[i] && split[i][j])
 		{
-			if (str[i][j] == c)
+			show_func(__func__, SHOW_MSG, ft_charjoin("split = ", split[i][j]));
+			if (split[i][j] == c)
 				count++;
 			j++;
 		}
+		/******/
+		i--;
+		/******/
 	}
+	show_func(__func__, SHOW_MSG, ft_strjoin("N of quotes = ", ft_itoa(count % 2)));
 	show_func(__func__, SUCCESS, NULL);
 	return (count % 2);
 }
@@ -65,10 +76,14 @@ int	odd_before(char **str, int i, char c)
 ///				MISLEADING CHANGE STATUS
 int	odd_after(char **str, int i, char c)
 {
+	show_func(__func__, MY_START, NULL);
+	show_func(__func__, SHOW_MSG, ft_strjoin("split = ", *str));
+	show_func(__func__, SHOW_MSG, ft_strjoin("i     = ", ft_itoa(i)));
+	show_func(__func__, SHOW_MSG, ft_charjoin("c     = ", c));
+
 	int	count;
 	int	j;
 
-	show_func(__func__, MY_START, NULL);
 	count = 0;
 	while (str[i])
 	{
@@ -81,6 +96,7 @@ int	odd_after(char **str, int i, char c)
 		}
 		i++;
 	}
+	show_func(__func__, SHOW_MSG, ft_strjoin("N of quotes = ", ft_itoa(count % 2)));
 	show_func(__func__, SUCCESS, NULL);
 	return (count % 2);
 }
