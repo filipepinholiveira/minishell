@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/16 12:33:44 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/17 20:15:28 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,29 +177,32 @@ char	*replace_loop(char *str, char **envp, int *i)
 /// @param before	Pointer to the string before the first '$'
 /// @param i		Index start
 /// @return			Split string
-char	**init_split_before(char *token, char **newToken, int *i)
+char	**tk_env_var_detector(char *oldToken, char **newToken, int *i)
 {
 	show_func(__func__, MY_START, NULL);
-	show_func(__func__, SHOW_MSG, ft_strjoin("11 token = ", token));
+	show_func(__func__, SHOW_MSG, ft_strjoin("11 token = ", oldToken));
 	//show_func(__func__, SHOW_MSG, ft_strjoin("before   = ", *before));
 	show_func(__func__, SHOW_MSG, ft_strjoin(ft_strjoin("12 i     = ",ft_itoa(*i)), "\n"));
-
+	int p = -1;
 	char	**split;
 
-	split = ft_split(token, '$');
-	if (token[0] && token[0] != '$')
+	split = ft_split(oldToken, '$');
+	while (split[++p])
+		printf("%s%s -> split[%d] = %s%s\n",SBHRED, __func__, p, split[p], SRST);
+
+
+	if (oldToken[0] && oldToken[0] != '$')
 	{
 		*newToken = ft_strdup(split[0]);
-		show_func(__func__, SHOW_MSG, ft_strjoin("21 [IF]   !$ newToken   = ", *newToken));
-
+		show_func(__func__, SHOW_MSG, ft_strjoin("21 ********** if (token[0] && token[0] != '$') -> newToken = ", *newToken));
 		(*i)++;
 	}
-	else
+	else // if (token[0] == '$')
 	{
 		*newToken = ft_strdup("");
-		show_func(__func__, SHOW_MSG, ft_strjoin("[22 ELSE] =$ newToken   = ", *newToken));
+		show_func(__func__, SHOW_MSG, ft_strjoin("[22 ********** else (token[0] == '$') -> newToken = ", *newToken));
 	}
-	show_func(__func__, SUCCESS, ft_strjoin("31 token = ", token));
+	show_func(__func__, SUCCESS, ft_strjoin("31 newToken = ", *newToken));
 	show_func(__func__, SUCCESS, ft_strjoin("32 i     = ",ft_itoa(*i)));
 	return (split);
 }
@@ -207,38 +210,32 @@ char	**init_split_before(char *token, char **newToken, int *i)
 /// @brief 				Replaces ARGS in a given string by the environment vars
 ///						by iterating through the string and replacing each
 ///						environment variable with its value.
-/// @param line_buf		String to be parsed
+/// @param oldToken		Token String to be parsed
 /// @param envp			Environment variables
 /// @param i			Index start
 /// @param j			Index end
 /// @return				String with ARGS replaced by envp vars
-char	*replace_env_var(char *token, char **envp, int i, int j)
+char	*env_var_expander(char *oldToken, char **envp, int i, int j)
 {
-	show_func(__func__, MY_START, NULL);
-	show_func(__func__, SHOW_MSG, ft_strjoin("\nTOKEN to EVALUATE = ", token));
+	show_func(__func__, MY_START, "******************************************************************");
+	show_func(__func__, SHOW_MSG, ft_strjoin("\nTOKEN to EVALUATE = ", oldToken));
 	show_func(__func__, SHOW_MSG, envp[0]);
 
 	char	**split;
 	char	*newToken;
 	char	*tmp;
-	int k;
 
 	newToken = NULL;
 	printf("%s%s -> CALL%s\n",SBYLW, __func__, SRST);
-	split = init_split_before(token, &newToken, &i);
+	split = tk_env_var_detector(oldToken, &newToken, &i);
 	printf("%s%s -> CALL RETURN%s\n",SBYLW, __func__, SRST);
-	show_func(__func__, SHOW_MSG, ft_strjoin("newToken   = ", newToken));
-	k = -1;
-	while (split[++k])
-		printf("%s%s -> split[%d] = %s%s\n",SBHRED, __func__, k, split[k], SRST);
-	show_func(__func__, SHOW_MSG, ft_strjoin("i        = ", ft_itoa(i)));
 	while (split[i])
 	{
-		show_func(__func__, SHOW_MSG, "\nwhile check quotes");
-		printf("%s i = %d, split[i] = %s%s\n", SBHRED, i, split[i], SRST);
+		printf("%s%s -> ******** while (split[i] = %s) ********%s\n", SBHRED, __func__, split[i], SRST);
 		printf("%s%s -> CALL%s\n",SBYLW, __func__, SRST);
+
 		if ((odd_before(split, i, '\'') && odd_after(split, i, '\''))
-			&& (first_quote(token) || !(odd_before(split, i, '\"')
+			&& (first_quote(oldToken) || !(odd_before(split, i, '\"')
 					&& odd_after(split, i, '\"'))))
 		{
 			show_func(__func__, SHOW_MSG, ft_strjoin("\n[IF]   1 newToken = ", newToken));
@@ -258,7 +255,7 @@ char	*replace_env_var(char *token, char **envp, int i, int j)
 	}
 	show_func(__func__, SHOW_MSG, ft_strjoin(" 1 -> ", newToken));
 
-	if (token[ft_strlen(token) - 1] == '$')
+	if (oldToken[ft_strlen(oldToken) - 1] == '$')
 		newToken = ft_strjoin_free(newToken, ft_strdup("$"));
 	show_func(__func__, SHOW_MSG, ft_strjoin(" 2 -> ", newToken));
 	free_split(split);

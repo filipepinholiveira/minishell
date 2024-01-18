@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:10:37 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/16 12:39:58 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/17 20:00:37 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,7 +220,7 @@ int	tk_builder(char **line, t_token **token, t_script *s)
 	{
 		content = tk_ptr->content;
 		printf("%s%s -> CALL%s\n",SBYLW, __func__, SRST);
-		tk_ptr->content = replace_env_var(content, s->envp, 0, 0);
+		tk_ptr->content = env_var_expander(content, s->envp, 0, 0);
 		printf("%s%s -> CALL RETURN%s\n",SBYLW, __func__, SRST);
 		printf("%s-> content = '%s%s%s'%s\n",
 			SBHPPL, SBWHT, content, SBHPPL, SRST);

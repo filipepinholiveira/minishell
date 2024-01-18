@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/15 17:45:53 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/17 20:07:23 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -403,7 +403,7 @@ char	*replace_loop(char *str, char **envp, int *i);
 /// @param before	Pointer to the string before the first '$'
 /// @param i		Index start
 /// @return			Split string
-char	**init_split_before(char *line_buf, char **before, int *i);
+char	**env_var_detector(char *line_buf, char **before, int *i);
 
 /// @brief 				Replaces ARGS in a given string by the environment vars
 ///						by iterating through the string and replacing each
@@ -413,7 +413,7 @@ char	**init_split_before(char *line_buf, char **before, int *i);
 /// @param i			Index start
 /// @param j			Index end
 /// @return				String with ARGS replaced by envp vars
-char	*replace_env_var(char *line_buf, char **envp, int i, int j);
+char	*env_var_expander(char *line_buf, char **envp, int i, int j);
 
 /// @brief		This function replaces multiple spaces with a single space
 /// @param str	String to be parsed
