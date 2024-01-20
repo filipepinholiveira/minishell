@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/17 20:15:28 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/19 13:21:38 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,110 @@ char	**tk_env_var_detector(char *oldToken, char **newToken, int *i)
 	show_func(__func__, SUCCESS, ft_strjoin("32 i     = ",ft_itoa(*i)));
 	return (split);
 }
+int	var_name_checker(char c)
+{
+	if (ft_isalnum(c) || c == '_')
+		return (SUCCESS);
+	return (ERROR);
+}
+int	var_firstchar(char c)
+{
+	if (ft_isalpha(c) || c == '_')
+		return (SUCCESS);
+	return (ERROR);
+}
+
+int	first_quote(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\"' || str[i] == '\'')
+			return (ERROR);
+		i++;
+	}
+	return (SUCCESS);
+}
+
+//static char	**env_var_detector2(char *oToken, char **nToken, int *i)
+static int	**env_var_detector2(char *oToken, char **nToken, int *i)
+{
+	show_func(__func__, MY_START, NULL);
+	show_func(__func__, SHOW_MSG, ft_strjoin("11 token = ", oToken));
+	//show_func(__func__, SHOW_MSG, ft_strjoin("before   = ", *before));
+	show_func(__func__, SHOW_MSG, ft_strjoin(ft_strjoin("12 i     = ",ft_itoa(*i)), "\n"));
+	int k;
+	int j;
+	int splits = 0;
+	char	**split;
+
+	void (*i)
+	split = ft_split(oToken, '$');
+	k = -1;
+	while (split[++k])
+		printf("%s%s -> split[%d] = %s%s\n",SBHRED, __func__, k, split[k], SRST);
+
+	k = 0;
+	while (oToken[k] && oToken[k + 1])
+	{
+		j = k;
+		if (oToken[k] == '$' && !var_firstchar(oToken[k + 1]))
+		{
+			j = k;
+			k++;
+			printf("%s%s -> 1 %s$VAR VALID = {%c, %c}%s\n",
+				SBHRED, __func__, SBHYLW, oToken[k], oToken[k + 1], SRST);
+			while (oToken[k] && env_var_name_checker(oToken[k]))
+				k++;
+			/*
+			*nToken = ft_strjoin_free(*nToken, ft_substr(oToken, j, k - j));
+			*/
+		}
+		else if (oToken[k] == '$' && var_firstchar(oToken[k + 1]))
+		{
+			printf("%s%s -> 2 %s$VAR INVALID = {%c, %c}%s\n",
+				SBHRED, __func__, SBHYLW, oToken[k], oToken[k + 1], SRST);
+			j = k;
+			k++;
+			while (oToken[k] && env_var_name_checker(oToken[k]))
+				k++;
+			/*
+			*nToken = ft_strjoin_free(*nToken, ft_substr(oToken, j, k - j));
+			*/
+		}
+		else if (oToken[k] == '\"')
+		{
+			j = k;
+			k++;
+			printf("%s%s -> 3 %s$DOUBLE QUOTE detected = {%c, %c}%s\n",
+				SBHRED, __func__, SBHYLW, oToken[k], oToken[k + 1], SRST);
+			while (oToken[k] && oToken[k] != '\"')
+				k++;
+			/*
+			*nToken = ft_strjoin_free(*nToken, ft_substr(oToken, j, k - j));
+			*/
+		}
+		else if (oToken[k] == '\'')
+		{
+			printf("%s%s -> 4 %s$SINGLE QUOTE detected = {%c, %c}%s\n",
+				SBHRED, __func__, oToken[k], oToken[k], SRST);
+			j = k;
+			k++;
+			while (oToken[k] && oToken[k] != '\'')
+				k++;
+			/*
+			*nToken = ft_strjoin_free(*nToken, ft_substr(oToken, j, k - j));
+			*/
+		}
+		splits++;
+	}
+	printf("%s%s -> 5 %s$splits = {%d}%s\n", SBHRED, __func__,
+		splits, SRST);
+	return (splits);
+	//return (split);
+}
 
 /// @brief 				Replaces ARGS in a given string by the environment vars
 ///						by iterating through the string and replacing each
@@ -227,8 +331,11 @@ char	*env_var_expander(char *oldToken, char **envp, int i, int j)
 
 	newToken = NULL;
 	printf("%s%s -> CALL%s\n",SBYLW, __func__, SRST);
+	tk_env_var_detector(oldToken, &newToken, &i);
 	split = tk_env_var_detector(oldToken, &newToken, &i);
 	printf("%s%s -> CALL RETURN%s\n",SBYLW, __func__, SRST);
+
+
 	while (split[i])
 	{
 		printf("%s%s -> ******** while (split[i] = %s) ********%s\n", SBHRED, __func__, split[i], SRST);

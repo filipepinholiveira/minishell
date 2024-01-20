@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:10:37 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/15 23:59:38 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/18 18:37:11 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	first_quote(char *str)
 int	odd_before(char **split, int i, char c)
 {
 	show_func(__func__, MY_START, NULL);
-	show_func(__func__, SHOW_MSG, ft_strjoin("split = ", split[i]));
+	show_func(__func__, SHOW_MSG, ft_strjoin("currente split = ", split[i]));
 	show_func(__func__, SHOW_MSG, ft_strjoin("i     = ", ft_itoa(i)));
 	show_func(__func__, SHOW_MSG, ft_charjoin("c     = ", c));
 
@@ -47,20 +47,20 @@ int	odd_before(char **split, int i, char c)
 	int	j;
 
 	count = 0;
-	//while (i--)
-	while (i)
+	while (i--)
+	//while (i)
 	{
 		j = 0;
-		show_func(__func__, SHOW_MSG, ft_strjoin("split = ", split[i]));
+		show_func(__func__, SHOW_MSG, ft_strjoin("previous split = ", split[i]));
 		while (split[i] && split[i][j])
 		{
-			show_func(__func__, SHOW_MSG, ft_charjoin("split = ", split[i][j]));
+			printf("%s%s -> 11 split[%d][%d} = %c%s\n", SBHRED, __func__, i, j, split[i][j], SRST);
 			if (split[i][j] == c)
 				count++;
 			j++;
 		}
 		/******/
-		i--;
+		//i--;
 		/******/
 	}
 	show_func(__func__, SHOW_MSG, ft_strjoin("N of quotes = ", ft_itoa(count % 2)));
