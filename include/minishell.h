@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/17 20:07:23 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/20 12:56:47 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ void	termios_setter(struct termios *termios_p);
 ///	signal.c
 /* ************************************************************************** */
 
-/// @brief 		Signal processing functions setter
+/// @brief 		Signal processing functionsError encountered while testing setter
 /// @param  	No parameter required
 void	signal_setter(void);
 
@@ -457,9 +457,7 @@ int		exec_one(t_script *s);
 /// @param script 	Script contents
 int		execute(t_script *script);
 
-/* ************************************************************************** */
-///	ms_exec_utils.c
-/* ************************************************************************** */
+/* *************************************************/
 
 /// @brief		Test validity of shell variables
 /// @param var	Variable name to be tested
