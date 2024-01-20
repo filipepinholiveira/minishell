@@ -44,10 +44,10 @@ int	var_name_check(char *var)
 // 	return ;
 // }
 
-static void	execute_do_cmd_1(t_script *s, int index, int out_fd)
+static void	execute_do_cmd_1(t_script *s, int index, int pipe_in)
 {
 	show_func(__func__, MY_START, s->commands->argv[index]);
-	printf("out fd: %d\n", out_fd);
+	printf("out fd: %d\n", pipe_in);
 	printf("envp: %s\n", s->envp[0]);
 
 	pid_t	fork_pid;
@@ -78,10 +78,9 @@ static void	execute_do_cmd_1(t_script *s, int index, int out_fd)
 			}
 		if (cmd_path[i])
 		{
-			dup2(out_fd, STDOUT_FILENO);
+			dup2(1, pipe_in);
 			printf("EXCVE no CMD_1 vai ser executado\n");
-			int status = execve(exec_path, s->commands[index].argv, NULL); // atençao que se entra no exec jao nao faz free!!! Filipe 17 jan
-			
+			int status = execve(exec_path, s->commands[0].argv, NULL); // atençao que se entra no exec jao nao faz free!!! Filipe 17 jan
 			if (status)
 			{
 				perror("Error");
@@ -109,7 +108,7 @@ static void	execute_do_cmd_1(t_script *s, int index, int out_fd)
 //static void	execute_do_cmd_n(char **argv, char **envp, int in_fd, int out_fd)
 static void	execute_do_cmd_n(t_script *s, int index, int in_fd, int out_fd)
 {
-	show_func(__func__, MY_START, s->commands->argv[0]);
+	show_func(__func__, MY_START, s->commands[index].argv[0]);
 	printf("input fd: %d\n", in_fd);
 	printf("output fd: %d\n", out_fd);
 	printf("envp: %s\n", s->envp[0]);
@@ -136,16 +135,17 @@ static void	execute_do_cmd_n(t_script *s, int index, int in_fd, int out_fd)
 		{
 			while (cmd_path[++i] != NULL)
 			{
-				exec_path = ft_strjoin(cmd_path[i], s->commands[index].argv[0]);
+				exec_path = ft_strjoin(cmd_path[i], s->commands[0].argv[index]);
 				if (!access(exec_path, F_OK))
 					break ;
 			}
 		if (cmd_path[i])
 		{
+
 			dup2(in_fd, STDIN_FILENO);
 			dup2(out_fd, STDOUT_FILENO);
-			printf("EXCVE no CMD_LAST vai ser executado\n");
-			int status = execve(exec_path, s->commands[index].argv, NULL); // atençao que se entra no exec jao nao faz free!!! Filipe 17 jan
+			printf("EXCVE no CMD_LAST vai ser executado com o com\n");
+			int status = execve(exec_path, s->commands[0].argv, NULL); // atençao que se entra no exec jao nao faz free!!! Filipe 17 jan
 			
 			if (status)
 			{
@@ -154,7 +154,7 @@ static void	execute_do_cmd_n(t_script *s, int index, int in_fd, int out_fd)
 			}
 		}
 		free(exec_path);
-		printf("%s: command not found\n", s->commands[index].argv[0]);
+		printf("%s: command not found\n", s->commands[0].argv[index]);
 		exit(COMMAND_NOT_FOUND);
 		}
 	}
@@ -368,10 +368,10 @@ int	pipex(t_script *s, char **path_env)
 	pid_t	child_pids[cmd_num];
 	int 	i;
 
-	signal(SIGINT, sig_handler_fork);  // tratamento de sinais
+	signal(SIGINT, sig_handler_fork);  // tratsignal(SIGINT, sig_handler_fork);amento de sinais
 	
 	i = -1;
-	while (++i < cmd_num) // criaçao dos pipes 
+	while (++i < cmd_num -1) // criaçao dos pipes 
 	{
 		if (pipe(pipes[i]) == -1)
 		{
@@ -396,26 +396,25 @@ int	pipex(t_script *s, char **path_env)
 			int j = -1;
 			printf("i no pipex: %d\n", i);
 			printf("Cmd_num no pipex: %d\n", cmd_num);
-			// while(++j < cmd_num) // fechar pipes nao utilizados
-			// {
-			// 	if (i != j)
-			// 		close(pipes[j][0]);
-			// 	if (i + 1 != j)
-			// 		close (pipes[j][1]);
-			// }
+			while(++j < cmd_num) // fechar pipes nao utilizados
+			{
+				if (i != j)
+					close(pipes[j][0]);
+				if (i + 1 != j)
+					close (pipes[j][1]);
+			}
 
 			// executar commando
 			if (i + 1 == 1)
 			{
 				//first command
 				//close(p[0]);
-				execute_do_cmd_1(s, i, pipes[i + 1][0]);
+				execute_do_cmd_1(s, i, pipes[i][1]);
 			}
 			else if (i + 1 == cmd_num)
 			{
 				//last command
 				//close(p[1]);
-
 				execute_do_cmd_n(s, i, pipes[i][0], pipes[i][1]);
 				//close(p[0]);
 			}
@@ -427,28 +426,17 @@ int	pipex(t_script *s, char **path_env)
 				// inbetween commands
 			}
 
-		close(pipes[i][0]);
-		close (pipes[i + 1][1]);
+		//close(pipes[i][0]);
+		close (pipes[i][1]);
 		show_func(__func__, CHILD_EXIT, "pipex simulator exit");
 		exit(EXIT_SUCCESS);
 		}
+		// main process
+		else
+		{
+		waitpid(child_pids[i], &g_exit_status, 0);
+		}
 	}
-
-	// main process
-
-	i = -1;
-	while(++i < cmd_num)
-	{
-		if (i != cmd_num)
-			close(pipes[i][0]);
-		if (i != 0)
-			close (pipes[i][1]);
-	}
-
-
-	i = -1;
-	while (++i < cmd_num)
-		wait(NULL);
 	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }
