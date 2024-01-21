@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/21 21:44:10 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/21 23:09:24 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,7 +235,7 @@ int	var_firstchar(char c)
 
 //static char	**env_var_detector2(char *oToken, char **nToken, int *i)
 // static int	tk_var_xpd(char *oToken, char **nToken)
-void tk_var_xpd(char *oToken, char ***nToken, int splits)
+char **tk_var_xpd(char *oToken, int splits)
 {
 	show_func(__func__, MY_START, NULL);
 	show_func(__func__, SHOW_MSG, ft_strjoin("11 token = ", oToken));
@@ -243,9 +243,10 @@ void tk_var_xpd(char *oToken, char ***nToken, int splits)
 	int j;
 	int inQuote = 0;
 	int slice = 0;
-	//char **nToken;
+	char **nToken;
+	int tmp = splits;
 
-	nToken = NULL;
+	splits = 0;
 	i = 0;
 	while (oToken[i] && oToken[i + 1])
 	{
@@ -258,10 +259,10 @@ void tk_var_xpd(char *oToken, char ***nToken, int splits)
 			i++;
 			while (oToken[i] && !var_name_checker(oToken[i]))
 				i++;
-			if (nToken != NULL)
+			if (*nToken != NULL)
 			{
-				nToken[splits] = ft_substr(oToken, j, i - j);
-				printf("%s%s -> 13 %s$VAR VALID : nToken = %s%s\n", SBHRED, __func__, SBHGRN, nToken[splits], SRST);
+				*nToken[splits] = ft_substr(oToken, j, i - j);
+				printf("%s%s -> 13 %s$VAR VALID : *nToken[%d] = %s%s\n", SBHRED, __func__, SBHGRN, splits, *nToken[splits], SRST);
 			}
 			else
 				printf("%s%s -> 13 %s$VAR VALID : show = %s%s\n", SBHRED, __func__, SBHGRN, ft_substr(oToken, j, i - j), SRST);
@@ -271,10 +272,10 @@ void tk_var_xpd(char *oToken, char ***nToken, int splits)
 		{
 			printf("%s%s -> 21 %s$VAR INVALID = {%c, %c}%s\n", SBHRED, __func__, SBHYLW, oToken[i], oToken[i + 1], SRST);
 			i++;
-			if (nToken != NULL)
+			if (*nToken != NULL)
 			{
-				nToken[splits] = ft_substr(oToken, j, i - j);
-				printf("%s%s -> 211 %s$VAR INVALID : nToken = %s%s\n", SBHRED, __func__, SBHGRN, nToken[splits], SRST);
+				*nToken[splits] = ft_substr(oToken, j, i - j);
+				printf("%s%s -> 211 %s$VAR INVALID : *nToken[%d] = %s%s\n", SBHRED, __func__, SBHGRN, splits, *nToken[splits], SRST);
 			}
 			else
 				printf("%s%s -> 212 %s$VAR INVALID : show = %s%s\n", SBHRED, __func__, SBHGRN, ft_substr(oToken, j, i - j), SRST);
@@ -292,10 +293,10 @@ void tk_var_xpd(char *oToken, char ***nToken, int splits)
 					inQuote = 1;
 					if (slice == 0)
 					{
-						if (nToken != NULL)
+						if (*nToken != NULL)
 						{
-							nToken[splits] = ft_substr(oToken, j, i - j);
-							printf("%s%s -> 311 %s$DOUBLE QUOTE SLICE : nToken = %s%s\n", SBHRED, __func__, SBHGRN, nToken[splits], SRST);
+							*nToken[splits] = ft_substr(oToken, j, i - j);
+							printf("%s%s -> 311 %s$DOUBLE QUOTE SLICE : *nToken[%d] = %s%s\n", SBHRED, __func__, SBHGRN, splits, *nToken[splits], SRST);
 						}
 						else
 							printf("%s%s -> 312 %s$DOUBLE QUOTE SLICE : show   = %s%s\n", SBHRED, __func__, SBHGRN, ft_substr(oToken, j, i - j), SRST);
@@ -308,10 +309,10 @@ void tk_var_xpd(char *oToken, char ***nToken, int splits)
 					{
 						while (oToken[i] && var_name_checker(oToken[i]) == SUCCESS)
 							i++;
-						if (nToken != NULL)
+						if (*nToken != NULL)
 						{
-							nToken[splits] = ft_substr(oToken, j, i - j);
-							printf("%s%s -> 321 %s$DOUBLE QUOTE VAR VALID : nToken = %s%s\n", SBHRED, __func__, SBHGRN, nToken[splits], SRST);
+							*nToken[splits] = ft_substr(oToken, j, i - j);
+							printf("%s%s -> 321 %s$DOUBLE QUOTE VAR VALID : *nToken[%d] = %s%s\n", SBHRED, __func__, SBHGRN, splits, *nToken[splits], SRST);
 						}
 						else
 							printf("%s%s -> 322 %s$DOUBLE QUOTE VAR VALID : show   = %s%s\n", SBHRED, __func__, SBHGRN, ft_substr(oToken, j, i - j), SRST);
@@ -319,10 +320,10 @@ void tk_var_xpd(char *oToken, char ***nToken, int splits)
 					else
 					{
 						i++;
-						if (nToken != NULL)
+						if (*nToken != NULL)
 						{
-							nToken[splits] = ft_substr(oToken, j, i - j);
-							printf("%s%s -> 331 %s$DOUBLE QUOTE VAR INVALID : nToken = %s%s\n", SBHRED, __func__, SBHGRN, nToken[splits], SRST);
+							*nToken[splits] = ft_substr(oToken, j, i - j);
+							printf("%s%s -> 331 %s$DOUBLE QUOTE VAR INVALID : *nToken[%d] = %s%s\n", SBHRED, __func__, SBHGRN, splits, *nToken[splits], SRST);
 						}
 						else
 							printf("%s%s -> 332 %s$DOUBLE QUOTE VAR INVALID : show   = %s%s\n", SBHRED, __func__, SBHGRN, ft_substr(oToken, j, i - j), SRST);
@@ -337,10 +338,10 @@ void tk_var_xpd(char *oToken, char ***nToken, int splits)
 				}
 			}
 			i++;
-			if (nToken != NULL)
+			if (*nToken != NULL)
 			{
-				nToken[splits] = ft_substr(oToken, j, i - j);
-				printf("%s%s -> 341 %s$DOUBLE QUOTE END : nToken = %s%s\n", SBHRED, __func__, SBHGRN, nToken[splits], SRST);
+				*nToken[splits] = ft_substr(oToken, j, i - j);
+				printf("%s%s -> 341 %s$DOUBLE QUOTE END : *nToken[%d] = %s%s\n", SBHRED, __func__, SBHGRN, splits, *nToken[splits], SRST);
 			}
 			else
 				printf("%s%s -> 342 %s$DOUBLE QUOTE END : show   = %s%s\n", SBHRED, __func__, SBHGRN, ft_substr(oToken, j, i - j), SRST);
@@ -355,10 +356,10 @@ void tk_var_xpd(char *oToken, char ***nToken, int splits)
 			while (oToken[i] && oToken[i] != '\'')
 				i++;
 			i++;
-			if (nToken != NULL)
+			if (*nToken != NULL)
 			{
-				nToken[splits] = ft_substr(oToken, j, i - j);
-				printf("%s%s -> 421 %s$SINGLE QUOTE : nToken = %s%s\n", SBHRED, __func__, SBHGRN, nToken[splits], SRST);
+				*nToken[splits] = ft_substr(oToken, j, i - j);
+				printf("%s%s -> 421 %s$SINGLE QUOTE : *nToken[%d] = %s%s\n", SBHRED, __func__, SBHGRN, splits, *nToken[splits], SRST);
 			}
 			else
 				printf("%s%s -> 442 %s$SINGLE QUOTE : show   = %s%s\n", SBHRED, __func__, SBHGRN, ft_substr(oToken, j, i - j), SRST);
@@ -371,10 +372,10 @@ void tk_var_xpd(char *oToken, char ***nToken, int splits)
 			i++;
 			while (oToken[i] && oToken[i] != '$' && oToken[i] != '\"' && oToken[i] != '\'')
 				i++;
-			if (nToken != NULL)
+			if (*nToken != NULL)
 			{
-				nToken[splits] = ft_substr(oToken, j, i - j);
-				printf("%s%s -> 521 %s$NO VAR FOUND : nToken = %s%s\n", SBHRED, __func__, SBHGRN, nToken[splits], SRST);
+				*nToken[splits] = ft_substr(oToken, j, i - j);
+				printf("%s%s -> 521 %s$NO VAR FOUND : *nToken [%d]= %s%s\n", SBHRED, __func__, SBHGRN, splits, *nToken[splits], SRST);
 			}
 			else
 				printf("%s%s -> 522 %s$NO VAR FOUND : show   = %s%s\n", SBHRED, __func__, SBHGRN, ft_substr(oToken, j, i - j), SRST);
@@ -383,19 +384,25 @@ void tk_var_xpd(char *oToken, char ***nToken, int splits)
 	}
 	printf("%s%s -> 5 %s$splits = {%d}%s\n", SBHRED, __func__,
 		SBHYLW, splits, SRST);
-	if (nToken == NULL)
+	if (tmp == 0)
 	{
-		printf("nToken = NULL\n");
-		nToken = (char **)malloc(sizeof(char *) * (splits + 1));
-		tk_var_xpd(oToken, &nToken, 0);
+		printf("*nToken = NULL, malloc size = %d\n", splits + 1);
+		*nToken = (char **)malloc(sizeof(char *) * (splits + 1));
+		nToken[splits] = NULL;
+		tk_var_xpd(oToken, splits);
 	}
 	else
 	{
-		nToken[splits] = NULL;
+		splits = -1;
+		while (nToken[++splits])
+			printf("%s%s -> &nToken = %p, nToken[%d] = %s%s\n",SBHYLW, __func__, *nToken[splits], splits, *nToken[splits], SRST);
+		// printf("splits = %d\n", splits);
+		// printf("%s%s -> 521 %s$LAST nToken pointer : nToken[%d]= %p%s\n", SBHRED, __func__, SBHGRN, splits, nToken[splits], SRST);
+		//*nToken[splits] = NULL;
 	}
 
 	show_func(__func__, SUCCESS, NULL);
-	return (splits);
+	return ;
 	//return (split);
 }
 
@@ -417,23 +424,31 @@ char	*env_var_expander(char *oldToken, char **envp, int i, int j)
 	char	*newToken;
 	char	**nToken;
 	char	*tmp;
+	int k = 0;
 	//char 	**splits;
 
 	newToken = NULL;
 	nToken = NULL;
-	printf("%s%s -> CALL%s\n",SBYLW, __func__, SRST);
+	printf("%s%s -> 20 CALL%s\n",SBYLW, __func__, SRST);
+	nToken = tk_var_xpd(oldToken, 0);
+	// tk_var_xpd(oldToken, &nToken, 0);
+	printf("%s%s -> 20 CALL RETURN%s\n",SBYLW, __func__, SRST);
+
+	printf("%s%s -> 10 CALL%s\n",SBYLW, __func__, SRST);
 	split = tk_env_var_detector(oldToken, &newToken, &i);
-	printf("%s%s -> CALL RETURN%s\n",SBYLW, __func__, SRST);
-
-	printf("%s%s -> CALL%s\n",SBYLW, __func__, SRST);
-	tk_var_xpd(oldToken, &nToken, 0);
-
-	printf("%s%s -> nToken[%d] = %s%s\n",SBYLW, __func__, 0, nToken[0], SRST);
+	printf("%s%s -> 10 CALL RETURN%s\n",SBYLW, __func__, SRST);
+	k = -1;
+	while (split[++k])
+		printf("%s%s -> split[%d] = %s%s\n",SBHYLW, __func__, k, split[k], SRST);
+	k = -1;
+	while (nToken[++k])
+		printf("%s%s -> &nToken = %p, nToken[%d] = %s%s\n",SBHYLW, __func__, nToken[k], k, nToken[k], SRST);
+	printf("%s%s -> &nToken = %p, nToken[%d] = %s%s\n",SBHYLW, __func__, nToken[k], k, nToken[k], SRST);
 
 	while (split[i])
 	{
 		printf("%s%s -> ******** while (split[i] = %s) ********%s\n", SBHRED, __func__, split[i], SRST);
-		printf("%s%s -> CALL%s\n",SBYLW, __func__, SRST);
+		printf("%s%s -> 30 CALL%s\n",SBYLW, __func__, SRST);
 
 		if ((odd_before(split, i, '\'') && odd_after(split, i, '\''))
 			&& (first_quote(oldToken) || !(odd_before(split, i, '\"')
@@ -454,8 +469,8 @@ char	*env_var_expander(char *oldToken, char **envp, int i, int j)
 		}
 		i++;
 	}
-	show_func(__func__, SHOW_MSG, ft_strjoin(" 1 -> ", newToken));
 
+	show_func(__func__, SHOW_MSG, ft_strjoin(" 1 -> ", newToken));
 	if (oldToken[ft_strlen(oldToken) - 1] == '$')
 		newToken = ft_strjoin_free(newToken, ft_strdup("$"));
 	show_func(__func__, SHOW_MSG, ft_strjoin(" 2 -> ", newToken));
