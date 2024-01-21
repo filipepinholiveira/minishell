@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:10:37 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/18 18:37:11 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/21 18:25:38 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ int	odd_before(char **split, int i, char c)
 	//while (i)
 	{
 		j = 0;
-		show_func(__func__, SHOW_MSG, ft_strjoin("previous split = ", split[i]));
+		//show_func(__func__, SHOW_MSG, ft_strjoin("previous split = ", split[i]));
 		while (split[i] && split[i][j])
 		{
-			printf("%s%s -> 11 split[%d][%d} = %c%s\n", SBHRED, __func__, i, j, split[i][j], SRST);
+			//printf("%s%s -> 11 split[%d][%d} = %c%s\n", SBHRED, __func__, i, j, split[i][j], SRST);
 			if (split[i][j] == c)
 				count++;
 			j++;
