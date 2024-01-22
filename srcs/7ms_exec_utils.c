@@ -44,13 +44,13 @@ int	var_name_check(char *var)
 // 	return ;
 // }
 
-static void	execute_do_cmd_1(t_script *s, int index, int pipe_in)
+static void	execute_do_cmd_1(t_script *s, int index, int pipe_out)
 {
 	show_func(__func__, MY_START, s->commands->argv[index]);
-	printf("out fd: %d\n", pipe_in);
+	printf("out fd: %d\n", pipe_out);
 	printf("envp: %s\n", s->envp[0]);
 
-	pid_t	fork_pid;
+	//pid_t	fork_pid;
 	char	**cmd_path;
 	char	*exec_path;
 	int i;
@@ -58,15 +58,15 @@ static void	execute_do_cmd_1(t_script *s, int index, int pipe_in)
 	i = -1;
 
 	signal(SIGINT, sig_handler_fork);
-	fork_pid = fork();
-	if (fork_pid == -1)
-	{
-		perror("fork");
-		exit(EXIT_FAILURE);
-	}
-	if (fork_pid == 0)
-	{
-		printf("Entra no child criado pelo 1º cmd no Pipex\n");
+	// fork_pid = fork();
+	// if (fork_pid == -1)
+	// {
+	// 	perror("fork");
+	// 	exit(EXIT_FAILURE);
+	// }
+	// if (fork_pid == 0)
+	// {
+	//printf("Entra no child criado pelo 1º cmd no Pipex\n");
 		cmd_path = split_path(s->envp);
 		if (cmd_path != NULL)
 		{
@@ -78,11 +78,16 @@ static void	execute_do_cmd_1(t_script *s, int index, int pipe_in)
 			}
 		if (cmd_path[i])
 		{
-			dup2(1, pipe_in);
+			// int teste = open("FILIPE.txt", O_CREAT, O_RDONLY, 0777);
+			// dup2(teste, STDOUT_FILENO);
+			// close (teste);
+			dup2(pipe_out, STDOUT_FILENO);
+			close (pipe_out);
 			printf("EXCVE no CMD_1 vai ser executado\n");
-			int status = execve(exec_path, s->commands[0].argv, NULL); // atençao que se entra no exec jao nao faz free!!! Filipe 17 jan
+			int status = execve(exec_path, s->commands[index].argv, NULL); // atençao que se entra no exec jao nao faz free!!! Filipe 17 jan
 			if (status)
 			{
+				printf("erro no execve do cmd :%s\n", s->commands[index].argv[0]);
 				perror("Error");
 				//exit(exit_status_getter(errno));
 			}
@@ -91,15 +96,15 @@ static void	execute_do_cmd_1(t_script *s, int index, int pipe_in)
 		printf("%s: command not found\n", s->commands[index].argv[0]);
 		exit(COMMAND_NOT_FOUND);
 		}
-	}
+	//}
 
-	waitpid(fork_pid, &g_exit_status, 0);
-	if (WIFEXITED(g_exit_status))
-	{
-		g_exit_status = WEXITSTATUS(g_exit_status);
-		printf("Child process exited with status %d\n", g_exit_status);
-	}
-	printf("Saiu do child criado 1º cmd no Pipex\n)");
+	// waitpid(fork_pid, &g_exit_status, 0);
+	// if (WIFEXITED(g_exit_status))
+	// {
+	// 	g_exit_status = WEXITSTATUS(g_exit_status);
+	// 	printf("Child process exited with status %d\n", g_exit_status);
+	// }
+	// printf("Saiu do child criado 1º cmd no Pipex\n)");
 
 	show_func(__func__, SUCCESS, NULL);
 	return ;
@@ -113,7 +118,7 @@ static void	execute_do_cmd_n(t_script *s, int index, int in_fd, int out_fd)
 	printf("output fd: %d\n", out_fd);
 	printf("envp: %s\n", s->envp[0]);
 
-	pid_t	fork_pid;
+	//pid_t	fork_pid;
 	char	**cmd_path;
 	char	*exec_path;
 	int i;
@@ -121,59 +126,64 @@ static void	execute_do_cmd_n(t_script *s, int index, int in_fd, int out_fd)
 	i = -1;
 
 	signal(SIGINT, sig_handler_fork);
-	fork_pid = fork();
-	if (fork_pid == -1)
-	{
-		perror("fork");
-		exit(EXIT_FAILURE);
-	}
-	if (fork_pid == 0)
-	{
-		printf("Entra no child criado pelo ultimo cmd no Pipex\n");
+	// fork_pid = fork();
+	// if (fork_pid == -1)
+	// {
+	// 	perror("fork");
+	// 	exit(EXIT_FAILURE);
+	// }
+	// if (fork_pid == 0)
+	//{
+	// 	printf("Entra no child criado pelo ultimo cmd no Pipex\n");
 		cmd_path = split_path(s->envp);
 		if (cmd_path != NULL)
 		{
 			while (cmd_path[++i] != NULL)
 			{
-				exec_path = ft_strjoin(cmd_path[i], s->commands[0].argv[index]);
+				exec_path = ft_strjoin(cmd_path[i], s->commands[index].argv[0]);
 				if (!access(exec_path, F_OK))
 					break ;
 			}
 		if (cmd_path[i])
 		{
 
-			dup2(in_fd, STDIN_FILENO);
+			dup2(STDIN_FILENO, in_fd);
 			dup2(out_fd, STDOUT_FILENO);
+			close (in_fd);
+			close(out_fd);
 			printf("EXCVE no CMD_LAST vai ser executado com o com\n");
-			int status = execve(exec_path, s->commands[0].argv, NULL); // atençao que se entra no exec jao nao faz free!!! Filipe 17 jan
-			
+			int status = execve(exec_path, s->commands[index].argv, NULL); // atençao que se entra no exec jao nao faz free!!! Filipe 17 jan
+
 			if (status)
 			{
+				printf("erro no execve do cmd :%s\n", s->commands[index].argv[0]);
 				perror("Error");
 				//exit(exit_status_getter(errno));
 			}
 		}
 		free(exec_path);
-		printf("%s: command not found\n", s->commands[0].argv[index]);
+		printf("%s: command not found\n", s->commands[index].argv[0]);
 		exit(COMMAND_NOT_FOUND);
 		}
-	}
+	//}
 
-	waitpid(fork_pid, &g_exit_status, 0);
-	if (WIFEXITED(g_exit_status))
-	{
-		g_exit_status = WEXITSTATUS(g_exit_status);
-		printf("Child process exited with status %d\n", g_exit_status);
-	}
-	printf("Saiu do child criado ULTIMO cmd no Pipex\n)");
+	// waitpid(fork_pid, &g_exit_status, 0);
+	// if (WIFEXITED(g_exit_status))
+	// {
+	// 	g_exit_status = WEXITSTATUS(g_exit_status);
+	// 	printf("Child process exited with status %d\n", g_exit_status);
+	// }
+	// printf("Saiu do child criado ULTIMO cmd no Pipex\n)");
 
-	show_func(__func__, SUCCESS, NULL);
-	return ;
+	// show_func(__func__, SUCCESS, NULL);
+	// return ;
 
 
 	show_func(__func__, SUCCESS, NULL);
 	return ;
 }
+
+
 
 /// @brief 				Executa um comando em um processo filho.
 /// 					Esta função cria um processo filho para executar o
@@ -364,14 +374,16 @@ int	pipex(t_script *s, char **path_env)
 {
 	show_func(__func__, MY_START, NULL);
 	int cmd_num = s-> cmd_count;
-	int		pipes[cmd_num + 1][2];
+	int		pipes[cmd_num - 1][2];
 	pid_t	child_pids[cmd_num];
 	int 	i;
 
+	(void) path_env;
+
 	signal(SIGINT, sig_handler_fork);  // tratsignal(SIGINT, sig_handler_fork);amento de sinais
-	
+
 	i = -1;
-	while (++i < cmd_num -1) // criaçao dos pipes 
+	while (++i < cmd_num -1) // criaçao dos pipes
 	{
 		if (pipe(pipes[i]) == -1)
 		{
@@ -390,46 +402,51 @@ int	pipex(t_script *s, char **path_env)
 			show_func(__func__, ERROR, NULL);
 			exit(EXIT_FAILURE);
 		}
-		if (child_pids[i] == 0) 
+		if (child_pids[i] == 0)
 		{
 			// entra no processo child
-			int j = -1;
+			//int j = -1;
 			printf("i no pipex: %d\n", i);
 			printf("Cmd_num no pipex: %d\n", cmd_num);
-			while(++j < cmd_num) // fechar pipes nao utilizados
-			{
-				if (i != j)
-					close(pipes[j][0]);
-				if (i + 1 != j)
-					close (pipes[j][1]);
-			}
+			// while(++j < cmd_num) // fechar pipes nao utilizados
+			// {
+			// 	if (i != j)
+			// 		close(pipes[j][0]);
+			// 	if (i + 1 != j)
+			// 		close (pipes[j][1]);
+			// }
 
 			// executar commando
 			if (i + 1 == 1)
 			{
 				//first command
-				//close(p[0]);
+				close (pipes[i][0]);
+				printf("FD out: %d enviado no execute 1\n", pipes[i][1]);
 				execute_do_cmd_1(s, i, pipes[i][1]);
+				//close (pipes[i][1]);
+				printf("Said do exec 1 com sucesso\n");
 			}
 			else if (i + 1 == cmd_num)
 			{
 				//last command
 				//close(p[1]);
-				execute_do_cmd_n(s, i, pipes[i][0], pipes[i][1]);
-				//close(p[0]);
+				printf("FD in: %d  e FD out: %d enviados no execute n\n", pipes[i - 1][0], pipes[i - 1][1]);
+				execute_do_cmd_n(s, i, pipes[i - 1][0], pipes[i - 1][1]);
+				//close (pipes[i][0]);
+				//close (pipes[i][1]);
 			}
-			else
-			{
-				dup2(pipes[j][0], STDIN_FILENO);
-				dup2(pipes[j][1], STDOUT_FILENO);
-				execute_do_cmd_i(s->commands[i].argv, path_env, STDIN_FILENO, pipes[i][1]);
-				// inbetween commands
-			}
+			// else
+			// {
+			// 	dup2(pipes[j][0], STDIN_FILENO);
+			// 	dup2(pipes[j][1], STDOUT_FILENO);
+			// 	execute_do_cmd_i(s->commands[i].argv, path_env, STDIN_FILENO, pipes[i][1]);
+			// 	// inbetween commands
+			// }
 
-		//close(pipes[i][0]);
+		close(pipes[i][0]);
 		close (pipes[i][1]);
 		show_func(__func__, CHILD_EXIT, "pipex simulator exit");
-		exit(EXIT_SUCCESS);
+		//exit(EXIT_SUCCESS);
 		}
 		// main process
 		else
