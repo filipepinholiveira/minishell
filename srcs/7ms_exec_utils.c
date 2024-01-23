@@ -164,13 +164,13 @@ static void	execute_do_cmd_i(t_script *s, int index)
 	cmd_path = split_path(s->envp);
 	if (cmd_path != NULL)
 	{
-		printf("CMD_path existe no last cmd\n");
+		printf("CMD_path existe nos cmds intermedios\n");
 		while (cmd_path[++i] != NULL)
 		{
 			exec_path = ft_strjoin(cmd_path[i], s->commands[index].argv[0]);
 			if (!access(exec_path, F_OK))
 			{
-				printf("Break no acess do last cmd\n");
+				printf("Break no acess do cmd intermedio\n");
 				printf("Cmd_path[%d]: %s\n", i, cmd_path[i]);
 				break;
 			}
@@ -178,10 +178,10 @@ static void	execute_do_cmd_i(t_script *s, int index)
 		if (cmd_path[i])
 		{
 			printf("EXCVE vai executar %s\n", s->commands[index].argv[0]);
-			dup2(s->fd[1], STDOUT_FILENO);
 			dup2(s->fd[0], STDIN_FILENO);
-			close(s->fd[1]);
+			dup2(s->fd[1], STDOUT_FILENO);
 			close(s->fd[0]);
+			close(s->fd[1]);
 			int status = execve(exec_path, s->commands[index].argv, NULL);
 			if (status == -1)
 			{
@@ -210,7 +210,7 @@ int pipex(t_script *s, char **path_env)
     (void)path_env;
 
 
-	printf("FD in: %d  e FD out: %d antes do	 pipe\n", s->fd[0], s->fd[1]);
+	printf("FD in: %d  e FD out: %d antes do pipe\n", s->fd[0], s->fd[1]);
 
 
     signal(SIGINT, sig_handler_fork); // tratamento de sinais
@@ -269,7 +269,7 @@ int pipex(t_script *s, char **path_env)
 			{
 				printf("A aguardar pelo process: %d\n", pids[i]);
 				printf("Valor do incremento i: %d\n", i);
-				waitpid(pids[i], &g_exit_status, 0);
+				waitpid(pids[k], &g_exit_status, 0);
 				if (WIFEXITED(g_exit_status))
 				{
 					g_exit_status = WEXITSTATUS(g_exit_status);
