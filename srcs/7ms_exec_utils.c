@@ -170,7 +170,6 @@ static void execute_do_cmd_n(t_script *s, int index, int in_fd, int out_fd)
                 int status = execve(exec_path, s->commands[index].argv, NULL);
                 if (status)
                 {
-                    printf("erro no execve do cmd :%s\n", s->commands[index].argv[0]);
                     perror("Error");
                 }
             }
@@ -382,7 +381,7 @@ int pipex(t_script *s, char **path_env)
 {
     show_func(__func__, MY_START, NULL);
     int cmd_num = s->cmd_count;
-    int pipes[cmd_num - 1][2];
+    int pipes[1][2];
     pid_t child_pids[cmd_num];
     int i;
 
@@ -390,17 +389,18 @@ int pipex(t_script *s, char **path_env)
 
     signal(SIGINT, sig_handler_fork); // tratamento de sinais
 
-    i = -1;
-    while (++i < cmd_num - 1) // criação dos pipes
-    {
+    i = 0;
+    // while (++i < cmd_num - 1) // criação dos pipes
+    // {
         if (pipe(pipes[i]) == -1)
         {
             perror("pipe");
             show_func(__func__, EXIT_FAILURE, NULL);
             exit(EXIT_FAILURE);
         }
-    }
+    // }
     printf("Numero de pipes criados: %d\n", i);
+	printf("FD in: %d  e FD out: %d criados \1", pipes[0][0], pipes[0][1]);
     i = -1;
     while (++i < cmd_num) // criação dos processos nos childs
     {
@@ -432,9 +432,8 @@ int pipex(t_script *s, char **path_env)
             {
                 // first command
                 //close(pipes[i][0]);
-                close(pipes[i][0]);
-				dup2(pipes[i][1], STDOUT_FILENO);
-                printf("FD in: %d  e FD out: %d enviados no execute \1", pipes[i][0], pipes[i][1]);
+                close(pipes[0][0]);
+				dup2(pipes[0][1], STDOUT_FILENO);
                 
 				execute_do_cmd_1(s, i, 0, 0);
                 close(pipes[i][1]);
@@ -443,20 +442,18 @@ int pipex(t_script *s, char **path_env)
             {
                 // last command
                 //close(pipes[i - 1][1]);
-                printf("FD in: %d  e FD out: %d enviados no execute n\n", pipes[i - 1][0], pipes[i - 1][1]);
-
                 char buffer[4096];
-                ssize_t bytesRead = read(pipes[i - 1][0], &buffer, sizeof(buffer));
+                ssize_t bytesRead = read(pipes[0][0], &buffer, sizeof(buffer));
                 printf("Numero de Dados lidos last cmd: %ld\n", bytesRead);
-				close(pipes[cmd_num - 1][1]);
-				dup2(pipes[cmd_num - 1][0], STDIN_FILENO);
+				close(pipes[0][1]);
+				dup2(pipes[0][0], STDIN_FILENO);
                 execute_do_cmd_n(s, i, 0, 0);
-                close(pipes[cmd_num - 1][0]);
+                close(pipes[0][0]);
                 //close(pipes[i - 1][1]);
             }
 
-            close(pipes[i][0]);
-            close(pipes[i][1]);
+            close(pipes[0][0]);
+            close(pipes[0][1]);
             show_func(__func__, CHILD_EXIT, "pipex simulator exit");
             //exit(EXIT_SUCCESS);
         }
