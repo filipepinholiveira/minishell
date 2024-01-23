@@ -99,14 +99,14 @@ static void execute_do_cmd_n(t_script *s, int index)
 	cmd_path = split_path(s->envp);
 	if (cmd_path != NULL)
 	{
-		printf("CMD_path existe no last cmd\n");
+		//printf("CMD_path existe no last cmd\n");
 		while (cmd_path[++i] != NULL)
 		{
 			exec_path = ft_strjoin(cmd_path[i], s->commands[index].argv[0]);
 			if (!access(exec_path, F_OK))
 			{
-				printf("Break no acess do last cmd\n");
-				printf("Cmd_path[%d]: %s\n", i, cmd_path[i]);
+				// printf("Break no acess do last cmd\n");
+				// printf("Cmd_path[%d]: %s\n", i, cmd_path[i]);
 				break;
 			}
 		}
@@ -178,7 +178,8 @@ static void	execute_do_cmd_i(t_script *s, int index)
 		if (cmd_path[i])
 		{
 			printf("EXCVE vai executar %s\n", s->commands[index].argv[0]);
-			dup2(s->fd[0], STDIN_FILENO);
+			printf("a partir daqui todos os printf do cmd_i vao para s->fd[1]\n");
+			dup2(STDIN_FILENO, s->fd[0]);
 			dup2(s->fd[1], STDOUT_FILENO);
 			close(s->fd[0]);
 			close(s->fd[1]);
@@ -202,28 +203,22 @@ int pipex(t_script *s, char **path_env)
 {
     show_func(__func__, MY_START, NULL);
     int cmd_num = s->cmd_count;
-    //int fd[2];
 	pid_t parent_pid;
     pid_t pids[cmd_num];
     int i;
 
     (void)path_env;
 
-
 	printf("FD in: %d  e FD out: %d antes do pipe\n", s->fd[0], s->fd[1]);
-
-
     signal(SIGINT, sig_handler_fork); // tratamento de sinais
 
     i = 0;
-    // while (++i < cmd_num - 1) // criação dos pipes
-    // {
-        if (pipe(s->fd) == -1)
-        {
-            perror("pipe");
-            show_func(__func__, EXIT_FAILURE, NULL);
-            exit(EXIT_FAILURE);
-        }
+	if (pipe(s->fd) == -1)
+	{
+		perror("pipe");
+		show_func(__func__, EXIT_FAILURE, NULL);
+		exit(EXIT_FAILURE);
+	}
     
 	printf("FD in: %d  e FD out: %d criados pelo pipe\n", s->fd[0], s->fd[1]);
     i = -1;
@@ -250,31 +245,32 @@ int pipex(t_script *s, char **path_env)
             {
                 // first command
 				execute_do_cmd_1(s, i);
-            }
-            if (i + 1 == cmd_num)
+            }		
+            else if (i + 1 == cmd_num)
             {
 				// last command
                 execute_do_cmd_n(s, i);
             }
 			else
+			{
 				// middle commands
 				execute_do_cmd_i(s, i);
+			}
         }
 			
 		else if (pids[i] > 0)
 		{
         	// parent process
 			int k = -1;
-			while (++k < cmd_num && errno != ECHILD)
+			while (++k < cmd_num || errno != ECHILD)
 			{
 				printf("A aguardar pelo process: %d\n", pids[i]);
 				printf("Valor do incremento i: %d\n", i);
-				waitpid(pids[k], &g_exit_status, 0);
+				waitpid(pids[i], &g_exit_status, 0);
 				if (WIFEXITED(g_exit_status))
 				{
 					g_exit_status = WEXITSTATUS(g_exit_status);
-					printf("Child process %d exited with status %d\n", pids[i], g_exit_status);
-					printf("Saiu do child nº %d com o processo %d\n", i + 1, pids[i]);
+					printf("Child nº %d com o processo %d saiu normalmente com status %d\n", i + 1, pids[i], g_exit_status);
 					break;
 				}
 			}
