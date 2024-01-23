@@ -465,19 +465,6 @@ int		execute(t_script *script);
 /// @return		SUCCESS or ERROR
 int	var_name_check(char *var);
 
-
-/// @brief 				Executa um comando em um processo filho.
-/// @param argv			Array de strings contendo os argumentos do comando
-///             		com o nome do comando na primeira posição.
-/// @param envp			Array de strings representando variáveis de ambiente.
-/// @param input_fd		O descritor de arquivo para a entrada padrão (stdin)
-///do processo filho. Pode ser STDIN_FILENO
-///ou um descritor de arquivo de um pipe.
-/// @param ouput_fd		O descritor de arquivo para a saída padrão (stdout)
-/// do processo filho. Pode ser STDOUT_FILENO
-///ou um descritor de arquivo de um pipe.
-void	execute_do_cmd(char **argv, char **envp, int input_fd, int output_fd);
-
 /// @brief 			Executa dois comandos em sequência com um pipe entre eles.
 /// @param s		Estrutura contendo informações cmd a serem executados.
 /// @param path_env		Array de strings representando o caminho do ambiente.
