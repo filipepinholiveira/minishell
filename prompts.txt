@@ -1,1 +1,30 @@
+pwd
+pwd "asfd"
+pwd 'asfd'
+pwd"asfd"
+pwd'asfd'
+pwd$var
+pwd$var
+pwd $var
+pwd $var
+pwd/asfd
+pwd $var
+bin/ls
+/bin/ls
+/bin/ls2
+/bin/ls2 followed by echo $?
+exit
+exit 2
+exit 42
+exit -42
+exit 42 10
+exit 42 school
+ls notexist followed by echo $2
+ls
+expr $? + $?
+"echo Hello World"
+""ls -l""
+" "ls -l" "
+"l"s -l" "
+
 echo $HOME$"HONOR"07"$4AB$CD EF"NEW"OTTO"'NOT$A'
