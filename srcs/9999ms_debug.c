@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:29:02 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/11 21:57:16 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:12:47 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ int	show_func(const char *func_name, int status, char *msg)
 	int					i;
 	const t_debug_msg	debug_msg[12] = {
 	{" INFO", SHOW_MSG, 5, "(ii) ", SBHPPL},
-	{" START", MY_START, 6, "\n(>) ", SHBLU},
+	{" START", MY_START, 6, "(>>) ", SHBLU},
 	{" ERROR", ERROR, 6, "(xx) ", SHRED},
 	{" SUCCESS", SUCCESS, 8, "(xx) ", SHGRN},
 	{" MALLOC_ERROR", MALLOC_ERROR, 13, "(xx) ", SBHRED},
-	{" MALLOC_NOT_ALLOCATED", MALLOC_NOT_ALLOCATED, 22, "(xx) ", SBHCYN},
+	{" MALLOC_NOT_ALLOC", MALLOC_NOT_ALLOCATED, 18, "(xx) ", SBHCYN},
 	{" FILE_ERROR", FILE_ERROR, 11, "(xx) ", SBHRED},
 	{" CHILD_EXIT", CHILD_EXIT, 11, "(xx) ", SBHYLW},
 	{" EXIT_FAILURE", EXIT_FAILURE, 14, "(xx) ", SBHRED},

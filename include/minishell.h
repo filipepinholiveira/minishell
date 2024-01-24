@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/15 17:45:53 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/24 10:01:56 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ typedef struct s_script
 	char			**envp;
 	char			**envt;
 	struct termios	termios_p;
+	int				fd[2];
 }				t_script;
 
 # ifndef CPIPE
@@ -193,7 +194,7 @@ void	termios_setter(struct termios *termios_p);
 ///	signal.c
 /* ************************************************************************** */
 
-/// @brief 		Signal processing functions setter
+/// @brief 		Signal processing functionsError encountered while testing setter
 /// @param  	No parameter required
 void	signal_setter(void);
 
@@ -403,7 +404,7 @@ char	*replace_loop(char *str, char **envp, int *i);
 /// @param before	Pointer to the string before the first '$'
 /// @param i		Index start
 /// @return			Split string
-char	**init_split_before(char *line_buf, char **before, int *i);
+char	**env_var_detector(char *line_buf, char **before, int *i);
 
 /// @brief 				Replaces ARGS in a given string by the environment vars
 ///						by iterating through the string and replacing each
@@ -413,7 +414,7 @@ char	**init_split_before(char *line_buf, char **before, int *i);
 /// @param i			Index start
 /// @param j			Index end
 /// @return				String with ARGS replaced by envp vars
-char	*replace_env_var(char *line_buf, char **envp, int i, int j);
+char	*env_var_expander(char *line_buf, char **envp, int i, int j);
 
 /// @brief		This function replaces multiple spaces with a single space
 /// @param str	String to be parsed
@@ -457,9 +458,7 @@ int		exec_one(t_script *s);
 /// @param script 	Script contents
 int		execute(t_script *script);
 
-/* ************************************************************************** */
-///	ms_exec_utils.c
-/* ************************************************************************** */
+/* *************************************************/
 
 /// @brief		Test validity of shell variables
 /// @param var	Variable name to be tested

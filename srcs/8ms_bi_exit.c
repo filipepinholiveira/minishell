@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 15:09:01 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/11 18:40:06 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/24 10:29:50 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,15 @@ int	bi_exit(t_script *s, int n)
 		exit (0);
 	if (s->commands[n].argc > 2)
 	{
-		if (ft_is_str_digit(s->commands[n].argv[1]) == 1)
-		{
-			printf("exit\nbash: exit: %s numeric argument required\n",
-				s->commands[n].argv[1]);
-			show_func(__func__, SUCCESS, NULL);
-			exit (2);
-		}
-		else
-		{
-			printf("exit\nbash: exit: too many arguments\n");
+		printf("exit\nbash: exit: too many arguments\n");
 			return (1);
-		}
+	}
+	if (ft_is_str_digit(s->commands[n].argv[1]) == 1)
+	{
+		printf("exit\nbash: exit: %s numeric argument required\n",
+			s->commands[n].argv[1]);
+		show_func(__func__, SUCCESS, NULL);
+		exit (2);
 	}
 	show_func(__func__, SUCCESS, NULL);
 	exit (ft_atoi(s->commands[n].argv[1]));

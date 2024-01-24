@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 09:55:51 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/15 10:42:50 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/24 10:22:47 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,7 +261,7 @@ static int	exec_go(t_script *s, int n)
 		}
 		printf("Saiu do child\n)");
 	}
-	return (0);
+	return (g_exit_status);
 }
 
 
