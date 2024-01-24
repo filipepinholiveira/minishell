@@ -1,0 +1,1 @@
+echo $HOME$"HONOR"07"$4AB$CD EF"NEW"OTTO"'NOT$A'
