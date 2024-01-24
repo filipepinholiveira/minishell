@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 09:55:51 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/24 10:22:47 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:05:02 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,10 @@ static int	exec_go(t_script *s, int n)
 						printf("abrir e truncar\n");
 						int file = open(s->commands[0].out.name, O_WRONLY | O_TRUNC);
 						if (file == -1)
+						{
+							free(exec_path);
 							return (ERROR);
+						}
 						dup2(file, STDOUT_FILENO);
 						close (file);
 					}
@@ -223,7 +226,10 @@ static int	exec_go(t_script *s, int n)
 						printf("abrir e concatenar\n");
 						int file = open(s->commands[0].out.name, O_WRONLY | O_APPEND);
 						if (file == -1)
+						{
+							free(exec_path);
 							return (ERROR);
+						}
 						dup2(file, STDOUT_FILENO);
 						close (file);
 					}
@@ -233,13 +239,15 @@ static int	exec_go(t_script *s, int n)
 					printf("Reconhece p ficheiro de leitura\n");
 					int file = open(s->commands[0].in.name, O_RDONLY);
 					if (file == -1)
+					{
+						free(exec_path);
 						return (ERROR);
+					}
 					dup2(file, STDIN_FILENO);
 					close (file);
 				}
 				status = execve(exec_path, s->commands[n].argv, NULL); // atençao que se entra no exec jao nao faz free!!! Filipe 17 jan
-				free (exec_path);
-				if (status)
+				if (status == -1)
 				{
 					perror("Error");
 					exit(exit_status_getter(errno));
@@ -253,7 +261,9 @@ static int	exec_go(t_script *s, int n)
 	}
 	else
 	{
+		status = 500;
 		waitpid(fork_pid, &g_exit_status, 0);
+		printf("status = %d\n", status);
 		if (WIFEXITED(g_exit_status))
 		{
 		    g_exit_status = WEXITSTATUS(g_exit_status);
@@ -361,25 +371,6 @@ int	exec_one(t_script *s)
 		show_func(__func__, SHOW_MSG, "Variable temp");
 		g_exit_status = bi_equal(s, s->cmd_count - 1);
 	}
-	// else if(s->commands[0].out.name)
-	// {
-	// 	printf("Temos que executar %s e enviar para %s\n", s->commands[0].argv[0], s->commands[0].out.name);
-	// 	int file = open(s->commands[0].out.name, O_RDONLY, 0777);
-	// 	if (file == -1)
-	// 		return (2);
-	// 	dup2(file, STDOUT_FILENO); // duplica o fd e altera
-	// 	close (file);
-		
-	// 	/*
-	// 	echo filipe > f.txt > g.txt > j.txt
-	// 	qq coisa como while (s->commands[0].argv[i])
-	// 	{
-	// 		contar o numero de >, e fazer pipes, escrever (fd1) o valor de cmd echo, e ler 
-	// 		no ficheiro criado "f.txt" (fd0), escrevendo (fd1), lendo (fd) no g.txt, escrevendo (fd1)
-	// 		e lendo finalmente (fd0) j.txt
-	// 	}
-	// 	*/
-	// }
 	else
 	{
 		if (get_cmd_type(s->commands[0].argv[0]) != CMD_EXEC)
