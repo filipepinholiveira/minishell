@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:46:39 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/10 00:34:48 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/14 15:06:01 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,32 @@ void	bi_export_new_var(t_script *s, int n, int i)
 	}
 	//show_func(__func__, SUCCESS, NULL);
 }
+int	export_status(t_script *s, int n)
+{
+	int	i;
+	char **order;
+
+	if (!s->cmds[n].argv[1])
+	{
+		if (!s->envp)
+			return (1);
+		i = -1;
+		order = ordered_array(s->envp, '=');
+		while (order[++i])
+		{
+			if (!(order[i][0] == '_' && order[i][1] == '='))
+			{
+				ft_putstr_fd("declare -x ", STDOUT_FILENO);
+				ft_putstr_fd(order[i], STDOUT_FILENO);
+				ft_putstr_fd("\n", STDOUT_FILENO);
+			}
+		}
+		free_array(order);
+	}
+	else if (s->cmds[n].argv[1][0] == '\0')
+		return(return_error("Syntax error", 1, 2));
+	return (0);
+}
 
 /// @brief 			Export PERMANENT environment variables
 /// @param s 		Script structure with commans and args
@@ -102,7 +128,7 @@ int	bi_export(t_script *s, int n)
 	int		i;
 
 	if (!s->envp || !s->cmds[n].argv[1] || !s->cmds[n].argv[1][0])
-		return (ERROR);
+		return (export_status(s, n));
 	i = 1;
 	while (s->cmds[n].argv[i])
 	{
