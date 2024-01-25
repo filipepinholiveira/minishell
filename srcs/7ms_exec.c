@@ -6,44 +6,11 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 09:55:51 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/24 13:05:02 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/25 11:15:51 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-static void	execute_show(t_script *s)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	j = -1;
-	show_func(__func__, MY_START, NULL);
-	printf("s->com_count: %i\n", s->cmd_count);
-	while (++j < s->cmd_count)
-	{
-		printf("\n");
-		while (++i < s->commands[j].argc)
-		{
-			printf("# s->commands[%i].argv[%i]: %s\n",
-				j, i, s->commands[j].argv[i]);
-		}
-		printf("  s->commands[%i].out.name: %s\n", j, s->commands[j].out.name);
-		printf("  s->commands[%i].out.flag: %d\n", j, s->commands[j].out.flag);
-		printf("  s->commands[%i].out->heredoc: %p\n",
-			j, s->commands[j].out.heredoc);
-		printf("  s->commands[%i].in.name: %s\n", j, s->commands[j].in.name);
-		printf("  s->commands[%i].in.flag: %d\n", j, s->commands[j].in.flag);
-		printf("  s->commands[%i].in->heredoc: %p\n",
-			j, s->commands[j].in.heredoc);
-		i = -1;
-	}
-	printf("\n");
-	show_func(__func__, SUCCESS, NULL);
-	return ;
-}
-
 
 int	get_cmd_type(char *cmd)
 {
@@ -161,7 +128,7 @@ static int exit_status_getter(int status)
 		{EFAULT, 14},
 		{EINVAL, 22},
 		{EIO, 5},
-		{0, 0}};	
+		{0, 0}};
 	i = -1;
 	while (ex_error[++i].src_error)
 			if (ex_error[i].src_error == status)
@@ -185,7 +152,7 @@ static int	exec_go(t_script *s, int n)
 	int		status;
 
 	i = -1;
-	
+
 	fork_pid = fork();
 	signal(SIGINT, sig_handler_fork);
 	if (fork_pid == -1)
@@ -274,111 +241,24 @@ static int	exec_go(t_script *s, int n)
 	return (g_exit_status);
 }
 
-
-//useful info :::
-
-					// printf("errno = %d \n", errno);
-					// perror("Error");
-					// free(exec_path);
-					// 	/*errno possiveis:
-
-					// EACCES (Permission denied):
-					// Indica que não há permissão para executar o arquivo. valor costuma ser 13
-
-					// ENOMEM (Out of memory):
-					// Indica que não há memória disponível para executar o novo programa.
-					// valor costuma ser 12
-
-					// E2BIG (Argument list too long):
-					// Indica que a soma do tamanho dos argumentos e do ambiente é maior 
-					// do que o permitido.
-					// valor costuma ser 7
-
-					// EFAULT (Bad address):
-					// Indica um problema com a estrutura de dados passada para a função execve. 
-					// Por exemplo, um ponteiro nulo ou inválido.
-					// valor costuma ser 14
-
-					// EINVAL (Invalid argument):
-					// Indica que um argumento passado para execve é inválido.
-					// valor costuma ser 22
-
-					// EIO    An I/O error occurred.
-					// usado para indicar erros relacionados à entrada/saída. Ele indica um erro geral 
-					// associado a operações de entrada/saída que não podem ser concluídas com sucesso.
-					// valor costuma ser 5
-
-					// */
-					// if (errno == EACCES)
-					// 	exit(PERMISSION_DENIED); // se colocarmos EACESS vai dar erro 13
-					// else if (errno == ENOMEM)
-					// 	exit(ENOMEM);
-					// else if (errno == E2BIG)
-					// 	exit(E2BIG);
-					// else if(errno == EFAULT)
-					// 	exit(EFAULT);
-					// else if(errno == EINVAL)
-					// 	exit(EINVAL);
-					// else if(errno == EIO)
-					// 	exit(EIO);
-					// else
-					// 	exit(ERROR);
-
-// static int	exec_go(t_script *s, int n)
-// {
-// 	show_func(__func__, MY_START, NULL);
-// 	show_func(__func__, SHOW_MSG, ft_itoa(n));
-// 	show_func(__func__, SUCCESS, NULL);
-// 	(void)s;
-// 	(void)n;
-// 	pid_t	child_pid;
-// 	char	*cmd_path;
-
-// 	child_pid = fork();
-// 	if (child_pid == -1)
-// 	{
-// 		perror("fork");
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	else if (child_pid == 0)
-// 	{
-// 		cmd_path = get_location(s->commands[0].argv[0]); // nao vou usar get_location, tenho o split_path (ESTUDAR ACESS)
-// 		//cmd_path = split_path(s->envp);
-// 		if (cmd_path != NULL)
-// 		{
-// 			if (execve(cmd_path, s->commands[0].argv, NULL) == -1)
-// 			{
-// 				perror("Error");
-// 				exit(EXIT_FAILURE);
-// 			}
-// 		}
-// 		else
-// 		{
-// 			printf("%s: command not found\n", s->commands[0].argv[0]);
-// 			exit(EXIT_FAILURE);
-// 		}
-// 	}
-// 	else
-// 		wait(NULL);
-// 	return (0);
-// }
-
-int	exec_one(t_script *s)
+/// @brief 		Executes a single command
+/// @param s 	Parsed script with command(s) to Execute
+/// @return		0 if success, 1 if failure,...
+int	exec_one(t_script *s, int n)
 {
 	show_func(__func__, MY_START, NULL);
 	if (ft_strchr(s->commands[0].argv[0], '='))
 	{
 		show_func(__func__, SHOW_MSG, "Variable temp");
-		g_exit_status = bi_equal(s, s->cmd_count - 1);
+		g_exit_status = bi_equal(s, n);
 	}
 	else
 	{
 		if (get_cmd_type(s->commands[0].argv[0]) != CMD_EXEC)
-			g_exit_status = bi_go(s, s->cmd_count - 1);
+			g_exit_status = bi_go(s, n);
 		else
-			g_exit_status = exec_go(s, s->cmd_count - 1);
+			g_exit_status = exec_go(s, n);
 	}
-
 	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }
@@ -392,18 +272,16 @@ int	execute(t_script *s)
 
 	execute_show(s);
 	path_env = split_path(s->envp);
-//if (!ft_strncmp(->commands->argv[1], "=", 1))
-//criarna envt
 	if (s->cmd_count == 1)
 	{
-		if (exec_one(s))
+		if (exec_one(s, 0))
 		{
 			show_func(__func__, SUCCESS, NULL);
 			return (1);
 		}
 	}
 	else
-		if (pipex(s, path_env))
+		if (exec_many(s, path_env))
 			return (1);
 	termios_setter(&s->termios_p);
 	show_func(__func__, SUCCESS, NULL);

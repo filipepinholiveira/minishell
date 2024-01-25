@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/10 18:34:26 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/25 12:13:20 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	bi_pwd(t_script *s, int n)
 	char	*buf;
 
 	(void) n;
+	env_var_setter("pwd","_", &s->envp);
 	buf = NULL;
 	buf = getcwd(buf, MAX_PATH_LEN);
 	if (!buf)

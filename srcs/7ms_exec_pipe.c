@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   7ms_exec_utils.c                                   :+:      :+:    :+:   */
+/*   7ms_exec_pipe.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 12:00:28 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/24 12:53:26 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/24 17:54:50 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,7 +286,7 @@ void	execute_do_cmd_i(char **argv, char **envp, int in_fd, int out_fd)
 // /// @param s	Estrutura contendo informações sobre cmds a serem executados.
 // /// @param path_env		Array de strings representando o caminho do ambiente.
 // /// @return			0 em caso de sucesso, encerra o programa em caso de falha.
-// int	pipex(t_script *s, char **path_env)
+// int	exec_many(t_script *s, char **path_env)
 // {
 // 	show_func(__func__, MY_START, NULL);
 // 	int		p[2];
@@ -350,7 +350,7 @@ void	execute_do_cmd_i(char **argv, char **envp, int in_fd, int out_fd)
 // 		// execute_do_cmd(s->commands[i].argv, path_env,
 // 		// 	STDIN_FILENO, pipe_fd[1]);
 // 		close(p[1]); // Fecha a extremidade de escrita do pipe
-// 		show_func(__func__, CHILD_EXIT, "pipex simulator exit");
+// 		show_func(__func__, CHILD_EXIT, "exec_many simulator exit");
 // 		exit(EXIT_SUCCESS);
 // 	}
 // 	else
@@ -377,7 +377,7 @@ void	execute_do_cmd_i(char **argv, char **envp, int in_fd, int out_fd)
 /// @param s	Estrutura contendo informações sobre cmds a serem executados.
 /// @param path_env		Array de strings representando o caminho do ambiente.
 /// @return			0 em caso de sucesso, encerra o programa em caso de falha.
-int pipex(t_script *s, char **path_env)
+int exec_many(t_script *s, char **path_env)
 {
     show_func(__func__, MY_START, NULL);
     int cmd_num = s->cmd_count;
@@ -434,7 +434,7 @@ int pipex(t_script *s, char **path_env)
             {
                 // first command
                 //close(pipes[i][0]);
-                
+
                 close(s->fd[0]);
 				dup2(s->fd[1], STDOUT_FILENO);
                 close(s->fd[1]);
@@ -456,13 +456,13 @@ int pipex(t_script *s, char **path_env)
 
             close(s->fd[0]);
             close(s->fd[1]);
-            show_func(__func__, CHILD_EXIT, "pipex simulator exit");
+            show_func(__func__, CHILD_EXIT, "exec_many simulator exit");
             //exit(EXIT_SUCCESS);
         }
         // main process
 		else
             waitpid(child_pids[i], &g_exit_status, 0);
-			
+
     }
     show_func(__func__, SUCCESS, NULL);
     return (0);

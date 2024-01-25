@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 15:09:01 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/24 10:29:50 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/25 12:09:39 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 int	bi_exit(t_script *s, int n)
 {
 	show_func(__func__, MY_START, NULL);
+	env_var_setter("minishell","_", &s->envp);
 	if (s->commands[n].argc == 1)
 		exit (0);
 	if (s->commands[n].argc > 2)

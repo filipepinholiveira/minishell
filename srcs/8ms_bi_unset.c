@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/15 18:22:05 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/25 12:07:26 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	bi_unset(t_script *s, int n)
 	int		j;
 	char	*var;
 
+	env_var_setter(s->commands[n].argv[s->commands[n].argc - 1],"_", &s->envp);
 	if (!s->envp || !s->commands[n].argv[1])
 		return (ERROR);
 	i = 1;

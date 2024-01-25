@@ -6,12 +6,47 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:29:02 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/23 11:12:47 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/25 11:18:28 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 //#include "../include/minishell.h"
+void	execute_show(t_script *s)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	j = -1;
+	show_func(__func__, MY_START, NULL);
+	printf("\n");
+	printf("%s(->)  s->com_count: \t%i\n", SBHYLW, s->cmd_count);
+	while (++j < s->cmd_count)
+	{
+		printf("%s(->)  s->commands[%d]. %s\n", SBHYLW, j, SRST);
+		printf("%s(->)  \t.argc : \t%s%d\n", SBHYLW, SBHGRN, s->commands[j].argc);
+		while (++i < s->commands[j].argc)
+		{
+			if (i == 0){
+				printf("%s(->)  \t.argv[%d]: \t%s%s\n", SBHYLW, i, SBHGRN, s->commands[j].argv[i]);
+			}
+			else{
+				printf("%s(->)  \t.argv[%d]: \t%s%s\n", SBHYLW, i, SBHWHT, s->commands[j].argv[i]);
+			}
+		}
+		printf("%s(->)  \t.out.name: \t%s%s\n", SBHYLW, SBHCYN, s->commands[j].out.name);
+		printf("%s(->)  \t.out.flag: \t%s%d\n", SBHYLW, SBHCYN, s->commands[j].out.flag);
+		printf("%s(->)  \t.out->heredoc: \t%s%p\n", SBHYLW, SBHCYN,s->commands[j].out.heredoc);
+		printf("%s(->)  \t.in.name: \t%s%s\n", SBHYLW, SBHBLU, s->commands[j].in.name);
+		printf("%s(->)  \t.in.flag: \t%s%d\n", SBHYLW, SBHBLU, s->commands[j].in.flag);
+		printf("%s(->)  \t.in->heredoc: \t%s%p\n", SBHYLW, SBHBLU,s->commands[j].in.heredoc);
+		i = -1;
+		printf("\n");
+	}
+	show_func(__func__, SUCCESS, NULL);
+	return ;
+}
 
 void	show_func_msg(const char *msg)
 {

@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:10:37 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/17 20:00:37 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/25 14:44:30 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ t_ops	tk_type_getter(const char *s)
 	{" ", 1, TK_WS}, {"\n", 1, TK_WS}, {"\v", 1, TK_WS},
 	{"\t", 1, TK_WS}, {"\r", 1, TK_WS}, {"\f", 1, TK_WS},
 	{NULL, 1, 0},{NULL, 1, 0}};
-	//{"=", 1, TK_EQUAL}, {NULL, 1, 0}};
 
 	blank = (t_ops){0, 0, 0};
 	i = -1;
@@ -143,20 +142,10 @@ int	tk_getter(char *str, t_token **tk_lst)
 	while (str && *str)
 	{
 		ptr = tk_type_getter(str);
-		/*********************************************************************/
-		// printf("str = '%s%s%s'\n", SBHYLW, str, SRST);
-		// printf("ptr.op = '%s%s%s'\n", SBHYLW, ptr.op, SRST);
-		// printf("ptr.size = '%s%d%s'\n", SBHYLW, ptr.size, SRST);
-		// printf("ptr.type = '%s%d%s'\n", SBHYLW, ptr.type, SRST);
-		/*********************************************************************/
 		if (ptr.op != 0 && prev != str)
-		{
-			//printf("%s1-> token found = '%s'%s\n", SBHPPL, ptr.op, SRST);
 			tk_lst_addback(tk_lst, tk_addnew(prev, str - prev, TK_NAME));
-		}
 		if (ptr.op != 0)
 		{
-			//printf("%s2-> token found = '%s'%s\n", SBHPPL, ptr.op, SRST);
 			str += ptr.size;
 			if (ptr.type != TK_WS)
 				tk_lst_addback(tk_lst, tk_addnew(ptr.op, ptr.size, ptr.type));
@@ -171,10 +160,7 @@ int	tk_getter(char *str, t_token **tk_lst)
 			++str;
 	}
 	if (prev != str)
-	{
-		//printf("%s3-> token found = '%s'%s\n", SBHPPL, ptr.op, SRST);
 		tk_lst_addback(tk_lst, tk_addnew(prev, str - prev, TK_NAME));
-	}
 	show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);
 }
@@ -219,13 +205,9 @@ int	tk_builder(char **line, t_token **token, t_script *s)
 	while (tk_ptr)
 	{
 		content = tk_ptr->content;
-		printf("%s%s -> CALL%s\n",SBYLW, __func__, SRST);
 		tk_ptr->content = env_var_expander(content, s->envp, 0, 0);
-		printf("%s%s -> CALL RETURN%s\n",SBYLW, __func__, SRST);
-		printf("%s-> content = '%s%s%s'%s\n",
-			SBHPPL, SBWHT, content, SBHPPL, SRST);
-		printf("%s-> token->content = '%s%s%s'%s\n",
-			SBHPPL, SBWHT, tk_ptr->content, SBHPPL, SRST);
+		printf("%s-> content = '%s%s%s'%s\n", SBHPPL, SBWHT, content, SBHPPL, SRST);
+		printf("%s-> token->content = '%s%s%s'%s\n", SBHPPL, SBWHT, tk_ptr->content, SBHPPL, SRST);
 		free(content);
 		tk_ptr = tk_ptr->next;
 	}

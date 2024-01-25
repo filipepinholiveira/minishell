@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 11:06:46 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/10 22:25:01 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/25 12:01:29 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,10 @@ int	bi_cd(t_script *s, int n)
 	char	*home;
 	int		status;
 
+	env_var_setter(s->commands[n].argv[s->commands[n].argc - 1],"_", &s->envp);
 	if (!s->commands[n].argv[1])
 	{
+		//env_var_setter("cd","_", &s->envp);
 		home = env_var_getter("HOME", s->envp);
 		if (home == NULL)
 		{
@@ -54,8 +56,9 @@ int	bi_cd(t_script *s, int n)
 		free(home);
 		return (status);
 	}
-	if (s->commands[n].argv[2])
+	if (s->commands[n].argc > 2)
 	{
+		//env_var_setter(s->commands[n].argv[1],"_", &s->envp);
 		ft_putendl_fd("Minishell: cd: too many arguments", 2);
 		show_func(__func__, ERROR, NULL);
 		return (1);
@@ -65,6 +68,7 @@ int	bi_cd(t_script *s, int n)
 		status = change_dir(".", &s->envp);
 		return (status);
 	}
+	//env_var_setter(s->commands[n].argv[1],"_", &s->envp);
 	status = change_dir(s->commands[n].argv[1], &s->envp);
 	return (status);
 }

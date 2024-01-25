@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/15 19:04:26 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/25 12:07:54 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	bi_equal(t_script *s, int n)
 	int		i;
 	int		index_tp;
 
+	env_var_setter("","_", &s->envp);
 	if (!s->envp || !s->commands[n].argv[0])
 		return (ERROR);
 	i = -1;

@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/10 12:16:09 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/25 11:45:19 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	bi_env(t_script *s)
 	int	count;
 
 	show_func(__func__, MY_START, NULL);
+	env_var_setter("env","_", &s->envp);
 	count = 0;
 	while (s->envp[count] != NULL)
 	{

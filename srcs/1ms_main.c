@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:27:05 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/16 12:14:25 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/25 09:47:50 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,24 +57,6 @@ void	termios_getter(struct termios *termios_p)
 	show_func(__func__, MY_START, NULL);
 	if (tcgetattr(STDIN_FILENO, termios_p) != 0)
 		perror("tcgetattr() error");
-	// else
-	// {
-	// 	if (termios_p->c_iflag & BRKINT)
-	// 		show_func(__func__, SHOW_MSG, "BRKINT is set");
-	// 	else
-	// 		show_func(__func__, SHOW_MSG, "BRKINT is not set");
-	// 	if (termios_p->c_cflag & PARODD)
-	// 		show_func(__func__, SHOW_MSG, "Odd parity is used");
-	// 	else
-	// 		show_func(__func__, SHOW_MSG, "Even parity is used");
-	// 	if (termios_p->c_lflag & ECHO)
-	// 		show_func(__func__, SHOW_MSG, "ECHO is set");
-	// 	else
-	// 		show_func(__func__, SHOW_MSG, "ECHO is not set");
-	// 	show_func(__func__, SHOW_MSG,
-	// 		ft_strjoin(ft_strjoin("The end-of-file character is 0x",
-	// 				ft_itoa(termios_p->c_cc[VEOF])), "\n"));
-	// }
 	show_func(__func__, SUCCESS, NULL);
 }
 
@@ -83,24 +65,6 @@ void	termios_setter(struct termios *termios_p)
 	show_func(__func__, MY_START, NULL);
 	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, termios_p) != 0)
 		perror("tcsetattr() error");
-	// else
-	// {
-	// 	if (termios_p->c_iflag & BRKINT)
-	// 		show_func(__func__, SHOW_MSG, "BRKINT is set");
-	// 	else
-	// 		show_func(__func__, SHOW_MSG, "BRKINT is not set");
-	// 	if (termios_p->c_cflag & PARODD)
-	// 		show_func(__func__, SHOW_MSG, "Odd parity is used");
-	// 	else
-	// 		show_func(__func__, SHOW_MSG, "Even parity is used");
-	// 	if (termios_p->c_lflag & ECHO)
-	// 		show_func(__func__, SHOW_MSG, "ECHO is set");
-	// 	else
-	// 		show_func(__func__, SHOW_MSG, "ECHO is not set");
-	// 	show_func(__func__, SHOW_MSG,
-	// 		ft_strjoin(ft_strjoin("The end-of-file character is 0x",
-	// 				ft_itoa(termios_p->c_cc[VEOF])), "\n"));
-	// }
 	show_func(__func__, SUCCESS, NULL);
 }
 
@@ -108,7 +72,6 @@ void	termios_setter(struct termios *termios_p)
 /// @param script		Script structure (see minishell struct)
 /// @param line_buffer	Line buffer
 /// @return				void
-//int	ms_loop(t_script *s, char **line_buffer)
 static int	ms_loop(t_script *s)
 {
 	show_func(__func__, MY_START, NULL);

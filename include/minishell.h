@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/24 10:01:56 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/24 19:49:35 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -451,12 +451,15 @@ int		env_var_setter(char *val, char *var, char ***envp);
 ///	ms_exec.c
 /* ************************************************************************** */
 
-// int main(int ac, char **av, char **envp)
-int		exec_one(t_script *s);
+/// @brief 		Executes a command
+/// @param s 	Script structure with commans and args
+/// @param n 	Index of command to be executed
+/// @return		SUCCESS or ERROR
+int		exec_one(t_script *s, int n);
 
 /// @brief 			Script exec function
-/// @param script 	Script contents
-int		execute(t_script *script);
+/// @param s 		Script contents
+int		execute(t_script *s);
 
 /* *************************************************/
 
@@ -482,7 +485,7 @@ void	execute_do_cmd(char **argv, char **envp, int input_fd, int output_fd);
 /// @param s		Estrutura contendo informações cmd a serem executados.
 /// @param path_env		Array de strings representando o caminho do ambiente.
 /// @return			0 em caso de sucesso, encerra o programa em caso de falha.
-int		pipex(t_script *s, char **path_env);
+int		exec_many(t_script *s, char **path_env);
 
 /// @brief 			Splits a string into an array of strings using delimiter.
 /// @param path 		String to be splited
@@ -636,5 +639,6 @@ int		free_commands(t_command *cmd, int cmd_idx);
 /// @param status		Status of the function
 /// @return				Status of the function
 int		show_func(const char *func_name, int status, char *msg);
+void	execute_show(t_script *s);
 
 #endif
