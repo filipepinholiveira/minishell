@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 15:09:01 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/25 12:09:39 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/27 11:24:18 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	bi_exit(t_script *s, int n)
 	}
 	if (ft_is_str_digit(s->commands[n].argv[1]) == 1)
 	{
-		printf("exit\nbash: exit: %s numeric argument required\n",
+		printf("Minishell: exit: '%s' numeric argument required\n",
 			s->commands[n].argv[1]);
 		show_func(__func__, SUCCESS, NULL);
 		exit (2);

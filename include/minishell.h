@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/26 16:39:08 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/27 11:50:00 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ typedef enum e_cmd_type
 /// @param dest_error	error
 typedef struct s_execve_error
 {
-	const int src_error;
-	const int dest_error;
+	const int	src_error;
+	const int	dest_error;
 }				t_execve_error;
 
 /// @brief 				Struct to hold the token variables (see t_token_type)
@@ -167,13 +167,13 @@ typedef struct s_script
 # endif
 
 /* ************************************************************************** */
-///	main.c
+///	10ms_main.c
 /* ************************************************************************** */
 
 /// @brief 		Creates array from system environment variables
 /// @param envp system environment variables from main (... char **envp)
 /// @return 	array copy of system environment variables
-char	**envp_getter(char **envp);
+/// static char	**envp_getter(char **envp);
 
 /// @brief 				Gets the terminal settings
 /// @param termios_p	Pointer to the termios settings structure
@@ -191,7 +191,7 @@ void	termios_setter(struct termios *termios_p);
 /// static int	ms_loop(t_script *script);
 
 /* ************************************************************************** */
-///	signal.c
+///	20ms_signal.c
 /* ************************************************************************** */
 
 /// @brief 		Signal processing functionsError encountered while testing setter
@@ -217,7 +217,7 @@ void	sig_handler_fork(int signum);
 void	sig_handler_heredoc(int signum);
 
 /* ************************************************************************** */
-///	parser.c
+///	30ms_parser.c
 /* ************************************************************************** */
 
 /// @brief		This function checks whether the given linked list, of tokens,
@@ -233,11 +233,13 @@ int		check_syntax(t_token *head);
 /// @return			Number of commands
 int		get_cmd_count(t_token *head);
 
-/// @brief		This function simply trims the leading and trailing whitespace
-///				that can be found when replacing an environment variable.
-/// @param head	Head of the token list
-/// @return		Trimmed content
-void	trim_spaces(t_token *head);
+/// @brief			Replaces the token->content string with a new trimmed string
+///					Trim removes leading and trailing white spaces
+///	@malloc			TRIMMED string
+///	@free			Pre TRIM string
+/// @param tk_head	Head of the token list with token->content to be trimmed
+/// @return			NOTHING
+void	tk_trim_spaces(t_token *tk_head);
 
 /// @brief			Determines the amount of arguments each command
 ///					has so the argv can be malloced to the right size in the
@@ -283,61 +285,30 @@ void	fill_heredoc(t_redirection *file);
 int		parser(t_script *script, char **line_buffer);
 
 /* ************************************************************************** */
-///	quotes.c
+///4ms_quotes.c
 /* ************************************************************************** */
 
-/// @brief 		check if estring enclosing quotes are single or double
-/// @param str	string to check
-/// @return		1 if single quotes (' '), 0 if double quotes (" ")
-///				MISLEADING CHANGE STATUS
-int		first_quote(char *str);
+/// @brief 		fetchs for closed / unclosed quotes type " or '
+///				the function must be called with the arg str (string)
+///				starting with at a quotation mark.
+///				The function seeks for the next occurrence of that quation mark
+///				and sets str pointer to that next occurrence if found
+///				or sets str pointer to the end {\0}
+///				@malloc	: NOTHING
+///				@free	: NOTHING
+/// @param str	address of string, 1st char must be a quotation mark
+/// @return		ERROR (unclosed), SUCCES (closed)
+int		tk_quotes_checker(char **str);
 
-/// @brief 		Check if the #quotation marks before index is odd or even.
-/// @param str	string to check
-/// @param i	termination index
-/// @param c	quotation mark to check
-/// @return		1 if #quotation before index i is odd, 0 if even
-///				MISLEADING CHANGE STATUS
-int		odd_before(char **str, int i, char c);
-
-/// @brief 		Check if the #quotation marks after index is odd or even.
-/// @param str	string to check
-/// @param i	termination index
-/// @param c	quotation mark to check
-/// @return		1 if is odd, 0 if even
-///				MISLEADING CHANGE STATUS
-int		odd_after(char **str, int i, char c);
-
-/// @brief 			Copies string contents between quotes
-/// @param start 	Pointer at start quote
-/// @param end 		pointer at end quote
-/// @param str 		destination string
-/// @param i 		destination index ??
-///					NEEDS REFACTOR with LIBFT
-void	copy_in_quotes(char *start, char *end, char **str, int *i);
-
-/// @brief 		advances the given pointer to the next character that it is on
-///				For example, if the function is called with the pointer pointing
-///				at a quotation mark, it will advance the pointer in the string
-///				to the next occurence of that same quotation mark. The function
-///				returns 0 if this character is never met, which would signify
-///				an unclosed quotation mark.
-/// @param str	string to advance
-/// @return		0 if unclosed quotation mark (error), 1 otherwise (success)
-///				MISLEADING CHANGE STATUS
-int		closed_quotes_check(char **str);
-
-/// @brief 		cleanup after removing redundant quotes and frees up alloc
-/// @param tmp	string to clean up
-/// @param copy	string to clean up
-/// @param i	termination index
-/// @return		resulting cleanded string
-char	*end_remove_quotes(char *tmp, char *copy, int i);
-
-/// @brief 		removes redundant quotes
-/// @param str	string to remove quotes
-/// @return		string clean of quotes
-char	*remove_quotes(char *str);
+/// @brief 		Unquotes a string. Special rules applies
+///				- removes ' from limits = 'string'
+///				- removes " from limts = "string", "string, string"
+///				- (')  and (") are never inspected inside string
+///				@malloc	: NOTHING
+///				@free	: NOTHING
+/// @param str	String to be unquoted
+/// @return		A new unquoted string
+char	*tk_xpd_unquote(char *str);
 
 /* ************************************************************************** */
 ///	ms_tokens.c
@@ -516,11 +487,17 @@ int	export_error(const char *msg, int system);
 /// @param msg		Message to show
 /// @param system	Shows system error if true
 /// @return			SUCCESS
-int		return_error(const char *msg, int system);
+int		return_error(const char *msg, int errms, int errbash);
 
 /* ************************************************************************** */
 ///	ms_bi_***.c
 /* ************************************************************************** */
+
+/// @brief 		Selects and Executes built in functions
+/// @param s 	Parsed script with command(s) to execute
+/// @param n 	Index of the command to be executed
+/// @return		0 if success, 1 if failure,...
+int	bi_go(t_script *s, int n);
 
 /// @brief Remove a variable from the environment
 /// @param arg Arguments passed to unset command

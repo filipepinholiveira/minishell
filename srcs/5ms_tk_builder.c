@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:10:37 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/26 16:42:17 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/27 07:47:01 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_ops	tk_type_getter(const char *s)
 }
 
 /// @brief 				Initializes the tk_getter
-/// @param str			String to be tokenized
+/// @param str			String to be splitted in tokens
 /// @param head			Head of the token list
 /// @return				1 if success, 0 if error
 int	tk_getter(char *str, t_token **tk_lst)
@@ -90,9 +90,10 @@ int	tk_getter(char *str, t_token **tk_lst)
 				tk_lst_addback(tk_lst, tk_addnew(ptr.op, ptr.size, ptr.type));
 			prev = str;
 		}
-		else if ((*str == '\"' || *str == '\'') && !closed_quotes_check(&str))
+		else if ((*str == '\"' || *str == '\'') && tk_quotes_checker(&str))
 		{
-			show_func(__func__, ERROR, ft_strjoin("quotes found", str));
+			printf(" str address = %p\n", str);
+			show_func(__func__, ERROR, ft_strjoin("unclosed quotes found", str));
 			return (ERROR);
 		}
 		else

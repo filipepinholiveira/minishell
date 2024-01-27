@@ -6,7 +6,7 @@
 #    By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/24 21:23:27 by antoda-s          #+#    #+#              #
-#    Updated: 2024/01/26 18:24:10 by antoda-s         ###   ########.fr        #
+#    Updated: 2024/01/27 11:51:03 by antoda-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,9 +32,9 @@ OBJDIRT 	= builder/
 
 # sources and objects base project
 # FILES	=	main.c 				# Top level function
-FILES 	=	1ms_main.c
-FILES	+=	2ms_signal.c
-FILES	+=	3ms_parser.c
+FILES 	=	10ms_main.c
+FILES	+=	20ms_signal.c
+FILES	+=	30ms_parser.c
 FILES 	+=	4ms_quotes.c
 FILES 	+=	5ms_tk_builder.c
 FILES 	+=	5ms_tk_lst.c
@@ -43,9 +43,10 @@ FILES 	+=	5ms_tk_xpd_filler.c
 FILES 	+=	5ms_tk_xpd_split.c
 FILES 	+=	5ms_tk_xpd.c
 FILES 	+=	6ms_env.c
-FILES 	+=	7ms_exec.c
+FILES 	+=	70ms_exec.c
 FILES	+=	7ms_exec_utils.c
 FILES	+=	7ms_path.c
+FILES	+=	80ms_bi_go.c
 FILES	+=	8ms_bi_cd.c
 FILES	+=	8ms_bi_env.c
 FILES	+=	8ms_bi_pwd.c

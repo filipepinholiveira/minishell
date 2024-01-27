@@ -32,6 +32,7 @@ echo $HOME$$"HONOR"07"$4$AB$CD EF"NEW"OTTO"'NOT$A'
 echo " $HOME "$$"HONOR"07"$4$AB$CD EF"NEW"OTTO"'NOT$A'
 echo "X$HOME "$$"HONOR"07"$4$AB$CD EF"NEW"OTTO"'NOT$A'
 echo "X'$HOME "$$"HONOR"07"$4$AB$CD EF"NEW"OT'TO"'NOT$A'
+echo "X'$HOME "$$"HONOR"07"$4$AB$CD EF"NEW"OT'TO"'NOT$A' "X'$HOME " $$ "HONOR" 07 "$4$AB$CD EF" NEW "OT'TO" 'NOT$A'
 
 
 $_ - Last argument used

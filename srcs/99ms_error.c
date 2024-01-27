@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 22:37:00 by antoda-s          #+#    #+#             */
-/*   Updated: 2023/12/13 23:12:34 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/27 09:36:31 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,12 @@ int	export_error(const char *msg, int system)
 /// @param msg		Message to show
 /// @param system	Shows system error if true
 /// @return			SUCCESS
-int	return_error(const char *msg, int system)
+int	return_error(const char *msg, int errms, int errbash)
 {
 	show_func(__func__, MY_START, NULL);
 	ft_putstr_fd("Minishell: ", 2);
-	if (system)
+	g_exit_status = errms;
+	if (errbash)
 		perror(msg);
 	else
 		ft_putendl_fd(msg, 2);

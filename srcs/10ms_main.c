@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:27:05 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/25 09:47:50 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/27 08:58:49 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@ int	g_exit_status;
 /// @brief 		Creates array from system environment variables
 /// @param envp system environment variables from main (... char **envp)
 /// @return 	array copy of system environment variables
-char	**envp_getter(char **envp)
+static char	**envp_getter(char **envp)
 {
-	//show_func(__func__, MY_START, envp[0]);
 	char	**ms_envp;
 	int		i;
 
@@ -29,7 +28,6 @@ char	**envp_getter(char **envp)
 	ms_envp = malloc(sizeof(char *) * (i + 1));
 	if (!ms_envp)
 	{
-		//show_func(__func__, ERROR, NULL);
 		return (NULL);
 	}
 	i = 0;
@@ -37,16 +35,10 @@ char	**envp_getter(char **envp)
 	{
 		ms_envp[i] = ft_strdup(envp[i]);
 		if (!ms_envp[i])
-		{
-			//show_func(__func__, ERROR, NULL);
 			return (NULL);
-		}
-			//show_func(__func__, SUCCESS, ft_strjoin(ft_strjoin(ft_itoa(i), " = "), ms_envp[i]));
-
 		i++;
 	}
 	ms_envp[i] = NULL;
-	//show_func(__func__, SUCCESS, NULL);
 	return (ms_envp);
 }
 
@@ -93,20 +85,12 @@ static int	ms_loop(t_script *s)
 			break ;
 		}
 		if (s->cmd_count > 0)
-		{
 			if (execute(s))
 				break ;
-		}
-		//show_func(__func__, SHOW_MSG, ft_strjoin_free(ft_strdup("11 - s->cmd_count = "), ft_itoa(s->cmd_count)));
 		free_commands(s->commands, s->cmd_count);
-		//show_func(__func__,SHOW_MSG, ft_strjoin("12 - s->cmd_count = ", ft_itoa(s->cmd_count)));
 	}
 	if (s->cmd_count > 0)
-	{
-		//show_func(__func__, SHOW_MSG, ft_strjoin("21- s->cmd_count = ", ft_itoa(s->cmd_count)));
 		free_commands(s->commands, s->cmd_count);
-		//show_func(__func__, SHOW_MSG, ft_strjoin("22 s->cmd_count = ", ft_itoa(s->cmd_count)));
-	}
 	show_func(__func__, SHOW_MSG, "MSG = SUCCESS");
 	return (0);
 }
