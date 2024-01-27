@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   5ms_tokens.c                                       :+:      :+:    :+:   */
+/*   5ms_tk_builder.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:10:37 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/25 14:44:30 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/26 16:42:17 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,67 +35,6 @@ void	remove_blank_tokens(t_token *head)
 			head = head->next;
 	}
 	show_func(__func__, SUCCESS, NULL);
-}
-
-/// @brief 				Creates a new token
-/// @param string		String to be tokenized
-/// @param size			Token size
-/// @param type			Token type (as per enum t_token_type)
-/// @return				New token
-t_token	*tk_addnew(const char *string, int size, t_token_type type)
-{
-	t_token	*token;
-
-	show_func(__func__, MY_START, NULL);
-	token = (t_token *)malloc(sizeof(t_token));
-	if (!token)
-		return (NULL);
-	token->content = ft_substr(string, 0, size);
-	token->size = size;
-	token->type = type;
-	token->next = NULL;
-	/*************************************************************************/
-	// printf("%s-> token created = token->content = '%s%s%s'%s\n",
-	// 	SBHPPL, SBWHT, token->content, SBHPPL, SRST);
-	// printf("%s-> token created = token->size = '%s%d%s'%s\n",
-	// 	SBHPPL, SBWHT, token->size, SBHPPL, SRST);
-	// printf("%s-> token created = token->type = '%s%d%s'%s\n",
-	// 	SBHPPL, SBWHT, token->type, SBHPPL, SRST);
-	/*************************************************************************/
-	show_func(__func__, SUCCESS, NULL);
-	return (token);
-}
-
-/// @brief 			Gets pointer to last node of token list
-/// @param head		Pointer to token list
-/// @return			last token list node
-t_token	*tk_lst_last_getter(t_token *token_pointer)
-{
-	if (!token_pointer)
-		return (NULL);
-	while (token_pointer)
-	{
-		if ((*token_pointer).next == NULL)
-			return (token_pointer);
-		token_pointer = (*token_pointer).next;
-	}
-	return (token_pointer);
-}
-
-/// @brief 					Adds a new token to the end of the token list
-/// @param token_lst		Pointer to token list
-/// @param tk_addnew		Pointer to new token
-void	tk_lst_addback(t_token **token_lst, t_token *tk_new)
-{
-	t_token	*token_lst_last;
-
-	if (*token_lst)
-	{
-		token_lst_last = tk_lst_last_getter(*token_lst);
-		(*token_lst_last).next = &*tk_new;
-	}
-	else
-		*token_lst = tk_new;
 }
 
 /// @brief 			Searches for a token type by token char set
@@ -165,25 +104,6 @@ int	tk_getter(char *str, t_token **tk_lst)
 	return (SUCCESS);
 }
 
-void show_token_list(t_token *token)
-{
-	t_token *tk_ptr;
-
-	tk_ptr = token;
-	printf("%s*****************************%s\n", SBHGRN, SRST);
-	while (tk_ptr)
-	{
-		printf("%s-> token->content = '%s%s%s'%s\n",
-			SBHPPL, SBWHT, tk_ptr->content, SBHPPL, SRST);
-		printf("%s-> token->size = '%s%d%s'%s\n",
-			SBHPPL, SBWHT, tk_ptr->size, SBHPPL, SRST);
-		printf("%s-> token->type = '%s%d%s'%s\n",
-			SBHPPL, SBWHT, tk_ptr->type, SBHPPL, SRST);
-		printf("%s*****************************%s\n", SBHGRN, SRST);
-		tk_ptr = tk_ptr->next;
-	}
-}
-
 /// @brief 				Trims the token command from whitespaces
 /// @param line_buffer	string input with script
 /// @param head			pointer to the head of the token list
@@ -197,7 +117,6 @@ int	tk_builder(char **line, t_token **token, t_script *s)
 
 	if (tk_getter(*line, token) == ERROR)
 	{
-		show_func(__func__, ERROR, NULL);
 		return (return_error("Syntax Error", 0));
 	}
 	show_token_list(*token);
@@ -205,9 +124,7 @@ int	tk_builder(char **line, t_token **token, t_script *s)
 	while (tk_ptr)
 	{
 		content = tk_ptr->content;
-		tk_ptr->content = env_var_expander(content, s->envp, 0, 0);
-		printf("%s-> content = '%s%s%s'%s\n", SBHPPL, SBWHT, content, SBHPPL, SRST);
-		printf("%s-> token->content = '%s%s%s'%s\n", SBHPPL, SBWHT, tk_ptr->content, SBHPPL, SRST);
+		tk_ptr->content = env_var_expander(content, s->envp);
 		free(content);
 		tk_ptr = tk_ptr->next;
 	}

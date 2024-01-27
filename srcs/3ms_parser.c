@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:28:14 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/09 23:30:02 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/26 19:10:47 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,6 @@ void	get_num_args(t_token *head, t_script *script)
 	show_func(__func__, MY_START, NULL);
 	i = 0;
 	while (i < script->cmd_count)
-	// if (s)
-	// 	printf("s token = %s\n", s);
-	// else
-	// 	printf("s is empry\n");
 	{
 		script->commands[i].argc = 0;
 		tmp = head;
@@ -127,7 +123,7 @@ void	get_num_args(t_token *head, t_script *script)
 }
 
 /// @brief 			Iniatilzes file names direction and remove quotes from names
-/// @param commands Struct witj info about files
+/// @param commands Struct with info about files
 /// @param max 		max number of files
 /// @param head 	pointert o command struct hed
 void	set_filenames_null(t_command *commands, int max, t_token *head)
@@ -144,7 +140,8 @@ void	set_filenames_null(t_command *commands, int max, t_token *head)
 	}
 	while (head)
 	{
-		head->content = remove_quotes(head->content);
+		show_func(__func__, SHOW_MSG, head->content);
+		//head->content = remove_quotes(head->content);
 		head = head->next;
 	}
 	show_func(__func__, SUCCESS, NULL);
@@ -269,6 +266,8 @@ int	parser(t_script *s, char **line_buffer)
 	add_history(*line_buffer);
 	if (tk_builder(line_buffer, &token, s))
 		return (free_tokens(&token));
+	show_func(__func__, SHOW_MSG, "TOKEN LIST");
+	show_token_list(token);
 	remove_blank_tokens(token);
 	if (check_syntax(token))
 		return (free_tokens(&token));

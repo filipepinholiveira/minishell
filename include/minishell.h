@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/24 19:49:35 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/26 16:39:08 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -386,6 +386,13 @@ int		tk_getter(char *str, t_token **head);
 /// @return				SUCCESS if valid, ERROR if invalid
 int		tk_builder(char **line, t_token **head, t_script *script);
 
+int tk_var_xpd_splits(char *oToken);
+int	var_name_checker(char c);
+int	var_firstchar(char c);
+char **tk_var_xpd(char *oToken);
+char	*tk_xpd_filler(char ***new_tk, char **envp);
+
+
 /* ************************************************************************** */
 ///	ms_envp.c
 /* ************************************************************************** */
@@ -414,7 +421,8 @@ char	**env_var_detector(char *line_buf, char **before, int *i);
 /// @param i			Index start
 /// @param j			Index end
 /// @return				String with ARGS replaced by envp vars
-char	*env_var_expander(char *line_buf, char **envp, int i, int j);
+char	*env_var_expander(char *oldToken, char **envp);
+// char	*env_var_expander(char *line_buf, char **envp, int i, int j);
 
 /// @brief		This function replaces multiple spaces with a single space
 /// @param str	String to be parsed
@@ -640,5 +648,6 @@ int		free_commands(t_command *cmd, int cmd_idx);
 /// @return				Status of the function
 int		show_func(const char *func_name, int status, char *msg);
 void	execute_show(t_script *s);
+void show_token_list(t_token *token);
 
 #endif

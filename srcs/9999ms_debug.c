@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:29:02 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/25 11:18:28 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/25 15:42:16 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,3 +111,40 @@ int	show_func(const char *func_name, int status, char *msg)
 	}
 	return (status);
 }
+
+/// @brief 				This function prints the environment variables
+/// @param envp			Environment variables
+/// @return				void
+void	show_envp(char **envp)
+{
+	show_func(__func__, MY_START, NULL);
+	int i = -1;
+
+	if (!envp)
+		return ;
+	while (envp[++i])
+	{
+		printf("envp[%i] = %s\n", i, envp[i]);
+	}
+	show_func(__func__, SUCCESS, NULL);
+}
+
+void show_token_list(t_token *token)
+{
+	t_token *tk_ptr;
+
+	tk_ptr = token;
+	printf("%s*****************************%s\n", SBHGRN, SRST);
+	while (tk_ptr)
+	{
+		printf("%s-> token->content = '%s%s%s'%s\n",
+			SBHPPL, SBWHT, tk_ptr->content, SBHPPL, SRST);
+		printf("%s-> token->size = '%s%d%s'%s\n",
+			SBHPPL, SBWHT, tk_ptr->size, SBHPPL, SRST);
+		printf("%s-> token->type = '%s%d%s'%s\n",
+			SBHPPL, SBWHT, tk_ptr->type, SBHPPL, SRST);
+		printf("%s*****************************%s\n", SBHGRN, SRST);
+		tk_ptr = tk_ptr->next;
+	}
+}
+

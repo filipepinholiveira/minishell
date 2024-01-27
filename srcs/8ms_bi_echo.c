@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 17:43:00 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/25 11:41:22 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/26 16:31:36 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ int	bi_echo(t_script *s, int n)
 			if (s->commands[n].argv[i])
 				write (1, " ", 1);
 		}
+		if (!flag)
+			write (1, "\n", 1);
 		if (s->commands[n].argc > 1 && !flag)
 			env_var_setter(s->commands[n].argv[--i],"_", &s->envp);
 		else if (s->commands[n].argc == 2 && flag)
 			env_var_setter("","_", &s->envp);
-		if (!flag)
-			write (1, "\n", 1);
 	}
 	show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);
