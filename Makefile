@@ -6,7 +6,7 @@
 #    By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/24 21:23:27 by antoda-s          #+#    #+#              #
-#    Updated: 2024/01/27 11:51:03 by antoda-s         ###   ########.fr        #
+#    Updated: 2024/01/27 12:08:03 by antoda-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,15 +47,15 @@ FILES 	+=	70ms_exec.c
 FILES	+=	7ms_exec_utils.c
 FILES	+=	7ms_path.c
 FILES	+=	80ms_bi_go.c
-FILES	+=	8ms_bi_cd.c
-FILES	+=	8ms_bi_env.c
-FILES	+=	8ms_bi_pwd.c
-FILES	+=	8ms_bi_utils.c
-FILES	+=	8ms_bi_echo.c
-FILES	+=	8ms_bi_exit.c
-FILES	+=	8ms_bi_export.c
-FILES	+=	8ms_bi_equal.c
-FILES	+=	8ms_bi_unset.c
+FILES	+=	81ms_bi_cd.c
+FILES	+=	82ms_bi_echo.c
+FILES	+=	83ms_bi_env.c
+FILES	+=	84ms_bi_exit.c
+FILES	+=	85ms_bi_export.c
+FILES	+=	86ms_bi_pwd.c
+FILES	+=	87ms_bi_unset.c
+FILES	+=	88ms_bi_utils.c
+FILES	+=	89ms_bi_equal.c
 FILES	+=	99ms_error.c
 FILES	+=	999ms_free.c
 FILES	+=	9999ms_debug.c

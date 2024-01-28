@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 12:00:28 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/24 17:54:50 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/27 12:17:51 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,15 +209,6 @@ static void execute_do_cmd_n(t_script *s, int index, int in_fd, int out_fd)
 /// @param out_fd		O descritor de arquivo para a saída padrão (stdout)
 ///                     do processo filho. Pode ser STDOUT_FILENO
 ///                     ou um descritor de arquivo de um pipe.
-
-
-
-
-
-
-
-
-
 void	execute_do_cmd_i(char **argv, char **envp, int in_fd, int out_fd)
 {
 	show_func(__func__, MY_START, argv[0]);

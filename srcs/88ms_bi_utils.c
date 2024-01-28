@@ -1,44 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   8ms_bi_utils.c                                     :+:      :+:    :+:   */
+/*   88ms_bi_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 15:09:01 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/02 15:35:56 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2024/01/27 12:15:29 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-/// @brief              count the number or env variables
-/// @param envp         current environment variables
-/// @return             number or varibles
-int	env_count(char **envp)
-{
-	int	count;
-
-	count = 0;
-	while (envp && envp[count])
-	{
-		count++;
-	}
-	return (count);
-}
-
-int	arg_count(char **args)
-{
-	int	count;
-
-	show_func(__func__, MY_START, NULL);
-	count = 0;
-	while (args[count])
-		count++;
-	show_func(__func__, SUCCESS, NULL);
-	return (count);
-}
-
+/// @brief 			Builtin 'exit' command argument checker
+/// @param str		Builtin 'exit' argument string
+/// @return			SUCSESS or ERROR
 int	ft_is_str_digit(char *str)
 {
 	int	i;
@@ -50,12 +26,12 @@ int	ft_is_str_digit(char *str)
 		if (str[i] < 48 || str[i] > 57)
 		{
 			show_func(__func__, ERROR, NULL);
-			return (1);
+			return (ERROR);
 		}
 		i++;
 	}
 	show_func(__func__, SUCCESS, NULL);
-	return (0);
+	return (SUCCESS);
 }
 
 char	*get_location(char *command)

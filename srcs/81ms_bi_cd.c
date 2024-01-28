@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 11:06:46 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/25 12:01:29 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/27 11:57:32 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	change_dir(char *path, char ***envp)
 	pwd = getcwd(pwd, MAX_PATH_LEN);
 	ret = chdir(path);
 	if (ret == -1)
-		return (return_error(path, 1));
+		return (return_error(path, 1, 1));
 	env_var_setter(pwd, "OLDPWD", envp);
 	pwd = NULL;
 	pwd = getcwd(pwd, MAX_PATH_LEN);
