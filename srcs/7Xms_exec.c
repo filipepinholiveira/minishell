@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 09:55:51 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/30 17:28:03 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/29 16:58:36 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	get_cmd_type(char *cmd)
 static int exit_status_getter(int status)
 {
 	show_func(__func__, MY_START, NULL);
-	int	i;
+	int i;
 	const t_execve_error	ex_error[8] = {
 		{EACCES, 126},
 		{ENOMEM, 12},
@@ -90,6 +90,46 @@ static int	exec_go(t_script *s, int n)
 			}
 			if (cmd_path[i])
 			{
+				if (s->commands[0].out.name)
+				{
+					printf("Reconhece p ficheiro de escrita e vai...  \n");
+					if (s->commands[0].out.flag == 578)
+					{
+						printf("abrir e truncar\n");
+						int file = open(s->commands[0].out.name, O_WRONLY | O_TRUNC);
+						if (file == -1)
+						{
+							free(exec_path);
+							return (ERROR);
+						}
+						dup2(file, STDOUT_FILENO);
+						close (file);
+					}
+					if (s->commands[0].out.flag == 1090)
+					{
+						printf("abrir e concatenar\n");
+						int file = open(s->commands[0].out.name, O_WRONLY | O_APPEND);
+						if (file == -1)
+						{
+							free(exec_path);
+							return (ERROR);
+						}
+						dup2(file, STDOUT_FILENO);
+						close (file);
+					}
+					}
+				if (s->commands[0].in.name)
+				{
+					printf("Reconhece p ficheiro de leitura\n");
+					int file = open(s->commands[0].in.name, O_RDONLY);
+					if (file == -1)
+					{
+						free(exec_path);
+						return (ERROR);
+					}
+					dup2(file, STDIN_FILENO);
+					close (file);
+				}
 				status = execve(exec_path, s->commands[n].argv, NULL); // atençao que se entra no exec jao nao faz free!!! Filipe 17 jan
 				if (status == -1)
 				{
@@ -131,7 +171,7 @@ int	exec_one(t_script *s, int n)
 	}
 	else
 	{
-		if (s->commands[n].argc && get_cmd_type(s->commands[n].argv[0]) != CMD_EXEC)
+		if (s->commands[0].argc && get_cmd_type(s->commands[0].argv[0]) != CMD_EXEC)
 			g_exit_status = bi_go(s, n);
 		else
 			g_exit_status = exec_go(s, n);
@@ -145,11 +185,11 @@ int	exec_one(t_script *s, int n)
 int	execute(t_script *s)
 {
 	show_func(__func__, MY_START, NULL);
-	//char	**path_env;
+	char	**path_env;
 
 	execute_show(s);
-	//path_env = split_path(s->envp);
-	if (s->cmd_count == 1)  /// ??????
+	path_env = split_path(s->envp);
+	if (s->cmd_count == 1)
 	{
 		if (exec_one(s, 0))
 		{
@@ -158,7 +198,7 @@ int	execute(t_script *s)
 		}
 	}
 	else
-		if (exec_many(s))
+		if (exec_many(s, path_env))
 			return (1);
 	termios_setter(&s->termios_p);
 	show_func(__func__, SUCCESS, NULL);

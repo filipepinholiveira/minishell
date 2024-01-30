@@ -6,7 +6,7 @@
 #    By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/24 21:23:27 by antoda-s          #+#    #+#              #
-#    Updated: 2024/01/27 12:08:03 by antoda-s         ###   ########.fr        #
+#    Updated: 2024/01/30 12:31:34 by antoda-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,8 +44,9 @@ FILES 	+=	5ms_tk_xpd_split.c
 FILES 	+=	5ms_tk_xpd.c
 FILES 	+=	6ms_env.c
 FILES 	+=	70ms_exec.c
-FILES	+=	7ms_exec_utils.c
-FILES	+=	7ms_path.c
+FILES	+=	70ms_exec_utils.c
+FILES	+=	70ms_path.c
+FILES	+=	70ms_redirs.c
 FILES	+=	80ms_bi_go.c
 FILES	+=	81ms_bi_cd.c
 FILES	+=	82ms_bi_echo.c

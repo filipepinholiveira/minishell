@@ -1,16 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   8ms_bi_export.c                                    :+:      :+:    :+:   */
+/*   85ms_bi_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/25 11:03:10 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/29 17:14:20 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+/// @brief		Test validity of shell variables
+/// @param var	Variable name to be tested
+/// @return		SUCCESS or ERROR
+int	var_name_check(char *var)
+{
+	show_func(__func__, MY_START, NULL);
+	int	i;
+
+	i = 0;
+	show_func(__func__, SHOW_MSG, var);
+	while (var[i] && var[i] != '=')
+	{
+		if (!ft_isalnum(var[i]) && var[i] != '_')
+		{
+			show_func(__func__, ERROR, NULL);
+			return (ERROR);
+		}
+		i++;
+	}
+	show_func(__func__, SUCCESS, NULL);
+	return (SUCCESS);
+}
 
 static void	bi_export_upd_var(t_script *s, int n, int i)
 {

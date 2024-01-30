@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   1ms_main.c                                         :+:      :+:    :+:   */
+/*   10ms_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:27:05 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/27 08:58:49 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/29 19:50:42 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ static int	ms_loop(t_script *s)
 	while (1)
 	{
 		s->cmd_count = 0;
+		s->fd[0] = STDIN_FILENO;
+		s->fd[1] = STDOUT_FILENO;
 		signal_setter();
 		status = parser(s, &line_buffer);
 		ft_free_str(&line_buffer);

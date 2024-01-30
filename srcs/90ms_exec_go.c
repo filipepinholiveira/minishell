@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   80ms_bi.c                                          :+:      :+:    :+:   */
+/*   90ms_exec_go.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 09:55:51 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/27 11:46:47 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/29 17:25:59 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ static int	exec_go(t_script *s, int n)
 						dup2(file, STDOUT_FILENO);
 						close (file);
 					}
-					}
+				}
 				if (s->commands[0].in.name)
 				{
 					printf("Reconhece p ficheiro de leitura\n");

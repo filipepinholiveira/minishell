@@ -14,20 +14,25 @@ int main(void)
 {
 	// int *i;
 	// printf(" i = %d\n", *i);
-	int fd1 = dup(1);
+	int fd1 = dup(STDOUT_FILENO);
 	int fd2 = open("antonio.txt", O_WRONLY, O_CREAT, O_TRUNC, 0777);	// *i = 1;
+	printf("fd1 = %d\n", fd1);
 	printf("fd2 = %d\n", fd2);
-	write (fd2, "Hi\n", 3);
-	write (fd2, "Hilll\n", 6);
-	write (1, "Ola\n", 4);
+	write (fd2, "Ola em fd2\n", 11);
+	write (fd1, "Ola em fd1\n", 11);
+	printf("BEFORE DUP2 fd1 = %d\n", fd1);
+	printf("BEFORE DUP2 fd2 = %d\n", fd2);
 	dup2(fd2, fd1); // vai escrever no fd2 o Hello
+	//close(fd2);
+
+	printf("AFTER DUP2 fd1 = %d\n", fd1);
+	printf("AFTER DUP2 fd2 = %d\n", fd2);
+	write (fd2, "Ala em fd2\n", 11);
+	write (fd1, "Ala em fd1\n", 11);
+	write (1, "Ola em STDOUT\n", 14);
+	//open(1);
+	close(fd1);
 	close(fd2);
 
-	write(fd1, "Hello1\n", 7);
-	write(fd2, "Hello2\n", 7);
-	close(fd1);
-	close(1);
-	write (1, "Ola\n", 4);
-	//open(1);
 	return (0);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   8ms_bi_env.c                                       :+:      :+:    :+:   */
+/*   83ms_bi_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/25 11:45:19 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/30 17:23:08 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	bi_env(t_script *s)
 	int	count;
 
 	show_func(__func__, MY_START, NULL);
-	env_var_setter("env","_", &s->envp);
+	//env_var_setter("env","_", &s->envp);
 	count = 0;
 	while (s->envp[count] != NULL)
 	{
@@ -29,6 +29,7 @@ int	bi_env(t_script *s)
 		write(STDOUT_FILENO, "\n", 1);
 		count++;
 	}
+	free_commands(s->commands, 0);
 	show_func(__func__, SUCCESS, NULL);
 	return (count);
 }

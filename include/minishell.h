@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/28 14:17:10 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/30 17:15:38 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ typedef struct s_bi_cmd
 {
 	const char		*bi_cmd;
 	const void		*bi_func;
-	void			*script;
+	void			*s;
 	int				n;
 }				t_bi_cmd;
 
@@ -464,7 +464,7 @@ void	execute_do_cmd(char **argv, char **envp, int input_fd, int output_fd);
 /// @param s		Estrutura contendo informações cmd a serem executados.
 /// @param path_env		Array de strings representando o caminho do ambiente.
 /// @return			0 em caso de sucesso, encerra o programa em caso de falha.
-int		exec_many(t_script *s, char **path_env);
+int		exec_many(t_script *s);
 
 /// @brief 			Splits a string into an array of strings using delimiter.
 /// @param path 		String to be splited
@@ -472,6 +472,13 @@ int		exec_many(t_script *s, char **path_env);
 /// @return 			String array containing splited string
 //char	**split_path(char **path, char delimiter);
 char	**split_path(char **path);
+
+/***************** redirs *******************/
+
+int	redir_in_go(t_script *s, int n);
+int	redir_out_go(t_script *s, int n);
+
+
 
 /* ************************************************************************** */
 ///	ms_error.c
@@ -497,7 +504,26 @@ int		return_error(const char *msg, int errms, int errbash);
 /// @param s 	Parsed script with command(s) to execute
 /// @param n 	Index of the command to be executed
 /// @return		0 if success, 1 if failure,...
-int	bi_go(t_script *s, int n);
+int		bi_go(t_script *s, int n);
+
+
+/* ************************************************************************** */
+///	82ms_bi_echo.c
+/* ************************************************************************** */
+
+/// @brief 			Builtin echo command
+/// @param args		Builtin command arguments
+/// @return			SUCCESS or ERROR
+//int		bi_echo(char **args);
+//int		bi_echo(t_command command);
+int		bi_echo(t_script *s, int n);
+
+/// ******** int		bi_echo(t_script *s);
+/// @brief 			Builtin echo command env var '_' update (last cmd)
+/// @param s		Parsed script with command(s) to execute
+/// @param n		Index of cmd to executes
+/// @return			SUCCESS if success, ERROR if error
+int		bi_env_upd(t_script *s, int n);
 
 /// @brief Remove a variable from the environment
 /// @param arg Arguments passed to unset command
@@ -533,13 +559,6 @@ int		bi_equal(t_script *s, int n);
 //int		bi_cd(t_command commands, char **envp);
 int		bi_cd(t_script *s, int n);
 
-/// @brief 			Builtin echo command
-/// @param args		Builtin command arguments
-/// @return			SUCCESS or ERROR
-//int		bi_echo(char **args);
-//int		bi_echo(t_command command);
-int		bi_echo(t_script *s, int n);
-/// ******** int		bi_echo(t_script *s);
 
 /// @brief 			Builtin env command
 /// @param args		Builtin command arguments
