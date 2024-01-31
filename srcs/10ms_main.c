@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:27:05 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/31 12:36:06 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/31 13:00:04 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,10 @@ static int	ms_loop(t_script *s)
 		if (s->cmd_count > 0)
 			if (execute(s))
 				break ;
-		free_commands(s->commands, s->cmd_count);
+		free_commands(s->cmds, s->cmd_count);
 	}
 	if (s->cmd_count > 0)
-		free_commands(s->commands, s->cmd_count);
+		free_commands(s->cmds, s->cmd_count);
 	show_func(__func__, SHOW_MSG, "MSG = SUCCESS");
 	return (0);
 }

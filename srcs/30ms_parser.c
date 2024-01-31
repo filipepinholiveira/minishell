@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:28:14 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/27 11:40:57 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/31 13:00:04 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ int	check_syntax(t_token *tk)
 
 /// @brief			This function simply counts the number of pipes in our
 ///					linked list of tokens to determine the number of chained
-///					commands are in the line buffer.
+///					cmds are in the line buffer.
 /// @param tk		Head of the token list
-/// @return			Number of commands
+/// @return			Number of cmds
 int	get_cmd_count(t_token *tk)
 {
 	show_func(__func__, MY_START, NULL);
@@ -119,13 +119,13 @@ void	get_num_args(t_token *tk, t_script *s)
 	i = 0;
 	while (i < s->cmd_count)
 	{
-		s->commands[i].argc = 0;
+		s->cmds[i].argc = 0;
 		tmp = tk;
 		while (tk && tk->type != TK_PIPE)
 		{
 			if (tk->type == TK_NAME && (tmp->type != TK_R_IN
 					&& tmp->type != TK_R_OUT))
-				s->commands[i].argc++;
+				s->cmds[i].argc++;
 			tmp = tk;
 			tk = tk->next;
 		}
@@ -138,10 +138,10 @@ void	get_num_args(t_token *tk, t_script *s)
 }
 
 /// @brief 			Iniatilzes file names direction and remove quotes from names
-/// @param commands Struct with info about files
+/// @param cmds Struct with info about files
 /// @param max 		max number of files
 /// @param tk 	pointert o command struct hed
-void	set_filenames_null(t_command *commands, int max, t_token *tk)
+void	set_filenames_null(t_command *cmds, int max, t_token *tk)
 {
 	int	i;
 
@@ -149,9 +149,9 @@ void	set_filenames_null(t_command *commands, int max, t_token *tk)
 	i = -1;
 	while (++i < max)
 	{
-		commands[i].in.name = NULL;
-		commands[i].out.name = NULL;
-		commands[i].in.heredoc = NULL;
+		cmds[i].in.name = NULL;
+		cmds[i].out.name = NULL;
+		cmds[i].in.heredoc = NULL;
 	}
 	while (tk)
 	{
@@ -287,14 +287,14 @@ int	parser(t_script *s, char **line_buffer)
 	if (check_syntax(tk))
 		return (free_tokens(&tk));
 	s->cmd_count = get_cmd_count(tk);
-	s->commands = malloc(sizeof(t_command) * s->cmd_count);
-	if (!s->commands || s->cmd_count <= 0)
+	s->cmds = malloc(sizeof(t_command) * s->cmd_count);
+	if (!s->cmds || s->cmd_count <= 0)
 		return (free_tokens(&tk));
 	tk_trim_spaces(tk);
 	get_num_args(tk, s);
-	set_filenames_null(s->commands, s->cmd_count, tk);
+	set_filenames_null(s->cmds, s->cmd_count, tk);
 
-	if (parse_commands(tk, s->commands, 0, 0))
+	if (parse_commands(tk, s->cmds, 0, 0))
 	{
 		show_func(__func__, SUCCESS, NULL);
 		return (free_tokens(&tk));

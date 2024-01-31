@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   8ms_bi_cd.c                                        :+:      :+:    :+:   */
+/*   81ms_bi_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 11:06:46 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/27 11:57:32 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/31 13:00:04 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ static int	change_dir(char *path, char ***envp)
 int	bi_cd(t_script *s, int n)
 {
 	show_func(__func__, MY_START,
-		ft_strjoin("execute bi: ", s->commands[n].argv[0]));
+		ft_strjoin("execute bi: ", s->cmds[n].argv[0]));
 	char	*home;
 	int		status;
 
-	env_var_setter(s->commands[n].argv[s->commands[n].argc - 1],"_", &s->envp);
-	if (!s->commands[n].argv[1])
+	env_var_setter(s->cmds[n].argv[s->cmds[n].argc - 1],"_", &s->envp);
+	if (!s->cmds[n].argv[1])
 	{
 		//env_var_setter("cd","_", &s->envp);
 		home = env_var_getter("HOME", s->envp);
@@ -56,19 +56,19 @@ int	bi_cd(t_script *s, int n)
 		free(home);
 		return (status);
 	}
-	if (s->commands[n].argc > 2)
+	if (s->cmds[n].argc > 2)
 	{
-		//env_var_setter(s->commands[n].argv[1],"_", &s->envp);
+		//env_var_setter(s->cmds[n].argv[1],"_", &s->envp);
 		ft_putendl_fd("Minishell: cd: too many arguments", 2);
 		show_func(__func__, ERROR, NULL);
 		return (1);
 	}
-	if (s->commands[n].argv[1][0] == '\0')
+	if (s->cmds[n].argv[1][0] == '\0')
 	{
 		status = change_dir(".", &s->envp);
 		return (status);
 	}
-	//env_var_setter(s->commands[n].argv[1],"_", &s->envp);
-	status = change_dir(s->commands[n].argv[1], &s->envp);
+	//env_var_setter(s->cmds[n].argv[1],"_", &s->envp);
+	status = change_dir(s->cmds[n].argv[1], &s->envp);
 	return (status);
 }

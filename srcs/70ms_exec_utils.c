@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 12:00:28 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/30 12:30:52 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/31 13:00:04 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 
 int first_child(t_script *s, int n)
 {
-	show_func(__func__, MY_START, s->commands->argv[n]);
+	show_func(__func__, MY_START, s->cmds->argv[n]);
 	exec_one(s, n);
 		show_func(__func__, SUCCESS, NULL);
 	return (0);
 }
 static int	execute_do_cmd_1(t_script *s, int n)
 {
-	show_func(__func__, MY_START, s->commands->argv[n]);
+	show_func(__func__, MY_START, s->cmds->argv[n]);
 	printf("envp: %s\n", s->envp[0]);
 
 	pid_t	pid;
@@ -69,7 +69,7 @@ static int	execute_do_cmd_1(t_script *s, int n)
 // 		{
 // 			while (cmd_path[++i] != NULL)
 // 			{
-// 				exec_path = ft_strjoin(cmd_path[i], s->commands[n].argv[0]);
+// 				exec_path = ft_strjoin(cmd_path[i], s->cmds[n].argv[0]);
 // 				if (!access(exec_path, F_OK))
 // 				{
 // 					printf("Break : 1st command path found\n");
@@ -79,20 +79,20 @@ static int	execute_do_cmd_1(t_script *s, int n)
 // 			}
 // 			if (cmd_path[i])
 // 			{
-// 				printf("EXCVE vai executar %s\n", s->commands[n].argv[0]);
+// 				printf("EXCVE vai executar %s\n", s->cmds[n].argv[0]);
 // 				close(s->fd[0]);
 // 				printf("a partir daqui todos os printf do cmd_1 vao para s->fd[1]\n");
 // 				dup2(s->fd[1], STDOUT_FILENO); // a partir daqui todos os printf vao para s->fd[1]!!!
 // 				close(s->fd[1]);
-// 				status = execve(exec_path, s->commands[n].argv, NULL); // atençao que se entra no exec jao nao faz free!!! Filipe 17 jan
+// 				status = execve(exec_path, s->cmds[n].argv, NULL); // atençao que se entra no exec jao nao faz free!!! Filipe 17 jan
 // 				if (status == -1)
 // 				{
-// 					//printf("erro no execve do cmd :%s\n", s->commands[index].argv[0]); STDOUT agora está no s->fd[1]!!!!
+// 					//printf("erro no execve do cmd :%s\n", s->cmds[index].argv[0]); STDOUT agora está no s->fd[1]!!!!
 // 					perror("Error");
 // 				}
 // 			}
 // 		free(exec_path);
-// 		printf("%s: command not found\n", s->commands[n].argv[0]);
+// 		printf("%s: command not found\n", s->cmds[n].argv[0]);
 // 		exit(COMMAND_NOT_FOUND);
 // 		}
 // 	}
@@ -106,7 +106,7 @@ static int	execute_do_cmd_1(t_script *s, int n)
 // 	{
 // 		while (cmd_path[++i] != NULL)
 // 		{
-// 			exec_path = ft_strjoin(cmd_path[i], s->commands[n].argv[0]);
+// 			exec_path = ft_strjoin(cmd_path[i], s->cmds[n].argv[0]);
 // 			if (!access(exec_path, F_OK))
 // 			{
 // 				printf("Break : 1st command path found\n");
@@ -116,20 +116,20 @@ static int	execute_do_cmd_1(t_script *s, int n)
 // 		}
 // 		if (cmd_path[i])
 // 		{
-// 			printf("EXCVE vai executar %s\n", s->commands[n].argv[0]);
+// 			printf("EXCVE vai executar %s\n", s->cmds[n].argv[0]);
 // 			close(s->fd[0]);
 // 			printf("a partir daqui todos os printf do cmd_1 vao para s->fd[1]\n");
 // 			dup2(s->fd[1], STDOUT_FILENO); // a partir daqui todos os printf vao para s->fd[1]!!!
 // 			close(s->fd[1]);
-// 			status = execve(exec_path, s->commands[n].argv, NULL); // atençao que se entra no exec jao nao faz free!!! Filipe 17 jan
+// 			status = execve(exec_path, s->cmds[n].argv, NULL); // atençao que se entra no exec jao nao faz free!!! Filipe 17 jan
 // 			if (status == -1)
 // 			{
-// 				//printf("erro no execve do cmd :%s\n", s->commands[index].argv[0]); STDOUT agora está no s->fd[1]!!!!
+// 				//printf("erro no execve do cmd :%s\n", s->cmds[index].argv[0]); STDOUT agora está no s->fd[1]!!!!
 // 				perror("Error");
 // 			}
 // 	}
 // 	free(exec_path);
-// 	printf("%s: command not found\n", s->commands[n].argv[0]);
+// 	printf("%s: command not found\n", s->cmds[n].argv[0]);
 // 	exit(COMMAND_NOT_FOUND);
 // 	}
 // }
@@ -153,7 +153,7 @@ static int	execute_do_cmd_1(t_script *s, int n)
 ///                     ou um descritor de arquivo de um pipe.
 static void	execute_do_cmd_i(t_script *s, int index)
 {
-	show_func(__func__, MY_START, s->commands[index].argv[0]);
+	show_func(__func__, MY_START, s->cmds[index].argv[0]);
     printf("envp: %s\n", s->envp[0]);
 
     //pid_t fork_pid;
@@ -170,7 +170,7 @@ static void	execute_do_cmd_i(t_script *s, int index)
 		printf("CMD_path existe nos cmds intermedios\n");
 		while (cmd_path[++i] != NULL)
 		{
-			exec_path = ft_strjoin(cmd_path[i], s->commands[index].argv[0]);
+			exec_path = ft_strjoin(cmd_path[i], s->cmds[index].argv[0]);
 			if (!access(exec_path, F_OK))
 			{
 				printf("Break no acess do cmd intermedio\n");
@@ -180,27 +180,27 @@ static void	execute_do_cmd_i(t_script *s, int index)
 		}
 		if (cmd_path[i])
 		{
-			printf("EXCVE vai executar %s\n", s->commands[index].argv[0]);
+			printf("EXCVE vai executar %s\n", s->cmds[index].argv[0]);
 			printf("a partir daqui todos os printf do cmd_i vao para s->fd[1]\n");
 			dup2(STDIN_FILENO, s->fd[0]);
 			dup2(s->fd[1], STDOUT_FILENO);
 			close(s->fd[0]);
 			close(s->fd[1]);
-			int status = execve(exec_path, s->commands[index].argv, NULL);
+			int status = execve(exec_path, s->cmds[index].argv, NULL);
 			if (status == -1)
 			{
 				perror("Error");
 			}
 		}
 		free(exec_path);
-		printf("%s: command not found\n", s->commands[index].argv[0]);
+		printf("%s: command not found\n", s->cmds[index].argv[0]);
 		exit(COMMAND_NOT_FOUND);
 	}
 }
 
 static void execute_do_cmd_n(t_script *s, int index)
 {
-    show_func(__func__, MY_START, s->commands[index].argv[0]);
+    show_func(__func__, MY_START, s->cmds[index].argv[0]);
     printf("envp: %s\n", s->envp[0]);
 
     //pid_t fork_pid;
@@ -218,7 +218,7 @@ static void execute_do_cmd_n(t_script *s, int index)
 		//printf("CMD_path existe no last cmd\n");
 		while (cmd_path[++i] != NULL)
 		{
-			exec_path = ft_strjoin(cmd_path[i], s->commands[index].argv[0]);
+			exec_path = ft_strjoin(cmd_path[i], s->cmds[index].argv[0]);
 			if (!access(exec_path, F_OK))
 			{
 				// printf("Break no acess do last cmd\n");
@@ -228,18 +228,18 @@ static void execute_do_cmd_n(t_script *s, int index)
 		}
 		if (cmd_path[i])
 		{
-			printf("EXCVE vai executar %s\n", s->commands[index].argv[0]);
+			printf("EXCVE vai executar %s\n", s->cmds[index].argv[0]);
 			close(s->fd[1]);
 			dup2(s->fd[0], STDIN_FILENO);
 			close(s->fd[0]);
-			status = execve(exec_path, s->commands[index].argv, NULL);
+			status = execve(exec_path, s->cmds[index].argv, NULL);
 			if (status == -1)
 			{
 				perror("Error");
 			}
 		}
 		free(exec_path);
-		printf("%s: command not found\n", s->commands[index].argv[0]);
+		printf("%s: command not found\n", s->cmds[index].argv[0]);
 		exit(COMMAND_NOT_FOUND);
 	}
 }
@@ -270,7 +270,7 @@ int	exec_many(t_script *s)
 		}
 		else
 		{
-			// middle commands
+			// middle cmds
 			execute_do_cmd_i(s, i);
 		}
 	}
@@ -320,7 +320,7 @@ int	exec_many(t_script *s)
 //         // {
 //         //     // entra no processo child
 
-//         // 	printf("Child nº %d criado para executar %s com o processo nº %d do parent %d\n", i + 1, s->commands[i].argv[0], pids[i], parent_pid);
+//         // 	printf("Child nº %d criado para executar %s com o processo nº %d do parent %d\n", i + 1, s->cmds[i].argv[0], pids[i], parent_pid);
 //         //     printf("total de processos: %d\n", cmd_num);
 
 //             if (i + 1 == 1)
@@ -335,7 +335,7 @@ int	exec_many(t_script *s)
 //             }
 // 			else
 // 			{
-// 				// middle commands
+// 				// middle cmds
 // 				execute_do_cmd_i(s, i);
 // 			}
 //         }

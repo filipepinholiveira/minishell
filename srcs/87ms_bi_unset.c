@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   8ms_bi_unset.c                                     :+:      :+:    :+:   */
+/*   87ms_bi_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/25 12:07:26 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/31 13:00:04 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ int	bi_unset(t_script *s, int n)
 	int		j;
 	char	*var;
 
-	env_var_setter(s->commands[n].argv[s->commands[n].argc - 1],"_", &s->envp);
-	if (!s->envp || !s->commands[n].argv[1])
+	env_var_setter(s->cmds[n].argv[s->cmds[n].argc - 1],"_", &s->envp);
+	if (!s->envp || !s->cmds[n].argv[1])
 		return (ERROR);
 	i = 1;
-	while (s->commands[n].argv[i])
+	while (s->cmds[n].argv[i])
 	{
-		if (!ft_strchr(s->commands[n].argv[i], '='))
+		if (!ft_strchr(s->cmds[n].argv[i], '='))
 		{
-			j = env_var_index_getter(s->commands[n].argv[i], s->envp);
+			j = env_var_index_getter(s->cmds[n].argv[i], s->envp);
 			while (j >= 0 && s->envp[j] && s->envp[j + 1])
 			{
 				var = s->envp[j];
@@ -58,14 +58,14 @@ int	bi_unset_envt(t_script *s, int n)
 	int		j;
 	char	*var;
 
-	if (!s->envp || !s->commands[n].argv[1])
+	if (!s->envp || !s->cmds[n].argv[1])
 		return (ERROR);
 	i = 1;
-	while (s->commands[n].argv[i])
+	while (s->cmds[n].argv[i])
 	{
-		if (!ft_strchr(s->commands[n].argv[i], '='))
+		if (!ft_strchr(s->cmds[n].argv[i], '='))
 		{
-			j = env_var_index_getter(s->commands[n].argv[i], s->envt);
+			j = env_var_index_getter(s->cmds[n].argv[i], s->envt);
 			while (j >= 0 && s->envt[j] && s->envt[j + 1])
 			{
 				var = s->envp[j];

@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 12:26:48 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/31 12:52:41 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/31 13:00:04 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	free_tokens(t_token **head)
 	return (1);
 }
 
-/// @brief 			Clears args on commands struct list and frees nodes
+/// @brief 			Clears args on cmds struct list and frees nodes
 /// @param cmd 		list pointer
 /// @param cmd_idx 	quantity of nodes to clear and free
 /// @return 		SUCCESS or ERROR ?? needs coherence check

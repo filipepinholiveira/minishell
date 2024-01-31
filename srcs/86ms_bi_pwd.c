@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/30 17:12:46 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/31 13:00:04 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ int	bi_pwd(t_script *s, int n)
 		ft_putendl_fd(buf, STDOUT_FILENO);
 	show_func(__func__, SUCCESS, buf);
 	free(buf);
-	free_commands(s->commands, 0);
+	free_commands(s->cmds, 0);
 	return (0);
 }

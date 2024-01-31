@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   8ms_bi_equal.c                                     :+:      :+:    :+:   */
+/*   89ms_bi_equal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/25 12:07:54 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/31 13:00:04 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 static void	bi_equal_upd(t_script *s, int n, int i)
 {
-	env_var_setter(ft_strchr(s->commands[n].argv[i], '=') + 1,
-		ft_substr(s->commands[n].argv[i], 0,
-			ft_strlen(s->commands[n].argv[i])
-			- ft_strlen(ft_strchr(s->commands[n].argv[i], '='))),
+	env_var_setter(ft_strchr(s->cmds[n].argv[i], '=') + 1,
+		ft_substr(s->cmds[n].argv[i], 0,
+			ft_strlen(s->cmds[n].argv[i])
+			- ft_strlen(ft_strchr(s->cmds[n].argv[i], '='))),
 		&s->envp);
 }
 static void	bi_equal_new(t_script *s, int n, int i)
 {
-	env_var_setter(ft_strchr(s->commands[n].argv[i], '=') + 1,
-		ft_substr(s->commands[n].argv[i], 0,
-			ft_strlen(s->commands[n].argv[i])
-			- ft_strlen(ft_strchr(s->commands[n].argv[i], '='))),
+	env_var_setter(ft_strchr(s->cmds[n].argv[i], '=') + 1,
+		ft_substr(s->cmds[n].argv[i], 0,
+			ft_strlen(s->cmds[n].argv[i])
+			- ft_strlen(ft_strchr(s->cmds[n].argv[i], '='))),
 		&s->envt);
 }
 
@@ -41,16 +41,16 @@ int	bi_equal(t_script *s, int n)
 	int		index_tp;
 
 	env_var_setter("","_", &s->envp);
-	if (!s->envp || !s->commands[n].argv[0])
+	if (!s->envp || !s->cmds[n].argv[0])
 		return (ERROR);
 	i = -1;
-	while (s->commands[n].argv[++i])
+	while (s->cmds[n].argv[++i])
 	{
-		if (var_name_check(s->commands[n].argv[i]) == SUCCESS)
+		if (var_name_check(s->cmds[n].argv[i]) == SUCCESS)
 		{
-			index_tp = env_var_index_getter(ft_substr(s->commands[n].argv[i], 0,
-						ft_strlen(s->commands[n].argv[i])
-						- ft_strlen(ft_strchr(s->commands[n].argv[i], '='))),
+			index_tp = env_var_index_getter(ft_substr(s->cmds[n].argv[i], 0,
+						ft_strlen(s->cmds[n].argv[i])
+						- ft_strlen(ft_strchr(s->cmds[n].argv[i], '='))),
 					s->envp);
 			if (index_tp != -1)
 				bi_equal_upd(s, n, i);
@@ -58,7 +58,7 @@ int	bi_equal(t_script *s, int n)
 				bi_equal_new(s, n, i);
 		}
 		else
-			export_error(s->commands[n].argv[i], 1);
+			export_error(s->cmds[n].argv[i], 1);
 	}
 	show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 09:55:51 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/31 12:19:48 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/31 13:00:04 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int	bi_child(t_script *s, int n, const void *func)
 	int				(*f)(t_script*, int);
 
 	f = func;
-	if (s->commands[n].out.name)
+	if (s->cmds[n].out.name)
 		redir_out_go(s, n);
-	if (s->commands[n].in.name)
+	if (s->cmds[n].in.name)
 		redir_in_go(s, n);
 	return (f(s, n));
 }
@@ -37,7 +37,7 @@ int	bi_pipe(t_script *s, int n, const void *func)
 	show_func(__func__, MY_START, NULL);
 	pid_t	pid;
 
-	if (s->commands[0].in.flag == -1)
+	if (s->cmds[0].in.flag == -1)
 		signal(SIGQUIT, SIG_IGN);
 	else
 		signal(SIGQUIT, sig_handler_fork);
@@ -51,7 +51,7 @@ int	bi_pipe(t_script *s, int n, const void *func)
 	{
 		show_func(__func__, SHOW_MSG, "CHILD START");
 		g_exit_status = bi_child(s, n, func);
-		free_commands(s->commands, s->cmd_count);
+		free_commands(s->cmds, s->cmd_count);
 		free_envp(s->envp);
 		execute_show(s);
 		exit(g_exit_status);
@@ -85,7 +85,7 @@ int	bi_go(t_script *s, int n)
 	while (bi_cmd[++i].bi_cmd)
 	{
 		signal(SIGINT, sig_handler_fork);
-		if (!ft_strncmp(bi_cmd[i].bi_cmd, s->commands[n].argv[0],
+		if (!ft_strncmp(bi_cmd[i].bi_cmd, s->cmds[n].argv[0],
 				ft_strlen(bi_cmd[i].bi_cmd)))
 		{
 			if (i == 0 || i == 2 || i == 5)

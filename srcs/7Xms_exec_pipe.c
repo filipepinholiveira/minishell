@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   7ms_exec_utils.c                                   :+:      :+:    :+:   */
+/*   7Xms_exec_pipe.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 12:00:28 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/24 12:53:26 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/31 13:00:04 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	var_name_check(char *var)
 
 static void	execute_do_cmd_1(t_script *s, int index, int in_fd, int out_fd)
 {
-	show_func(__func__, MY_START, s->commands->argv[index]);
+	show_func(__func__, MY_START, s->cmds->argv[index]);
 	printf("in fd: %d\n", in_fd);
 	printf("out fd: %d\n", out_fd);
 	printf("envp: %s\n", s->envp[0]);
@@ -74,7 +74,7 @@ static void	execute_do_cmd_1(t_script *s, int index, int in_fd, int out_fd)
 			printf("CMD_path existe no 1º cmd\n");
 			while (cmd_path[++i] != NULL)
 			{
-				exec_path = ft_strjoin(cmd_path[i], s->commands[index].argv[0]);
+				exec_path = ft_strjoin(cmd_path[i], s->cmds[index].argv[0]);
 				if (!access(exec_path, F_OK))
 				{
 					printf("Break no acess do 1º cmd\n");
@@ -92,16 +92,16 @@ static void	execute_do_cmd_1(t_script *s, int index, int in_fd, int out_fd)
 			//dup2(out_fd, STDOUT_FILENO);
 			//close (out_fd);
 			printf("EXCVE no CMD_1 vai ser executado\n");
-			int status = execve(exec_path, s->commands[index].argv, NULL); // atençao que se entra no exec jao nao faz free!!! Filipe 17 jan
+			int status = execve(exec_path, s->cmds[index].argv, NULL); // atençao que se entra no exec jao nao faz free!!! Filipe 17 jan
 			if (status)
 			{
-				printf("erro no execve do cmd :%s\n", s->commands[index].argv[0]);
+				printf("erro no execve do cmd :%s\n", s->cmds[index].argv[0]);
 				perror("Error");
 				//exit(exit_status_getter(errno));
 			}
 		}
 		free(exec_path);
-		printf("%s: command not found\n", s->commands[index].argv[0]);
+		printf("%s: command not found\n", s->cmds[index].argv[0]);
 		exit(COMMAND_NOT_FOUND);
 		}
 	}
@@ -124,7 +124,7 @@ static void	execute_do_cmd_1(t_script *s, int index, int in_fd, int out_fd)
 //static void	execute_do_cmd_n(char **argv, char **envp, int in_fd, int out_fd)
 static void execute_do_cmd_n(t_script *s, int index, int in_fd, int out_fd)
 {
-    show_func(__func__, MY_START, s->commands[index].argv[0]);
+    show_func(__func__, MY_START, s->cmds[index].argv[0]);
     printf("input fd: %d\n", in_fd);
     printf("output fd: %d\n", out_fd);
     printf("envp: %s\n", s->envp[0]);
@@ -152,7 +152,7 @@ static void execute_do_cmd_n(t_script *s, int index, int in_fd, int out_fd)
             printf("CMD_path existe no last cmd\n");
             while (cmd_path[++i] != NULL)
             {
-                exec_path = ft_strjoin(cmd_path[i], s->commands[index].argv[0]);
+                exec_path = ft_strjoin(cmd_path[i], s->cmds[index].argv[0]);
                 if (!access(exec_path, F_OK))
                 {
                     printf("Break no acess do last cmd\n");
@@ -167,14 +167,14 @@ static void execute_do_cmd_n(t_script *s, int index, int in_fd, int out_fd)
                 //dup2(1, out_fd);
                 //close(in_fd);
                 printf("EXCVE no CMD_LAST vai ser executado\n");
-                int status = execve(exec_path, s->commands[index].argv, NULL);
+                int status = execve(exec_path, s->cmds[index].argv, NULL);
                 if (status)
                 {
                     perror("Error");
                 }
             }
             free(exec_path);
-            printf("%s: command not found\n", s->commands[index].argv[0]);
+            printf("%s: command not found\n", s->cmds[index].argv[0]);
             exit(COMMAND_NOT_FOUND);
         }
     }
@@ -324,30 +324,30 @@ void	execute_do_cmd_i(char **argv, char **envp, int in_fd, int out_fd)
 // 			{
 // 				//first command
 // 				close(p[0]);
-// 				execute_do_cmd_1(s->commands[i-1].argv, path_env, p[1]);
+// 				execute_do_cmd_1(s->cmds[i-1].argv, path_env, p[1]);
 // 			}
 // 			else if (i == s->cmd_count)
 // 			{
 // 				//last command
 // 				close(p[1]);
-// 				execute_do_cmd_n(s->commands[i-1].argv, path_env, p[0], STDOUT_FILENO);
+// 				execute_do_cmd_n(s->cmds[i-1].argv, path_env, p[0], STDOUT_FILENO);
 // 				close(p[0]);
 // 			}
 // 			else
 // 			{
 // 				dup2(p[0], STDIN_FILENO);
 // 				dup2(p[1], STDOUT_FILENO);
-// 				execute_do_cmd_i(s->commands[i-1].argv, path_env, STDIN_FILENO, p[1]);
-// 				// inbetween commands
+// 				execute_do_cmd_i(s->cmds[i-1].argv, path_env, STDIN_FILENO, p[1]);
+// 				// inbetween cmds
 // 			}
-// 			// while (s->commands[i].argv[j])
+// 			// while (s->cmds[i].argv[j])
 // 			// {
-// 			// 	execute_do_cmd(s->commands[i-1].argv, path_env, STDIN_FILENO, p[1]);
+// 			// 	execute_do_cmd(s->cmds[i-1].argv, path_env, STDIN_FILENO, p[1]);
 // 			// 	i++;
 // 			// }
 // 			i++;
 // 		}
-// 		// execute_do_cmd(s->commands[i].argv, path_env,
+// 		// execute_do_cmd(s->cmds[i].argv, path_env,
 // 		// 	STDIN_FILENO, pipe_fd[1]);
 // 		close(p[1]); // Fecha a extremidade de escrita do pipe
 // 		show_func(__func__, CHILD_EXIT, "pipex simulator exit");
@@ -360,7 +360,7 @@ void	execute_do_cmd_i(char **argv, char **envp, int in_fd, int out_fd)
 // 		// // Redireciona stdin para a extremidade de leitura do pipe
 // 		// dup2(pipe_fd[0], STDIN_FILENO);
 // 		// // Executa o segundo comando
-// 		// execute_do_cmd(s->commands[1].argv, path_env, pipe_fd[0],
+// 		// execute_do_cmd(s->cmds[1].argv, path_env, pipe_fd[0],
 // 		// close(pipe_fd[0]); // Fecha a extremidade de leitura do pipe
 // 		// 	STDOUT_FILENO);
 // 		// // Aguarda o processo filho terminar
@@ -404,7 +404,7 @@ int pipex(t_script *s, char **path_env)
     i = -1;
     while (++i < cmd_num) // criação dos processos nos childs
     {
-        printf("Child nº %d criado para executar %s\n", i + 1, s->commands[i].argv[0]);
+        printf("Child nº %d criado para executar %s\n", i + 1, s->cmds[i].argv[0]);
         child_pids[i] = fork();
         if (child_pids[i] == -1)
         {

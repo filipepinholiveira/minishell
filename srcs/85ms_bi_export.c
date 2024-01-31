@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/29 17:14:20 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/31 13:00:04 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ static void	bi_export_upd_var(t_script *s, int n, int i)
 	char	*val;
 	char	*var;
 
-	var = ft_substr(s->commands[n].argv[i], 0,
-			ft_strlen(s->commands[n].argv[i])
-			- ft_strlen(ft_strchr(s->commands[n].argv[i], '=')));
+	var = ft_substr(s->cmds[n].argv[i], 0,
+			ft_strlen(s->cmds[n].argv[i])
+			- ft_strlen(ft_strchr(s->cmds[n].argv[i], '=')));
 	show_func(__func__, SHOW_MSG, var);
-	val = ft_strchr(s->commands[n].argv[i], '=') + 1;
+	val = ft_strchr(s->cmds[n].argv[i], '=') + 1;
 	show_func(__func__, SHOW_MSG, val);
 
 	env_var_setter(val, var, &s->envp);
@@ -60,7 +60,7 @@ static void	bi_export_new_var(t_script *s, int n, int i)
 	char	*val;
 	char	*var;
 
-	var = s->commands[n].argv[i];
+	var = s->cmds[n].argv[i];
 	show_func(__func__, SHOW_MSG, var);
 	if (env_var_index_getter(var, s->envp) >= 0)
 		return ;
@@ -83,23 +83,23 @@ int	bi_export(t_script *s, int n)
 	show_func(__func__, MY_START, NULL);
 	int		i;
 
-	if (!s->envp || !s->commands[n].argv[1] || !s->commands[n].argv[1][0])
+	if (!s->envp || !s->cmds[n].argv[1] || !s->cmds[n].argv[1][0])
 		return (ERROR);
 	i = 1;
-	while (s->commands[n].argv[i])
+	while (s->cmds[n].argv[i])
 	{
-		if (var_name_check(s->commands[n].argv[i]) == SUCCESS)
+		if (var_name_check(s->cmds[n].argv[i]) == SUCCESS)
 		{
-			if (ft_strchr(s->commands[n].argv[i], '='))
+			if (ft_strchr(s->cmds[n].argv[i], '='))
 				bi_export_upd_var(s, n, i);
 			else
 				bi_export_new_var(s, n, i);
 		}
 		else
-			export_error(s->commands[n].argv[i], 1);
+			export_error(s->cmds[n].argv[i], 1);
 		i++;
 	}
-	env_var_setter(s->commands[n].argv[--i],"_", &s->envp);
+	env_var_setter(s->cmds[n].argv[--i],"_", &s->envp);
 	show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);
 }

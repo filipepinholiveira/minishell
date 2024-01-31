@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/30 17:15:38 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/31 13:00:04 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,14 +135,14 @@ typedef struct s_command
 }				t_command;
 
 /// @brief 				Struct to hold the minishell variables
-/// @param commands		Commands to be executed
-/// @param cmd_count	Number of commands
+/// @param cmds		Commands to be executed
+/// @param cmd_count	Number of cmds
 /// @param exit_status	Exit status
 /// @param envp			Environment variables
 /// @param termios_p	Terminal settings
 typedef struct s_script
 {
-	t_command		*commands;
+	t_command		*cmds;
 	int				cmd_count;
 	int				exit_status;
 	char			**envp;
@@ -228,9 +228,9 @@ int		check_syntax(t_token *head);
 
 /// @brief			This function simply counts the number of pipes in our
 ///					linked list of tokens to determine the number of chained
-///					commands are in the line buffer.
+///					cmds are in the line buffer.
 /// @param head		Head of the token list
-/// @return			Number of commands
+/// @return			Number of cmds
 int		get_cmd_count(t_token *head);
 
 /// @brief			Replaces the token->content string with a new trimmed string
@@ -250,10 +250,10 @@ void	tk_trim_spaces(t_token *tk_head);
 void	get_num_args(t_token *head, t_script *script);
 
 /// @brief 			Iniatilzes file names direction and remove quotes from names
-/// @param commands Struct witj info about files
+/// @param cmds Struct witj info about files
 /// @param max 		max number of files
 /// @param head 	pointert o command struct hed
-void	set_filenames_null(t_command *commands, int max, t_token *head);
+void	set_filenames_null(t_command *cmds, int max, t_token *head);
 
 /// @brief 		This function iterates through a linked list of tokens and
 ///				fills the command structure based on the type of token it
@@ -556,7 +556,7 @@ int		bi_equal(t_script *s, int n);
 /// @param args		Builtin command arguments
 /// @return			SUCCESS or ERROR
 //int		bi_cd(char **args);
-//int		bi_cd(t_command commands, char **envp);
+//int		bi_cd(t_command cmds, char **envp);
 int		bi_cd(t_script *s, int n);
 
 
@@ -628,7 +628,7 @@ void	free_split(char **split);
 /// @return		1 if success, 0 if failure
 int		free_tokens(t_token **head);
 
-/// @brief 			Clears args on commands struct list and frees nodes
+/// @brief 			Clears args on cmds struct list and frees nodes
 /// @param cmd 		list pointer
 /// @param cmd_idx 	quantity of nodes to clear and free
 /// @return 		SUCCESS or ERROR ?? needs coherence check

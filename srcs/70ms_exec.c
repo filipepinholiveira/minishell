@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 09:55:51 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/30 17:28:03 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/31 13:00:04 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,13 @@ static int	exec_go(t_script *s, int n)
 		{
 			while (cmd_path[++i] != NULL)
 			{
-				exec_path = ft_strjoin(cmd_path[i], s->commands[n].argv[0]);
+				exec_path = ft_strjoin(cmd_path[i], s->cmds[n].argv[0]);
 				if (!access(exec_path, F_OK))
 					break ;
 			}
 			if (cmd_path[i])
 			{
-				status = execve(exec_path, s->commands[n].argv, NULL); // atençao que se entra no exec jao nao faz free!!! Filipe 17 jan
+				status = execve(exec_path, s->cmds[n].argv, NULL); // atençao que se entra no exec jao nao faz free!!! Filipe 17 jan
 				if (status == -1)
 				{
 					perror("Error");
@@ -99,7 +99,7 @@ static int	exec_go(t_script *s, int n)
 				exit(SUCCESS);
 			}
 			free(exec_path);
-			printf("%s: command not found\n", s->commands[n].argv[0]);
+			printf("%s: command not found\n", s->cmds[n].argv[0]);
 			exit(COMMAND_NOT_FOUND);
 		}
 	}
@@ -124,14 +124,14 @@ static int	exec_go(t_script *s, int n)
 int	exec_one(t_script *s, int n)
 {
 	show_func(__func__, MY_START, NULL);
-	if (ft_strchr(s->commands[0].argv[0], '='))
+	if (ft_strchr(s->cmds[0].argv[0], '='))
 	{
 		show_func(__func__, SHOW_MSG, "Variable temp");
 		g_exit_status = bi_equal(s, n);
 	}
 	else
 	{
-		if (s->commands[n].argc && get_cmd_type(s->commands[n].argv[0]) != CMD_EXEC)
+		if (s->cmds[n].argc && get_cmd_type(s->cmds[n].argv[0]) != CMD_EXEC)
 			g_exit_status = bi_go(s, n);
 		else
 			g_exit_status = exec_go(s, n);
