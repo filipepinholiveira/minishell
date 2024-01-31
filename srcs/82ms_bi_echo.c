@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 17:43:00 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/30 17:15:09 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/31 11:09:27 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	bi_echo(t_script *s, int n)
 	// 	env_var_setter(s->commands[n].argv[s->commands[n].argc - 1],"_", &s->envp);
 	// else if (s->commands[n].argc == 2 && flag)
 	// 	env_var_setter("","_", &s->envp);
-	free_commands(s->commands, n);
+	//free_commands(s->commands, n);
 	show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);
 }

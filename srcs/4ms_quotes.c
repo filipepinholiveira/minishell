@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:10:37 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/27 08:07:05 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/31 10:55:40 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ char	*tk_xpd_unquote(char *str)
 	char	*ret;
 	int		len;
 
+	ret = NULL;
 	len = ft_strlen(str);
 	if (str[0] == '\'' || (str[0] == '\"' && str[len - 1] == '\"'))
 		ret = ft_substr(str, 1, len - 2);

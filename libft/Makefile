@@ -6,7 +6,7 @@
 #    By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/08/22 12:51:39 by myoung            #+#    #+#              #
-#    Updated: 2024/01/15 10:57:02 by antoda-s         ###   ########.fr        #
+#    Updated: 2024/01/31 12:34:04 by antoda-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ FILES	+= ft_memcpy.c
 FILES	+= ft_memmove.c
 FILES	+= ft_memset.c
 FILES	+= ft_bzero.c
-FILES	+= ft_free_str.c
+FILES	+= ft_free_arr.c
 FILES	+= ft_free.c
 # PUT STDOUT & FD FUNCTIONS
 FILES	+= ft_charjoin.c

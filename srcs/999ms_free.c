@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   999ms_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpinho-d <fpinho-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 12:26:48 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/02 15:52:03 by fpinho-d         ###   ########.fr       */
+/*   Updated: 2024/01/31 12:52:41 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,16 +80,23 @@ int	free_commands(t_command *cmd, int cmd_idx)
 	{
 		j = -1;
 		while (++j < cmd[i].argc)
+		{
 			if (cmd[i].argv[j])
-				free(cmd[i].argv[j]);
+			{
+				show_func(__func__, SHOW_MSG, cmd[i].argv[j]);
+				ft_free(cmd[i].argv[j]);
+			}
+		}
+		free(cmd[i].argv);
 		if (cmd[i].in.name)
-			free(cmd[i].in.name);
+			ft_free(cmd[i].in.name);
 		if (cmd[i].out.name)
-			free(cmd[i].out.name);
+			ft_free(cmd[i].out.name);
 		if (cmd[i].in.heredoc)
 			ft_lstclear(&cmd[i].in.heredoc, free);
-		free(cmd[i].argv);
+		show_func(__func__, SHOW_MSG, "cmd[i]");
 	}
+	show_func(__func__, SHOW_MSG, "cmd");
 	free(cmd);
 	show_func(__func__, SUCCESS, NULL);
 	return (1);

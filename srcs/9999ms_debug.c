@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:29:02 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/25 15:42:16 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/31 11:59:14 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	execute_show(t_script *s)
 		printf("%s(->)  \t.out->heredoc: \t%s%p\n", SBHYLW, SBHCYN,s->commands[j].out.heredoc);
 		printf("%s(->)  \t.in.name: \t%s%s\n", SBHYLW, SBHBLU, s->commands[j].in.name);
 		printf("%s(->)  \t.in.flag: \t%s%d\n", SBHYLW, SBHBLU, s->commands[j].in.flag);
-		printf("%s(->)  \t.in->heredoc: \t%s%p\n", SBHYLW, SBHBLU,s->commands[j].in.heredoc);
+		printf("%s(->)  \t.in->heredoc: \t%s%p%s\n", SBHYLW, SBHBLU,s->commands[j].in.heredoc, SRST);
 		i = -1;
 		printf("\n");
 	}
@@ -53,12 +53,12 @@ void	show_func_msg(const char *msg)
 	if (MY_DEBUG)
 	{
 		if (!msg)
-			write(2, "\n", 2);
+			write(STDERR_FILENO, "\n", 2);
 		else
 		{
-			write(STDOUT_FILENO, "-> ", 3);
-			write(STDOUT_FILENO, msg, ft_strlen(msg));
-			//write(2, "\n", 1);
+			write(STDERR_FILENO, "-> ", 3);
+			write(STDERR_FILENO, msg, ft_strlen(msg));
+			write(STDERR_FILENO, "\n", 1);
 		}
 	}
 }
@@ -103,9 +103,9 @@ int	show_func(const char *func_name, int status, char *msg)
 		}
 		else
 		{
-			write(STDOUT_FILENO, debug_msg[i].msg_header, 5);
-			write(STDOUT_FILENO, func_name, ft_strlen(func_name));
-			write(STDOUT_FILENO, debug_msg[i].msg, debug_msg[i].len);
+			write(STDERR_FILENO, debug_msg[i].msg_header, 5);
+			write(STDERR_FILENO, func_name, ft_strlen(func_name));
+			write(STDERR_FILENO, debug_msg[i].msg, debug_msg[i].len);
 			show_func_msg(msg);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 18:49:28 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/09 12:54:01 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/31 11:46:36 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 #  define MY_DEBUG 1
 # endif
 # ifndef MY_DEBUG_COLOR
-#  define MY_DEBUG_COLOR 1
+#  define MY_DEBUG_COLOR 0
 # endif
 # ifndef MY_START
 #  define MY_START 255

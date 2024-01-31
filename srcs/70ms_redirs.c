@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 19:18:08 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/30 16:10:58 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/31 11:48:11 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,21 @@
 static int	redir_out_truncate(t_script *s, int n)
 {
 	show_func(__func__, MY_START, NULL);
-	int	fd;
+	//int	fd;
 
-	fd = open(s->commands[n].out.name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	printf("fd = %d\n", fd);
-	if (fd == -1)
+	close(s->fd[0]);
+	s->fd[1] = open(s->commands[n].out.name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	printf("s->fd = %d\n", s->fd[1]);
+	if (s->fd[1] == -1)
 	{
 		show_func(__func__, ERROR, "OPEN TRUNCATE mode");
 		return (return_error(s->commands[n].out.name, errno, 0));
 	}
 	show_func(__func__, SHOW_MSG, "BEFORE DUP2");
-	dup2(fd, STDOUT_FILENO);
+	dup2(s->fd[1], STDOUT_FILENO);
 	write(2, "after dup2\n", 11);
 	show_func(__func__, SHOW_MSG, "AFTER  DUP2");
-	close(fd);
+	close(s->fd[1]);
 	write(2, "after close\n", 12);
 	show_func(__func__, SUCCESS, NULL);
 	return (0);
@@ -39,6 +40,7 @@ static int	redir_out_append(t_script *s, int n)
 	show_func(__func__, MY_START, NULL);
 	//int	fd;
 
+	close(s->fd[0]);
 	s->fd[1] = open(s->commands[n].out.name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (s->fd[1] == -1)
 	{
@@ -79,6 +81,7 @@ int	redir_in_go(t_script *s, int n)
 		show_func(__func__, SHOW_MSG, "ERROR OPEN file\n");
 		return (return_error(s->commands[n].in.name, errno, 0));
 	}
+	close (s->fd[1]);
 	dup2(s->fd[0], STDIN_FILENO);
 	close(s->fd[0]);
 	show_func(__func__, SUCCESS, NULL);

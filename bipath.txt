@@ -12,9 +12,9 @@
 							signal(SIGINT, signal_handler_fork)
 							child:
 								(>) bi_child(s, n, func)
-									out.name? redir_out
-									in.name ? redir_in
-									bi_func(s, n)
+									out.name? (>) redir_out
+									in.name ? (>) redir_in
+									(>) bi_func(s, n)
 							parent:
 								wait
 								bi_env_upd

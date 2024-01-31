@@ -6,12 +6,11 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 09:55:51 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/30 17:25:00 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/01/31 12:19:48 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
 
 int	bi_exec(t_script *s, int n, const void *func)
 {
@@ -43,6 +42,8 @@ int	bi_pipe(t_script *s, int n, const void *func)
 	else
 		signal(SIGQUIT, sig_handler_fork);
 	signal(SIGINT, sig_handler_fork);
+	if (pipe(s->fd) == -1)
+		return (return_error("pipe", errno, 0));
 	pid = fork();
 	if (pid == -1)
 		return (return_error("fork", errno, 0));
@@ -50,6 +51,9 @@ int	bi_pipe(t_script *s, int n, const void *func)
 	{
 		show_func(__func__, SHOW_MSG, "CHILD START");
 		g_exit_status = bi_child(s, n, func);
+		free_commands(s->commands, s->cmd_count);
+		free_envp(s->envp);
+		execute_show(s);
 		exit(g_exit_status);
 	}
 	else
