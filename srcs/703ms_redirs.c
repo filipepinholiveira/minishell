@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 19:18:08 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/31 13:00:04 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/01 11:40:34 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,3 +87,13 @@ int	redir_in_go(t_script *s, int n)
 	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }
+
+int	redir_go(t_script *s, int n)
+{
+	if (s->cmds[n].out.name)
+		return (redir_out_go(s, n));
+	if (s->cmds[n].in.name)
+		return (redir_in_go(s, n));
+	return (SUCCESS);
+}
+

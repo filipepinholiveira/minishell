@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   70ms_exec.c                                        :+:      :+:    :+:   */
+/*   700ms_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 09:55:51 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/31 16:04:11 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/01 12:36:54 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	get_cmd_type(char *cmd)
 		return (CMD_EXEC);
 }
 
-static int exit_status_getter(int status)
+int exit_status_getter(int status)
 {
 	show_func(__func__, MY_START, NULL);
 	int	i;
@@ -98,7 +98,7 @@ static int exit_status_getter(int status)
 // 				}
 // 				exit(SUCCESS);
 // 			}
-// 			free(exec_path);
+// 			free(exec_path);const void *func
 // 			printf("%s: command not found\n", s->cmds[n].argv[0]);
 // 			exit(COMMAND_NOT_FOUND);
 // 		}

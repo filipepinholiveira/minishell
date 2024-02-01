@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/31 13:00:04 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/01 12:46:06 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -427,8 +427,13 @@ int		env_var_index_getter(char *var, char **envp);
 int		env_var_setter(char *val, char *var, char ***envp);
 
 /* ************************************************************************** */
-///	ms_exec.c
+///	700ms_exec.c
 /* ************************************************************************** */
+
+int	get_cmd_type(char *cmd);
+
+int exit_status_getter(int status);
+
 
 /// @brief 		Executes a command
 /// @param s 	Script structure with commans and args
@@ -439,6 +444,15 @@ int		exec_one(t_script *s, int n);
 /// @brief 			Script exec function
 /// @param s 		Script contents
 int		execute(t_script *s);
+
+
+
+/// @brief 		Selects and Executes built in functions
+/// @param s 	Parsed script with command(s) to execute
+/// @param n 	Index of the command to be executed
+/// @return		0 if success, 1 if failure,...
+int	exec_go(t_script *s, int n);
+
 
 /* *************************************************/
 
@@ -477,6 +491,7 @@ char	**split_path(char **path);
 
 int	redir_in_go(t_script *s, int n);
 int	redir_out_go(t_script *s, int n);
+int	redir_go(t_script *s, int n);
 
 
 
@@ -610,6 +625,11 @@ int		ft_is_str_digit(char *str);
 /// @param command	Command to be checked
 /// @return
 char	*get_location(char *command);
+
+
+char *path_finder(t_script *s, int n);
+char **cmd_copy(char **cmd_n, int argc);
+
 
 /* ************************************************************************** */
 ///	ms_free.c

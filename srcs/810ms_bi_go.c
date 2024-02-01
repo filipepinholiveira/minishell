@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 09:55:51 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/31 13:00:04 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/01 11:57:54 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,20 @@
 int	bi_exec(t_script *s, int n, const void *func)
 {
 	int	(*f)(t_script*, int);
+	int status;
 
 	f = func;
-	return (f(s, n));
-}
-
-int	bi_child(t_script *s, int n, const void *func)
-{
-	int				(*f)(t_script*, int);
-
-	f = func;
-	if (s->cmds[n].out.name)
-		redir_out_go(s, n);
-	if (s->cmds[n].in.name)
-		redir_in_go(s, n);
-	return (f(s, n));
+	if (redir_go(s, n))
+		return (return_error("redir error", errno, 0));
+	status = f(s, n);
+	free_commands(s->cmds, s->cmd_count);
+	free_envp(s->envp);
+	return (status);
 }
 
 int	bi_pipe(t_script *s, int n, const void *func)
 {
-	show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);		
 	pid_t	pid;
 
 	if (s->cmds[0].in.flag == -1)
@@ -49,17 +43,13 @@ int	bi_pipe(t_script *s, int n, const void *func)
 		return (return_error("fork", errno, 0));
 	if (pid == 0)
 	{
-		show_func(__func__, SHOW_MSG, "CHILD START");
-		g_exit_status = bi_child(s, n, func);
-		free_commands(s->cmds, s->cmd_count);
-		free_envp(s->envp);
-		execute_show(s);
-		exit(g_exit_status);
+		show_func(__func__, SHOW_MSG, "CHILD BI START");
+		exit(bi_exec(s, n, func));
 	}
 	else
 	{
 		wait(&g_exit_status);
-		show_func(__func__, SHOW_MSG, "CHILD END");
+		show_func(__func__, SHOW_MSG, "CHILD BI END");
 		if (WIFEXITED(g_exit_status))
 			g_exit_status = 128 + WTERMSIG(g_exit_status);
 		bi_env_upd(s, n);
@@ -97,4 +87,3 @@ int	bi_go(t_script *s, int n)
 	show_func(__func__, ERROR, "Builtin NOT found");
 	return (-1);
 }
-
