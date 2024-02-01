@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 09:55:51 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/01 12:36:54 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/01 17:05:26 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ int	execute(t_script *s)
 		}
 	}
 	else
-		if (exec_many(s))
+		if (exec_many(s, 0))
 			return (1);
 	termios_setter(&s->termios_p);
 	show_func(__func__, SUCCESS, NULL);

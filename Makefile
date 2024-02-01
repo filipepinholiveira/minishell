@@ -6,7 +6,7 @@
 #    By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/24 21:23:27 by antoda-s          #+#    #+#              #
-#    Updated: 2024/02/01 12:29:38 by antoda-s         ###   ########.fr        #
+#    Updated: 2024/02/01 17:04:03 by antoda-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ FILES	+=	505ms_tk_xpd_filler.c
 FILES	+=	506ms_tk_xpd_split.c
 FILES	+=	600ms_env.c
 FILES	+=	700ms_exec.c
-FILES	+=	701ms_exec_utils.c
+FILES	+=	710ms_exec_many.c
 FILES	+=	702ms_path.c
 FILES	+=	703ms_redirs.c
 FILES	+=	810ms_bi_go.c
@@ -58,6 +58,7 @@ FILES	+=	817ms_bi_unset.c
 FILES	+=	818ms_bi_utils.c
 FILES	+=	819ms_bi_equal.c
 FILES	+=	820ms_ex_go.c
+FILES	+=	830ms_prepare_fds.c
 FILES	+=	999ms_debug.c
 FILES	+=	900ms_free.c
 FILES	+=	910ms_error.c

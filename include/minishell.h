@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/01 12:46:06 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/01 16:35:12 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -478,7 +478,7 @@ void	execute_do_cmd(char **argv, char **envp, int input_fd, int output_fd);
 /// @param s		Estrutura contendo informações cmd a serem executados.
 /// @param path_env		Array de strings representando o caminho do ambiente.
 /// @return			0 em caso de sucesso, encerra o programa em caso de falha.
-int		exec_many(t_script *s);
+int	exec_many(t_script *s, int n);
 
 /// @brief 			Splits a string into an array of strings using delimiter.
 /// @param path 		String to be splited
@@ -629,6 +629,18 @@ char	*get_location(char *command);
 
 char *path_finder(t_script *s, int n);
 char **cmd_copy(char **cmd_n, int argc);
+
+
+/* ************************************************************************** */
+///	830ms_prepare_fds.c
+/* ************************************************************************** */
+
+int	prepare_fds(t_script *s, int n);
+
+
+
+
+
 
 
 /* ************************************************************************** */
