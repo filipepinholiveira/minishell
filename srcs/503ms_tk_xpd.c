@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   5ms_tk_xpd.c                                       :+:      :+:    :+:   */
+/*   503ms_tk_xpd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/26 16:47:15 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/03 20:43:46 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,31 +18,31 @@
 /// @param envp	Environment variables
 /// @param i	Index start
 /// @return		replace variable
-char	*replace_loop(char *str, char **envp, int *i)
-{
-	show_func(__func__, MY_START, NULL);
-	char	*tmp;
-	char	c;
+// char	*replace_loop(char *str, char **envp, int *i)
+// {
+// 	show_func(__func__, MY_START, NULL);
+// 	char	*tmp;
+// 	char	c;
 
-	if (str[0] == '?')
-	{
-		(*i)++;
-		if (g_exit_status >= 256)
-			return (ft_itoa(WEXITSTATUS(g_exit_status)));
-		else
-			return (ft_itoa(g_exit_status));
-	}
-	if (ft_isspace(str[0]) || str[0] == '\'' || str[0] == '\"')
-		return (ft_strdup("$"));
-	while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
-		(*i)++;
-	c = str[*i];
-	str[*i] = '\0';
-	tmp = env_var_getter(str, envp); // envp_getter.c
-	str[*i] = c;
-	show_func(__func__, SUCCESS, NULL);
-	return (tmp);
-}
+// 	if (str[0] == '?')
+// 	{
+// 		(*i)++;
+// 		if (g_exit_status >= 256)
+// 			return (ft_itoa(WEXITSTATUS(g_exit_status)));
+// 		else
+// 			return (ft_itoa(g_exit_status));
+// 	}
+// 	if (ft_isspace(str[0]) || str[0] == '\'' || str[0] == '\"')
+// 		return (ft_strdup("$"));
+// 	while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
+// 		(*i)++;
+// 	c = str[*i];
+// 	str[*i] = '\0';
+// 	tmp = env_var_getter(str, envp);
+// 	str[*i] = c;
+// 	show_func(__func__, SUCCESS, NULL);
+// 	return (tmp);
+// }
 
 /// @brief 			Splits the string on '$' and accounts for the possibility
 ///					that the string may begin with a '$'
@@ -77,8 +77,13 @@ int	var_name_checker(char c)
 
 int	var_firstchar(char c)
 {
+	show_func(__func__, MY_START, NULL);
 	if (ft_isalpha(c) || c == '_')
+	{
+		show_func(__func__, SUCCESS, NULL);
 		return (SUCCESS);
+	}
+	show_func(__func__, ERROR, NULL);
 	return (ERROR);
 }
 
@@ -91,11 +96,11 @@ int	var_firstchar(char c)
 /// @param j			Index end
 /// @return				String with ARGS replaced by envp vars
 // char	*env_var_expander(char *oldToken, char **envp, int i, int j)
-char	*env_var_expander(char *oldToken, char **envp)
+char	*env_var_expander(char *oldToken, t_script *s)//char **envp)
 {
 	show_func(__func__, MY_START, "******************************************************************");
 	show_func(__func__, SHOW_MSG, ft_strjoin("\nTOKEN to EVALUATE = ", oldToken));
-	show_func(__func__, SHOW_MSG, envp[0]);
+	show_func(__func__, SHOW_MSG, s->envp[0]);
 
 
 	char	**nToken;
@@ -109,7 +114,7 @@ char	*env_var_expander(char *oldToken, char **envp)
 	while (nToken[++k])
 		printf("%s%s -> &nToken = %p, nToken[%d] = %s%s\n",SBHYLW, __func__, nToken[k], k, nToken[k], SRST);
 	printf("****************** NOW the STRING **************************\n");
-	tmp1 = tk_xpd_filler(&nToken, envp);
+	tmp1 = tk_xpd_filler(&nToken, s);
 	show_func(__func__, SHOW_MSG, tmp1);
 	free(nToken);
 

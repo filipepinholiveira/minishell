@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   30ms_parser.c                                      :+:      :+:    :+:   */
+/*   300ms_parser.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:28:14 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/31 13:00:04 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/02 19:55:28 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,8 +168,8 @@ void	set_filenames_null(t_command *cmds, int max, t_token *tk)
 ///				encounters.
 /// @param tk	Head of the token list
 /// @param cmd	Command structure
-/// @param i	Index
-/// @param j	Index
+/// @param i	Index of the commands
+/// @param j	Index of the arguments
 /// @return		0 if success, 1 if failure
 int	parse_commands(t_token *tk, t_command *cmd, int i, int j)
 {
@@ -178,25 +178,16 @@ int	parse_commands(t_token *tk, t_command *cmd, int i, int j)
 	{
 		cmd[i].argv = malloc(sizeof(char *) * (cmd[i].argc + 1));
 		if (!cmd[i].argv)
-		{
-			show_func(__func__, MALLOC_ERROR, "!cmd[i].argv");
 			return (1);
-		}
 		j = 0;
 		while (tk && tk->type != TK_PIPE)
 		{
 			if (tk->type == TK_NAME)
 				cmd[i].argv[j++] = ft_strdup(tk->content);
 			else if (tk->type == TK_R_IN && redir(tk, &cmd[i].in))
-			{
-				show_func(__func__, SUCCESS, "01");
 				return (free_commands(cmd, i + 1));
-			}
 			else if (tk->type == TK_R_OUT && redir(tk, &cmd[i].out))
-			{
-				show_func(__func__, SUCCESS, "02");
 				return (free_commands(cmd, i + 1));
-			}
 			if (tk->type == TK_R_IN || tk->type == TK_R_OUT)
 				tk = tk->next;
 			if (tk)

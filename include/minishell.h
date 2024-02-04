@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/01 16:35:12 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/03 19:21:06 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -361,7 +361,7 @@ int tk_var_xpd_splits(char *oToken);
 int	var_name_checker(char c);
 int	var_firstchar(char c);
 char **tk_var_xpd(char *oToken);
-char	*tk_xpd_filler(char ***new_tk, char **envp);
+char	*tk_xpd_filler(char ***new_tk, t_script *s);
 
 
 /* ************************************************************************** */
@@ -374,7 +374,7 @@ char	*tk_xpd_filler(char ***new_tk, char **envp);
 /// @param envp	Environment variables
 /// @param i	Index start
 /// @return		replace variable
-char	*replace_loop(char *str, char **envp, int *i);
+//char	*replace_loop(char *str, char **envp, int *i);
 
 /// @brief 			Splits the string on '$' and accounts for the possibility
 ///					that the string may begin with a '$'
@@ -392,7 +392,7 @@ char	**env_var_detector(char *line_buf, char **before, int *i);
 /// @param i			Index start
 /// @param j			Index end
 /// @return				String with ARGS replaced by envp vars
-char	*env_var_expander(char *oldToken, char **envp);
+char	*env_var_expander(char *oldToken, t_script *s);
 // char	*env_var_expander(char *line_buf, char **envp, int i, int j);
 
 /// @brief		This function replaces multiple spaces with a single space
@@ -406,7 +406,7 @@ char	*replace_multiple_space(char *str);
 /// @param str	Variable to be found
 /// @param envp	Environment variables
 /// @return		Content of the variable
-char	*env_var_getter(char *str, char **envp);
+char	*env_var_getter(char *str, char **envp, char **envt);
 
 /// @brief 				This function prints the environment variables
 /// @param envp			Environment variables

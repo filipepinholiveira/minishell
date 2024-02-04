@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   85ms_bi_export.c                                   :+:      :+:    :+:   */
+/*   815ms_bi_export.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/31 13:00:04 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/03 19:49:14 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,12 @@ static void	bi_export_new_var(t_script *s, int n, int i)
 	var = s->cmds[n].argv[i];
 	show_func(__func__, SHOW_MSG, var);
 	if (env_var_index_getter(var, s->envp) >= 0)
+	{
+		show_func(__func__, SHOW_MSG, ft_itoa(env_var_index_getter(var, s->envp)));
 		return ;
-	val = env_var_getter(var, s->envt);
-	show_func(__func__, SHOW_MSG, val);
+	}
+	val = env_var_getter(var, NULL, s->envt);
+	//show_func(__func__, SHOW_MSG, ft_strjoin("var = ", val));
 	if (val)
 	{
 		env_var_setter(val, var, &s->envp);

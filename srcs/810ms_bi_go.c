@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   80ms_bi_go.c                                       :+:      :+:    :+:   */
+/*   810ms_bi_go.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 09:55:51 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/01 11:57:54 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/03 12:47:03 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	bi_exec(t_script *s, int n, const void *func)
 {
+	show_func(__func__, MY_START, NULL);
 	int	(*f)(t_script*, int);
 	int status;
 
@@ -21,14 +22,14 @@ int	bi_exec(t_script *s, int n, const void *func)
 	if (redir_go(s, n))
 		return (return_error("redir error", errno, 0));
 	status = f(s, n);
-	free_commands(s->cmds, s->cmd_count);
-	free_envp(s->envp);
+	//free_commands(s->cmds, s->cmd_count);
+	//free_envp(s->envp);
 	return (status);
 }
 
 int	bi_pipe(t_script *s, int n, const void *func)
 {
-	show_func(__func__, MY_START, NULL);		
+	show_func(__func__, MY_START, NULL);
 	pid_t	pid;
 
 	if (s->cmds[0].in.flag == -1)
@@ -65,7 +66,7 @@ int	bi_pipe(t_script *s, int n, const void *func)
 int	bi_go(t_script *s, int n)
 {
 	show_func(__func__, MY_START, "NOVA VERSAO");
-	const t_bi_cmd	bi_cmd[9] = {
+	const t_bi_cmd	bi_cmd[8] = {
 	{"echo", bi_echo, s, n}, {"cd", bi_cd, s, n}, {"pwd", bi_pwd, s, n},
 	{"export", bi_export, s, n}, {"unset", bi_unset, s, n},
 	{"env", bi_env, s, n}, {"exit", bi_exit, s, n}, {NULL, NULL, NULL, 0}};

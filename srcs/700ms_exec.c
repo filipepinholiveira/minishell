@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 09:55:51 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/01 17:05:26 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/02 19:56:28 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,71 +53,6 @@ int exit_status_getter(int status)
 	return (SUCCESS);
 }
 
-// /// @brief 		Selects and Executes built in functions
-// /// @param s 	Parsed script with command(s) to execute
-// /// @param n 	Index of the command to be executed
-// /// @return		0 if success, 1 if failure,...
-// static int	exec_go(t_script *s, int n)
-// {
-// 	show_func(__func__, MY_START, NULL);
-// 	show_func(__func__, SHOW_MSG, ft_itoa(n));
-// 	show_func(__func__, SUCCESS, NULL);
-// 	pid_t	fork_pid;
-// 	char	**cmd_path;
-// 	char	*exec_path;
-// 	int		i;
-// 	int		status;
-
-// 	i = -1;
-
-// 	fork_pid = fork();
-// 	signal(SIGINT, sig_handler_fork);
-// 	if (fork_pid == -1)
-// 	{
-// 		perror("fork");
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	if (fork_pid == 0)
-// 	{
-// 		cmd_path = split_path(s->envp);
-// 		if (cmd_path != NULL)
-// 		{
-// 			while (cmd_path[++i] != NULL)
-// 			{
-// 				exec_path = ft_strjoin(cmd_path[i], s->cmds[n].argv[0]);
-// 				if (!access(exec_path, F_OK))
-// 					break ;
-// 			}
-// 			if (cmd_path[i])
-// 			{
-// 				status = execve(exec_path, s->cmds[n].argv, NULL); // atençao que se entra no exec jao nao faz free!!! Filipe 17 jan
-// 				if (status == -1)
-// 				{
-// 					perror("Error");
-// 					exit(exit_status_getter(errno));
-// 				}
-// 				exit(SUCCESS);
-// 			}
-// 			free(exec_path);const void *func
-// 			printf("%s: command not found\n", s->cmds[n].argv[0]);
-// 			exit(COMMAND_NOT_FOUND);
-// 		}
-// 	}
-// 	else
-// 	{
-// 		status = 500;
-// 		waitpid(fork_pid, &g_exit_status, 0);
-// 		printf("status = %d\n", status);
-// 		if (WIFEXITED(g_exit_status))
-// 		{
-// 		    g_exit_status = WEXITSTATUS(g_exit_status);
-// 			printf("Child process exited with status %d\n", g_exit_status);
-// 		}
-// 		printf("Saiu do child\n)");
-// 	}
-// 	return (g_exit_status);
-// }
-
 /// @brief 		Executes a single command
 /// @param s 	Parsed script with command(s) to Execute
 /// @return		0 if success, 1 if failure,...
@@ -145,11 +80,10 @@ int	exec_one(t_script *s, int n)
 int	execute(t_script *s)
 {
 	show_func(__func__, MY_START, NULL);
-	//char	**path_env;
 
+	printf("##########   pid = %d #############\n", getpid());
 	execute_show(s);
-	//path_env = split_path(s->envp);
-	if (s->cmd_count == 1)  /// ??????
+	if (s->cmd_count == 1)
 	{
 		if (exec_one(s, 0))
 		{

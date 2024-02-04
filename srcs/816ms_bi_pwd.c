@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   86ms_bi_pwd.c                                      :+:      :+:    :+:   */
+/*   816ms_bi_pwd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 14:40:15 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/31 13:00:04 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/03 19:33:17 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	bi_pwd(t_script *s, int n)
 	if (!buf)
 	{
 		free(buf);
-		buf = env_var_getter("PWD", s->envp);
+		buf = env_var_getter("PWD", s->envp, NULL);
 		ft_putendl_fd(buf, STDOUT_FILENO);
 	}
 	else

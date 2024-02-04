@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   5ms_tk_xpd_filler.c                                :+:      :+:    :+:   */
+/*   505ms_tk_xpd_filler.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/27 07:25:52 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/04 19:59:11 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /********* NEW FILE  *********/
 
-char *tk_xpd_var_filler(char *new_tk_str, char **envp)
+char *tk_xpd_var_filler(char *new_tk_str, t_script *s)
 {
 	show_func(__func__, MY_START, new_tk_str);
 	int		i;
@@ -23,10 +23,12 @@ char *tk_xpd_var_filler(char *new_tk_str, char **envp)
 	i = 1;
 	tmp = new_tk_str;
 	if (var_firstchar(new_tk_str[i]) == SUCCESS)
-		new_tk_str = env_var_getter(new_tk_str + 1, envp);
+		new_tk_str = env_var_getter(new_tk_str + 1, s->envp, s->envt);
 	else if (ft_isdigit(new_tk_str[i]))
 		new_tk_str = ft_strdup("");
-	else if (new_tk_str[i] == '?')
+	else if (new_tk_str[i] == '?' && g_exit_status >= 256)
+		new_tk_str = ft_itoa(WEXITSTATUS(g_exit_status));
+	else if (new_tk_str[i] == '?' && g_exit_status < 256)
 		new_tk_str = ft_itoa(g_exit_status);
 	else if (new_tk_str[i] == '$')
 		new_tk_str = ft_itoa(getpid());
@@ -39,24 +41,22 @@ char *tk_xpd_var_filler(char *new_tk_str, char **envp)
 
 
 
-char	*tk_xpd_filler(char ***new_tk, char **envp)
+char	*tk_xpd_filler(char ***new_tk, t_script *s)//char **envp)
 {
 	show_func(__func__, MY_START, NULL);
 	show_func(__func__, SHOW_MSG, ft_strjoin("11 token = ", (*new_tk)[0]));
-	int	split;
-	char *tmp;
+	int		split;
+	char	*tmp;
 
 	tmp = ft_strdup("");
 	split = -1;
 	while ((*new_tk)[++split])
 	{
-		//printf("%s%s : 10 new_tk[%d] = '%s'%s\n",SBHYLW, __func__, split, (*new_tk)[split], SRST);
 		if ((*new_tk)[split][0] == '$'
 			&& ((*new_tk)[split][1] || (*new_tk)[split + 1]))
-				(*new_tk)[split] = tk_xpd_var_filler((*new_tk)[split], envp);
+				(*new_tk)[split] = tk_xpd_var_filler((*new_tk)[split], s);
 		else
 			(*new_tk)[split] = tk_xpd_unquote((*new_tk)[split]);
-		//printf("%s%s : 20 new_tk[%d] = '%s'%s\n",SBHYLW, __func__, split, (*new_tk)[split], SRST);
 		tmp = ft_strjoin_free(tmp, (*new_tk)[split]);
 	}
 	return (tmp);

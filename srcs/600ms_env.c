@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   6ms_env.c                                          :+:      :+:    :+:   */
+/*   600ms_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/26 10:33:20 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/03 20:51:48 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	env_var_setter(char *val, char *var, char ***envx)
 	{
 		*envx = malloc(sizeof(char *) * (1 + 1));
 		(*envx)[0] = ft_strjoin_free(var_new, ft_strdup(val));
-		show_func(__func__, SHOW_MSG, (*envx)[0]);
+		show_func(__func__, SUCCESS, (*envx)[0]);
 		(*envx)[1] = NULL;
 		return (0);
 	}
@@ -80,13 +80,48 @@ int	env_var_setter(char *val, char *var, char ***envx)
 	return (0);
 }
 
+
+
+// {
+// 	show_func(__func__, MY_START, var);
+// 	char	*tmp;
+// 	char	*ret;
+// 	int		len;
+
+// 	if (!envp)
+// 		return (NULL);
+// 	tmp = ft_strjoin(var, "=");
+// 	len = ft_strlen(tmp);
+// 	ret = NULL;
+// 	while (*envp)
+// 	{
+// 		if (!ft_strncmp(tmp, *envp, len))
+// 		{
+// 			ret = ft_strdup(*envp + len);
+// 			break ;
+// 		}
+// 		envp++;
+// 	}
+// 	free(tmp);
+// 	if (!ret)
+// 	{
+// 		printf("Variable '%s' not found\n", var);
+// 		ret = ft_strdup("");
+// 		if (!ret)
+// 			return (NULL);
+// 	}
+// 	printf("%s%s : %s = '%s' %s\n", SBHGRN, __func__, var, ret, SRST);
+// 	//show_func(__func__, SUCCESS, ret);
+// 	return (replace_multiple_space(ret));
+// }
+
 /// @brief		This function iterates over the environment variables to
 ///				find whether or not the given variable (str) is defined and
 ///				returns the content or an empty freeable string.
 /// @param var	Variable to be found
 /// @param envp	Environment variables
 /// @return		Content of the variable
-char	*env_var_getter(char *var, char **envp)
+static char	*envp_var_getter(char *var, char **envp)
 {
 	show_func(__func__, MY_START, var);
 	char	*tmp;
@@ -110,12 +145,78 @@ char	*env_var_getter(char *var, char **envp)
 	free(tmp);
 	if (!ret)
 	{
-		printf("Variable '%s' not found\n", var);
-		ret = ft_strdup("");
-		if (!ret)
-			return (NULL);
+		printf("Variable '%s' not found @ envp\n", var);
+		return (NULL);
 	}
 	printf("%s%s : %s = '%s' %s\n", SBHGRN, __func__, var, ret, SRST);
-	//show_func(__func__, SUCCESS, ret);
-	return (replace_multiple_space(ret));
+	return (ret);
+}
+
+/// @brief		This function iterates over the environment variables to
+///				find whether or not the given variable (str) is defined and
+///				returns the content or an empty freeable string.
+/// @param var	Variable to be found
+/// @param envp	Environment variables
+/// @return		Content of the variable
+static char	*envt_var_getter(char *var, char **envp)
+{
+	show_func(__func__, MY_START, var);
+	char	*tmp;
+	char	*ret;
+	int		len;
+
+	if (!envp)
+		return (NULL);
+	tmp = ft_strjoin(var, "=");
+	len = ft_strlen(tmp);
+	ret = NULL;
+	while (*envp)
+	{
+		if (!ft_strncmp(tmp, *envp, len))
+		{
+			ret = ft_strdup(*envp + len);
+			break ;
+		}
+		envp++;
+	}
+	free(tmp);
+	if (!ret)
+	{
+		printf("Variable '%s' not found @ envt\n", var);
+		return (NULL);
+	}
+	printf("%s%s : %s = '%s' %s\n", SBHGRN, __func__, var, ret, SRST);
+	return (ret);
+}
+
+/// @brief		This function iterates over the environment variables to
+///				find whether or not the given variable (str) is defined and
+///				returns the content or an empty freeable string.
+/// @param var	Variable to be found
+/// @param envp	Environment variables
+/// @return		Content of the variable
+char	*env_var_getter(char *var, char **envp, char **envt)
+{
+	show_func(__func__, MY_START, NULL);
+	char	*retp;
+	char	*rett;
+
+	retp = NULL;
+	rett = NULL;
+	if (envp)
+		retp = envp_var_getter(var, envp);
+	if (envt)
+		rett = envt_var_getter(var, envt);
+	if (!retp && !rett)
+	{
+		printf("Variable '%s' not found @ envp && @ envt\n", var);
+		return (ft_strdup(""));
+		return (retp);
+	}
+	else if (!retp && rett)
+		return (rett);
+	else if (retp)
+		return (retp);
+	show_func(__func__, ERROR, "error getting var");
+	return (NULL);
 }

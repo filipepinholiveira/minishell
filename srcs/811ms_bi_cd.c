@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   81ms_bi_cd.c                                       :+:      :+:    :+:   */
+/*   811ms_bi_cd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 11:06:46 by fpinho-d          #+#    #+#             */
-/*   Updated: 2024/01/31 13:00:04 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/03 19:30:55 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	bi_cd(t_script *s, int n)
 	if (!s->cmds[n].argv[1])
 	{
 		//env_var_setter("cd","_", &s->envp);
-		home = env_var_getter("HOME", s->envp);
+		home = env_var_getter("HOME", s->envp, NULL);
 		if (home == NULL)
 		{
 			ft_putendl_fd("Minishell: cd: HOME not set", 2);

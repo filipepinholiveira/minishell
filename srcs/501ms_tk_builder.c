@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   5ms_tk_builder.c                                   :+:      :+:    :+:   */
+/*   501ms_tk_builder.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:10:37 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/27 11:56:53 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/04 20:02:12 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	tk_getter(char *str, t_token **tk_lst)
 /// @return				SUCCESS if valid, ERROR if invalid
 int	tk_builder(char **line, t_token **token, t_script *s)
 {
-	show_func(__func__, MY_START, NULL);
+	//show_func(__func__, MY_START, NULL);
 	t_token	*tk_ptr;
 	char	*content;
 
@@ -120,15 +120,15 @@ int	tk_builder(char **line, t_token **token, t_script *s)
 	{
 		return (return_error("Syntax Error", 0, 0));
 	}
-	show_token_list(*token);
+	//show_token_list(*token);
 	tk_ptr = *token;
 	while (tk_ptr)
 	{
 		content = tk_ptr->content;
-		tk_ptr->content = env_var_expander(content, s->envp);
+		tk_ptr->content = env_var_expander(content, s);
 		free(content);
 		tk_ptr = tk_ptr->next;
 	}
-	show_func(__func__, SUCCESS, NULL);
+	//show_func(__func__, SUCCESS, NULL);
 	return (0);
 }

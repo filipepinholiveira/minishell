@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   9999ms_debug.c                                     :+:      :+:    :+:   */
+/*   999ms_debug.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:29:02 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/31 13:06:32 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/02 19:41:55 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	execute_show(t_script *s)
 	while (++j < s->cmd_count)
 	{
 		printf("%s(->)  s->cmds[%d]. %s\n", SBHYLW, j, SRST);
-		printf("%s(->)  \t.cmd \t\t%s%s\n", SBHYLW, s->cmds[j].cmd, SRST);
+		//printf("%s(->)  \t.cmd \t\t%s%s\n", SBHYLW, s->cmds[j].cmd, SRST);
 		printf("%s(->)  \t.argc : \t%s%d\n", SBHYLW, SBHGRN, s->cmds[j].argc);
 		while (++i < s->cmds[j].argc)
 		{

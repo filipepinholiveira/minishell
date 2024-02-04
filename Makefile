@@ -6,7 +6,7 @@
 #    By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/24 21:23:27 by antoda-s          #+#    #+#              #
-#    Updated: 2024/02/01 17:04:03 by antoda-s         ###   ########.fr        #
+#    Updated: 2024/02/02 20:26:50 by antoda-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -105,32 +105,35 @@ RESET	= \033[0m
 BOLD	= \033[1m
 
 # messages
-_INFO		=	$(WTH)[$(CYN)INFO$(WTH)]
+_INFO		=	$(WTH)[$(CYN) INFO$(WTH)]
 _SUCCESS	=	$(WTH)[$(GRN)$(BOLD)READY$(WTH)]
 _WARNING	=	$(WTH)[$(YLW)WARNING$(WTH)]
 _ERROR		=	$(WTH)[$(RED)ERROR$(WTH)]
 
 # rules
-all: $(NAME)
+all: $(LIBFT) $(OBJ) $(NAME)
+	@printf "\n$(_SUCCESS) $(GRN)$(NAME) executable ready!$(WTH)\n\n"
 
-$(NAME): $(LIBFT) $(OBJ)
-	@printf "\n$(_SUCCESS) $(GRN)$(NAME) objects!$(WTH)\n"
-	@printf "$(_INFO) $(CYN)Generating $(NAME) executable...$(WTH)\n"
-	@$(CC) $(CF) $(OBJ) $(LNK_LIBFT) $(LNK_READLINE) -o $@
+$(NAME):
+	@printf "\n$(_SUCCESS) $(GRN)$(NAME) objects ready!                $(WTH)\n"
+	@printf "\n$(_INFO) $(CYN)Generating $(NAME) executable...$(WTH)\n"
+	$(CC) $(CF) $(OBJ) $(LNK_LIBFT) $(LNK_READLINE) -o $@
 	@printf "$(GRN)█$(WHT)"
-	@printf "\n$(_SUCCESS) $(GRN)$(NAME) executable!$(WTH)\n\n"
 
 mkbuilddir:
 	@mkdir -p $(OBJDIR)
 	@printf "$(_INFO) $(CYN)Compiling source files...$(WTH)\n"
 
 $(OBJDIR)%.o: $(SRCDIR)%.c | mkbuilddir
-	@$(CC) $(CF) -c $(I_LIBFT) $(I_HEADER) $< -o $@
+#	@printf "$(_INFO) $(CYN)Compiling source files...$(WTH)%-33.33s\r" $@
+	$(CC) $(CF) -c $(I_LIBFT) $(I_HEADER) $< -o $@
 	@printf "$(YLW)█$(WHT)"
 
-test: $(NAMET)
 
-$(NAMET): $(LIBFT) $(OBJT)
+
+test: $(LIBFT) $(OBJT) $(NAMET)
+
+$(NAMET):
 	@printf "\n$(GRN)$(NAMET) objects ready!$(WTH)\n\n"
 	@printf "\n$(CYN)Generating $(NAMET) executable...$(WTH)\n"
 	@$(CC) $(CF) $(OBJT) $(LNK_LIBFT) $(LNK_READLINE) -o $@
