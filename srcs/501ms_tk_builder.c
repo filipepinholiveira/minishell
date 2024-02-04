@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:10:37 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/04 20:02:12 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/04 20:16:29 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	remove_blank_tokens(t_token *head)
 {
 	t_token	*tmp;
 
-	show_func(__func__, MY_START, NULL);
+	//show_func(__func__, MY_START, NULL);
 	while (head)
 	{
 		if (head->type != TK_PIPE && head->next && !head->next->content[0])
@@ -34,7 +34,7 @@ void	remove_blank_tokens(t_token *head)
 		else
 			head = head->next;
 	}
-	show_func(__func__, SUCCESS, NULL);
+	//show_func(__func__, SUCCESS, NULL);
 }
 
 /// @brief 			Searches for a token type by token char set
@@ -43,7 +43,7 @@ void	remove_blank_tokens(t_token *head)
 ///					and token type
 t_ops	tk_type_getter(const char *s)
 {
-	show_func(__func__, MY_START, NULL);
+	//show_func(__func__, MY_START, NULL);
 	t_ops		blank;
 	int			i;
 	const t_ops	ops[13] = {{">>", 2, TK_R_OUT}, {"<<", 2, TK_R_IN},
@@ -58,12 +58,12 @@ t_ops	tk_type_getter(const char *s)
 	{
 		if (!ft_strncmp(s, ops[i].op, ops[i].size))
 		{
-			show_func(__func__, SUCCESS,
-				ft_strjoin("TOKEN found: ", (char *)ops[i].op));
+			// show_func(__func__, SUCCESS,
+			// 	ft_strjoin("TOKEN found: ", (char *)ops[i].op));
 			return (ops[i]);
 		}
 	}
-	show_func(__func__, ERROR, "TOKEN NOT found");
+//	show_func(__func__, ERROR, "TOKEN NOT found");
 	return (blank);
 }
 
@@ -73,7 +73,7 @@ t_ops	tk_type_getter(const char *s)
 /// @return				1 if success, 0 if error
 int	tk_getter(char *str, t_token **tk_lst)
 {
-	show_func(__func__, MY_START, NULL);
+	//show_func(__func__, MY_START, NULL);
 	t_ops	ptr;
 	char	*prev;
 
@@ -91,17 +91,17 @@ int	tk_getter(char *str, t_token **tk_lst)
 			prev = str;
 		}
 		else if ((*str == '\"' || *str == '\'') && tk_quotes_checker(&str))
-		{
-			printf(" str address = %p\n", str);
-			show_func(__func__, ERROR, ft_strjoin("unclosed quotes found", str));
+		//{
+			//printf(" str address = %p\n", str);
+			//show_func(__func__, ERROR, ft_strjoin("unclosed quotes found", str));
 			return (ERROR);
-		}
+		//}
 		else
 			++str;
 	}
 	if (prev != str)
 		tk_lst_addback(tk_lst, tk_addnew(prev, str - prev, TK_NAME));
-	show_func(__func__, SUCCESS, NULL);
+	//show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);
 }
 

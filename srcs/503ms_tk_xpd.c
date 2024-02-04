@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/03 20:43:46 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/04 20:21:17 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@
 /// @return			Split string
 char	**tk_env_var_detector(char *oldToken, char **newToken, int *i)
 {
-	show_func(__func__, MY_START, ft_strjoin("11 token = ", oldToken));
 	char	**split;
 
 	split = ft_split(oldToken, '$');
@@ -64,7 +63,6 @@ char	**tk_env_var_detector(char *oldToken, char **newToken, int *i)
 	}
 	else
 		*newToken = ft_strdup("");
-	show_func(__func__, SUCCESS, ft_strjoin("31 newToken = ", *newToken));
 	return (split);
 }
 
@@ -77,13 +75,8 @@ int	var_name_checker(char c)
 
 int	var_firstchar(char c)
 {
-	show_func(__func__, MY_START, NULL);
 	if (ft_isalpha(c) || c == '_')
-	{
-		show_func(__func__, SUCCESS, NULL);
 		return (SUCCESS);
-	}
-	show_func(__func__, ERROR, NULL);
 	return (ERROR);
 }
 
@@ -98,56 +91,56 @@ int	var_firstchar(char c)
 // char	*env_var_expander(char *oldToken, char **envp, int i, int j)
 char	*env_var_expander(char *oldToken, t_script *s)//char **envp)
 {
-	show_func(__func__, MY_START, "******************************************************************");
-	show_func(__func__, SHOW_MSG, ft_strjoin("\nTOKEN to EVALUATE = ", oldToken));
-	show_func(__func__, SHOW_MSG, s->envp[0]);
+	// show_func(__func__, MY_START, "******************************************************************");
+	// show_func(__func__, SHOW_MSG, ft_strjoin("\nTOKEN to EVALUATE = ", oldToken));
+	// show_func(__func__, SHOW_MSG, s->envp[0]);
 
 
 	char	**nToken;
-	int k = 0;
+	//int k = 0;
 	char *tmp1;
 
 	nToken = NULL;
 	nToken = tk_var_xpd(oldToken);
-	printf("****************** NOW the LIST **************************\n");
-	k = -1;
-	while (nToken[++k])
-		printf("%s%s -> &nToken = %p, nToken[%d] = %s%s\n",SBHYLW, __func__, nToken[k], k, nToken[k], SRST);
-	printf("****************** NOW the STRING **************************\n");
+	// printf("****************** NOW the LIST **************************\n");
+	// k = -1;
+	// while (nToken[++k])
+	// 	printf("%s%s -> &nToken = %p, nToken[%d] = %s%s\n",SBHYLW, __func__, nToken[k], k, nToken[k], SRST);
+	// printf("****************** NOW the STRING **************************\n");
 	tmp1 = tk_xpd_filler(&nToken, s);
-	show_func(__func__, SHOW_MSG, tmp1);
+	//show_func(__func__, SHOW_MSG, tmp1);
 	free(nToken);
 
-	show_func(__func__, SUCCESS, NULL);
+	//show_func(__func__, SUCCESS, NULL);
 	return (tmp1);
 }
 
 /// @brief		This function replaces multiple spaces with a single space
 /// @param str	String to be parsed
 /// @return		String with multiple spaces replaced by a single space
-char	*replace_multiple_space(char *str)
-{
-	show_func(__func__, MY_START, str);
-	char	**split;
-	char	*tmp;
-	int		i;
+// char	*replace_multiple_space(char *str)
+// {
+// 	show_func(__func__, MY_START, str);
+// 	char	**split;
+// 	char	*tmp;
+// 	int		i;
 
-	i = 0;
-	split = ft_split_set(str, " \t\v\r\f\n");
-	tmp = malloc(sizeof(char) * ft_strlen(str));
-	if (!tmp)
-		return (str);
-	tmp[0] = '\0';
-	while (split[i])
-	{
-		if (i > 0)
-			tmp = ft_strjoin_free(tmp, ft_strdup(" "));
-		tmp = ft_strjoin_free(tmp, split[i]);
-		i++;
-	}
-	free(split);
-	free(str);
-	show_func(__func__, SUCCESS, tmp);
-	return (tmp);
-}
+// 	i = 0;
+// 	split = ft_split_set(str, " \t\v\r\f\n");
+// 	tmp = malloc(sizeof(char) * ft_strlen(str));
+// 	if (!tmp)
+// 		return (str);
+// 	tmp[0] = '\0';
+// 	while (split[i])
+// 	{
+// 		if (i > 0)
+// 			tmp = ft_strjoin_free(tmp, ft_strdup(" "));
+// 		tmp = ft_strjoin_free(tmp, split[i]);
+// 		i++;
+// 	}
+// 	free(split);
+// 	free(str);
+// 	show_func(__func__, SUCCESS, tmp);
+// 	return (tmp);
+// }
 

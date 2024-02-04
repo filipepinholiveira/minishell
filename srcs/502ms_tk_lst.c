@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   5ms_tk_lst.c                                       :+:      :+:    :+:   */
+/*   502ms_tk_lst.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:10:37 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/01/25 15:39:34 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/04 20:16:48 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_token	*tk_addnew(const char *string, int size, t_token_type type)
 {
 	t_token	*token;
 
-	show_func(__func__, MY_START, NULL);
+	//show_func(__func__, MY_START, NULL);
 	token = (t_token *)malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
@@ -29,7 +29,7 @@ t_token	*tk_addnew(const char *string, int size, t_token_type type)
 	token->size = size;
 	token->type = type;
 	token->next = NULL;
-	show_func(__func__, SUCCESS, NULL);
+	//show_func(__func__, SUCCESS, NULL);
 	return (token);
 }
 
