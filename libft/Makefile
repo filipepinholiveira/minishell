@@ -127,7 +127,7 @@ re: fclean all
 $(NAME): $(OBJECTS)
 	@echo
 	@echo "$(_SUCCESS) $(GRN)$@ objects ready!                          $(WTH)"
-	@echo "$(_INFO) $(CYN)Creating $@"
+#	@echo "$(_INFO) $(CYN)Creating $@"
 	@$(AR) crs $@ $(OBJECTS)
 	@echo "$(_SUCCESS) $(GRN)$(NAME) ready!!$(WTH)"
 

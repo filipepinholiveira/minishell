@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/03 19:21:06 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/09 23:59:11 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,14 @@ typedef enum e_token_type
 	TK_R_IN,
 	TK_R_OUT,
 	TK_NAME,
-	TK_EQUAL
+	TK_EQUAL,
+	TK_OR,
+	TK_AND
 }			t_token_type;
 
 typedef enum e_cmd_type
 {
-	CMD_EXEC,
+	CMD_EX,
 	CMD_ECHO,
 	CMD_CD,
 	CMD_PWD,
@@ -167,35 +169,59 @@ typedef struct s_script
 # endif
 
 /* ************************************************************************** */
-///	10ms_main.c
+//																			  */
+//		     #    ####     ####												  */
+//		     #   #    #   #    #											  */
+//		     #   #    #   #    #											  */
+//		     #   #    #   #    #											  */
+//		     #   #    #   #    #											  */
+//		     #   #    #   #    #											  */
+//		     #    ####     ####												  */
+//																			  */
+/* ************************************************************************** */
+/* ************************************************************************** */
+///	100_main.c
 /* ************************************************************************** */
 
 /// @brief 		Creates array from system environment variables
 /// @param envp system environment variables from main (... char **envp)
 /// @return 	array copy of system environment variables
-/// static char	**envp_getter(char **envp);
+char	**envp_init(char **envp);
 
-/// @brief 				Gets the terminal settings
-/// @param termios_p	Pointer to the termios settings structure
-void	termios_getter(struct termios *termios_p);
-
-/// @brief 				Sets the terminal settings. Main use is to FLUSH or
-/// 					DRAIN any data remaining after missexecuting
-/// @param termios_p	Pointer to the termios settings structure
-void	termios_setter(struct termios *termios_p);
+/// @brief 		Initialize basic int
+/// @param s 	struct with pparams to initialize
+void	struct_init(t_script *s);
 
 /// @brief 				Initializes the shell and keeps looping until exit
 /// @param script		Script structure (see minishell struct)
-/// @param line_buffer	Line buffer
 /// @return				void
-/// static int	ms_loop(t_script *script);
+int		ms_loop(t_script *script);
+
+/// @brief 			Main function MINISHELL
+/// @param argc		Number of arguments (NOT USED)
+/// @param argv		Arguments (NOT USED)
+/// @param envp		Environment variables
+/// @return
+int		main(int argc, char **argv, char **envp);
 
 /* ************************************************************************** */
-///	20ms_signal.c
+//																			  */
+//		 ####     ####     ####												  */
+//		     #   #    #   #    #											  */
+//		     #   #    #   #    #											  */
+//		 ####    #    #   #    #											  */
+//		#        #    #   #    #											  */
+//		#        #    #   #    #											  */
+//		 ####     ####     ####												  */
+//																			  */
+/* ************************************************************************** */
+/* ************************************************************************** */
+///	200_signal.c
 /* ************************************************************************** */
 
-/// @brief 		Signal processing functionsError encountered while testing setter
-/// @param  	No parameter required
+/// @brief 		Signal processing functions
+/// @attention 	Error encountered while testing setter
+/// @param		No parameter required
 void	signal_setter(void);
 
 /// @brief 			Handles signal SIGINT (Ctrl+C) and SIGQUIT (Ctrl+\)
@@ -217,43 +243,19 @@ void	sig_handler_fork(int signum);
 void	sig_handler_heredoc(int signum);
 
 /* ************************************************************************** */
-///	30ms_parser.c
+//																			  */
+//		 ####     ####     ####												  */
+//		     #   #    #   #    #											  */
+//		     #   #    #   #    #											  */
+//		 ####    #    #   #    #											  */
+//		     #   #    #   #    #											  */
+//		     #   #    #   #    #											  */
+//		 ####     ####     ####												  */
+//																			  */
 /* ************************************************************************** */
-
-/// @brief		This function checks whether the given linked list, of tokens,
-///				is a valid command syntaxically.
-/// @param head	Head of the token list
-/// @return		0 if success, 1 if failure
-int		check_syntax(t_token *head);
-
-/// @brief			This function simply counts the number of pipes in our
-///					linked list of tokens to determine the number of chained
-///					cmds are in the line buffer.
-/// @param head		Head of the token list
-/// @return			Number of cmds
-int		get_cmd_count(t_token *head);
-
-/// @brief			Replaces the token->content string with a new trimmed string
-///					Trim removes leading and trailing white spaces
-///	@malloc			TRIMMED string
-///	@free			Pre TRIM string
-/// @param tk_head	Head of the token list with token->content to be trimmed
-/// @return			NOTHING
-void	tk_trim_spaces(t_token *tk_head);
-
-/// @brief			Determines the amount of arguments each command
-///					has so the argv can be malloced to the right size in the
-///					following steps.
-/// @param head		Head of the token list
-/// @param script	Script pointer
-/// @return			Trimmed content
-void	get_num_args(t_token *head, t_script *script);
-
-/// @brief 			Iniatilzes file names direction and remove quotes from names
-/// @param cmds Struct witj info about files
-/// @param max 		max number of files
-/// @param head 	pointert o command struct hed
-void	set_filenames_null(t_command *cmds, int max, t_token *head);
+/* ************************************************************************** */
+///	300_parser.c
+/* ************************************************************************** */
 
 /// @brief 		This function iterates through a linked list of tokens and
 ///				fills the command structure based on the type of token it
@@ -265,6 +267,62 @@ void	set_filenames_null(t_command *cmds, int max, t_token *head);
 /// @return		0 if success, 1 if failure
 int		parse_commands(t_token *head, t_command *cmd, int i, int j);
 
+/// @brief 				The script parser main function. All parsing starts here
+/// @param script		The script pointer
+/// @param line_buffer	The line buffer to parse
+/// @return
+int		parser(t_script *script, char **line_buffer);
+
+/* ************************************************************************** */
+///	301ms_syntax.c
+/* ************************************************************************** */
+
+/// @brief 				Builds an error message string to be displayed
+///						when a syntax error is encountered.
+/// @malloc				New strings
+/// @free				New strings
+/// @param tk_content	String argument to include in the error message
+/// @return				Error message string
+int		syntax_error_msg(char *tk_content, int errms, int errsys);
+
+/// @brief		This function checks whether the given linked list, of tokens,
+///				is a valid command syntaxically.
+/// @param tk	Head of the token list
+/// @return		0 if success, 1 if failure
+int		syntax_checker(t_token *tk);
+
+/* ************************************************************************** */
+///	302ms_cmd.c
+/* ************************************************************************** */
+/// @brief			This function simply counts the number of pipes in our
+///					linked list of tokens to determine the number of chained
+///					cmds are in the line buffer.
+/// @param head		Head of the token list
+/// @return			Number of cmds
+int		cmds_counter(t_token *head);
+
+/* ************************************************************************** */
+///	303ms_argc.c
+/* ************************************************************************** */
+
+/// @brief			Determines the amount of arguments each command
+///					has so the argv can be malloced to the right size in the
+///					following steps.
+/// @param head		Head of the token list
+/// @param script	Script pointer
+/// @return			Trimmed content
+void	args_counter(t_token *head, t_script *script);
+
+/* ************************************************************************** */
+///	304ms_redir.c
+/* ************************************************************************** */
+
+/// @brief 			Iniatilzes file names direction and remove quotes from names
+/// @param cmds Struct witj info about files
+/// @param max 		max number of files
+/// @param head 	pointert o command struct hed
+void	fnames_clear(t_command *cmds, int max, t_token *head);
+
 /// @brief 			This function sets the open flags and opens the files
 ///					based on the type of redirection token it encounters
 ///					('<', '<<', '>', '>>').
@@ -273,19 +331,262 @@ int		parse_commands(t_token *head, t_command *cmd, int i, int j);
 /// @return			0 if success, 1 if failure
 int		redir(t_token *head, t_redirection *file);
 
+/* ************************************************************************** */
+///	305ms_heredoc.c
+/* ************************************************************************** */
+
 /// @brief 		Creates a node in the file linked list withe file name
 ///				and adds it to the back of list
 /// @param file	Struct linked list node
 void	fill_heredoc(t_redirection *file);
 
-/// @brief 				The script parser main function. All parsing starts here
-/// @param script		The script pointer
-/// @param line_buffer	The line buffer to parse
-/// @return
-int		parser(t_script *script, char **line_buffer);
+/* ************************************************************************** */
+//																			  */
+//		#    #    ####     ####												  */
+//		#    #   #    #   #    #											  */
+//		#    #   #    #   #    #											  */
+//		 ####    #    #   #    #											  */
+//		     #   #    #   #    #											  */
+//		     #   #    #   #    #											  */
+//		     #    ####     ####												  */
+//																			  */
+/* ************************************************************************** */
+/* ************************************************************************** */
+///	400ms_termios.c
+/* ************************************************************************** */
+
+/// @brief 				Gets the terminal settings
+/// @param termios_p	Pointer to the termios settings structure
+void	termios_getter(struct termios *termios_p);
+
+/// @brief 				Sets the terminal settings. Main use is to FLUSH or
+/// 					DRAIN any data remaining after missexecuting
+/// @param termios_p	Pointer to the termios settings structure
+void	termios_setter(struct termios *termios_p);
 
 /* ************************************************************************** */
-///4ms_quotes.c
+//																			  */
+//		 ####     ####     ####												  */
+//		#        #    #   #    #											  */
+//		#        #    #   #    #											  */
+//		 ####    #    #   #    #											  */
+//		     #   #    #   #    #											  */
+//		     #   #    #   #    #											  */
+//		 ####     ####     ####												  */
+//																			  */
+/* ************************************************************************** */
+/* ************************************************************************** */
+///	501ms_tk_builder.c
+/* ************************************************************************** */
+
+/// @attention	>token builder< set of functions
+/// @brief 		This function is here to treat off cases where a $ expansion
+///				would lead to empty name tokens with the exception for an empty
+///				token after a pipe.
+/// @param head Head of the token list
+/// @return		clean content
+void	tk_rm_blank(t_token *head);
+
+/// @attention	>token builder< set of functions
+/// @brief 		Searches for a token type by token char set
+/// @param s	String to be searched for token char set
+/// @return		Struct with token type information: token char set, size
+///				and token type
+t_ops	tk_type_getter(const char *s);
+
+/// @attention	>token builder< set of functions
+/// @brief 		Initializes the tk_getter
+/// @param str	String to be splitted in tokens
+/// @param head	Head of the token list
+/// @return		1 if success, 0 if error
+int		tk_getter(char *str, t_token **tk_lst);
+
+/// @attention	>token builder< set of functions
+/// @brief 		Builds a list of tokens from string 'line'.
+///				First it gets the proper token type and then expands the
+///				the inset identifiers found, and also trims the tokens
+///				extra whitespaces
+/// @param line	string input with script
+/// @param head	pointer to the head of the token list
+/// @param s	script structure
+/// @return		SUCCESS if valid, ERROR if invalid
+int		tk_builder(char **line, t_token **tk, t_script *s);
+
+/* ************************************************************************** */
+///	502ms_tk_xpd.c
+/* ************************************************************************** */
+
+/// @attention	>token builder< set of functions
+/// @brief 		it takes a char sequence and cpounts the number of splits needed
+///				to build an array based of the splitter char '\"',  '\'',  '$'
+/// @param otk 	char sequance to evaluate
+/// @return		number of splits needed to properly create an array
+int		tk_var_xpd_splits_count(char *otk);
+
+/// @attention	>token builder< set of functions
+/// @brief 		Initializes the array of expanded token
+///				1st it fecths nmumber of splits
+/// 			2nd mallocs necessary memory
+/// @param otk 	char sequence to be splited -> copied into the new created array
+/// @return		pointer to the newly created array
+char	**tk_var_xpd_init(char *otk);
+
+/// @attention	>token builder< set of functions
+/// @brief 		for each token type NAME it creates an array wich is the split
+///				at '\'', '\"' and '$'
+/// @param otk 	original token
+/// @return		the token's array with expanded args
+char	**tk_var_xpd(char *otk);
+
+/// @attention	>token builder< set of functions
+/// @brief 				Replaces ARGS in a given string by the environment vars
+///						by iterating through the string and replacing each
+///						environment variable with its value.
+/// @param otk		Token String to be parsed
+/// @param envp			Environment variables
+/// @param i			Index start
+/// @param j			Index end
+/// @return				String with ARGS replaced by envp vars
+char	*tk_env_var_expander(char *otk, t_script *s);
+
+/* ************************************************************************** */
+///	503ms_tk_lst.c
+/* ************************************************************************** */
+
+/// @attention	>token builder< set of functions
+/// @brief		checks if char is a valid identifier char ('_', alpha, digit)
+/// @param c 	char to be checked
+/// @return		SUCCESS or ERROR
+int		var_name_checker(char c);
+
+/// @attention	>token builder< set of functions
+/// @brief		checks if char is a valid 1st identifier char ('_' or alpha)
+/// @param c 	char to be checked
+/// @return		SUCCESS or ERROR
+int		var_firstchar(char c);
+
+/// @attention	>token builder< set of functions
+/// @brief 		Creates a new token node with {content, type, size, next}
+/// @param str	String to be transformed into a toke
+/// @param size	Token size
+/// @param type	Token type (as per enum t_token_type see tk_type_getter
+/// @return		pointer to the new added token
+t_token	*tk_addnew(const char *str, int size, t_token_type type);
+
+/// @attention	>token builder< set of functions
+/// @brief 		Gets pointer to last node of token list
+/// @param head	Pointer to token list
+/// @return		last token list node
+t_token	*tk_lst_last_getter(t_token *ltk);
+
+/// @attention	>token builder< set of functions
+/// @brief 					Adds a new token to the end of the token list
+/// @param ltk	Pointer to token list
+/// @param ntk	Pointer to new token
+void	tk_lst_addback(t_token **ltk, t_token *ntk);
+
+/* ************************************************************************** */
+///	504ms_tk_xpd_count.c
+/* ************************************************************************** */
+
+/// @attention	>token builder< set of functions
+/// @brief 		check is a '$' char is followed by valid valid identifier char
+/// @param otk 	string sequence with a leading '$'
+/// @param i 	index at '$' char
+/// @return		addressed memory arg <i> is updated
+void	tk_var_xpd_dolar_c(char *otk, int *i);
+
+/// @attention	>token builder< set of functions
+/// @brief 		looks for identifiers inside double quote string
+///				if it find a '$' (var identifier init) it increments the
+///				split index to point to next string sequence
+/// @param otk	string sequence with a leading '\"'
+/// @param spl 	split array indexer
+/// @param i 	string sequence index
+/// @return 	addressed memory <splits> and <i> updated
+void	tk_var_xpd_dquote_c(char *otk, int *spl, int *i);
+
+/// @attention	>token builder< set of functions
+/// @brief		leading '\'' char sequences are ignored and treated as plain
+///				literals, without any kind of replacement or substitution.
+///				The only purpose is to update <i> index	to the position	of the
+///				char after trailing '\''
+/// @param otk 	'\'' leading sequence to browse till its trailing '\''
+/// @param i 	string sequence index
+/// @return		addressed memory arg <i> is updated
+void	tk_var_xpd_squote_c(char *otk, int *i);
+
+/// @attention	>token builder< set of functions
+/// @brief 		any char sequence else (that is not leaded by a splitter char:
+///				'\"',  '\'',  '$'
+/// @param otk 	sequence to browse till a splitter char is found
+/// @param i 	string sequence index
+/// @return		addressed memory arg <i> is updated
+void	tk_var_xpd_else_c(char *otk, int *i);
+
+/* ************************************************************************** */
+///	505ms_tk_xpd_filler.c
+/* ************************************************************************** */
+
+/// @attention	>token builder< set of functions
+/// @brief
+/// @param ntk
+/// @param s
+/// @return
+char	*tk_xpd_var_filler(char *ntk, t_script *s);
+
+/// @attention	>token builder< set of functions
+/// @brief
+/// @param ntk
+/// @param s
+/// @return
+char	*tk_xpd_filler(char ***ntks, t_script *s);
+
+/* ************************************************************************** */
+///506ms_tk_split.c
+/* ************************************************************************** */
+
+/// @attention	>token builder< set of functions
+/// @brief 		check is a '$' char is followed by valid valid identifier char
+/// @param otk 	string sequence with a leading '$'
+/// @param i 	index at '$' char
+/// @return		addressed memory arg <i> is updated
+///				alloced string with identifier name
+char	*tk_var_xpd_dolar(char *otk, int *i);
+
+/// @attention	>token builder< set of functions
+/// @brief 		looks for identifiers inside double quote string
+///				if it find a '$' (var identifier init) it increments the
+///				split index to point to next string sequence
+/// @param otk	string sequence with a leading '\"'
+/// @param spl 	split array indexer
+/// @param i 	string sequence index
+/// @return 	addressed memory <splits> and <i> updated
+///				alloced string with identifier name
+void	tk_var_xpd_dquote(char *otk, char ***ntks, int *spl, int *i);
+
+/// @attention	>token builder< set of functions
+/// @brief		leading '\'' char sequences are ignored and treated as plain
+///				literals, without any kind of replacement or substitution.
+///				The only purpose is to update <i> index	to the position	of the
+///				char after trailing '\''
+/// @param otk 	'\'' leading sequence to browse till its trailing '\''
+/// @param i 	string sequence index
+/// @return		addressed memory arg <i> is updated
+///				alloced string with identifier name
+void	tk_var_xpd_squote(char *otk, char ***ntks, int *spl, int *i);
+
+/// @attention	>token builder< set of functions
+/// @brief 		any char sequence else (that is not leaded by a splitter char:
+///				'\"',  '\'',  '$'
+/// @param otk 	sequence to browse till a splitter char is found
+/// @param i 	string sequence index
+/// @return		addressed memory arg <i> is updated
+///				alloced string with identifier name
+void	tk_var_xpd_else(char *otk, char ***ntks, int *spl, int *i);
+
+/* ************************************************************************** */
+///507ms_tk_quotes.c
 /* ************************************************************************** */
 
 /// @brief 		fetchs for closed / unclosed quotes type " or '
@@ -310,249 +611,364 @@ int		tk_quotes_checker(char **str);
 /// @return		A new unquoted string
 char	*tk_xpd_unquote(char *str);
 
-/* ************************************************************************** */
-///	ms_tokens.c
-/* ************************************************************************** */
-
-/// @brief 		This function is here to treat off cases where a $ expansion
-///				would lead to empty name tokens with the exception for an empty
-///				token after a pipe.
-/// @param head Head of the token list
-/// @return		clean content
-void	remove_blank_tokens(t_token *head);
-
-/// @brief 				Creates a new token
-/// @param string		String to be tokenized
-/// @param size			Token size
-/// @param type			Token type (as per enum t_token_type)
-/// @return				New token
-t_token	*tk_addnew(const char *string, int size, t_token_type type);
-
-/// @brief 					get a pointer to last token in token list
-/// @param token_pointer	pointer to token list
-/// @return					pointer to last token
-t_token	*tk_lst_last_getter(t_token *token_pointer);
-
-/// @brief 			Adds new token to token list end
-/// @param head		Head of the token list
-/// @param new		New token to be added
-void	tk_lst_addback(t_token **head, t_token *new);
-
-/// @brief 			Searches for a token type by token char set
-/// @param s		String to be searched for token char set
-/// @return			Struct with token type information: token char set, size
-///					and token type
-t_ops	tk_type_getter(const char *s);
-
-/// @brief 				Initializes the tk_getter
-/// @param str			String to be tokenized
-/// @param head			Head of the token list
-/// @return				1 if success, 0 if error
-int		tk_getter(char *str, t_token **head);
-
-/// @brief 				Trims the token command from whitespaces
-/// @param line_buffer	string input with script
-/// @param head			pointer to the head of the token list
-/// @param script		script structure
-/// @return				SUCCESS if valid, ERROR if invalid
-int		tk_builder(char **line, t_token **head, t_script *script);
-
-int tk_var_xpd_splits(char *oToken);
-int	var_name_checker(char c);
-int	var_firstchar(char c);
-char **tk_var_xpd(char *oToken);
-char	*tk_xpd_filler(char ***new_tk, t_script *s);
-
+/// @brief			Replaces the token->content string with a new trimmed string
+///					Trim removes leading and trailing white spaces
+///	@malloc			TRIMMED string
+///	@free			Pre TRIM string
+/// @param tk	Head of the token list with token->content to be trimmed
+/// @return			NOTHING
+void	tk_trim_spaces(t_token *tk);
 
 /* ************************************************************************** */
-///	ms_envp.c
+//																			  */
+//		 ####     ####     ####												  */
+//		#        #    #   #    #											  */
+//		#        #    #   #    #											  */
+//		 ####    #    #   #    #											  */
+//		#    #   #    #   #    #											  */
+//		#    #   #    #   #    #											  */
+//		 ####     ####     ####												  */
+//																			  */
+/* ************************************************************************** */
+/* ************************************************************************** */
+///	600ms_env.c
 /* ************************************************************************** */
 
-/// @brief 		This function gets the environment variable name after a $ and
-///				returns its corresponding value in the environment.
-/// @param str	String to be parsed
-/// @param envp	Environment variables
-/// @param i	Index start
-/// @return		replace variable
-//char	*replace_loop(char *str, char **envp, int *i);
+/// @brief 		This function gets the environment variable index
+/// @param var 	variable to be found
+/// @param envp Environment variables
+/// @return		Index of the variable
+int		env_var_index_getter(char *var, char **envx);
 
-/// @brief 			Splits the string on '$' and accounts for the possibility
-///					that the string may begin with a '$'
-/// @param line_buf	String to be split
-/// @param before	Pointer to the string before the first '$'
-/// @param i		Index start
-/// @return			Split string
-char	**env_var_detector(char *line_buf, char **before, int *i);
-
-/// @brief 				Replaces ARGS in a given string by the environment vars
-///						by iterating through the string and replacing each
-///						environment variable with its value.
-/// @param line_buf		String to be parsed
-/// @param envp			Environment variables
-/// @param i			Index start
-/// @param j			Index end
-/// @return				String with ARGS replaced by envp vars
-char	*env_var_expander(char *oldToken, t_script *s);
-// char	*env_var_expander(char *line_buf, char **envp, int i, int j);
-
-/// @brief		This function replaces multiple spaces with a single space
-/// @param str	String to be parsed
-/// @return		String with multiple spaces replaced by a single space
-char	*replace_multiple_space(char *str);
+/// @brief 		This function sets the environment variable
+/// @param val 	Value to be set
+/// @param var 	Variable to be set
+/// @param envp Environment variables
+/// @return 	0 if success, -1 if error
+int		env_var_setter(char *val, char *var, char ***envx);
 
 /// @brief		This function iterates over the environment variables to
 ///				find whether or not the given variable (str) is defined and
 ///				returns the content or an empty freeable string.
-/// @param str	Variable to be found
+/// @param var	Variable to be found
 /// @param envp	Environment variables
 /// @return		Content of the variable
-char	*env_var_getter(char *str, char **envp, char **envt);
+char	*envp_var_getter(char *var, char **envp);
 
-/// @brief 				This function prints the environment variables
-/// @param envp			Environment variables
-/// @return				void
-void	show_envp(char **envp);
+/// @brief		This function iterates over the environment variables to
+///				find whether or not the given variable (str) is defined and
+///				returns the content or an empty freeable string.
+/// @param var	Variable to be found
+/// @param envp	Environment variables
+/// @return		Content of the variable
+char	*envt_var_getter(char *var, char **envp);
 
-/// @brief 			This function gets the environment variable index
-/// @param var 		variable to be found
-/// @param envp 	Environment variables
-/// @return			Index of the variable
-int		env_var_index_getter(char *var, char **envp);
-
-/// @brief 				This function sets the environment variable
-/// @param val 			Value to be set
-/// @param var 			Variable to be set
-/// @param envp 		Environment variables
-/// @return 			0 if success, -1 if error
-int		env_var_setter(char *val, char *var, char ***envp);
+/// @brief		This function iterates over the environment variables to
+///				find whether or not the given variable (str) is defined and
+///				returns the content or an empty freeable string.
+/// @param var	Variable to be found
+/// @param envp	Environment variables
+/// @return		Content of the variable
+char	*env_var_getter(char *var, char **envp, char **envt);
 
 /* ************************************************************************** */
-///	700ms_exec.c
+//																			  */
+//		 ####     ####     ####												  */
+//		     #   #    #   #    #											  */
+//		     #   #    #   #    #											  */
+//		     #   #    #   #    #											  */
+//		     #   #    #   #    #											  */
+//		     #   #    #   #    #											  */
+//		     #    ####     ####												  */
+//																			  */
+/* ************************************************************************** */
+/* ************************************************************************** */
+///	700exec_start.c
 /* ************************************************************************** */
 
-int	get_cmd_type(char *cmd);
+char	*add_forw_slash(char *str);
+char	**path_fill(char **env, int p_line);
+char	**split_paths(char **env);
 
-int exit_status_getter(int status);
-
-
-/// @brief 		Executes a command
-/// @param s 	Script structure with commans and args
-/// @param n 	Index of command to be executed
-/// @return		SUCCESS or ERROR
-int		exec_one(t_script *s, int n);
-
-/// @brief 			Script exec function
-/// @param s 		Script contents
+/// @brief 			Executes the command
+/// @param s 		Script contents and parameters including redirect info
+/// @return 		SUCCESS or ERROR
 int		execute(t_script *s);
 
+/* ************************************************************************** */
+///	705exec_type.c
+/* ************************************************************************** */
+/// @brief 			Detects the type of commando to execute : a builtin and
+/// 				what kind builtin or a system comand CMD_EX
+/// @param cmd 		Command to execute
+/// @return 		Command id
+int		exec_type(char *cmd);
 
+/* ************************************************************************** */
+///	710exec_one.c
+/* ************************************************************************** */
+/// @brief 			Executes a builtin command according to its id
+/// @param id 		Builtin command id
+/// @param s 		Script contents and parameters including redirect info
+/// @param i 		Index of the command to execute
+/// @return 		SUCCESS or ERROR
+int		exec_bi(int id, t_script *s, int i);
 
-/// @brief 		Selects and Executes built in functions
-/// @param s 	Parsed script with command(s) to execute
-/// @param n 	Index of the command to be executed
-/// @return		0 if success, 1 if failure,...
-int	exec_go(t_script *s, int n);
+/// @brief 			Executes a command using the absolute path or the PATH
+/// @param path 	Commands execution path
+/// @param cmd 		Command to execute
+/// @param env 		Environment variables
+void	exec_ve(char **path, char **cmd, char **env);
 
+/// @brief 			Executes a single command script in a fork
+/// @param s 		Script contents and parameters including redirect info
+/// @param path		Commands execution path
+/// @return			SUCCESS or ERROR
+int		exec_one_fork(t_script *s, char **path);
 
-/* *************************************************/
+/// @brief 			Executes a single command script and checks if the command
+///					is a builtin that doesnt need a fork (cd, unset, exit),
+///					a builtin that requires a fork (echo, pwd, export, env)
+///					or a system comamnd that requires a fork.
+/// @param s 		Script contents and parameters including redirect info
+/// @param path 	Commands execution path
+/// @return 		SUCCESS or ERROR
+int		exec_one(t_script *s, char **path);
 
-/// @brief		Test validity of shell variables
-/// @param var	Variable name to be tested
-/// @return		SUCCESS or ERROR
-int	var_name_check(char *var);
+/* ************************************************************************** */
+///	720exec_many.c
+/* ************************************************************************** */
+/// @brief 			Executes the first command in a pipped script
+/// @param s 		Script contents and parameters including redirect info
+/// @param path 	Commands execution path
+/// @param pipeout 	Pointer to the pipe to output result
+/// @return 		SUCCESS or ERROR
+int		exec_cmd_1(t_script *s, char **path, int *pipeout);
 
+/// @brief 			Executes the command > 1 anmd < n in a pipped script
+/// @param s 		Script contents and parameters including redirect info
+/// @param path 	Commands execution path
+/// @param pipes 	Pointer to the pipes array x 2 pipes
+///					one pipe to read previous data, another to write results
+/// @param pid 		NOTHING
+int		exec_cmd_i(t_script *s, char **path, int **pipes, int i);
 
-/// @brief 				Executa um comando em um processo filho.
-/// @param argv			Array de strings contendo os argumentos do comando
-///             		com o nome do comando na primeira posição.
-/// @param envp			Array de strings representando variáveis de ambiente.
-/// @param input_fd		O descritor de arquivo para a entrada padrão (stdin)
-///do processo filho. Pode ser STDIN_FILENO
-///ou um descritor de arquivo de um pipe.
-/// @param ouput_fd		O descritor de arquivo para a saída padrão (stdout)
-/// do processo filho. Pode ser STDOUT_FILENO
-///ou um descritor de arquivo de um pipe.
-void	execute_do_cmd(char **argv, char **envp, int input_fd, int output_fd);
+/// @brief 			Executes the last command in a pipped script
+/// @param s 		Script contents and parameters including redirect info
+/// @param path 	Commands execution path
+/// @param pipein 	Pointer to the pipe with input data, resulted from previous
+/// @param pid 		NOTHING
+//void	exec_cmd_n(t_script *s, char **path, int *pipein, int pid)
+int		exec_cmd_n(t_script *s, char **path, int *pipein);
 
-/// @brief 			Executa dois comandos em sequência com um pipe entre eles.
-/// @param s		Estrutura contendo informações cmd a serem executados.
-/// @param path_env		Array de strings representando o caminho do ambiente.
-/// @return			0 em caso de sucesso, encerra o programa em caso de falha.
-int	exec_many(t_script *s, int n);
+/// @brief 			Selects the pipe for each inbetween command "i" and calls
+/// 				the function to execute the command "i".
+/// @param s 		Script contents and parameters including redirect info
+/// @param path 	Commands execution path
+/// @param pipe1 	Pointer to the first pipe
+/// @param pipe2 	Pointer to the second pipe
+/// @return 		SUCCESS or ERROR
+int		exec_cmd_loop(t_script *s, char **path, int *pipe1, int *pipe2);
 
-/// @brief 			Splits a string into an array of strings using delimiter.
-/// @param path 		String to be splited
-/// @param delimiter 	character used as delimiter
-/// @return 			String array containing splited string
-//char	**split_path(char **path, char delimiter);
-char	**split_path(char **path);
+/// @brief 			Executes a script with multiple commands. The function will
+/// 				fork to execute each command and will call the necessary
+/// 				functions required too redirect pipes, files. The parent
+/// 				waiting is performed here and will treat the exit status of
+/// 				the child processes.
+/// @param s 		Script contents and parameters including redirect info
+/// @param path 	Commands execution path
+/// @return 		SUCCESS or ERROR
+int		exec_many(t_script *s, char **path);
 
-/***************** redirs *******************/
+/* ************************************************************************** */
+///	730exec_childs.c
+/* ************************************************************************** */
+/// @brief 			Executes the first command in a pipe
+/// @param s 		Script contents and parameters including redirect info
+/// @param path 	Commands execution path
+/// @param pipeout	Pointer to the pipe to output result
+void	ex_child_1(t_script *s, char **path, int *pipeout);
 
-int	redir_in_go(t_script *s, int n);
-int	redir_out_go(t_script *s, int n);
-int	redir_go(t_script *s, int n);
+/// @brief 			Executes the command in the middle of a pipe
+/// @param s 		Script contents and parameters including redirect info
+/// @param path 	Commands execution path
+/// @param pipes 	Pointer to the pipes, IN and OUT
+/// @param i 		Index of the command to execute
+void	ex_child_i(t_script *s, char **path, int **pipes, int i);
 
+/// @brief 			Executes the last command in a pipe
+/// @param s 		Script contents and parameters including redirect info
+/// @param path 	Commands execution path
+/// @param pipein 	Pointer to the pipe
+/// @param i
+void	ex_child_n(t_script *s, char **path, int *pipein, int i);
+
+/// @brief 			Executes the command (execeve or bi )
+/// @param s 		Script contents and parameters including redirect info
+/// @param path 	Commands execution path
+/// @param id 		Command type
+/// @param i 		Index of the command to execute
+void	exec_go(t_script *s, char **path, int id, int i);
+
+/* ************************************************************************** */
+///	740exec_redirs.c
+/* ************************************************************************** */
+/// @brief 		After fork, child process calls this fucntion prepare redirect
+///				from a file.
+/// 			The input of next command will be a file isntead of a STDIN
+/// 			If the  input is from a here doc instead, it will call
+/// 			the heredoc function
+/// @param s 	Script contents and parameters including redirect info
+/// @param i 	Index of the command to be executed
+/// @param path Commands execution path
+void	in_redir(t_script *s, int i, char **path);
+
+/// @brief 		After fork this fucntion is called to prepare redirect to a file
+///				A previous output to STDOUT will be redirected to the file
+/// @param s 	Script contents and parameters including redirect info
+/// @param i 	Index of the command to be executed
+/// @param path Commands execution path
+void	out_redir(t_script *s, int i, char **path);
+
+/* ************************************************************************** */
+///	750exec_heredoc.c
+/* ************************************************************************** */
+
+/// @brief 			This function notifies heredoc error message
+/// @param msg 		Content to be printed
+void	error_message_heredoc(char *msg);
+
+/// @brief		This function reads the user's input until it finds the
+/// 			delimiters set in heredoc linked list. It stores the input only
+/// 			for the last delimiter and places it in the pipe for later use
+/// 			as the input redirection.
+/// @param h 	Pointer to the heredoc linked list
+/// @param pipe Pointer to the pipe to output result;
+
+/// @brief		This function first initializes a pipe in which we can write
+/// 			the content that we'll read from the user.
+/// @param s 	Script contents and parameters including redirect info
+/// @param i 	Index of the command to be executed
+/// @param path Commands execution path
+void	heredoc(t_script *s, int i, char **path);
+
+/* ************************************************************************** */
+///	760exec_pipes.c
+/* ************************************************************************** */
+
+//// @brief 		This function initializes pipes needed to redirect the
+///					output of the previous cmd into the next one.
+/// 				It initializes a pipe for the next result of a command and
+/// @param path 	Commands execution path
+/// @param pipe1 	Pointer to the pipe to read previous data
+/// @param pipe2 	Pointer to the pipe to write results
+/// @return 		Pointer to the pipes array x 2 pipes
+int		**pipe_init(char **path, int *pipe1, int *pipe2);
+
+/// @brief 		This fucntion is usefull to manage the closing of pipes as long
+/// 			they are not nedeed. It called when a child process is done with
+/// 			its pipe (previous) or whenever there are errors creating
+///				or the dup2 of fd fails.
+/// @param pa 	pipa a, initial pipe of an odd cmd i (in a list from 1 to n-1)
+/// @param pb 	pipe b, initial pipe of an even cmd i (in a list from 1 to n-1)
+void	pipe_closer(int *pa, int *pb);
+
+/// @brief 			This function is called every time we have to dup2 a pipe.
+/// 				It takes the pipe, and the extremity we have to dup and
+///					replace it with the corresponding STDIN/STDOUT.
+/// @param pipe 	The pipe to dup.
+/// @param end 		The extremity we have to dup.
+/// @return
+int		pipe_std_setter(int *pipe, int end);
+
+/* ************************************************************************** */
+///	799exec_errors.c
+/* ************************************************************************** */
+int		fork_error(char **path_env);
+int		pipe_error(char **path_env);
 
 
 /* ************************************************************************** */
-///	ms_error.c
+//																			  */
+//		 ####     ####     ####												  */
+//		#    #   #    #   #    #											  */
+//		#    #   #    #   #    #											  */
+//		 ####    #    #   #    #											  */
+//		#    #   #    #   #    #											  */
+//		#    #   #    #   #    #											  */
+//		 ####     ####     ####												  */
+//																			  */
 /* ************************************************************************** */
 
-/// @brief 			Shows error and program sourcing it
-/// @param msg		Message to show
-/// @param system	Shows system error if true
-/// @return			SUCCESS
-int	export_error(const char *msg, int system);
-
-/// @brief 			Shows error and program sourcing it
-/// @param msg		Message to show
-/// @param system	Shows system error if true
-/// @return			SUCCESS
-int		return_error(const char *msg, int errms, int errbash);
-
 /* ************************************************************************** */
-///	ms_bi_***.c
+///	810bi_echo.c
 /* ************************************************************************** */
 
-/// @brief 		Selects and Executes built in functions
-/// @param s 	Parsed script with command(s) to execute
-/// @param n 	Index of the command to be executed
-/// @return		0 if success, 1 if failure,...
-int		bi_go(t_script *s, int n);
-
-
-/* ************************************************************************** */
-///	82ms_bi_echo.c
-/* ************************************************************************** */
+/// @brief  		Checks if the echo command has the flag '-n'
+/// @param str 		Argument string
+/// @return 		1 if true, 0 if false
+int		bi_echo_flag(char *str);
 
 /// @brief 			Builtin echo command
-/// @param args		Builtin command arguments
-/// @return			SUCCESS or ERROR
-//int		bi_echo(char **args);
-//int		bi_echo(t_command command);
+/// @param command	Builtin command arguments
+/// @return			SUCCESS if success, ERROR if error
+//int	bi_echo(t_command cmds)
 int		bi_echo(t_script *s, int n);
 
-/// ******** int		bi_echo(t_script *s);
 /// @brief 			Builtin echo command env var '_' update (last cmd)
 /// @param s		Parsed script with command(s) to execute
 /// @param n		Index of cmd to executes
 /// @return			SUCCESS if success, ERROR if error
 int		bi_env_upd(t_script *s, int n);
 
-/// @brief Remove a variable from the environment
-/// @param arg Arguments passed to unset command
-/// @param envp Current environment variables
-/// @return Updated environment variables
-//char **bi_unset(char **arg, char **envp);
-//char	**bi_unset(t_script *s);
 
-/// @brief              count the number or env variables
-/// @param envp         current environment variables
-/// @return             number or varibles
-int		env_count(char **envp);
+/* ************************************************************************** */
+///	820bi_cd.c
+/* ************************************************************************** */
 
-/// @brief          add new environment variable to env
+// @brief 			Changes the current directory and updates env var PWD OLDPWD
+/// @param path 	New directory path
+/// @param envp 	Environment variables
+/// @return 		SUCCESS or ERROR
+int		change_dir(char *path, char ***envp);
+
+/// @brief 			Builtin cd command
+/// @param args		Builtin command arguments
+/// @return			SUCCESS or ERROR
+int		bi_cd(t_script *s, int n);
+
+/* ************************************************************************** */
+///	830bi_pwd.c
+/* ************************************************************************** */
+
+/// @brief 			Builtin pwd command
+/// @param void		Builtin command arguments not required
+/// @return			SUCCESS or ERROR
+int		bi_pwd(t_script *s, int n);
+
+
+/* ************************************************************************** */
+///	840bi_export.c
+/* ************************************************************************** */
+
+/// @brief		Test validity of shell variables name
+/// @param var	Variable name to be tested
+/// @return		SUCCESS or ERROR
+int		var_name_check(char *var);
+
+/// @brief  	Update the value of an existing variable either at envt or envp
+/// @param s 	Script structure with commans and args
+/// @param n 	Index of command to be executed
+/// @param i 	Index of argument to be checked
+void	bi_export_upd_var(t_script *s, int n, int i);
+
+/// @brief  	Checks if export NEW environment variables or update existing
+/// 			variables and also if the variables exist already in environment
+/// 			temporary array
+/// @param s 	Script structure with commans and args
+/// @param n 	Index of command to be executed
+/// @param i 	Index of argument to be checked
+void	bi_export_new_var(t_script *s, int n, int i);
 
 /// @brief 			Export PERMANENT environment variables
 /// @param s 		Script structure with commans and args
@@ -560,100 +976,114 @@ int		env_count(char **envp);
 /// @return 		SUCCESS or ERROR
 int		bi_export(t_script *s, int n);
 
+/* ************************************************************************** */
+///	850bi_unset.c
+/* ************************************************************************** */
+
+/// @brief 			Remove a variable from the PERMANENT environment
+/// @param s 		Arguments passed to unset command
+/// @param n 		Current argument (variable)
+/// @return			Updated environment variables
+int		bi_unset(t_script *s, int n);
+
+/// @brief 			Remove a variable from the TEMPORARY environment
+/// @param s 		Arguments passed to unset command
+/// @param n 		Current argument (variable)
+/// @return			Updated environment variables
+int		bi_unset_envt(t_script *s, int n);
+
+/* ************************************************************************** */
+///	860bi_env.c
+/* ************************************************************************** */
+
+/// @brief 			Builtin env command
+/// @param args		Builtin command arguments
+/// @param envp		Environment variables
+/// @return			SUCCESS or ERROR
+int		bi_env(t_script *s, int n);
+
+/* ************************************************************************** */
+///	870bi_exit.c
+/* ************************************************************************** */
+
+/// @brief 			Builtin 'exit' command argument checker
+/// @param str		Builtin 'exit' argument string
+/// @return			SUCSESS or ERROR
+int		ft_is_str_digit(char *str);
+/// @brief 			Shows error and program sourcing it
+/// @param msg		Message to show
+/// @param system	Shows system error if true
+/// @return			SUCCESS
+int		exit_error_args(const char *msg, int system);
+
+/// @brief 			Shows exit() NOT numeric arg error
+/// @param msg 		Message to show
+/// @param system 	Shows system error if true
+/// @return 		system errno
+int		exit_error_notnum(const char *msg, int system);
+
+/// @brief 			Builtin exit command
+/// @param args		Builtin command arguments
+/// @return			exit status or ERROR
+int		bi_exit(t_script *s, int n);
+
+/* ************************************************************************** */
+///	880bi_equal.c
+/* ************************************************************************** */
+
+/// @brief 			Update EXISTING TEMPORARY environment variables
+/// @param s 		Script structure with commans and args
+/// @param n 		Index of command to be executed
+/// @param i 		Index of argument to be checked
+void	bi_equal_upd(t_script *s, int n, int i);
+
+/// @brief 			Creates NEW TEMPORARY environment variables
+/// @param s 		Script structure with commans and args
+/// @param n 		Index of command to be executed
+/// @param i 		Index of argument to be checked
+void	bi_equal_new(t_script *s, int n, int i);
+
 /// @brief 			Export TEMPORARY environment variables
 /// @param s 		Script structure with commans and args
 /// @param n 		Index of command to be executed
 /// @return 		SUCCESS or ERROR
 int		bi_equal(t_script *s, int n);
 
+/* ************************************************************************** */
+///	ms_error.c
+/* ************************************************************************** */
+/// @brief 			Shows error and program sourcing it
+/// @param msg		Message to show
+/// @param system	Shows system error if true
+/// @return			SUCCESS
+int		export_error(const char *msg, int system);
 
-/// @brief 			Builtin cd command
-/// @param args		Builtin command arguments
-/// @return			SUCCESS or ERROR
-//int		bi_cd(char **args);
-//int		bi_cd(t_command cmds, char **envp);
-int		bi_cd(t_script *s, int n);
-
-
-/// @brief 			Builtin env command
-/// @param args		Builtin command arguments
-/// @param envp		Environment variables
-/// @return			SUCCESS or ERROR
-//int		bi_env(char **args, char **envp);
-int		bi_env(t_script *s);
-
-/// @brief 			Builtin exit command
-/// @param args		Builtin command arguments
-/// @return			SUCCESS or ERROR
-//int		bi_exit(char **args);
-int		bi_exit(t_script *s, int n);
-
-/// @brief 			Builtin pwd command
-/// @param void		Builtin command arguments not required
-/// @return			SUCCESS or ERROR
-int		bi_pwd(t_script *s, int n);
-//int		bi_pwd(void);
-
-/// @brief 			Builtin unset command
-/// @param args		Builtin command arguments
-/// @return			SUCCESS or ERROR
-
-/// @brief 			Remove a variable from the PERRMANENT environment
-/// @param s 		Arguments passed to unset command
-/// @param n 		Current argument (variable)
-/// @return			Updated environment variables
-int		bi_unset(t_script *s, int n);
-//int		unset(char *args[]);
-
-/// @brief 			Remove a variable from the TEMPORARY environment
-/// @param s 		Arguments passed to unset command
-/// @param n 		Current argument (variable)
-/// @return			Updated environment variables
-int	bi_unset_envt(t_script *s, int n);
-
-/// @brief
-/// @param cmd
-/// @return
-int		arg_count(char **cmd);
-
-/// @brief			Checks if the given string is a valid number
-/// @param str		String to be checked
-/// @return			TRUE if valid, FALSE if invalid
-int		ft_is_str_digit(char *str);
-
-/// @brief 			Checks if the given string is a valid number
-/// @param command	Command to be checked
-/// @return
-char	*get_location(char *command);
-
-
-char *path_finder(t_script *s, int n);
-char **cmd_copy(char **cmd_n, int argc);
+/// @brief 			Shows error and program sourcing it
+/// @param msg		Message to show
+/// @param system	Shows system error if true
+/// @return			SUCCESS
+int		return_error(const char *msg, int errms, int errbash);
 
 
 /* ************************************************************************** */
-///	830ms_prepare_fds.c
+//																			  */
+//		 ####     ####     ####												  */
+//		#    #   #    #   #    #											  */
+//		#    #   #    #   #    #											  */
+//		 ####    #    #   #    #											  */
+//		     #   #    #   #    #											  */
+//		     #   #    #   #    #											  */
+//		 ####     ####     ####												  */
+//																			  */
 /* ************************************************************************** */
 
-int	prepare_fds(t_script *s, int n);
-
-
-
-
-
-
-
 /* ************************************************************************** */
-///	ms_free.c
+///	900free.c
 /* ************************************************************************** */
 
 /// @brief 			Frees the environment variables
 /// @param my_envp	Environment variables
-void	free_envp(char **my_envp);
-
-/// @brief 			Frees the content of a split string
-/// @param split	Split string to be freed
-void	free_split(char **split);
+void	free_array(char **array);
 
 /// @brief 		Frees the token list
 /// @param head	Head of the token list
@@ -666,16 +1096,64 @@ int		free_tokens(t_token **head);
 /// @return 		SUCCESS or ERROR ?? needs coherence check
 int		free_commands(t_command *cmd, int cmd_idx);
 
+/// @brief 			Frees the path and the commands
+/// @param script 	Script to be freed
+/// @param path 	Path to be freed
+void	free_cmds_path(t_script *script, char **path);
+
+/// @brief 			Shows error and program sourcing it and exit(1) freeing
+/// 				allocated vars
+/// @param msg 		Message to show
+/// @param errms 	Error message
+/// @param s 		Script to be freed
+/// @param path 	Path to be freed
+void	exit_forks(char *msg, int errms, t_script *s, char **path);
+
+/* ************************************************************************** */
+///	910errors.c
+/* ************************************************************************** */
+
+/// @brief 			Shows error and program sourcing it
+/// @param msg		Message to show
+/// @param system	Shows system error if true
+/// @return			SUCCESS
+int		export_error(const char *msg, int system);
+
+/// @brief 			Shows error and program sourcing it
+/// @param msg		Message to show
+/// @param system	Shows system error if true
+/// @return			SUCCESS
+int		return_error(const char *msg, int errms, int errbash);
+
+
+/* ************************************************************************** */
+///	ms_bi_***.c
+/* ************************************************************************** */
+
+/// @brief 		Selects and Executes built in functions
+/// @param s 	Parsed script with command(s) to execute
+/// @param n 	Index of the command to be executed
+/// @return		0 if success, 1 if failure,...
+int		bi_go(t_script *s, int n);
+
 /* ************************************************************************** */
 ///	debug.c
 /* ************************************************************************** */
+
+void	execute_show(t_script *s);
+
+void	show_func_msg(const char *msg);
 
 /// @brief 				Shows the function name and status
 /// @param func_name	Name of the function
 /// @param status		Status of the function
 /// @return				Status of the function
 int		show_func(const char *func_name, int status, char *msg);
-void	execute_show(t_script *s);
-void show_token_list(t_token *token);
+/// @brief 				This function prints the environment variables
+/// @param envp			Environment variables
+/// @return				void
+void	show_array(char **array);
+
+void	show_token_list(t_token *token);
 
 #endif
