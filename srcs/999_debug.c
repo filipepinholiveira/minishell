@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:29:02 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/10 00:24:29 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/12 12:56:03 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int	show_func(const char *func_name, int status, char *msg)
 /// @brief 				This function prints the environment variables
 /// @param envp			Environment variables
 /// @return				void
-void	show_array(char **envp)
+void	show_array(char **envp, const char *name)
 {
 	//show_func(__func__, MY_START, NULL);
 	int i = -1;
@@ -124,7 +124,7 @@ void	show_array(char **envp)
 		return ;
 	while (envp[++i])
 	{
-		printf("envp[%i] = %s\n", i, envp[i]);
+		printf("%s[%i] = %s\n", name, i, envp[i]);
 	}
 	//show_func(__func__, SUCCESS, NULL);
 }

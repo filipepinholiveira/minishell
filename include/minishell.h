@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/09 23:59:11 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/12 12:57:19 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1152,7 +1152,7 @@ int		show_func(const char *func_name, int status, char *msg);
 /// @brief 				This function prints the environment variables
 /// @param envp			Environment variables
 /// @return				void
-void	show_array(char **array);
+void	show_array(char **array, const char *name);
 
 void	show_token_list(t_token *token);
 
