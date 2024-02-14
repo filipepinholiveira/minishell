@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 19:25:54 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/10 00:49:13 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/14 15:10:42 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	exec_one(t_script *s, char **path)
 	if (id == CMD_CD || (id == CMD_UNSET && s->cmds[0].argv[1])
 		|| (id == CMD_EXPORT && s->cmds[0].argv[1]) || id == CMD_EXIT)
 	{
-		printf("exec_one parent : cd, unset, export with args, exit\n");
+		show_func(__func__, SHOW_MSG,  "exec_one parent : <cd>, <unset>, <export with args>, <exit>\n");
 		if (exec_bi(id, s, 0))
 		{
 			free_array(path);
@@ -126,7 +126,7 @@ int	exec_one(t_script *s, char **path)
 	}
 	else
 	{
-		printf("exec_one child : export without args, echo, env, pwd, execve \n");
+		show_func(__func__, SHOW_MSG, "exec_one child : <export without args>, <echo>, <env>, <pwd>, <execve> \n");
 		if (exec_one_fork(s, path))
 		{
 			free_array(path);

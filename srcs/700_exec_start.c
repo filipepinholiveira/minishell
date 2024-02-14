@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 00:26:42 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/12 13:00:58 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/14 15:08:00 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int execute(t_script *s)
 	char	**path;
 
 	execute_show(s);
-	//path = split_paths(s->envp);
 	path = split_path(s->envp);
 	if (s->cmd_count == 1)
 	{
@@ -73,7 +72,6 @@ int execute(t_script *s)
 		return (1);
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &s->termios_p);
 	//show_func(__func__, SUCCESS, NULL);
-	//show_array(s->envp);
 	return (0);
 }
 
