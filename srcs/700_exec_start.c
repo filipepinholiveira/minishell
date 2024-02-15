@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 00:26:42 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/14 15:08:00 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/15 20:05:40 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	**split_path(char **envp)
 		path[i] = ft_strjoin(path[i], "/");
 		//show_func(__func__, SHOW_MSG, path[i]);
 	}
-	show_array(path, "path");
+	// show_array(path, "path");
 	// show_func(__func__, SUCCESS, NULL);
 	return (path);
 }
