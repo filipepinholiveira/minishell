@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 19:25:54 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/14 15:10:42 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/15 17:49:31 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,21 @@
 int	exec_bi(int id, t_script *s, int i)
 {
 	//show_func(__func__, MY_START, NULL);
-	if (id == 1)
+	if (id == CMD_EQ)
+		g_exit_status = bi_equal(s, i);
+	if (id == CMD_ECHO)
 		g_exit_status = bi_echo(s, i);
-	if (id == 2)
+	if (id == CMD_CD)
 		g_exit_status = bi_cd(s, i);
-	if (id == 3)
+	if (id == CMD_PWD)
 		g_exit_status = bi_pwd(s, i);
-	if (id == 4)
+	if (id == CMD_EXPORT)
 		g_exit_status = bi_export(s, i);
-	if (id == 5)
+	if (id == CMD_UNSET)
 		g_exit_status = bi_unset(s, i);
-	if (id == 6)
+	if (id == CMD_ENV)
 		g_exit_status = bi_env(s, i);
-	if (id == 7)
+	if (id == CMD_EXIT)
 		return (bi_exit(s, i));
 	return (0);
 }
@@ -114,7 +116,8 @@ int	exec_one(t_script *s, char **path)
 	if (s->cmds[0].argv[0])
 		id = exec_type(s->cmds[0].argv[0]);
 	if (id == CMD_CD || (id == CMD_UNSET && s->cmds[0].argv[1])
-		|| (id == CMD_EXPORT && s->cmds[0].argv[1]) || id == CMD_EXIT)
+		|| (id == CMD_EXPORT && s->cmds[0].argv[1]) || id == CMD_EXIT
+		|| id == CMD_EQ)
 	{
 		show_func(__func__, SHOW_MSG,  "exec_one parent : <cd>, <unset>, <export with args>, <exit>\n");
 		if (exec_bi(id, s, 0))
