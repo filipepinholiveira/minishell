@@ -19,7 +19,7 @@ void	execute_show(t_script *s)
 
 	i = -1;
 	j = -1;
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	printf("%s**********************************************************%s\n", SBHGRN, SRST);
 	printf("%s(->)  s->com_count: \t%i\n", SBHYLW, s->cmd_count);
 	while (++j < s->cmd_count)
@@ -44,7 +44,7 @@ void	execute_show(t_script *s)
 		printf("%s**********************************************************%s\n", SBHGRN, SRST);
 		printf("\n");
 	}
-	//show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 	return ;
 }
 
@@ -117,7 +117,7 @@ int	show_func(const char *func_name, int status, char *msg)
 /// @return				void
 void	show_array(char **envp, const char *name)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	int i = -1;
 
 	if (!envp)
@@ -126,7 +126,7 @@ void	show_array(char **envp, const char *name)
 	{
 		printf("%s[%i] = %s\n", name, i, envp[i]);
 	}
-	//show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 }
 
 void show_token_list(t_token *token)

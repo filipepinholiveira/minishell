@@ -19,7 +19,7 @@
 /// @return 		SUCCESS or ERROR
 int	exec_cmd_1(t_script *s, char **path, int *pipeout)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	int	pid;
 
 	if (pipe(pipeout) == -1)
@@ -41,7 +41,7 @@ int	exec_cmd_1(t_script *s, char **path, int *pipeout)
 /// @param pid 		NOTHING
 int	exec_cmd_i(t_script *s, char **path, int **pipes, int i)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	int	pid;
 
 	if (!pipes)
@@ -65,7 +65,7 @@ int	exec_cmd_i(t_script *s, char **path, int **pipes, int i)
 //void	exec_cmd_n(t_script *s, char **path, int *pipein, int pid)
 int	exec_cmd_n(t_script *s, char **path, int *pipein)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	int	i;
 	int pid;//
 
@@ -89,7 +89,7 @@ int	exec_cmd_n(t_script *s, char **path, int *pipein)
 /// @return 		SUCCESS or ERROR
 int	exec_cmd_loop(t_script *s, char **path, int *pipe1, int *pipe2)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	int	i;
 	int	cmd_idx;
 	int	**pipes;
@@ -125,7 +125,7 @@ int	exec_cmd_loop(t_script *s, char **path, int *pipe1, int *pipe2)
 /// @return 		SUCCESS or ERROR
 int	exec_many(t_script *s, char **path)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	//int	pid;
 	int	pipe1[2];
 	int	pipe2[2];

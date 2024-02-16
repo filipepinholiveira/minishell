@@ -17,6 +17,7 @@
 /// @return 		1 if true, 0 if false
 int	bi_echo_flag(char *str)
 {
+	show_func(__func__, MY_START, NULL);
 	int	i;
 
 	i = 1;
@@ -35,7 +36,7 @@ int	bi_echo_flag(char *str)
 //int	bi_echo(t_command cmds)
 int	bi_echo(t_script *s, int n)
 {
-	//show_func(__func__, MY_START, ft_strjoin("bi: ", s->cmds[n].argv[0]));
+	show_func(__func__, MY_START, ft_strjoin("bi: ", s->cmds[n].argv[0]));
 	int	i;
 	int	flag;
 
@@ -56,7 +57,7 @@ int	bi_echo(t_script *s, int n)
 	}
 	if (!flag)
 		write (STDOUT_FILENO, "\n", 1);
-	//show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);
 }
 
@@ -66,13 +67,13 @@ int	bi_echo(t_script *s, int n)
 /// @return			SUCCESS if success, ERROR if error
 int	bi_env_upd(t_script *s, int n)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	if (!s->cmds[n].argv[1])
 		env_var_setter(s->cmds[n].argv[0],"_", &s->envp);
 	if (s->cmds[n].argc > 1 && !bi_echo_flag(s->cmds[n].argv[1]))
 		env_var_setter(s->cmds[n].argv[s->cmds[n].argc - 1],"_", &s->envp);
 	else if (s->cmds[n].argc == 2 && bi_echo_flag(s->cmds[n].argv[1]))
 		env_var_setter("", "_", &s->envp);
-	//show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);
 }

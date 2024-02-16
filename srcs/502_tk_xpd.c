@@ -19,6 +19,7 @@
 /// @return		number of splits needed to properly create an array
 int	tk_var_xpd_splits_count(char *otk)
 {
+	show_func(__func__, MY_START, NULL);
 	int	i;
 	int	splits;
 
@@ -47,6 +48,7 @@ int	tk_var_xpd_splits_count(char *otk)
 /// @return		pointer to the newly created array
 char	**tk_var_xpd_init(char *otk)
 {
+	show_func(__func__, MY_START, NULL);
 	int		j;
 	char	**ntks;
 	int		spl;
@@ -67,6 +69,7 @@ char	**tk_var_xpd_init(char *otk)
 /// @return		the token's array with expanded args
 char	**tk_var_xpd(char *otk)
 {
+	show_func(__func__, MY_START, NULL);
 	int		i;
 	char	**ntks;
 	int		spl;
@@ -100,6 +103,7 @@ char	**tk_var_xpd(char *otk)
 /// @return				String with ARGS replaced by envp vars
 char	*tk_env_var_expander(char *otk, t_script *s)
 {
+	show_func(__func__, MY_START, NULL);
 	char	**ntks;
 	char	*res;
 

@@ -17,7 +17,7 @@
 /// @return			SUCCESS or ERROR
 int	bi_pwd(t_script *s, int n)
 {
-	//show_func(__func__, MY_START, ft_strjoin("execute bi: ", "pwd"));
+	show_func(__func__, MY_START, ft_strjoin("execute bi: ", "pwd"));
 	char	*buf;
 
 	(void) n;
@@ -32,7 +32,7 @@ int	bi_pwd(t_script *s, int n)
 	}
 	else
 		ft_putendl_fd(buf, STDOUT_FILENO);
-	//show_func(__func__, SUCCESS, buf);
+	show_func(__func__, SUCCESS, buf);
 	free(buf);
 	free_commands(s->cmds, 0);
 	return (0);

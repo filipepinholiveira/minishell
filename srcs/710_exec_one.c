@@ -19,7 +19,7 @@
 /// @return 		SUCCESS or ERROR
 int	exec_bi(int id, t_script *s, int i)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	if (id == 1)
 		g_exit_status = bi_echo(s, i);
 	if (id == 2)
@@ -43,7 +43,7 @@ int	exec_bi(int id, t_script *s, int i)
 /// @param env 		Environment variables
 void	exec_ve(char **path, char **cmd, char **env)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	char	*tmp;
 	int		i;
 	int		ret;
@@ -68,7 +68,7 @@ void	exec_ve(char **path, char **cmd, char **env)
 	}
 	if (tmp)
 		free(tmp);
-	//show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 }
 
 /// @brief 			Executes a single command script in a fork
@@ -77,7 +77,7 @@ void	exec_ve(char **path, char **cmd, char **env)
 /// @return			SUCCESS or ERROR
 int	exec_one_fork(t_script *s, char **path)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	int	pid;
 
 	if (s->cmds[0].in.flag == -1)
@@ -94,7 +94,7 @@ int	exec_one_fork(t_script *s, char **path)
 	wait(&g_exit_status);
 	if (WIFSIGNALED(g_exit_status))
 		g_exit_status = 128 + WTERMSIG(g_exit_status);
-	//show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);
 }
 
@@ -107,7 +107,7 @@ int	exec_one_fork(t_script *s, char **path)
 /// @return 		SUCCESS or ERROR
 int	exec_one(t_script *s, char **path)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	int	id;
 
 	id = CMD_EX;
@@ -120,7 +120,7 @@ int	exec_one(t_script *s, char **path)
 		if (exec_bi(id, s, 0))
 		{
 			free_array(path);
-			//show_func(__func__, ERROR, "exec_bi execution error");
+			show_func(__func__, ERROR, "exec_bi execution error");
 			return (ERROR);
 		}
 	}
@@ -130,13 +130,13 @@ int	exec_one(t_script *s, char **path)
 		if (exec_one_fork(s, path))
 		{
 			free_array(path);
-			//show_func(__func__, ERROR, "exec_one_fork execution error");
+			show_func(__func__, ERROR, "exec_one_fork execution error");
 			return (ERROR);
 		}
 	}
 	bi_env_upd(s, 0);
 	free_array(path);
-	//show_func(__func__, SUCCESS, "execute one succefully completed");
+	show_func(__func__, SUCCESS, "execute one succefully completed");
 	return (SUCCESS);
 }
 

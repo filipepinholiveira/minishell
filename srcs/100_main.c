@@ -19,6 +19,7 @@ int	g_exit_status;
 /// @return 	array copy of system environment variables
 char	**envp_init(char **envp)
 {
+	show_func(__func__, MY_START, NULL);
 	char	**ms_envp;
 	int		i;
 
@@ -57,6 +58,7 @@ void	struct_init(t_script *s)
 /// @return				void
 int	ms_loop(t_script *s)
 {
+	show_func(__func__, MY_START, NULL);
 	int		status;
 	char	*line_buffer;
 

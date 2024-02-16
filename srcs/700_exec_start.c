@@ -14,7 +14,7 @@
 
 static int	get_path_index(char **envp)
 {
-	// show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	int	i;
 
 	i = 0;
@@ -22,18 +22,18 @@ static int	get_path_index(char **envp)
 	{
 		if (!ft_strncmp(envp[i], "PATH=", 5))
 		{
-			// show_func(__func__, SUCCESS, ft_strjoin("PATH index = ", ft_itoa(i)));
+			show_func(__func__, SUCCESS, ft_strjoin("PATH index = ", ft_itoa(i)));
 			return (i);
 		}
 		i++;
 	}
-	// show_func(__func__, ERROR, NULL);
+	show_func(__func__, ERROR, NULL);
 	return (-1);
 }
 
 char	**split_path(char **envp)
 {
-	// show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	int		i;
 	char	**path;
 
@@ -46,10 +46,10 @@ char	**split_path(char **envp)
 	while (path[++i])
 	{
 		path[i] = ft_strjoin(path[i], "/");
-		//show_func(__func__, SHOW_MSG, path[i]);
+		show_func(__func__, SHOW_MSG, path[i]);
 	}
 	show_array(path, "path");
-	// show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 	return (path);
 }
 
@@ -58,7 +58,7 @@ char	**split_path(char **envp)
 /// @return 		SUCCESS or ERROR
 int execute(t_script *s)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	char	**path;
 
 	execute_show(s);
@@ -71,7 +71,7 @@ int execute(t_script *s)
 	else if (exec_many(s, path))
 		return (1);
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &s->termios_p);
-	//show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 	return (0);
 }
 

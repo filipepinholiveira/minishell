@@ -18,7 +18,7 @@
 /// @return			Updated environment variables
 int	bi_unset(t_script *s, int n)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	int		i;
 	int		j;
 	char	*var;
@@ -43,7 +43,7 @@ int	bi_unset(t_script *s, int n)
 		}
 		i++;
 	}
-	//show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);
 }
 
@@ -53,24 +53,24 @@ int	bi_unset(t_script *s, int n)
 /// @return			Updated environment variables
 int	bi_unset_envt(t_script *s, int n)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 
 	int		i;
 	int		j;
 	char	*var;
 
 
-	//show_func(__func__, SHOW_MSG, ft_itoa(n));
+	show_func(__func__, SHOW_MSG, ft_itoa(n));
 
 	if (!s->envt || !s->cmds[n].argv[1])
 		return (ERROR);
-	//show_func(__func__, SHOW_MSG, "before while...");
+	show_func(__func__, SHOW_MSG, "before while...");
 	i = 1;
 	while (s->cmds[n].argv[i])
 	{
 		if (!ft_strchr(s->cmds[n].argv[i], '='))
 		{
-			//show_func(__func__, SHOW_MSG, "inside while...");
+			show_func(__func__, SHOW_MSG, "inside while...");
 			j = env_var_index_getter(s->cmds[n].argv[i], s->envt);
 			while (j >= 0 && s->envt[j] && s->envt[j + 1])
 			{
@@ -83,6 +83,6 @@ int	bi_unset_envt(t_script *s, int n)
 		}
 		i++;
 	}
-	//show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);
 }

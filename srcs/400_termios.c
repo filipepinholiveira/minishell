@@ -16,6 +16,7 @@
 /// @param termios_p	Pointer to the termios settings structure
 void	termios_getter(struct termios *termios_p)
 {
+	show_func(__func__, MY_START, NULL);
 	if (tcgetattr(STDIN_FILENO, termios_p) != 0)
 		perror("tcgetattr() error");
 }
@@ -24,6 +25,7 @@ void	termios_getter(struct termios *termios_p)
 /// @param termios_p	Pointer to the termios settings structure
 void	termios_setter(struct termios *termios_p)
 {
+	show_func(__func__, MY_START, NULL);
 	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, termios_p) != 0)
 		perror("tcsetattr() error");
 }

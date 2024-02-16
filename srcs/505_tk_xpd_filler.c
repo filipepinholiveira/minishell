@@ -19,6 +19,7 @@
 /// @return
 char	*tk_xpd_var_filler(char *ntk, t_script *s)
 {
+	show_func(__func__, MY_START, NULL);
 	int		i;
 	char	*tmp;
 
@@ -47,6 +48,7 @@ char	*tk_xpd_var_filler(char *ntk, t_script *s)
 /// @return
 char	*tk_xpd_filler(char ***ntks, t_script *s)
 {
+	show_func(__func__, MY_START, NULL);
 	int		split;
 	char	*tmp;
 

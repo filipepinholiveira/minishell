@@ -18,7 +18,7 @@
 /// @return			Index of the variable
 int	env_var_index_getter(char *var, char **envx)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	int		i;
 
 	if (!envx)
@@ -30,7 +30,7 @@ int	env_var_index_getter(char *var, char **envx)
 			return (i);
 		i++;
 	}
-	//show_func(__func__, SHOW_MSG, "var not found");
+	show_func(__func__, SHOW_MSG, "var not found");
 	return (-1);
 }
 
@@ -41,6 +41,7 @@ int	env_var_index_getter(char *var, char **envx)
 /// @return 			0 if success, -1 if error
 int	env_var_setter(char *val, char *var, char ***envx)
 {
+	show_func(__func__, MY_START, NULL);
 	int		i;
 	char	*var_new;
 	char	*old_record;
@@ -81,6 +82,7 @@ int	env_var_setter(char *val, char *var, char ***envx)
 /// @return		Content of the variable
 char	*envp_var_getter(char *var, char **envp)
 {
+	show_func(__func__, MY_START, NULL);
 	char	*tmp;
 	char	*ret;
 	int		len;
@@ -113,6 +115,7 @@ char	*envp_var_getter(char *var, char **envp)
 /// @return		Content of the variable
 char	*envt_var_getter(char *var, char **envp)
 {
+	show_func(__func__, MY_START, NULL);
 	char	*tmp;
 	char	*ret;
 	int		len;
@@ -145,6 +148,7 @@ char	*envt_var_getter(char *var, char **envp)
 /// @return		Content of the variable
 char	*env_var_getter(char *var, char **envp, char **envt)
 {
+	show_func(__func__, MY_START, NULL);
 	char	*retp;
 	char	*rett;
 

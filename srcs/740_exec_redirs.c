@@ -22,7 +22,7 @@
 /// @param path Commands execution path
 void	in_redir(t_script *s, int i, char **path)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	int	fdin;
 
 	if (s->cmds[i].in.flag >= 0)
@@ -38,7 +38,7 @@ void	in_redir(t_script *s, int i, char **path)
 	}
 	else
 		heredoc(s, i, path);
-	//show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 }
 
 /// @brief 		After fork this fucntion is called to prepare redirect to a file
@@ -48,7 +48,7 @@ void	in_redir(t_script *s, int i, char **path)
 /// @param path Commands execution path
 void	out_redir(t_script *s, int i, char **path)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	int	fdout;
 
 	fdout = open(s->cmds[i].out.name, s->cmds[i].out.flag, 0644);
@@ -60,6 +60,6 @@ void	out_redir(t_script *s, int i, char **path)
 		exit_forks("Error: dup2 failed", 1, s, path);
 	}
 	close(fdout);
-	//show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 }
 

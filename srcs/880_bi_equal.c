@@ -44,7 +44,7 @@ void	bi_equal_new(t_script *s, int n, int i)
 /// @return 		SUCCESS or ERROR
 int	bi_equal(t_script *s, int n)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	int		i;
 	int		index_tp;
 
@@ -68,6 +68,6 @@ int	bi_equal(t_script *s, int n)
 		else
 			export_error(s->cmds[n].argv[i], 1);
 	}
-	//show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);
 }

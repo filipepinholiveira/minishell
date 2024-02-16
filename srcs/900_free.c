@@ -18,7 +18,7 @@ void	free_array(char **array)
 {
 	int	i;
 
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	i = 0;
 	while (array[i])
 	{
@@ -26,7 +26,7 @@ void	free_array(char **array)
 		i++;
 	}
 	free(array);
-	//show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 }
 
 /// @brief 		Frees the token list
@@ -55,7 +55,7 @@ int	free_commands(t_command *cmd, int cmd_idx)
 	int	i;
 	int	j;
 
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	i = -1;
 	while (++i < cmd_idx)
 	{
@@ -74,7 +74,7 @@ int	free_commands(t_command *cmd, int cmd_idx)
 			ft_lstclear(&cmd[i].in.heredoc, free);
 	}
 	free(cmd);
-	//show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 	return (1);
 }
 
@@ -83,10 +83,10 @@ int	free_commands(t_command *cmd, int cmd_idx)
 /// @param path 	Path to be freed
 void	free_cmds_path(t_script *script, char **path)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	free_commands(script->cmds, script->cmd_count);
 	free_array(path);
-	//show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 }
 
 /// @brief 			Shows error and program sourcing it and exit(1) freeing
@@ -97,9 +97,9 @@ void	free_cmds_path(t_script *script, char **path)
 /// @param path 	Path to be freed
 void	exit_forks(char *msg, int errms, t_script *s, char **path)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	return_error(msg, errms, 1);
 	free_cmds_path(s, path);
-	//show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 	exit(1);
 }

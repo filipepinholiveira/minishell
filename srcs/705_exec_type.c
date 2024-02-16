@@ -18,7 +18,7 @@
 /// @return 		Command id
 int exec_type(char *cmd)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	int id;
 
 	id = CMD_EX;
@@ -36,6 +36,6 @@ int exec_type(char *cmd)
 		id = CMD_ENV;
 	else if (ft_strncmp(cmd, "exit", 5) == SUCCESS)
 		id = CMD_EXIT;
-	//show_func(__func__, SUCCESS, ft_itoa(id));
+	show_func(__func__, SUCCESS, ft_itoa(id));
 	return (id);
 }

@@ -24,6 +24,7 @@
 /// @return		ERROR (unclosed), SUCCES (closed)
 int	tk_quotes_checker(char **str)
 {
+	show_func(__func__, MY_START, NULL);
 	char	*tmp;
 
 	tmp = *str;
@@ -47,6 +48,7 @@ int	tk_quotes_checker(char **str)
 /// @return		A new unquoted string
 char	*tk_xpd_unquote(char *str)
 {
+	show_func(__func__, MY_START, NULL);
 	char	*ret;
 	int		len;
 
@@ -72,6 +74,7 @@ char	*tk_xpd_unquote(char *str)
 /// @return			NOTHING
 void	tk_trim_spaces(t_token *tk)
 {
+	show_func(__func__, MY_START, NULL);
 	char	*tmp;
 
 	while (tk)

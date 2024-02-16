@@ -19,18 +19,18 @@ int	ft_is_str_digit(char *str)
 {
 	int	i;
 
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	i = 0;
 	while (str[i])
 	{
 		if (str[i] < 48 || str[i] > 57)
 		{
-			//show_func(__func__, ERROR, NULL);
+			show_func(__func__, ERROR, NULL);
 			return (ERROR);
 		}
 		i++;
 	}
-	//show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);
 }
 
@@ -40,25 +40,25 @@ int	ft_is_str_digit(char *str)
 /// @return			SUCCESS
 int	exit_error_args(const char *msg, int system)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 
 	ft_putstr_fd("exit\n", 2);
 	ft_putstr_fd("Minishell: exit: ", 2);
 	ft_putstr_fd(msg, 2);
 	errno = system;
-	//show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 	return (system);
 }
 
 int	exit_error_notnum(const char *msg, int system)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 
 	ft_putstr_fd("Minishell: exit: '", 2);
 	ft_putstr_fd(msg, 2);
 	ft_putstr_fd("':  numeric argument required\n", 2);
 	errno = system;
-	//show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 	return (system);
 }
 
@@ -67,7 +67,7 @@ int	exit_error_notnum(const char *msg, int system)
 /// @return			exit status or ERROR
 int	bi_exit(t_script *s, int n)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 
 	env_var_setter("minishell", "_", &s->envp);
 	if (s->cmds[n].argc == 1)
@@ -78,12 +78,12 @@ int	bi_exit(t_script *s, int n)
 	}
 	if (ft_is_str_digit(s->cmds[n].argv[1]) == 1)
 	{
-		//show_func(__func__, ERROR, NULL);
+		show_func(__func__, ERROR, NULL);
 		exit_error_notnum(s->cmds[n].argv[1], 2);
 		free_commands(s->cmds, s->cmd_count);
 		free_array(s->envp);
 		exit (2);
 	}
-	//show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 	exit (ft_atoi(s->cmds[n].argv[1]));
 }

@@ -20,6 +20,7 @@
 /// @return		clean content
 void	tk_rm_blank(t_token *head)
 {
+	show_func(__func__, MY_START, NULL);
 	t_token	*tmp;
 
 	while (head)
@@ -44,6 +45,7 @@ void	tk_rm_blank(t_token *head)
 ///				and token type
 t_ops	tk_type_getter(const char *s)
 {
+	show_func(__func__, MY_START, NULL);
 	t_ops		blank;
 	int			i;
 	const t_ops	ops[14] = {{">>", 2, TK_R_OUT}, {"<<", 2, TK_R_IN},
@@ -69,6 +71,7 @@ t_ops	tk_type_getter(const char *s)
 /// @return		1 if success, 0 if error
 int	tk_getter(char *str, t_token **tk_lst)
 {
+	show_func(__func__, MY_START, NULL);
 	t_ops	ptr;
 	char	*prev;
 
@@ -106,6 +109,7 @@ int	tk_getter(char *str, t_token **tk_lst)
 /// @return		SUCCESS if valid, ERROR if invalid
 int	tk_builder(char **line, t_token **tk, t_script *s)
 {
+	show_func(__func__, MY_START, NULL);
 	t_token	*tk_ptr;
 	char	*content;
 

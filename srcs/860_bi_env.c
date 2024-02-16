@@ -20,7 +20,7 @@ int	bi_env(t_script *s, int n)
 {
 	int	count;
 
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	env_var_setter("env","_", &s->envp);
 	(void)n;
 	count = 0;
@@ -34,6 +34,6 @@ int	bi_env(t_script *s, int n)
 		count++;
 	}
 	free_commands(s->cmds, 0);
-	//show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 	return (count);
 }
