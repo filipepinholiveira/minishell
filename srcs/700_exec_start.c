@@ -66,12 +66,12 @@ int execute(t_script *s)
 	if (s->cmd_count == 1)
 	{
 		if (exec_one(s, path))
-			return (1);
+			return (SUCCESS);
 	}
 	else if (exec_many(s, path))
-		return (1);
+		return (SUCCESS);
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &s->termios_p);
 	show_func(__func__, SUCCESS, NULL);
-	return (0);
+	return (ERROR);
 }
 
