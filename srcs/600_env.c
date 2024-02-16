@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/10 00:26:13 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/16 20:05:04 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,63 +79,41 @@ int	env_var_setter(char *val, char *var, char ***envx)
 /// @param var	Variable to be found
 /// @param envp	Environment variables
 /// @return		Content of the variable
-char	*envp_var_getter(char *var, char **envp)
+char	*envx_var_getter(char *var, char **envx)
 {
 	char	*tmp;
 	char	*ret;
 	int		len;
 
-	if (!envp)
+	if (!envx)
 		return (NULL);
 	tmp = ft_strjoin(var, "=");
 	len = ft_strlen(tmp);
 	ret = NULL;
-	while (*envp)
+	while (*envx)
 	{
-		if (!ft_strncmp(tmp, *envp, len))
+		if (!ft_strncmp(tmp, *envx, len))
 		{
-			ret = ft_strdup(*envp + len);
+			ret = ft_strdup(*envx + len);
+			//printf("%s%s : %s = '%s'\n", SBHRED, __func__, var, ret);
+			// if (!ft_strncmp("_=", *envx, 2) && !ft_strncmp(ret, "", 1))
+			// {
+			//  	printf("%s%s : _= vazio\n", SBHRED, __func__);
+			//  	ret = ft_strdup("-n");
+			// }
 			break ;
 		}
-		envp++;
+		envx++;
 	}
 	free(tmp);
 	if (!ret)
-		return (NULL);
-	return (ret);
-}
-
-/// @brief		This function iterates over the environment variables to
-///				find whether or not the given variable (str) is defined and
-///				returns the content or an empty freeable string.
-/// @param var	Variable to be found
-/// @param envp	Environment variables
-/// @return		Content of the variable
-char	*envt_var_getter(char *var, char **envp)
-{
-	char	*tmp;
-	char	*ret;
-	int		len;
-
-	if (!envp)
-		return (NULL);
-	tmp = ft_strjoin(var, "=");
-	len = ft_strlen(tmp);
-	ret = NULL;
-	while (*envp)
 	{
-		if (!ft_strncmp(tmp, *envp, len))
-		{
-			ret = ft_strdup(*envp + len);
-			break ;
-		}
-		envp++;
-	}
-	free(tmp);
-	if (!ret)
+		//printf ("%s%s : var not found\n", SBHRED, __func__);
 		return (NULL);
+	}
 	return (ret);
 }
+
 
 /// @brief		This function iterates over the environment variables to
 ///				find whether or not the given variable (str) is defined and
@@ -151,11 +129,14 @@ char	*env_var_getter(char *var, char **envp, char **envt)
 	retp = NULL;
 	rett = NULL;
 	if (envp)
-		retp = envp_var_getter(var, envp);
+		retp = envx_var_getter(var, envp);
 	if (envt)
-		rett = envt_var_getter(var, envt);
+		rett = envx_var_getter(var, envt);
 	if (!retp && !rett)
+	{
+		// printf("%s%s : var not found\n", SBHRED, __func__);
 		return (ft_strdup(""));
+	}
 	else if (!retp && rett)
 		return (rett);
 	else if (retp)

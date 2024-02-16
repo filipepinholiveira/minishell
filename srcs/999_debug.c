@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:29:02 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/12 12:56:03 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/16 20:05:44 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	execute_show(t_script *s)
 
 	i = -1;
 	j = -1;
+	if (!s || !MY_DEBUG)
+		return ;
 	//show_func(__func__, MY_START, NULL);
 	printf("%s**********************************************************%s\n", SBHGRN, SRST);
 	printf("%s(->)  s->com_count: \t%i\n", SBHYLW, s->cmd_count);
@@ -42,7 +44,7 @@ void	execute_show(t_script *s)
 		printf("%s(->)  \t.in->heredoc: \t%s%p%s\n", SBHYLW, SBHBLU,s->cmds[j].in.heredoc, SRST);
 		i = -1;
 		printf("%s**********************************************************%s\n", SBHGRN, SRST);
-		printf("\n");
+		printf("#\n");
 	}
 	//show_func(__func__, SUCCESS, NULL);
 	return ;
@@ -120,7 +122,8 @@ void	show_array(char **envp, const char *name)
 	//show_func(__func__, MY_START, NULL);
 	int i = -1;
 
-	if (!envp)
+
+	if (!envp || !MY_DEBUG)
 		return ;
 	while (envp[++i])
 	{
@@ -134,6 +137,8 @@ void show_token_list(t_token *token)
 	t_token *tk_ptr;
 
 	tk_ptr = token;
+	if (!tk_ptr || !MY_DEBUG)
+		return ;
 	printf("%s**********************************************************%s\n", SBHGRN, SRST);
 	while (tk_ptr)
 	{

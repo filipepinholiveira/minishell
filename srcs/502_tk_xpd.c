@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/10 00:13:35 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/16 20:04:41 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,6 @@ char	*tk_env_var_expander(char *otk, t_script *s)
 	ntks = tk_var_xpd(otk);
 	res = tk_xpd_filler(&ntks, s);
 	free(ntks);
+	//printf("%s%s : %s => '%s'\n", SBHGRN, __func__, otk, res);
 	return (res);
 }
