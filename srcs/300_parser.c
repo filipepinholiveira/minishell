@@ -65,9 +65,9 @@ int	parser(t_script *s, char **line_buffer)
 	tk = NULL;
 	*line_buffer = readline("\001\033[1;94m\002 Minishell > \001\033[0m\002");
 	if (!*line_buffer)
-		return (return_error("readline\n", 2, 1));
+		return (return_error("readline error\n", 2, 0));
 	add_history(*line_buffer);
-	if (tk_builder(line_buffer, &tk, s))
+	if (tk_builder(line_buffer, &tk, s) == ERROR)
 		return (free_tokens(&tk));
 	//tk_rm_blank(tk);
 	if (syntax_checker(tk))
