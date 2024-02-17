@@ -16,14 +16,20 @@
 /// @param termios_p	Pointer to the termios settings structure
 void	termios_getter(struct termios *termios_p)
 {
-	if (tcgetattr(STDIN_FILENO, termios_p) != 0)
-		perror("tcgetattr() error");
+	int err;
+
+	err = tcgetattr(STDIN_FILENO, termios_p);
+	if (err != 0)
+		return_error("tcgetattr() error", err, 1);
 }
 
 /// @brief 				Sets the terminal settings from previous "getter"
 /// @param termios_p	Pointer to the termios settings structure
 void	termios_setter(struct termios *termios_p)
 {
-	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, termios_p) != 0)
-		perror("tcsetattr() error");
+	int err;
+	
+	err = tcsetattr(STDIN_FILENO, TCSAFLUSH, termios_p);
+	if (err != 0)
+		return_error("tcsetattr() error", err, 1);
 }

@@ -22,6 +22,8 @@ int	var_name_check(char *var)
 
 	i = 0;
 	//show_func(__func__, SHOW_MSG, var);
+	if (var[i] && (!ft_isalpha(var[i]) || var[i] == '_'))
+		return (ERROR);
 	while (var[i] && var[i] != '=')
 	{
 		if (!ft_isalnum(var[i]) && var[i] != '_')
