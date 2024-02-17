@@ -18,6 +18,7 @@ void	termios_getter(struct termios *termios_p)
 {
 	int err;
 
+	show_func(__func__, MY_START, NULL);
 	err = tcgetattr(STDIN_FILENO, termios_p);
 	if (err != 0)
 		return_error("tcgetattr() error", err, 1);
@@ -28,6 +29,7 @@ void	termios_getter(struct termios *termios_p)
 void	termios_setter(struct termios *termios_p)
 {
 	int err;
+	show_func(__func__, MY_START, NULL);
 	
 	err = tcsetattr(STDIN_FILENO, TCSAFLUSH, termios_p);
 	if (err != 0)

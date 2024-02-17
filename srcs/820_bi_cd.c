@@ -18,7 +18,7 @@
 /// @return 		SUCCESS or ERROR
 int	change_dir(char *path, char ***envp)
 {
-	//show_func(__func__, MY_START, path);
+	show_func(__func__, MY_START, path);
 	int		ret;
 	char	*pwd;
 
@@ -40,7 +40,7 @@ int	change_dir(char *path, char ***envp)
 /// @return			SUCCESS or ERROR
 int	bi_cd(t_script *s, int n)
 {
-	//show_func(__func__, MY_START, ft_strjoin("execute bi: ", s->cmds[n].argv[0]));
+	show_func(__func__, MY_START, ft_strjoin("execute bi: ", s->cmds[n].argv[0]));
 	char	*home;
 	int		status;
 

@@ -18,7 +18,7 @@
 /// @return			Index of the variable
 int	env_var_index_getter(char *var, char **envx)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	int		i;
 
 	if (!envx)
@@ -44,6 +44,7 @@ int	env_var_setter(char *val, char *var, char ***envx)
 	int		i;
 	char	*var_new;
 	char	*old_record;
+	show_func(__func__, MY_START, NULL);
 
 	if (val)
 		var_new = ft_strjoin_free(ft_strjoin(var, "="), ft_strdup(val));
@@ -84,6 +85,7 @@ char	*envp_var_getter(char *var, char **envp)
 	char	*tmp;
 	char	*ret;
 	int		len;
+	show_func(__func__, MY_START, NULL);
 
 	if (!envp)
 		return (NULL);
@@ -116,6 +118,7 @@ char	*envt_var_getter(char *var, char **envp)
 	char	*tmp;
 	char	*ret;
 	int		len;
+	show_func(__func__, MY_START, NULL);
 
 	if (!envp)
 		return (NULL);
@@ -147,6 +150,7 @@ char	*env_var_getter(char *var, char **envp, char **envt)
 {
 	char	*retp;
 	char	*rett;
+	show_func(__func__, MY_START, NULL);
 
 	retp = NULL;
 	rett = NULL;

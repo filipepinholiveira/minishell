@@ -21,6 +21,7 @@ char	*tk_xpd_var_filler(char *ntk, t_script *s)
 {
 	int		i;
 	char	*tmp;
+	show_func(__func__, MY_START, NULL);
 
 	i = 1;
 	tmp = ntk;
@@ -49,6 +50,7 @@ char	*tk_xpd_filler(char ***ntks, t_script *s)
 {
 	int		split;
 	char	*tmp;
+	show_func(__func__, MY_START, NULL);
 
 	tmp = ft_strdup("");
 	split = -1;

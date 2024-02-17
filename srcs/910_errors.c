@@ -18,7 +18,7 @@
 /// @return			SUCCESS
 int	export_error(const char *msg, int errms)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 
 	char	*msgr;
 	char	*msgt;
@@ -38,7 +38,7 @@ int	export_error(const char *msg, int errms)
 /// @return			SUCCESS
 int	return_error(const char *msg, int errms, int errbash)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	if (!errbash)
 		ft_putstr_fd("Minishell: ", 2);
 	g_exit_status = errms;

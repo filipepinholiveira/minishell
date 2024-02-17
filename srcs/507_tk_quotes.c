@@ -25,6 +25,7 @@
 int	tk_quotes_checker(char **str)
 {
 	char	*tmp;
+	show_func(__func__, MY_START, NULL);
 
 	tmp = *str;
 	(*str) = ft_strchr((*str) + 1, **str);
@@ -49,6 +50,7 @@ char	*tk_xpd_unquote(char *str)
 {
 	char	*ret;
 	int		len;
+	show_func(__func__, MY_START, NULL);
 
 	ret = NULL;
 	len = ft_strlen(str);
@@ -73,6 +75,7 @@ char	*tk_xpd_unquote(char *str)
 void	tk_trim_spaces(t_token *tk)
 {
 	char	*tmp;
+	show_func(__func__, MY_START, NULL);
 
 	while (tk)
 	{

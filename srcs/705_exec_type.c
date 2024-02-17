@@ -18,7 +18,7 @@
 /// @return 		Command id
 int exec_type(char *cmd)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	int id;
 
 	id = CMD_EX;

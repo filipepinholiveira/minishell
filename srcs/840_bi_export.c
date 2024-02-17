@@ -17,7 +17,7 @@
 /// @return		SUCCESS or ERROR
 int	var_name_check(char *var)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	int	i;
 
 	i = 0;
@@ -43,7 +43,7 @@ int	var_name_check(char *var)
 /// @param i 	Index of argument to be checked
 void	bi_export_upd_var(t_script *s, int n, int i)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	char	*val;
 	char	*var;
 
@@ -68,7 +68,7 @@ void	bi_export_upd_var(t_script *s, int n, int i)
 /// @param i 	Index of argument to be checked
 void	bi_export_new_var(t_script *s, int n, int i)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	char	*val;
 	char	*var;
 
@@ -126,7 +126,7 @@ int	export_status(t_script *s, int n)
 /// @return 		SUCCESS or ERROR
 int	bi_export(t_script *s, int n)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	int		i;
 
 	if (!s->envp || !s->cmds[n].argv[1] || !s->cmds[n].argv[1][0])
