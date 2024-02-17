@@ -29,6 +29,7 @@ char	**envp_init(char **envp)
 	ms_envp = malloc(sizeof(char *) * (i + 1));
 	if (!ms_envp)
 	{
+		return_error("", errno, 1);
 		return (NULL);
 	}
 	i = 0;

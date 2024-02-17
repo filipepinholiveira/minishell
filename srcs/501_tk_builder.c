@@ -115,7 +115,8 @@ int	tk_builder(char **line, t_token **tk, t_script *s)
 
 	if (tk_getter(*line, tk) == ERROR)
 	{
-		return (return_error("Syntax Error", 1, 0));
+		return_error("Syntax Error", 1, 0);
+		return (ERROR);
 	}
 	tk_ptr = *tk;
 	while (tk_ptr)
@@ -125,5 +126,5 @@ int	tk_builder(char **line, t_token **tk, t_script *s)
 		free(content);
 		tk_ptr = tk_ptr->next;
 	}
-	return (0);
+	return (SUCCESS);
 }

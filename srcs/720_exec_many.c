@@ -125,36 +125,26 @@ int	exec_cmd_loop(t_script *s, char **path, int *pipe1, int *pipe2)
 /// @return 		SUCCESS or ERROR
 int	exec_many(t_script *s, char **path)
 {
+<<<<<<< HEAD
 	show_func(__func__, MY_START, NULL);
 	//int	pid;
+=======
+	//show_func(__func__, MY_START, NULL);
+>>>>>>> a05
 	int	pipe1[2];
 	int	pipe2[2];
 	int	cmd;
 
 	signal(SIGINT, sig_handler_fork);
-
 	if (exec_cmd_1(s, path, pipe1) == 1)
 		return (1);
-
 	cmd = exec_cmd_loop(s, path, pipe1, pipe2);
-
 	if (cmd == -1)
 		return (1);
-
-	// pid = fork();
-	// if (pid == -1)
-	// 	return (fork_error(path));
-
-	if (cmd % 2 == 1)
-	{	if (exec_cmd_n(s, path, pipe2) == 1)
-			return (1);
-		// exec_cmd_n(s, path, pipe2, pid);
-	}
-	else
-	{	if (exec_cmd_n(s, path, pipe1) == 1)
-			return (1);
-		// exec_cmd_n(s, path, pipe1, pid);
-	}
+	if (cmd % 2 == 1 && exec_cmd_n(s, path, pipe2) == 1)
+		return (1);
+	else if (cmd % 2 == 0 && exec_cmd_n(s, path, pipe1) == 1)
+		return (1);
 	wait(&g_exit_status);
 	while (cmd-- > 0)
 		wait(&g_exit_status);

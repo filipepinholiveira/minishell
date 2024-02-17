@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/13 19:12:01 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/15 10:41:12 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ typedef enum e_cmd_type
 	CMD_EXPORT,
 	CMD_UNSET,
 	CMD_ENV,
-	CMD_EXIT
+	CMD_EXIT,
+	CMD_EQ
 }			t_cmd_type;
 
 /// @brief 				Struct to hold errors from execve

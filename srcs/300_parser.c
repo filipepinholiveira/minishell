@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:28:14 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/10 00:00:12 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/15 20:08:05 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,18 @@ int	parser(t_script *s, char **line_buffer)
 	tk = NULL;
 	*line_buffer = readline("\001\033[1;94m\002 Minishell > \001\033[0m\002");
 	if (!*line_buffer)
-		return (return_error("readline\n", 2, 1));
+		return (return_error("readline error\n", 2, 0));
 	add_history(*line_buffer);
-	if (tk_builder(line_buffer, &tk, s))
+	if (tk_builder(line_buffer, &tk, s) == ERROR)
 		return (free_tokens(&tk));
-	tk_rm_blank(tk);
+	//tk_rm_blank(tk);
 	if (syntax_checker(tk))
 		return (free_tokens(&tk));
 	s->cmd_count = cmds_counter(tk);
 	s->cmds = malloc(sizeof(t_command) * s->cmd_count);
 	if (!s->cmds || s->cmd_count <= 0)
 		return (free_tokens(&tk));
-	tk_trim_spaces(tk);
+	//tk_trim_spaces(tk);
 
 	show_token_list(tk);
 

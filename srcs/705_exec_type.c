@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 19:25:54 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/10 00:03:51 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/15 17:46:55 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ int exec_type(char *cmd)
 	int id;
 
 	id = CMD_EX;
-	if (ft_strncmp(cmd, "echo", 5) == SUCCESS)
+	if (ft_strchr(cmd, '='))
+		id = CMD_EQ;
+	else if (ft_strncmp(cmd, "echo", 5) == SUCCESS)
 		id = CMD_ECHO;
 	else if (ft_strncmp(cmd, "cd", 3) == SUCCESS)
 		id = CMD_CD;
