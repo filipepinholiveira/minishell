@@ -125,12 +125,9 @@ int	exec_cmd_loop(t_script *s, char **path, int *pipe1, int *pipe2)
 /// @return 		SUCCESS or ERROR
 int	exec_many(t_script *s, char **path)
 {
-<<<<<<< HEAD
 	show_func(__func__, MY_START, NULL);
 	//int	pid;
-=======
 	//show_func(__func__, MY_START, NULL);
->>>>>>> a05
 	int	pipe1[2];
 	int	pipe2[2];
 	int	cmd;

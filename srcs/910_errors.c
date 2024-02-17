@@ -19,15 +19,12 @@
 int	export_error(const char *msg, int errms)
 {
 	show_func(__func__, MY_START, NULL);
-
-<<<<<<< HEAD
-	ft_putstr_fd("Minishell: export: '", 2);
-	ft_putstr_fd(msg, 2);
-	ft_putstr_fd("': not a valid identifier\n", 2);
-	errno = system;
-	show_func(__func__, SUCCESS, NULL);
-	return (system);
-=======
+	// ft_putstr_fd("Minishell: export: '", 2);
+	// ft_putstr_fd(msg, 2);
+	// ft_putstr_fd("': not a valid identifier\n", 2);
+	// errno = system;
+	// show_func(__func__, SUCCESS, NULL);
+	// return (system);
 	char	*msgr;
 	char	*msgt;
 	int		status;
@@ -38,7 +35,6 @@ int	export_error(const char *msg, int errms)
 	status = return_error(msgr, errms, 0);
 	free(msgr);
 	return (status);
->>>>>>> a05
 }
 
 /// @brief 			Shows error and program sourcing it
@@ -47,14 +43,11 @@ int	export_error(const char *msg, int errms)
 /// @return			SUCCESS
 int	return_error(const char *msg, int errms, int errbash)
 {
-<<<<<<< HEAD
 	show_func(__func__, MY_START, NULL);
 	ft_putstr_fd("Minishell: ", 2);
-=======
 	//show_func(__func__, MY_START, NULL);
 	if (!errbash)
 		ft_putstr_fd("Minishell: ", 2);
->>>>>>> a05
 	g_exit_status = errms;
 	if (errbash)
 	{

@@ -19,15 +19,14 @@
 /// @return 		SUCCESS or ERROR
 int	exec_bi(int id, t_script *s, int i)
 {
-<<<<<<< HEAD
+
 	show_func(__func__, MY_START, NULL);
 	if (id == 1)
-=======
+
 	//show_func(__func__, MY_START, NULL);
 	if (id == CMD_EQ)
 		g_exit_status = bi_equal(s, i);
 	if (id == CMD_ECHO)
->>>>>>> a05
 		g_exit_status = bi_echo(s, i);
 	if (id == CMD_CD)
 		g_exit_status = bi_cd(s, i);

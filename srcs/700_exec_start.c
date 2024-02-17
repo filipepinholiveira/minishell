@@ -48,13 +48,10 @@ char	**split_path(char **envp)
 		path[i] = ft_strjoin(path[i], "/");
 		show_func(__func__, SHOW_MSG, path[i]);
 	}
-<<<<<<< HEAD
 	show_array(path, "path");
 	show_func(__func__, SUCCESS, NULL);
-=======
 	// show_array(path, "path");
 	// show_func(__func__, SUCCESS, NULL);
->>>>>>> a05
 	return (path);
 }
 
