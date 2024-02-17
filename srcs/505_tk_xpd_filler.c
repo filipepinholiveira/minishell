@@ -6,14 +6,14 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/16 19:43:01 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/10 00:13:06 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /// @attention	>token builder< set of functions
-/// @brief 		Replaces a var with its value
+/// @brief
 /// @param ntk
 /// @param s
 /// @return
@@ -25,14 +25,9 @@ char	*tk_xpd_var_filler(char *ntk, t_script *s)
 	i = 1;
 	tmp = ntk;
 	if (var_firstchar(ntk[i]) == SUCCESS)
-	{
 		ntk = env_var_getter(ntk + 1, s->envp, s->envt);
-		//printf("%s%s : $%s = '%s'\n", SBHGRN, __func__, tmp + 1, ntk);
-	}
-	else if (ft_isdigit(ntk[i]) && ntk[i] != '0')
+	else if (ft_isdigit(ntk[i]))
 		ntk = ft_strdup("");
-	else if (ntk[i] == '0')
-		ntk = ft_strdup("minishell");
 	else if (ntk[i] == '?' && g_exit_status >= 256)
 		ntk = ft_itoa(WEXITSTATUS(g_exit_status));
 	else if (ntk[i] == '?' && g_exit_status < 256)
@@ -56,17 +51,15 @@ char	*tk_xpd_filler(char ***ntks, t_script *s)
 	char	*tmp;
 
 	tmp = ft_strdup("");
-	split = 0;
-	while ((*ntks)[split])
+	split = -1;
+	while ((*ntks)[++split])
 	{
 		if ((*ntks)[split][0] == '$'
 			&& ((*ntks)[split][1] || (*ntks)[split + 1]))
 				(*ntks)[split] = tk_xpd_var_filler((*ntks)[split], s);
 		else
 			(*ntks)[split] = tk_xpd_unquote((*ntks)[split]);
-
 		tmp = ft_strjoin_free(tmp, (*ntks)[split]);
-		split++;
 	}
 	return (tmp);
 }
