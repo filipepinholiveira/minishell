@@ -30,7 +30,10 @@ int	parse_commands(t_token *tk, t_command *cmd, int i, int j)
 	{
 		cmd[i].argv = malloc(sizeof(char *) * (cmd[i].argc + 1));
 		if (!cmd[i].argv)
-			return (1);
+		{
+			return_error("", errno, 1); // adicionada Filipe 19fev
+			return (ERROR);
+		}
 		j = 0;
 		while (tk && tk->type != TK_PIPE)
 		{
@@ -52,7 +55,7 @@ int	parse_commands(t_token *tk, t_command *cmd, int i, int j)
 	}
 	if (errors)
 		return (free_commands(cmd, i));
-	return (0);
+	return (SUCCESS);
 }
 
 /// @brief 				The script parser main function. All parsing starts here
@@ -77,7 +80,10 @@ int	parser(t_script *s, char **line_buffer)
 	s->cmd_count = cmds_counter(tk);
 	s->cmds = malloc(sizeof(t_command) * s->cmd_count);
 	if (!s->cmds || s->cmd_count <= 0)
+	{
+		return_error("", errno, 1);
 		return (free_tokens(&tk));
+	}
 	//tk_trim_spaces(tk);
 
 	show_token_list(tk);
@@ -87,5 +93,5 @@ int	parser(t_script *s, char **line_buffer)
 	if (parse_commands(tk, s->cmds, 0, 0))
 		return (free_tokens(&tk));
 	free_tokens(&tk);
-	return (0);
+	return (SUCCESS);
 }

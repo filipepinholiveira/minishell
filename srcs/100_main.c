@@ -37,7 +37,10 @@ char	**envp_init(char **envp)
 	{
 		ms_envp[i] = ft_strdup(envp[i]);
 		if (!ms_envp[i])
+		{
+			return_error("", errno, 1); // adicionada Filipe 19fev
 			return (NULL);
+		}
 		i++;
 	}
 	ms_envp[i] = NULL;

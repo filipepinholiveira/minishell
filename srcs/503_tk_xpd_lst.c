@@ -48,7 +48,10 @@ t_token	*tk_addnew(const char *str, int size, t_token_type type)
 
 	tk = (t_token *)malloc(sizeof(t_token));
 	if (!tk)
+	{
+		return_error("", errno, 1);
 		return (NULL);
+	}		
 	tk->content = ft_substr(str, 0, size);
 	tk->size = size;
 	tk->type = type;

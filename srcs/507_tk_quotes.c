@@ -20,7 +20,7 @@
 ///				or sets str pointer to the end {\0}
 ///				@malloc	: NOTHING
 ///				@free	: NOTHING
-/// @param str	addres of teh string to seek, that starts with a quotation mark
+/// @param str	addres of the string to seek, that starts with a quotation mark
 /// @return		ERROR (unclosed), SUCCES (closed)
 int	tk_quotes_checker(char **str)
 {
