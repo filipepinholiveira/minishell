@@ -36,7 +36,7 @@ int	exec_bi(int id, t_script *s, int i)
 		g_exit_status = bi_env(s, i);
 	if (id == CMD_EXIT)
 		return (bi_exit(s, i));
-	return (0);
+	return (SUCCESS);
 }
 
 /// @brief 			Executes a command using the absolute path or the PATH
@@ -55,8 +55,8 @@ void	exec_ve(char **path, char **cmd, char **env)
 	if (tmp[0] == '.' || tmp[0] == '/')
 	{
 		execve(*cmd, cmd, env);
-		free(tmp);
-		return ;
+		free(tmp); // se entrar no execve este free já nao acontece
+		return ; // se entrar no execve este return já nao acontece
 	}
 	ret = -1;
 	while (ret == -1 && path[i])
@@ -90,7 +90,8 @@ int	exec_one_fork(t_script *s, char **path)
 
 	pid = fork();
 	if (pid == -1)
-		return (fork_error(path));
+		// return (fork_error(path));
+		return (return_error("", errno, 1)); // alterado filipe 20 fev
 	if (pid == 0)
 		ex_child_1(s, path, NULL);
 	wait(&g_exit_status);
@@ -130,9 +131,9 @@ int	exec_one(t_script *s, char **path)
 	else
 	{
 		show_func(__func__, SHOW_MSG, "exec_one child : <export without args>, <echo>, <env>, <pwd>, <execve> \n");
-		if (exec_one_fork(s, path))
+		if (exec_one_fork(s, path)) 
 		{
-			free_array(path);
+			free_array(path); // o exec_one_forks faz free a path no fork_error se pid == -1
 			//show_func(__func__, ERROR, "exec_one_fork execution error");
 			return (ERROR);
 		}

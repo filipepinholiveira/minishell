@@ -454,6 +454,65 @@ void 600_env.c ()
 
 ######################################################
 
+int	env_var_index_getter(char *var, char **envx)
+
+	if (!envx)
+		return (-1); // esperado retorno -1 ou >= 0 na chamada desta funçao em 840, 850, 880 e env_var_setter
+
+#######################################################
+
+int	env_var_setter(char *val, char *var, char ***envx)
+
+	estava:
+
+		*envx = malloc(sizeof(char *) * (1 + 1));
+
+
+	alterei:
+
+		*envx = malloc(sizeof(char *) * (1 + 1));
+		if (!*envx)
+		{
+			return_error("", errno, 1); // adicionada Filipe 20fev
+			return (ERROR);
+		}
+
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
+
+
+	estava
+	
+		return (0);
+
+	alterei
+
+		return (SUCCESS);
+
+#######################################################
+
+char	*envp_var_getter(char *var, char **envp)
+
+	if (!envp)
+		return (NULL); // apenas verificaçao, chamada na env_var_getter
+
+
+	if (!ret)
+		return (NULL); // apenas verificaçao, chamada na env_var_getter
+
+#######################################################
+
+char	*envt_var_getter(char *var, char **envp)
+
+	if (!envp)
+		return (NULL); // apenas verificaçao, chamada na env_var_getter
+
+
+	if (!ret)
+		return (NULL); // apenas verificaçao, chamada na env_var_getter
+
+#######################################################
+
+char	*env_var_getter(char *var, char **envp, char **envt) // chamada na 505, 820, 830 e 840
 
 #######################################################
 
@@ -464,6 +523,59 @@ void 700_exec_start.c ()
 
 ######################################################
 
+static int	get_path_index(char **envp)
+
+#######################################################
+
+char	**split_path(char **envp)
+
+#######################################################
+
+int execute(t_script *s)
+
+estava:
+
+if (s->cmd_count == 1)
+	{
+		if (exec_one(s, path))
+			return (1);
+	}
+
+alterei:
+
+if (s->cmd_count == 1)
+	{
+		if (exec_one(s, path))
+			return (TRUE);
+	}
+
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
+
+estava:
+
+	else if (exec_many(s, path))
+		return (1);
+
+alterei:
+
+	else if (exec_many(s, path))
+		return (TRUE);
+
+
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
+
+
+estava:
+
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &s->termios_p); // ao contrario do 400_termios.c, nao fiz return_error. deveria?
+	//show_func(__func__, SUCCESS, NULL);
+	return (0);
+
+alterei: 
+
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &s->termios_p);
+	//show_func(__func__, SUCCESS, NULL);
+	return (SUCCESS);
 
 #######################################################
 
@@ -474,6 +586,7 @@ void 705_exec_type.c ()
 
 ######################################################
 
+int exec_type(char *cmd)
 
 #######################################################
 
@@ -484,8 +597,54 @@ void 710_exec_one.c ()
 
 ######################################################
 
+int	exec_bi(int id, t_script *s, int i)
+
+estava:
+
+	return (0);
+
+alterei:
+
+	return (SUCCESS);
 
 #######################################################
+
+void	exec_ve(char **path, char **cmd, char **env)
+
+para rever com Antonio:
+
+	if (tmp[0] == '.' || tmp[0] == '/')
+	{
+		execve(*cmd, cmd, env);
+		free(tmp); // se entrar no execve este free já nao acontece
+		return ; // se entrar no execve este return já nao acontece
+	}
+
+######################################################
+
+int	exec_one_fork(t_script *s, char **path) // funçao chamada no exec_one
+
+estava:
+
+	if (pid == -1)
+		return (fork_error(path)); // a funçao fork_error faz sentido?
+
+alterei:
+
+	if (pid == -1)
+		return (return_error("", errno, 1));
+
+######################################################
+
+int	exec_one(t_script *s, char **path)
+
+para rever com Antonio:
+
+	if (exec_one_fork(s, path)) 
+		
+			free_array(path); // o exec_one_forks faz free a path no fork_error se pid == -1, double free???
+
+######################################################
 
 }
 
@@ -494,6 +653,106 @@ void 720_exec_many.c ()
 
 ######################################################
 
+int	exec_cmd_1(t_script *s, char **path, int *pipeout)
+
+	estava:
+
+		if (pipe(pipeout) == -1)
+			return (pipe_error(path));
+
+	alterei:
+
+		if (pipe(pipeout) == -1)
+	{
+		free (path);
+		return (return_error("", errno, 1));
+		//return (pipe_error(path)); // deverei usar esta funçao ou o return_error?
+	}
+
+
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
+
+
+	estava:
+
+		if (pid == -1)
+			return (fork_error(path));
+
+	alterei:
+
+		if (pid == -1)
+	{
+		free (path);
+		return (return_error("", errno, 1));
+		//return (fork_error(path));
+	}
+
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
+
+alterei de return (0); para return (SUCCESS);
+
+#######################################################
+
+int	exec_cmd_i(t_script *s, char **path, int **pipes, int i)
+
+estava:
+
+	if (!pipes)
+		return (1);
+
+alterei:
+
+	if (!pipes)
+		return (return_error("", errno, 1)); // nao precisa dar free tb a path?
+
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
+
+
+estava:
+
+	if (pid == -1)
+		return (fork_error(path));
+
+alterei:
+
+	if (pid == -1)
+	{
+		free (path); // a funçao fork_error dá free a path
+		return (return_error("", errno, 1));
+		//return (fork_error(path));
+	}
+
+#######################################################
+
+int	exec_cmd_n(t_script *s, char **path, int *pipein)
+
+	estava:
+
+	if (pid == -1)
+		return (fork_error(path));
+
+alterei:
+
+	if (pid == -1)
+	{
+		free (path); // a funçao fork_error dá free a path
+		return (return_error("", errno, 1));
+		//return (fork_error(path));
+	}
+
+#######################################################
+
+int	exec_cmd_loop(t_script *s, char **path, int *pipe1, int *pipe2)
+
+#######################################################
+
+int	exec_many(t_script *s, char **path)
+
+	alterei:
+		 return (1); por return (ERROR);
+		 return (0); por return (SUCCESS);
+
+	
 
 #######################################################
 

@@ -62,6 +62,11 @@ int	env_var_setter(char *val, char *var, char ***envx)
 	else if (i == -1 && !*envx)
 	{
 		*envx = malloc(sizeof(char *) * (1 + 1));
+		if (!*envx)
+		{
+			return_error("", errno, 1); // adicionada Filipe 20fev
+			return (ERROR);
+		}
 		(*envx)[0] = ft_strjoin_free(var_new, ft_strdup(""));
 		(*envx)[1] = NULL;
 	}
@@ -71,7 +76,7 @@ int	env_var_setter(char *val, char *var, char ***envx)
 		(*envx)[i] = ft_strjoin_free(var_new, ft_strdup(""));
 		free(old_record);
 	}
-	return (0);
+	return (SUCCESS);
 }
 
 /// @brief		This function iterates over the environment variables to
