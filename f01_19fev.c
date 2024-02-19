@@ -854,6 +854,7 @@ void	out_redir(t_script *s, int i, char **path)
 
 }
 
+
 void 750_exec_heredoc.c ()
 {
 

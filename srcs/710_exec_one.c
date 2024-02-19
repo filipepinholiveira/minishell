@@ -127,7 +127,7 @@ int	exec_one(t_script *s, char **path)
 		if (exec_bi(id, s, 0))
 		{
 			free_array(path);
-			//show_func(__func__, ERROR, "exec_bi execution error");
+			show_func(__func__, ERROR, "exec_bi execution error");
 			return (ERROR);
 		}
 	}
@@ -136,14 +136,14 @@ int	exec_one(t_script *s, char **path)
 		show_func(__func__, SHOW_MSG, "exec_one child : <export without args>, <echo>, <env>, <pwd>, <execve> \n");
 		if (exec_one_fork(s, path)) 
 		{
-			//free_array(path); // o exec_one_forks faz free a path no fork_error se pid == -1, dava double free no env e pwd e deixou de dar
-			//show_func(__func__, ERROR, "exec_one_fork execution error");
+			free_array(path); // o exec_one_forks faz free a path no fork_error se pid == -1, dava double free no env e pwd e deixou de dar
+			show_func(__func__, ERROR, "exec_one_fork execution error");
 			return (ERROR);
 		}
 	}
 	bi_env_upd(s, 0);
 	free_array(path);
-	//show_func(__func__, SUCCESS, "execute one succefully completed");
+	show_func(__func__, SUCCESS, "execute one succefully completed");
 	return (SUCCESS);
 }
 

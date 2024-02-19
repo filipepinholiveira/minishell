@@ -66,12 +66,12 @@ int execute(t_script *s)
 	if (s->cmd_count == 1)
 	{
 		if (exec_one(s, path))
-			return (TRUE); // estava return (1) filipe 20fev
+			return (ERROR); // estava return (1) filipe 20fev
 	}
 	else if (exec_many(s, path))
-		return (TRUE); // estava return (1) filipe 20fev
+		return (ERROR); // estava return (1) filipe 20fev
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &s->termios_p);
-	//show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);
 }
 

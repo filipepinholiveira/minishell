@@ -24,8 +24,8 @@ int	export_error(const char *msg, int errms)
 	char	*msgt;
 	int		status;
 
-	msgt = ft_strjoin(msg, "´: not a valid identifier");
-	msgr = ft_strjoin("export '", msgt);
+	msgt = ft_strjoin(msg, "': not a valid identifier");
+	msgr = ft_strjoin("export: `", msgt);
 	free(msgt);
 	status = return_error(msgr, errms, 0);
 	free(msgr);
