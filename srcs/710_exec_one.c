@@ -54,6 +54,7 @@ void	exec_ve(char **path, char **cmd, char **env)
 	i = 0;
 	if (tmp[0] == '.' || tmp[0] == '/')
 	{
+		// falta atualizar a variável de ambiente SHLVL (o valor de SHLVL é incrementado em 1.)
 		execve(*cmd, cmd, env);
 		free(tmp); // se entrar no execve este free já nao acontece
 		return ; // se entrar no execve este return já nao acontece

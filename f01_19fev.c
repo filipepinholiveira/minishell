@@ -630,10 +630,13 @@ alterei:
 
 void	exec_ve(char **path, char **cmd, char **env)
 
+
+
 para rever com Antonio:
 
 	if (tmp[0] == '.' || tmp[0] == '/')
 	{
+		// falta atualizar a variável de ambiente SHLVL (o valor de SHLVL é acrescido em 1.)
 		execve(*cmd, cmd, env);
 		free(tmp); // se entrar no execve este free já nao acontece
 		return ; // se entrar no execve este return já nao acontece
@@ -1133,6 +1136,8 @@ int	exit_error_notnum(const char *msg, int system)
 ######################################################
 
 int	bi_exit(t_script *s, int n)
+
+// falta atualizar a variável de ambiente SHLVL (o valor de SHLVL é decrescido em 1.)
 
 estava:
 
