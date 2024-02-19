@@ -35,10 +35,9 @@ void	ex_child_1(t_script *s, char **path, int *pipeout)
 	}
 	if (s->cmds[0].argv[0])
 		exec_go(s, path, exec_type(s->cmds[0].argv[0]), 0);
-
 	free_cmds_path(s, path);
 	//show_func(__func__, SUCCESS, NULL);
-	exit(SUCCESS);
+	exit(0);
 }
 
 /// @brief 			Executes the command in the middle of a pipe
