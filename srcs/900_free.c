@@ -17,7 +17,8 @@
 void	free_array(char **array)
 {
 	int	i;
-
+	if (!array)
+		return ;
 	show_func(__func__, MY_START, NULL);
 	i = 0;
 	while (array[i])

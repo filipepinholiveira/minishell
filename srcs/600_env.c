@@ -164,7 +164,7 @@ char	*env_var_getter(char *var, char **envp, char **envt)
 	if (envt)
 		rett = envt_var_getter(var, envt);
 	if (!retp && !rett)
-		return (ft_strdup(""));
+		return (NULL);
 	else if (!retp && rett)
 		return (rett);
 	else if (retp)
