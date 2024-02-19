@@ -23,7 +23,7 @@ int	ft_is_str_digit(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] < 48 || str[i] > 57)
+		if ((str[i] < 48 || str[i] > 57) && str[0] != '-')
 		{
 			//show_func(__func__, ERROR, NULL);
 			return (ERROR);
@@ -75,14 +75,14 @@ int	bi_exit(t_script *s, int n)
 	if (ft_is_str_digit(s->cmds[n].argv[1]) == 1)
 	{
 		//show_func(__func__, ERROR, NULL);
-		exit_error_notnum(s->cmds[n].argv[1], 2); // podemos usar a return_error, certo???
+		exit_error_notnum(s->cmds[n].argv[1], 2);
 		free_commands(s->cmds, s->cmd_count);
 		free_array(s->envp);
-		exit (2);
+		exit (2); // este return está errado, exit -42 deveria ser 214, por exemplo
 	}
 	if (s->cmds[n].argc > 2)
 	{
-		return (exit_error_args("too many arguments\n", 2)); // podemos usar a return_error, certo???
+		return (exit_error_args("too many arguments\n", 2));
 	}
 	//show_func(__func__, SUCCESS, NULL);
 	exit (ft_atoi(s->cmds[n].argv[1]));
