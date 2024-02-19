@@ -72,9 +72,9 @@ void	heredoc(t_script *s, int i, char **path)
 
 	if (pipe(pipe_tmp) == -1)
 	{
-		write(2, "Error: pipe failed\n", 19);
+		//write(2, "Error: pipe failed\n", 19);
 		free_cmds_path(s, path);
-		exit(1);
+		exit((return_error("", errno, 1)));
 	}
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sig_handler_heredoc);
@@ -86,7 +86,7 @@ void	heredoc(t_script *s, int i, char **path)
 			write(2, "Error: dup2 failed\n", 19);
 			pipe_closer(pipe_tmp, NULL);
 			free_cmds_path(s, path);
-			exit(1);
+			exit(ERROR); // alterado 20fev
 		}
 	}
 	close(pipe_tmp[0]);

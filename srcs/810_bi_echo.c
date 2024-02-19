@@ -23,10 +23,10 @@ int	bi_echo_flag(char *str)
 	while (str[i])
 	{
 		if (str[i] != 'n')
-			return (0);
+			return (FALSE);
 		i++;
 	}
-	return (1);
+	return (TRUE);
 }
 
 /// @brief 			Builtin echo command

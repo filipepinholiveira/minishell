@@ -38,6 +38,7 @@ void 100_main.c ()
 
 }
 
+
 void 200_signal.c ()
 {
 
@@ -60,6 +61,7 @@ void	sig_handler_heredoc(int signum)
 #######################################################
 
 }
+
 
 void 300_parser.c ()
 {
@@ -125,6 +127,7 @@ int	parser(t_script *s, char **line_buffer)
 #######################################################
 }
 
+
 void 301_parser_syntax.c ()
 {
 
@@ -148,6 +151,7 @@ int	syntax_checker(t_token *tk)
 
 }
 
+
 void 302_parser_cmd.c ()
 {
 
@@ -159,6 +163,7 @@ int	cmds_counter(t_token *tk)
 
 }
 
+
 void 303_parser_argc.c ()
 {
 
@@ -169,6 +174,7 @@ void	args_counter(t_token *tk, t_script *s)
 #######################################################
 
 }
+
 
 void 304_parser_redir.c ()
 {
@@ -202,6 +208,7 @@ int	redir(t_token *tk, t_redirection *file)
 
 }
 
+
 void 305_parser_heredoc.c ()
 {
 
@@ -212,6 +219,7 @@ void	fill_heredoc(t_redirection *file)
 #######################################################
 
 }
+
 
 void 400_termios.c ()
 {
@@ -235,6 +243,7 @@ void	termios_setter(struct termios *termios_p)
 #######################################################
 
 }
+
 
 void 501_tk_builder.c ()
 {
@@ -272,6 +281,7 @@ int	tk_builder(char **line, t_token **tk, t_script *s)
 #######################################################
 
 }
+
 
 void 502_tk_xpd.c ()
 {
@@ -311,6 +321,7 @@ char	*tk_env_var_expander(char *otk, t_script *s)
 #######################################################
 
 }
+
 
 void 503_tk_xpd_lst.c ()
 {
@@ -359,6 +370,7 @@ void	tk_lst_addback(t_token **ltk, t_token *ntk)
 
 }
 
+
 void 504_tk_xpd_count.c ()
 {
 
@@ -382,6 +394,7 @@ void	tk_var_xpd_else_c(char *otk, int *i)
 
 }
 
+
 void 505_tk_xpd_filler.c ()
 {
 
@@ -396,6 +409,7 @@ char	*tk_xpd_filler(char ***ntks, t_script *s)
 #######################################################
 
 }
+
 
 void 506_tk_xpd_split.c ()
 {
@@ -419,6 +433,7 @@ void	tk_var_xpd_else(char *otk, char ***ntks, int *spl, int *i)
 #######################################################
 
 }
+
 
 void 507_tk_quotes.c ()
 {
@@ -448,6 +463,7 @@ void	tk_trim_spaces(t_token *tk)
 ######################################################
 
 }
+
 
 void 600_env.c ()
 {
@@ -518,6 +534,7 @@ char	*env_var_getter(char *var, char **envp, char **envt) // chamada na 505, 820
 
 }
 
+
 void 700_exec_start.c ()
 {
 
@@ -581,6 +598,7 @@ alterei:
 
 }
 
+
 void 705_exec_type.c ()
 {
 
@@ -591,6 +609,7 @@ int exec_type(char *cmd)
 #######################################################
 
 }
+
 
 void 710_exec_one.c ()
 {
@@ -632,7 +651,11 @@ estava:
 alterei:
 
 	if (pid == -1)
-		return (return_error("", errno, 1));
+	{
+		// return (fork_error(path));
+		//free_array(path); // estava a ser feito no fork error mas o exec_one tb o faz if exec_one_fork
+		return (return_error("", errno, 1)); // alterado filipe 20 fev
+	}
 
 ######################################################
 
@@ -642,11 +665,13 @@ para rever com Antonio:
 
 	if (exec_one_fork(s, path)) 
 		
-			free_array(path); // o exec_one_forks faz free a path no fork_error se pid == -1, double free???
+			estava: free_array(path); // o exec_one_forks faz free a path no fork_error se pid == -1, double free???
+			alterei: //free_array(path); // dava double free no env e pwd e deixou de dar
 
 ######################################################
 
 }
+
 
 void 720_exec_many.c ()
 {
@@ -665,7 +690,7 @@ int	exec_cmd_1(t_script *s, char **path, int *pipeout)
 		if (pipe(pipeout) == -1)
 	{
 		free (path);
-		return (return_error("", errno, 1));
+		return (return_error("", errno, 1)); // deveria escrever "Error: pipe failed\n"?
 		//return (pipe_error(path)); // deverei usar esta funçao ou o return_error?
 	}
 
@@ -752,27 +777,78 @@ int	exec_many(t_script *s, char **path)
 		 return (1); por return (ERROR);
 		 return (0); por return (SUCCESS);
 
-	
-
 #######################################################
 
 }
+
 
 void 730_exec_childs.c ()
 {
 
 ######################################################
 
+void	ex_child_1(t_script *s, char **path, int *pipeout)
+
+	exit_forks("pipe_std_setter", 1, s, path); // esta funçao chama já o return_error
+
+	alterei:
+	
+		exit(SUCCESS);
+
+#######################################################
+
+void	ex_child_i(t_script *s, char **path, int **pipes, int i)
+
+	chamada de exit_forks("pipe_std_setter", 1, s, path); // esta funçao chama já o return_error
+
+	alterei:
+	
+		exit(SUCCESS);
+
+#######################################################
+
+void	ex_child_n(t_script *s, char **path, int *pipein, int i)
+
+	exit_forks("pipe_std_setter", 1, s, path); // esta funçao chama já o return_error
+
+	alterei:
+	
+		exit(SUCCESS);
+
+#######################################################
+
+void exec_go(t_script *s, char **path, int id, int i)
+
+
 
 #######################################################
 
 }
 
+
 void 740_exec_redirs.c ()
+
 {
 
 ######################################################
 
+void	in_redir(t_script *s, int i, char **path)
+
+	if (fdin == -1)
+		exit_forks(s->cmds[i].in.name, 1, s, path); // funçao chama ja o return_error
+	
+	else if (fdin != STDIN_FILENO && dup2(fdin, STDIN_FILENO) == -1)
+		exit_forks("Error: dup2 failed", 1, s, path); // funçao chama ja o return_error
+
+#######################################################
+
+void	out_redir(t_script *s, int i, char **path)
+
+	if (fdout == -1)
+		exit_forks(s->cmds[i].out.name, 1, s, path); // funçao chama ja o return_error
+
+	else if (fdout != STDOUT_FILENO && dup2(fdout, STDOUT_FILENO) == -1)
+		exit_forks("Error: dup2 failed", 1, s, path); // funçao chama ja o return_error
 
 #######################################################
 
@@ -783,130 +859,376 @@ void 750_exec_heredoc.c ()
 
 ######################################################
 
+void	error_message_heredoc(char *msg)
+
+#######################################################
+
+void	loop_heredoc(t_list *h, int pipe)
+
+#######################################################
+
+void	heredoc(t_script *s, int i, char **path)
+
+	estava:
+	
+	if (pipe(pipe_tmp) == -1)
+	{
+		write(2, "Error: pipe failed\n", 19);
+		free_cmds_path(s, path);
+		exit(1);
+	}
+
+	alterei:
+
+	if (pipe(pipe_tmp) == -1)
+	{
+		//write(2, "Error: pipe failed\n", 19);
+		free_cmds_path(s, path);
+		exit((return_error("", errno, 1)));
+	}
+
+
+	alterei:
+
+		exit(ERROR); // alterado 20fev (estava exit(1)))
 
 #######################################################
 
 }
+
 
 void 760_exec_pipes.c ()
 {
 
 ######################################################
 
+int	**pipe_init(char **path, int *pipe1, int *pipe2)
+
+#######################################################
+
+void	pipe_closer(int *pa, int *pb)
+
+#######################################################
+
+int	pipe_std_setter(int *pipe, int end)
+
+	return (0); para return (SUCCESS);
 
 #######################################################
 
 }
+
 
 void 799_exec_errors.c ()
 {
 
 ######################################################
 
+int	fork_error(char **path)
+
+#######################################################
+
+int	pipe_error(char **path)
 
 #######################################################
 
 }
+
 
 void 810_bi_echo.c ()
 {
 
 ######################################################
 
+int	bi_echo_flag(char *str)
+
+alterei: 
+
+	return (FALSE); // estava 0
+	return (true); // estava 1
+
+######################################################
+
+int	bi_echo(t_script *s, int n)
+
+######################################################
+
+int	bi_env_upd(t_script *s, int n)
 
 #######################################################
 
 }
+
 
 void 820_bi_cd.c ()
 {
 
 ######################################################
 
+int	change_dir(char *path, char ***envp)
+
+	ret = chdir(path);
+	if (ret == -1)
+		return (return_error(path, 1, 1)); // ja tratado
+
+#######################################################
+
+int	bi_cd(t_script *s, int n)
+
+	estava:
+
+		if (home == NULL)
+		{
+			ft_putendl_fd("Minishell: cd: HOME not set", 2);
+			free(home);
+			return (1);
+		}
+
+	alterei: // ver com o Antonio, nao esta a funcionar como deveria
+
+		printf("HOME:%s\n", home); // este teste é pq se fizermos unset HOME, cd nao está a entrar no caso abaixo e deveria
+		if (home == NULL)
+		{
+			//ft_putendl_fd("Minishell: cd: HOME not set", 2);
+			free(home);
+			return (return_error("Minishell: cd: HOME not set", 1, 0));
+		}
+
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
+
+
+	estava: 
+
+
+		if (s->cmds[n].argc > 2)
+		{
+			//env_var_setter(s->cmds[n].argv[1],"_", &s->envp);
+			ft_putendl_fd("Minishell: cd: too many arguments", 2);
+			//show_func(__func__, ERROR, NULL);
+			return (1);
+		}
+
+	
+	alterei:
+
+		if (s->cmds[n].argc > 2)
+		{
+			//env_var_setter(s->cmds[n].argv[1],"_", &s->envp);
+			// ft_putendl_fd("Minishell: cd: too many arguments", 2);
+			//show_func(__func__, ERROR, NULL);
+			return (return_error("Minishell: cd: too many arguments", 1, 0));
+		}
+
 
 #######################################################
 
 }
+
 
 void 830_bi_pwd.c ()
 {
 
 ######################################################
 
+int	bi_pwd(t_script *s, int n)
 
 #######################################################
 
 }
+
 
 void 840_bi_export.c ()
 {
 
 ######################################################
 
+int	var_name_check(char *var)
+
+#######################################################
+
+void	bi_export_upd_var(t_script *s, int n, int i)
+
+#######################################################
+
+void	bi_export_new_var(t_script *s, int n, int i)
+
+#######################################################
+
+int	export_status(t_script *s, int n)
+
+	questao:
+	
+		if (!s->envp)
+			return (1); // deveria fazer return(return_error("", 1, 0)) ???? no caso de nao haver envp na *s 
+
+#######################################################
+
+int	bi_export(t_script *s, int n)
+
 
 #######################################################
 
 }
+
 
 void 850_bi_unset.c ()
 {
 
 ######################################################
 
+int	bi_unset(t_script *s, int n)
+
+#######################################################
+
+int	bi_unset_envt(t_script *s, int n)
 
 #######################################################
 
 }
+
 
 void 860_bi_env.c ()
 {
 
 ######################################################
 
+int	bi_env(t_script *s, int n)
 
 #######################################################
 
 }
+
 
 void 870_bi_exit.c ()
 {
 
 ######################################################
 
+int	ft_is_str_digit(char *str)
 
 #######################################################
 
+int	exit_error_args(const char *msg, int system) 
+
+######################################################
+
+int	exit_error_notnum(const char *msg, int system)
+
+######################################################
+
+int	bi_exit(t_script *s, int n)
+
+estava:
+
+	if (s->cmds[n].argc > 2)
+	{
+		return (exit_error_args("too many arguments\n", 2));
+	}
+	if (ft_is_str_digit(s->cmds[n].argv[1]) == 1)
+	{
+		//show_func(__func__, ERROR, NULL);
+		exit_error_notnum(s->cmds[n].argv[1], 2);
+		free_commands(s->cmds, s->cmd_count);
+		free_array(s->envp);
+		exit (2);
+	}
+
+alterei: 
+// alterei a ordem pq ao testar 'exit d 4' dizia que tem demasiados argumentos e o bash analisa primeiro o conteudo e nao a quantidade
+
+	if (ft_is_str_digit(s->cmds[n].argv[1]) == 1)
+	{
+		//show_func(__func__, ERROR, NULL);
+		exit_error_notnum(s->cmds[n].argv[1], 2); // podemos usar a return_error, certo???
+		free_commands(s->cmds, s->cmd_count);
+		free_array(s->envp);
+		exit (2);
+	}
+	if (s->cmds[n].argc > 2)
+	{
+		return (exit_error_args("too many arguments\n", 2)); // podemos usar a return_error, certo???
+	}
+
+
+######################################################
+
 }
+
 
 void 880_bi_equal.c ()
 {
 
 ######################################################
 
+void	bi_equal_upd(t_script *s, int n, int i)
+
+#######################################################
+
+void	bi_equal_new(t_script *s, int n, int i)
+
+#######################################################
+
+int	bi_equal(t_script *s, int n)
 
 #######################################################
 
 }
+
 
 void 900_free.c ()
 {
 
 ######################################################
 
+void	free_array(char **array)
+
+#######################################################
+
+int	free_tokens(t_token **head)
+
+#######################################################
+
+/// @return 		SUCCESS or ERROR ?? needs coherence check
+int	free_commands(t_command *cmd, int cmd_idx)
+
+	return (1); // esclarecer
+
+#######################################################
+
+void	free_cmds_path(t_script *script, char **path)
+
+#######################################################
+
+void	exit_forks(char *msg, int errms, t_script *s, char **path)
+
+	return_error(msg, errms, 1); // já tem chamada de return_error
 
 #######################################################
 
 }
+
 
 void 910_errors.c ()
 {
 
 ######################################################
 
+int	export_error(const char *msg, int errms) 
+// exemplo a seguir para utilizar variaveis que precisem de malloc e chamada de return_error
+
+#######################################################
+
+int	return_error(const char *msg, int errms, int errbash)
+// definiçao de exit_status no minishell ou perror
+
+#######################################################
+
+char	**ordered_array(char **s, char t) // WTF!!!!!!!!!!!
 
 #######################################################
 
 }
+
 
 void 999_debug.c ()
 {
@@ -917,3 +1239,4 @@ void 999_debug.c ()
 #######################################################
 
 }
+

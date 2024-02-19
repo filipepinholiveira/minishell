@@ -90,8 +90,11 @@ int	exec_one_fork(t_script *s, char **path)
 
 	pid = fork();
 	if (pid == -1)
+	{
 		// return (fork_error(path));
+		//free_array(path); // estava a ser feito no fork error mas o exec_one tb o faz if exec_one_fork
 		return (return_error("", errno, 1)); // alterado filipe 20 fev
+	}
 	if (pid == 0)
 		ex_child_1(s, path, NULL);
 	wait(&g_exit_status);
@@ -133,7 +136,7 @@ int	exec_one(t_script *s, char **path)
 		show_func(__func__, SHOW_MSG, "exec_one child : <export without args>, <echo>, <env>, <pwd>, <execve> \n");
 		if (exec_one_fork(s, path)) 
 		{
-			free_array(path); // o exec_one_forks faz free a path no fork_error se pid == -1
+			//free_array(path); // o exec_one_forks faz free a path no fork_error se pid == -1, dava double free no env e pwd e deixou de dar
 			//show_func(__func__, ERROR, "exec_one_fork execution error");
 			return (ERROR);
 		}

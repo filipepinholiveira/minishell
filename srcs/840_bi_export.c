@@ -117,7 +117,7 @@ int	export_status(t_script *s, int n)
 	}
 	else if (s->cmds[n].argv[1][0] == '\0')
 		return(return_error("Syntax error", 1, 2));
-	return (0);
+	return (SUCCESS);
 }
 
 /// @brief 			Export PERMANENT environment variables

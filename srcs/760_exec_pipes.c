@@ -71,5 +71,5 @@ int	pipe_std_setter(int *pipe, int end)
 	if (pipe[end] != end)
 		return (dup2(pipe[end], end));
 	//show_func(__func__, SUCCESS, NULL);
-	return (0);
+	return (SUCCESS);
 }

@@ -66,7 +66,7 @@ int	exec_cmd_i(t_script *s, char **path, int **pipes, int i)
 	close(pipes[0][0]);
 	close(pipes[1][1]);
 	free(pipes);
-	return (0);
+	return (SUCCESS);
 }
 
 /// @brief 			Executes the last command in a pipped script
@@ -117,13 +117,13 @@ int	exec_cmd_loop(t_script *s, char **path, int *pipe1, int *pipe2)
 		if (cmd_idx % 2 == 0)
 		{
 			pipes = pipe_init(path, pipe1, pipe2);
-			if (exec_cmd_i(s, path, pipes, i) == 1)
+			if (exec_cmd_i(s, path, pipes, i) == 1) // em caso de erro no exec_cmd_i
 				return (-1);
 		}
 		else
 		{
 			pipes = pipe_init(path, pipe2, pipe1);
-			if (exec_cmd_i(s, path, pipes, i) == 1)
+			if (exec_cmd_i(s, path, pipes, i) == 1) // em caso de erro no exec_cmd_i
 				return (-1);
 		}
 		cmd_idx++;

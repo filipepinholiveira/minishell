@@ -35,5 +35,5 @@ int	bi_pwd(t_script *s, int n)
 	//show_func(__func__, SUCCESS, buf);
 	free(buf);
 	free_commands(s->cmds, 0);
-	return (0);
+	return (SUCCESS);
 }

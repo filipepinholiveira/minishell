@@ -72,17 +72,17 @@ int	bi_exit(t_script *s, int n)
 	env_var_setter("minishell", "_", &s->envp);
 	if (s->cmds[n].argc == 1)
 		exit (0);
-	if (s->cmds[n].argc > 2)
-	{
-		return (exit_error_args("too many arguments\n", 2));
-	}
 	if (ft_is_str_digit(s->cmds[n].argv[1]) == 1)
 	{
 		//show_func(__func__, ERROR, NULL);
-		exit_error_notnum(s->cmds[n].argv[1], 2);
+		exit_error_notnum(s->cmds[n].argv[1], 2); // podemos usar a return_error, certo???
 		free_commands(s->cmds, s->cmd_count);
 		free_array(s->envp);
 		exit (2);
+	}
+	if (s->cmds[n].argc > 2)
+	{
+		return (exit_error_args("too many arguments\n", 2)); // podemos usar a return_error, certo???
 	}
 	//show_func(__func__, SUCCESS, NULL);
 	exit (ft_atoi(s->cmds[n].argv[1]));

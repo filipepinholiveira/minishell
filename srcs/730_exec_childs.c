@@ -29,7 +29,7 @@ void	ex_child_1(t_script *s, char **path, int *pipeout)
 		if (pipe_std_setter(pipeout, STDOUT_FILENO) == -1)
 		{
 			pipe_closer(pipeout, NULL);
-			exit_forks("pipe_std_setter", 1, s, path);
+			exit_forks("pipe_std_setter", 1, s, path); // esta funçao chama já o return_error
 		}
 		pipe_closer(pipeout, NULL);
 	}
@@ -38,7 +38,7 @@ void	ex_child_1(t_script *s, char **path, int *pipeout)
 
 	free_cmds_path(s, path);
 	//show_func(__func__, SUCCESS, NULL);
-	exit(0);
+	exit(SUCCESS);
 }
 
 /// @brief 			Executes the command in the middle of a pipe
@@ -54,21 +54,21 @@ void	ex_child_i(t_script *s, char **path, int **pipes, int i)
 	else if (pipe_std_setter(pipes[0], STDIN_FILENO) == -1)
 	{
 		pipe_closer(pipes[0], pipes[1]);
-		exit_forks("pipe_std_setter", 1, s, path);
+		exit_forks("pipe_std_setter", 1, s, path); // esta funçao chama já o return_error
 	}
 	if (s->cmds[i].out.name)
 		out_redir(s, i, path);
 	else if (pipe_std_setter(pipes[1], STDOUT_FILENO) == -1)
 	{
 		pipe_closer(pipes[0], pipes[1]);
-		exit_forks("pipe_std_setter", 1, s, path);
+		exit_forks("pipe_std_setter", 1, s, path); // esta funçao chama já o return_error
 	}
 	pipe_closer(pipes[0], pipes[1]);
 	if (s->cmds[i].argv[0])
 		exec_go(s, path, exec_type(s->cmds[i].argv[0]), i);
 	free_cmds_path(s, path);
 	//show_func(__func__, SUCCESS, NULL);
-	exit(0);
+	exit(SUCCESS);
 }
 
 /// @brief 			Executes the last command in a pipe
