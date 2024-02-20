@@ -82,6 +82,7 @@ int	exec_one_fork(t_script *s, char **path)
 {
 	show_func(__func__, MY_START, NULL);
 	int	pid;
+	int	status;
 
 	if (s->cmds[0].in.flag == -1)
 		signal(SIGQUIT, SIG_IGN);
@@ -97,11 +98,16 @@ int	exec_one_fork(t_script *s, char **path)
 		return (return_error("", errno, 1)); // alterado filipe 20 fev
 	}
 	if (pid == 0)
+	{
+		printf("Exit_status antes de ex child: %d\n", g_exit_status);
 		ex_child_1(s, path, NULL);
-	wait(&g_exit_status);
+	}
+	wait(&status);
+	if (WIFEXITED(status))
+		g_exit_status = WEXITSTATUS(status);
 	//printf("Exit_status apos wait exec_one_fork: %d\n", g_exit_status);
-	if (WIFSIGNALED(g_exit_status))
-		g_exit_status = 128 + WTERMSIG(g_exit_status);
+	// if (WIFSIGNALED(status))
+	// 	g_exit_status = 128 + WTERMSIG(status);
 	//printf("Exit_status apos IF exec_one_fork: %d\n", g_exit_status);
 	//show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);
