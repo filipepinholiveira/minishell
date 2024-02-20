@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 18:49:28 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/16 14:38:29 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/17 13:49:51 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@
 # ifndef _SHOW_KEY_
 #  define _SHOW_KEY_ 0
 # endif
-# ifndef MY_DEBUG
-#  define MY_DEBUG 0
+# ifndef DEBUG_ALL
+#  define DEBUG_ALL 0
 # endif
-# ifndef MY_DEBUG_COLOR
-#  define MY_DEBUG_COLOR 0
+# ifndef DEBUG_ALL_COLOR
+#  define DEBUG_ALL_COLOR 0
 # endif
 # ifndef MY_START
 #  define MY_START 255
@@ -46,6 +46,9 @@
 # endif
 # ifndef _MOUSE_TEST_
 #  define _MOUSE_TEST_ 1
+# endif
+# ifndef DEBUG_ARRAY_
+#  define DEBUG_ARRAY 1
 # endif
 
 /* ************************************************************************** */
