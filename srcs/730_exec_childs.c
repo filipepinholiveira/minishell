@@ -104,20 +104,28 @@ void exec_go(t_script *s, char **path, int id, int i)
 {
 	show_func(__func__, MY_START, NULL);
 	char *tmp;
+	char *msg;
 	struct stat buf;
 
 	if (id == CMD_EX)
 	{
 		show_func(__func__, MY_START, "execve cmd");
 		tmp = s->cmds[i].argv[0];
+		msg = ft_strjoin("Minishell: ", s->cmds[i].argv[0]);
 		if (!tmp[0])
 			return ;
 		show_func(__func__, MY_START, tmp);
 		stat(tmp, &buf);
 		exec_ve(path, s->cmds[i].argv, s->envp);
-		perror(tmp);
 		if (S_ISDIR(buf.st_mode))
 			errno = EISDIR;
+		if (ft_strchr(s->cmds[i].argv[0], '/') != NULL)
+		{
+			free_cmds_path(s, path);
+			return_error(msg, 127, 1);
+			free (msg);
+			exit (127);
+		}
 		ft_putstr_fd("Minishell: ", 2);
 		if (errno != ENOENT)
 			perror(tmp);
@@ -131,5 +139,5 @@ void exec_go(t_script *s, char **path, int id, int i)
 	}
 	else
 		exec_bi(id, s, i);
-	//show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 }

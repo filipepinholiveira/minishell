@@ -98,7 +98,7 @@ int	exec_one_fork(t_script *s, char **path)
 	}
 	if (pid == 0)
 		ex_child_1(s, path, NULL);
-	wait(NULL);
+	wait(&g_exit_status);
 	//printf("Exit_status apos wait exec_one_fork: %d\n", g_exit_status);
 	if (WIFSIGNALED(g_exit_status))
 		g_exit_status = 128 + WTERMSIG(g_exit_status);

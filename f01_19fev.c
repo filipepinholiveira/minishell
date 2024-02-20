@@ -1108,22 +1108,13 @@ void 870_bi_exit.c ()
 
 ######################################################
 
-int	ft_is_str_digit(char *str)
-
 
 alterei:
 
-while (str[i])
-	{
-		if ((str[i] < 48 || str[i] > 57) && str[0] != '-') // desta forma passa a aceitar negativos no exit, p.e. exit -42
-		{
-			//show_func(__func__, ERROR, NULL);
-			return (ERROR);
-		}
-		i++;
-	}
-	//show_func(__func__, SUCCESS, NULL);
-	return (SUCCESS);
+if (ft_atoi(s->cmds[n].argv[1]) == 0)
+		exit (0);
+
+if (ft_is_str_digit(s->cmds[n].argv[1]) == 1 || !ft_atoi(s->cmds[n].argv[1]))
 
 #######################################################
 
