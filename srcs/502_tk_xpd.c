@@ -6,14 +6,14 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/16 20:04:41 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/10 00:13:35 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /// @attention	>token builder< set of functions
-/// @brief 		it takes a char sequence and cpounts the number of splits needed
+/// @brief 		it takes a char sequence and counts the number of splits needed
 ///				to build an array based of the splitter char '\"',  '\'',  '$'
 /// @param otk 	char sequance to evaluate
 /// @return		number of splits needed to properly create an array
@@ -21,6 +21,7 @@ int	tk_var_xpd_splits_count(char *otk)
 {
 	int	i;
 	int	splits;
+	show_func(__func__, MY_START, NULL);
 
 	splits = -1;
 	i = 0;
@@ -50,9 +51,15 @@ char	**tk_var_xpd_init(char *otk)
 	int		j;
 	char	**ntks;
 	int		spl;
+	show_func(__func__, MY_START, NULL);
 
 	spl = tk_var_xpd_splits_count(otk);
 	ntks = (char **)malloc(sizeof(char *) * (spl + 1));
+	if (!ntks) // adcionada filipe 19 fev
+	{
+		return_error("", errno, 1);
+		return (NULL);
+	}
 	ntks[spl] = NULL;
 	j = -1;
 	while (++j < spl)
@@ -70,6 +77,7 @@ char	**tk_var_xpd(char *otk)
 	int		i;
 	char	**ntks;
 	int		spl;
+	show_func(__func__, MY_START, NULL);
 
 	ntks = tk_var_xpd_init(otk);
 	spl = -1;
@@ -102,11 +110,11 @@ char	*tk_env_var_expander(char *otk, t_script *s)
 {
 	char	**ntks;
 	char	*res;
+	show_func(__func__, MY_START, NULL);
 
 	ntks = NULL;
 	ntks = tk_var_xpd(otk);
 	res = tk_xpd_filler(&ntks, s);
 	free(ntks);
-	//printf("%s%s : %s => '%s'\n", SBHGRN, __func__, otk, res);
 	return (res);
 }

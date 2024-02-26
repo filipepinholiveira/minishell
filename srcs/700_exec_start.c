@@ -58,7 +58,7 @@ char	**split_path(char **envp)
 /// @return 		SUCCESS or ERROR
 int execute(t_script *s)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	char	**path;
 
 	execute_show(s);
@@ -66,12 +66,12 @@ int execute(t_script *s)
 	if (s->cmd_count == 1)
 	{
 		if (exec_one(s, path))
-			return (1);
+			return (ERROR); // estava return (1) filipe 20fev
 	}
 	else if (exec_many(s, path))
-		return (1);
+		return (ERROR); // estava return (1) filipe 20fev
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &s->termios_p);
-	//show_func(__func__, SUCCESS, NULL);
-	return (0);
+	show_func(__func__, SUCCESS, NULL);
+	return (SUCCESS);
 }
 

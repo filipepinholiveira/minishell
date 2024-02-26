@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:29:02 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/17 13:55:39 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/26 00:25:56 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,11 @@ void	execute_show(t_script *s)
 	j = -1;
 	if (!s || !DEBUG_ARRAY)
 		return ;
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	printf("%s**********************************************************%s\n", SBHGRN, SRST);
 	printf("%s(->)  s->com_count: \t%i\n", SBHYLW, s->cmd_count);
 	while (++j < s->cmd_count)
 	{
-		printf("%s#\n", SRST);
 		printf("%s(->)  s->cmds[%d]. %s\n", SBHYLW, j, SRST);
 		//printf("%s(->)  \t.cmd \t\t%s%s\n", SBHYLW, s->cmds[j].cmd, SRST);
 		printf("%s(->)  \t.argc : \t%s%d\n", SBHYLW, SBHGRN, s->cmds[j].argc);
@@ -45,8 +44,8 @@ void	execute_show(t_script *s)
 		printf("%s(->)  \t.in->heredoc: \t%s%p%s\n", SBHYLW, SBHBLU,s->cmds[j].in.heredoc, SRST);
 		i = -1;
 		printf("%s**********************************************************%s\n", SBHGRN, SRST);
+		printf("\n");
 	}
-	printf("\n");
 	//show_func(__func__, SUCCESS, NULL);
 	return ;
 }
@@ -95,7 +94,7 @@ int	show_func(const char *func_name, int status, char *msg)
 			if (debug_msg[i].status == status)
 				break ;
 		}
-		if (DEBUG_ALL_COLOR)
+		if (DEBUG_COLOR)
 		{
 			printf("%s%s%s%s%s%s%s", SBHWHT, debug_msg[i].msg_header, SBWHT, func_name,
 				debug_msg[i].color, debug_msg[i].msg, SRST);
@@ -120,9 +119,8 @@ int	show_func(const char *func_name, int status, char *msg)
 /// @return				void
 void	show_array(char **envp, const char *name)
 {
-	//show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	int i = -1;
-
 
 	if (!envp || !DEBUG_ARRAY)
 		return ;
