@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:28:14 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/09 23:48:12 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/27 23:57:19 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ void	fnames_clear(t_command *cmds, int max, t_token *tk)
 	while (++i < max)
 	{
 		cmds[i].in.name = NULL;
-		cmds[i].out.name = NULL;
+		cmds[i].out.name = NULL; //??
 		cmds[i].in.heredoc = NULL;
+		cmds[i].in.flag = -1;
+		cmds[i].out.flag = -1;
 	}
 	return ;
 }

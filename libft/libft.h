@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 15:21:17 by hmaciel-          #+#    #+#             */
-/*   Updated: 2024/02/25 21:42:33 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/27 23:03:52 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,15 @@
 # endif
 # ifndef FALSE
 #  define FALSE 0
+# endif
+
+/// Var sizes
+
+# ifndef __LONG_LONG_MAX__
+#  define __LONG_LONG_MAX__ 9223372036854775807
+# endif
+# ifndef __LONG_LONG_MIN__
+#  define __LONG_LONG_MIN__ -9223372036854775808
 # endif
 
 /**********************
@@ -81,6 +90,7 @@ void			ft_free_arr(char **str);
 void			ft_free(char *str);
 int				ft_atoi(const char *nptr);
 long			ft_atol(const char *nptr);
+long double		ft_atoll(const char *nptr);
 char			*ft_ftoa(float f, int p);
 void			ft_bzero(void *s, size_t n);
 char			*ft_itoa(int n);

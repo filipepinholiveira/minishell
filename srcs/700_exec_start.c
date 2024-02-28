@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 00:26:42 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/15 20:05:40 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/27 23:57:19 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	get_path_index(char **envp)
 {
-	// show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	int	i;
 
 	i = 0;
@@ -22,18 +22,18 @@ static int	get_path_index(char **envp)
 	{
 		if (!ft_strncmp(envp[i], "PATH=", 5))
 		{
-			// show_func(__func__, SUCCESS, ft_strjoin("PATH index = ", ft_itoa(i)));
+			show_func(__func__, SUCCESS, ft_strjoin("PATH index = ", ft_itoa(i)));
 			return (i);
 		}
 		i++;
 	}
-	// show_func(__func__, ERROR, NULL);
+	show_func(__func__, ERROR, NULL);
 	return (-1);
 }
 
 char	**split_path(char **envp)
 {
-	// show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	int		i;
 	char	**path;
 
@@ -49,7 +49,7 @@ char	**split_path(char **envp)
 		//show_func(__func__, SHOW_MSG, path[i]);
 	}
 	// show_array(path, "path");
-	// show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 	return (path);
 }
 

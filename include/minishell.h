@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/26 01:50:17 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/27 22:49:04 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # include "../include/error.h"
 # include "../include/colors.h"
 # include "../include/debug.h"
+# include "../include/settings.h"
 
 # define MAX_PATH_LEN 4096
 

@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/26 01:27:10 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/28 00:01:14 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	env_var_setter(char *val, char *var, char ***envx)
 	char	*var_new;
 	char	*old_record;
 	char	**new_array;
-	show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, var);
 
 	if (val)
 		var_new = ft_strjoin_free(ft_strjoin(var, "="), ft_strdup(val));
@@ -89,7 +89,7 @@ int	env_var_setter(char *val, char *var, char ***envx)
 		(*envx)[i] = ft_strjoin_free(var_new, ft_strdup(""));
 		free(old_record);
 	}
-	show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, val);
 	return (SUCCESS);
 }
 
@@ -105,7 +105,7 @@ char	*envx_var_getter(char *var, char **envx)
 	char	*ret;
 	int		len;
 	//int i;
-	show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, var);
 
 	if (!envx || !var)
 		return (NULL);
