@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 15:21:17 by hmaciel-          #+#    #+#             */
-/*   Updated: 2024/02/27 23:03:52 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/28 13:12:08 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,11 @@ int				ft_atoi(const char *nptr);
 long			ft_atol(const char *nptr);
 long double		ft_atoll(const char *nptr);
 char			*ft_ftoa(float f, int p);
+/// @brief 		Converts the integer n to a string
+/// @param n	The integer to convert
+///
+/// @return		The string representation of the integer
+char			*ft_itoa_base(const long int n, char base);
 void			ft_bzero(void *s, size_t n);
 char			*ft_itoa(int n);
 void			*ft_calloc(size_t nmemb, size_t size);

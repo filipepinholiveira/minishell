@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 12:26:48 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/27 23:57:19 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/28 23:39:18 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	free_array(char **array)
 {
 
 	show_func(__func__, MY_START, NULL);
+	show_pointer(__func__, D_FREE, "", array);
 	int	i;
 
 	if (!array)
@@ -29,24 +30,26 @@ void	free_array(char **array)
 		i++;
 	}
 	free(array);
-	show_func(__func__, SUCCESS, "Array freed");
+	show_func(__func__, SUCCESS, ft_strdup("Array freed"));
 }
 
 /// @brief 		Frees the token list
 /// @param head	Head of the token list
 /// @return		1 if success, 0 if failure
-int	free_tokens(t_token **head)
+int	free_tokens(t_token **tk)
 {
 	t_token	*tmp;
 
-	if (!head)
+	if (!tk)
 		return (ERROR);
-	while (*head)
+	while (*tk)
 	{
-		tmp = (*head)->next;
-		free((*head)->content);
-		free(*head);
-		*head = tmp;
+		tmp = (*tk)->next;
+		show_pointer(__func__, D_FREE, "(*tk)->content -> ", (*tk)->content);
+		free((*tk)->content);
+		show_pointer(__func__, D_FREE, "*tk -> ", *tk);
+		free(*tk);
+		*tk = tmp;
 	}
 	return (1);
 }
@@ -58,7 +61,7 @@ int	free_tokens(t_token **head)
 int	free_commands(t_command *cmd, int cmd_idx)
 {
 	show_func(__func__, MY_START, NULL);
-	show_func(__func__, SHOW_MSG, ft_strjoin("cmd_idx = ", ft_itoa(cmd_idx)));
+	show_pointer(__func__, D_FREE, "", cmd);
 	int	i;
 	int	j;
 
@@ -68,7 +71,6 @@ int	free_commands(t_command *cmd, int cmd_idx)
 		j = -1;
 		while (++j < cmd[i].argc)
 		{
-			show_func(__func__, SHOW_MSG, ft_strjoin("cmd = ", cmd[i].argv[j] ));
 			if (cmd[i].argv[j])
 				ft_free(cmd[i].argv[j]);
 		}

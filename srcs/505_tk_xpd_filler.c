@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/27 23:57:19 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/28 23:20:34 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,11 @@ char	*tk_xpd_var_filler(char *ntk, t_script *s)
 	if (var_firstchar(ntk[i]) == SUCCESS)
 	{
 		show_func(__func__, SHOW_MSG, ft_strjoin("ntk[i] = ", ntk + 1));
-		show_func(__func__, SHOW_MSG, (*s->envp));
-		show_func(__func__, SHOW_MSG, (*s->envt));
+		show_func(__func__, SHOW_MSG, ft_strdup(*s->envp));
+		if (*s->envt)
+			show_func(__func__, SHOW_MSG, ft_strdup(*s->envt));
 		ntk = env_var_getter(ntk + 1, s->envp, s->envt);
-		show_func(__func__, SHOW_MSG, "ready with env_var_getter");
+		show_func(__func__, SHOW_MSG, ft_strdup("ready with env_var_getter"));
 	}
 	else if (ft_isdigit(ntk[i]))
 		ntk = ft_strdup("");
@@ -74,5 +75,6 @@ char	*tk_xpd_filler(char ***ntks, t_script *s)
 			(*ntks)[split] = tk_xpd_unquote((*ntks)[split]);
 		tmp = ft_strjoin_free(tmp, (*ntks)[split]);
 	}
+	show_func(__func__, SUCCESS, ft_strdup(tmp));
 	return (tmp);
 }

@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:46:53 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/27 23:57:19 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/28 22:43:48 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ int	bi_unset_envt(t_script *s, int n)
 
 	if (!s->envt || !s->cmds[n].argv[1])
 		return (ERROR);
-	//show_func(__func__, SHOW_MSG, "before while...");
+	//show_func(__func__, SHOW_MSG, ft_strdup("before while..."));
 	i = 1;
 	while (s->cmds[n].argv[i])
 	{
 		if (!ft_strchr(s->cmds[n].argv[i], '='))
 		{
-			//show_func(__func__, SHOW_MSG, "inside while...");
+			//show_func(__func__, SHOW_MSG, ft_strdup("inside while..."));
 			j = env_var_index_getter(s->cmds[n].argv[i], s->envt);
 			while (j >= 0 && s->envt[j] && s->envt[j + 1])
 			{

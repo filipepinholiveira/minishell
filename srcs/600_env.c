@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/28 00:01:14 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/29 00:08:08 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	env_var_index_getter(char *var, char **envx)
 			return (i);
 		i++;
 	}
-	//show_func(__func__, SHOW_MSG, "var not found");
+	//show_func(__func__, SHOW_MSG, ft_strdup("var not found"));
 	return (-1);
 }
 
@@ -45,7 +45,7 @@ int	env_var_setter(char *val, char *var, char ***envx)
 	char	*var_new;
 	char	*old_record;
 	char	**new_array;
-	show_func(__func__, MY_START, var);
+	show_func(__func__, MY_START, ft_strdup(var));
 
 	if (val)
 		var_new = ft_strjoin_free(ft_strjoin(var, "="), ft_strdup(val));
@@ -57,19 +57,30 @@ int	env_var_setter(char *val, char *var, char ***envx)
 		i = 0;
 		while ((*envx)[i])
 			i++;
-		new_array = malloc(sizeof(char *) * (i + 2));
+		show_pointer(__func__, D_MALLOC, "old -> envx -> ", (*envx));
+		printf("%s%s : previous size = [%d] %s\n", SBHYLW, __func__, i, SRST);
+		new_array = ft_calloc(i + 2, sizeof(char *));
 		if (!new_array)
 		{
 			return_error("", errno, 1);
 			return (ERROR);
 		}
+		show_pointer(__func__, D_MALLOC, "new -> envx -> ", new_array);
 		i = -1;
 		while ((*envx)[++i])
+		{
 			new_array[i] = ft_strdup((*envx)[i]);
+			printf("%s%s :new_array[%d] = %s%s\n", SBHYLW, __func__, i, new_array[i], SRST);
+		}
 		new_array[i] = ft_strjoin_free(var_new, ft_strdup(""));
+		printf("%s%s :*new_array[%d] = %s%s\n", SBHYLW, __func__, i, new_array[i], SRST);
 		new_array[i + 1] = NULL;
-		free(*envx);
+		printf("%s%s :*new_array[%d] = %s%s\n", SBHYLW, __func__, i+1, new_array[i+1], SRST);
+		show_pointer(__func__, D_FREE, "old -> envx -> ", (*envx));
+
+		free_array(*envx);
 		*envx = new_array;
+		show_pointer(__func__, D_MALLOC, "new -> envx -> ", (*envx));
 		show_array(*envx, "envx");
 	}
 	else if (i == -1 && !*envx)
@@ -80,6 +91,7 @@ int	env_var_setter(char *val, char *var, char ***envx)
 			return_error("", errno, 1);
 			return (ERROR);
 		}
+		show_pointer(__func__, D_MALLOC, "init envx", *envx);
 		(*envx)[0] = ft_strjoin_free(var_new, ft_strdup(""));
 		(*envx)[1] = NULL;
 	}
@@ -89,7 +101,7 @@ int	env_var_setter(char *val, char *var, char ***envx)
 		(*envx)[i] = ft_strjoin_free(var_new, ft_strdup(""));
 		free(old_record);
 	}
-	show_func(__func__, SUCCESS, val);
+	show_func(__func__, SUCCESS, ft_strdup(var));
 	return (SUCCESS);
 }
 
@@ -105,7 +117,7 @@ char	*envx_var_getter(char *var, char **envx)
 	char	*ret;
 	int		len;
 	//int i;
-	show_func(__func__, MY_START, var);
+	show_func(__func__, MY_START, ft_strdup(var));
 
 	if (!envx || !var)
 		return (NULL);
@@ -145,15 +157,15 @@ char	*env_var_getter(char *var, char **envp, char **envt)
 	if (envp)
 	{
 
-		show_func(__func__, SHOW_MSG, "envp calling");
+		show_func(__func__, SHOW_MSG, ft_strdup("envp calling"));
 		retp = envx_var_getter(var, envp);
-		show_func(__func__, SHOW_MSG, "envp return");
+		show_func(__func__, SHOW_MSG, ft_strdup("envp return"));
 	}
 	if (envt)
 	{
-		show_func(__func__, SHOW_MSG, "envt calling");
+		show_func(__func__, SHOW_MSG, ft_strdup("envt calling"));
 		rett = envx_var_getter(var, envt);
-		show_func(__func__, SHOW_MSG, "envt return");
+		show_func(__func__, SHOW_MSG, ft_strdup("envt return"));
 	}
 	if (!retp && !rett)
 		return (NULL);

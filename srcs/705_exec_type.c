@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 19:25:54 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/27 23:57:19 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/28 22:38:56 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	bi_equal_check(t_script *s, int n, int i)
 		}
 		i++;
 	}
-	show_func(__func__, SUCCESS, s->cmds[n].argv[0]);
+	show_func(__func__, SUCCESS, ft_strdup(s->cmds[n].argv[0]));
 	return (exec_type(s->cmds[n].argv[0]));
 }
 

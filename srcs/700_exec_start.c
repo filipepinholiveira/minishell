@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 00:26:42 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/27 23:57:19 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/28 22:38:19 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	**split_path(char **envp)
 	while (path[++i])
 	{
 		path[i] = ft_strjoin(path[i], "/");
-		//show_func(__func__, SHOW_MSG, path[i]);
+		//show_func(__func__, SHOW_MSG, ft_strdup(path[i]);
 	}
 	// show_array(path, "path");
 	show_func(__func__, SUCCESS, NULL);
@@ -63,6 +63,7 @@ int execute(t_script *s)
 
 	execute_show(s);
 	path = split_path(s->envp);
+	show_pointer(__func__, D_MALLOC, "path -> ", path);
 	if (s->cmd_count == 1)
 	{
 		if (exec_one(s, path))

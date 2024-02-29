@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 00:10:23 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/28 00:09:52 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/28 22:44:09 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	exit_go(t_script *s, char *arg, char *msg, int sys)
 	errno = sys;
 	free_commands(s->cmds, s->cmd_count);
 	free_array(s->envp);
+	free_array(s->envt);
 	exit(sys);
 	show_func(__func__, SUCCESS, NULL);
 }
@@ -96,7 +97,7 @@ int	bi_exit(t_script *s, int n)
 		exit_go(s, NULL, NULL, 0);
 	else if (s->cmds[n].argc > 2)
 	{
-		show_func(__func__, SUCCESS, s->cmds[n].argv[2]);
+		show_func(__func__, SUCCESS, ft_strdup(s->cmds[n].argv[2]));
 		g_exit_status = exit_error_args("too many arguments\n", 1);
 	}
 	else if (s->cmds[n].argc == 2)

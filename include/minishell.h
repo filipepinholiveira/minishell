@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/27 22:49:04 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/28 17:14:41 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1136,5 +1136,10 @@ int		show_func(const char *func_name, int status, char *msg);
 void	show_array(char **array, const char *name);
 
 void	show_token_list(t_token *token);
+
+char *ft_var_address(const char *varname, void *var);
+
+void show_pointer(const char *func, int status, const char *msg, void *ptr);
+
 
 #endif

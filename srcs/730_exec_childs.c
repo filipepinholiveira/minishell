@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 19:11:17 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/27 23:57:19 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/28 22:40:54 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void exec_go(t_script *s, char **path, int id, int i)
 
 	if (id == CMD_EX)
 	{
-		show_func(__func__, SHOW_MSG, "execve cmd");
+		show_func(__func__, SHOW_MSG, ft_strdup("execve cmd"));
 		tmp = s->cmds[i].argv[0];
 		msg = ft_strjoin("Minishell: ", s->cmds[i].argv[0]);
 		if (!tmp[0])

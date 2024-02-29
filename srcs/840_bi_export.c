@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:46:39 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/27 23:57:19 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/28 22:43:27 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	var_name_check(char *var)
 	int	i;
 
 	i = 0;
-	//show_func(__func__, SHOW_MSG, var);
+	//show_func(__func__, SHOW_MSG, ft_strdup(var));
 	if (var[i] && (!ft_isalpha(var[i]) || var[i] == '_'))
 		return (ERROR);
 	while (var[i] && var[i] != '=')
@@ -73,22 +73,22 @@ void	bi_export_new_var(t_script *s, int n, int i)
 	char	*var;
 
 	var = s->cmds[n].argv[i];
-	//show_func(__func__, SHOW_MSG, var);
+	//show_func(__func__, SHOW_MSG, ft_strdup(var));
 	if (env_var_index_getter(var, s->envp) >= 0)
 	{
-		//show_func(__func__, SHOW_MSG, "var existes in P: exporting...\n");
+		//show_func(__func__, SHOW_MSG, ft_strdup("var existes in P: exporting...\n"));
 		return ;
 	}
 	else if (s->envt && env_var_index_getter(var, s->envt) >= 0)
 	{
-		//show_func(__func__, SHOW_MSG, "var existes in T: exporting...\n");
+		//show_func(__func__, SHOW_MSG, ft_strdup("var existes in T: exporting...\n"));
 		val = env_var_getter(var, NULL, s->envt);
 		env_var_setter(val, var, &s->envp);
 		bi_unset_envt(s, n);
 	}
 	else
 	{
-		//show_func(__func__, SHOW_MSG, "NEW var : creating without value");
+		//show_func(__func__, SHOW_MSG, ft_strdup("NEW var : creating without value"));
 		env_var_setter(NULL, var, &s->envp);
 	}
 	//show_func(__func__, SUCCESS, NULL);
@@ -178,7 +178,7 @@ char	**ordered_array(char **d, char t, int n, int j)
 	int	len_j;
 	int	res_cmp;
 
-	show_func(__func__, MY_START, "Ordering Array...");
+	show_func(__func__, MY_START, ft_strdup("Ordering Array..."));
 	while (d[n] && d[n + 1])
 	{
 		j = n;
@@ -193,6 +193,6 @@ char	**ordered_array(char **d, char t, int n, int j)
 		}
 		ft_strswap(&d[n++], &d[i]);
 	}
-	show_func(__func__, SUCCESS, "Array ordered...");
+	show_func(__func__, SUCCESS, ft_strdup("Array ordered..."));
 	return (d);
 }

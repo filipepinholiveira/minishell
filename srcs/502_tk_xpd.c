@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/27 23:57:19 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/28 23:18:17 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,15 @@ char	**tk_var_xpd_init(char *otk)
 	show_func(__func__, MY_START, NULL);
 
 	spl = tk_var_xpd_splits_count(otk);
-	ntks = (char **)malloc(sizeof(char *) * (spl + 1));
+	// ntks = (char **)malloc(sizeof(char *) * (spl + 1));
+	ntks = ft_calloc(spl + 1, sizeof(char *));// * (spl + 1));
 	if (!ntks) // adcionada filipe 19 fev
 	{
 		return_error("", errno, 1);
 		return (NULL);
 	}
 	ntks[spl] = NULL;
+	show_pointer(__func__, D_MALLOC, "ntks -> ", ntks);
 	j = -1;
 	while (++j < spl)
 		ntks[j] = NULL;
@@ -94,6 +96,7 @@ char	**tk_var_xpd(char *otk)
 		else
 			tk_var_xpd_else(otk, &ntks, &spl, &i);
 	}
+	show_func(__func__, SUCCESS, ft_strdup(*ntks));
 	return (ntks);
 }
 
@@ -115,6 +118,9 @@ char	*tk_env_var_expander(char *otk, t_script *s)
 	ntks = NULL;
 	ntks = tk_var_xpd(otk);
 	res = tk_xpd_filler(&ntks, s);
-	free(ntks);
+	show_func(__func__, SHOW_MSG, ft_strdup(*ntks));
+
+	free_array(ntks);
+	show_func(__func__, SUCCESS, ft_strdup(res));
 	return (res);
 }

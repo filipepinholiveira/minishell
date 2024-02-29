@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:10:37 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/27 23:57:19 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/28 21:52:47 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,9 @@ int	tk_builder(char **line, t_token **tk, t_script *s)
 	{
 		content = tk_ptr->content;
 		tk_ptr->content = tk_env_var_expander(content, s);
-		free(content);
+		show_pointer(__func__, D_FREE, "previous tk->content -> ", content);
+		show_pointer(__func__, D_MALLOC, "expanded tk->content -> ", tk_ptr->content);
+		ft_free(content);
 		tk_ptr = tk_ptr->next;
 	}
 	return (SUCCESS);
