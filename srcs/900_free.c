@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 12:26:48 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/28 23:39:18 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/29 13:54:45 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	free_array(char **array)
 {
 
 	show_func(__func__, MY_START, NULL);
-	show_pointer(__func__, D_FREE, "", array);
+	// show_pointer(__func__, D_FREE, "", array);
 	int	i;
 
 	if (!array)

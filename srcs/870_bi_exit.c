@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 00:10:23 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/28 22:44:09 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/29 00:53:12 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,9 @@ void	exit_go(t_script *s, char *arg, char *msg, int sys)
 	}
 	errno = sys;
 	free_commands(s->cmds, s->cmd_count);
+	printf("s.envp = %p\n", s->envp);
 	free_array(s->envp);
+	printf("s.envt = %p\n", s->envt);
 	free_array(s->envt);
 	exit(sys);
 	show_func(__func__, SUCCESS, NULL);

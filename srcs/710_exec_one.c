@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 19:25:54 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/28 23:26:32 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/29 13:54:45 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	exec_one_fork(t_script *s, char **path)
 	if (pid == 0)
 	{
 		show_func(__func__, SHOW_MSG, ft_strdup("############################ Child started ##############################"));
-		// show_func(__func__, SHOW_MSG, ft_strjoin("Exit_status antes de ex child: ", ft_itoa(g_exit_status)));
+		show_func(__func__, SHOW_MSG, ft_strjoin("Exit_status antes de ex child: ", ft_itoa(g_exit_status)));
 		ex_child_1(s, path, NULL);
 	}
 	wait(&status);

@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/28 17:14:41 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/29 17:13:46 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -635,6 +635,10 @@ void	tk_trim_spaces(t_token *tk);
 /* ************************************************************************** */
 ///	600ms_env.c
 /* ************************************************************************** */
+
+char	**env_del_one(char **envx, char *del);
+char	**env_add_one(char **envx, char *add);
+
 
 /// @brief 		This function gets the environment variable index
 /// @param var 	variable to be found

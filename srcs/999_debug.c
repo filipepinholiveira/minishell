@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:29:02 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/29 00:25:09 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/29 13:10:04 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,10 +158,10 @@ void	show_array(char **envx, const char *name)
 		return ;
 	while (envx[i])
 	{
-		printf("%s%s[%i] = %s%s\n", SHBLU ,name, i, envx[i], SRST);
+		printf("%s : %s%p%s : %p : %s[%i] = %s%s\n", __func__, SHGRN, envx + i, SHBLU, envx[i], name, i, envx[i], SRST);
 		i++;
 	}
-	printf("%s%s[%i] = %s%s\n", SHBLU ,name, i, envx[i], SRST);
+	printf("%s : %s%p%s : %p : %s[%i] = %s%s\n", __func__, SHGRN, envx + i, SHBLU, envx[i], name, i, envx[i], SRST);
 	show_func(__func__, SUCCESS, NULL);
 }
 

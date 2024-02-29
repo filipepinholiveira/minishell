@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:27:05 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/28 22:33:53 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/29 13:54:45 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	**envp_init(char **envp)
 		}
 	}
 	ms_envp[i] = NULL;
-	// show_func(__func__, D_MALLOC, ft_strjoin("NEW ARRAY SIZE -> ", ft_itoa(i + 1)));
+	show_func(__func__, D_MALLOC, ft_strjoin("NEW ARRAY SIZE -> ", ft_itoa(i + 1)));
 	return (ms_envp);
 
 }

@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 00:09:56 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/27 23:57:19 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/02/29 00:46:38 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	bi_env(t_script *s, int n)
 		}
 		count++;
 	}
-	free_commands(s->cmds, 0);
-	//show_func(__func__, SUCCESS, NULL);
+	//free_commands(s->cmds, 0);
+	show_func(__func__, SUCCESS, NULL);
 	return (count);
 }
