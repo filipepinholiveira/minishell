@@ -24,16 +24,16 @@ int	var_name_check(char *var)
 	//show_func(__func__, SHOW_MSG, ft_strdup(var));
 	if (var[i] && (!ft_isalpha(var[i]) || var[i] == '_'))
 		return (ERROR);
-	while (var[i] && var[i] != '=' && var[i] != '+')
+	while (var[i] && var[i] != '=')
 	{
-		if (!ft_isalnum(var[i]) && var[i] != '_')
+		if (!ft_isalnum(var[i]) && var[i] != '_' && (var[i] == '+' && var[i + 1] != '='))
 		{
-			//show_func(__func__, ERROR, NULL);
+			show_func(__func__, ERROR, NULL);
 			return (ERROR);
 		}
 		i++;
 	}
-	//show_func(__func__, SUCCESS, NULL);
+	show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);
 }
 

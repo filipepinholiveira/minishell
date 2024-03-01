@@ -18,11 +18,25 @@
 /// @param i 		Index of argument to be checked
 void	bi_equal_upd(t_script *s, int n, int i)
 {
-	env_var_setter(ft_strchr(s->cmds[n].argv[i], '=') + 1,
-		ft_substr(s->cmds[n].argv[i], 0,
-			ft_strlen(s->cmds[n].argv[i])
-			- ft_strlen(ft_strchr(s->cmds[n].argv[i], '='))),
-		&s->envp);
+	show_func(__func__, MY_START, NULL);
+
+	if (ft_strchr(s->cmds[n].argv[i], '+') == NULL)
+	{
+		env_var_setter(ft_strchr(s->cmds[n].argv[i], '=') + 1,
+			ft_substr(s->cmds[n].argv[i], 0,
+				ft_strlen(s->cmds[n].argv[i])
+				- ft_strlen(ft_strchr(s->cmds[n].argv[i], '='))),
+			&s->envp);
+	}
+	else
+	{
+		printf("tem que atualizar envt\n");
+		env_var_setter(ft_strchr(s->cmds[n].argv[i], '+') + 2,
+			ft_substr(s->cmds[n].argv[i], 0,
+				ft_strlen(s->cmds[n].argv[i])
+				- ft_strlen(ft_strchr(s->cmds[n].argv[i], '+'))),
+			&s->envp);
+	}
 }
 
 /// @brief 			Creates NEW TEMPORARY environment variables
@@ -31,6 +45,8 @@ void	bi_equal_upd(t_script *s, int n, int i)
 /// @param i 		Index of argument to be checked
 void	bi_equal_new(t_script *s, int n, int i)
 {
+	show_func(__func__, MY_START, NULL);
+
 	env_var_setter(ft_strchr(s->cmds[n].argv[i], '=') + 1,
 		ft_substr(s->cmds[n].argv[i], 0,
 			ft_strlen(s->cmds[n].argv[i])
@@ -56,17 +72,38 @@ int	bi_equal(t_script *s, int n)
 	{
 		if (var_name_check(s->cmds[n].argv[i]) == SUCCESS)
 		{
-			index_tp = env_var_index_getter(ft_substr(s->cmds[n].argv[i], 0,
+			if (ft_strchr(s->cmds[n].argv[i], '+') == NULL)
+			{
+				printf("nao tem + e vai ver se existe no envp\n");
+				index_tp = env_var_index_getter(ft_substr(s->cmds[n].argv[i], 0,
 						ft_strlen(s->cmds[n].argv[i])
 						- ft_strlen(ft_strchr(s->cmds[n].argv[i], '='))),
 					s->envp);
+			}
+			else
+			{
+				printf("tem + e vai ver se existe no envp\n");
+				index_tp = env_var_index_getter(ft_substr(s->cmds[n].argv[i], 0,
+						ft_strlen(s->cmds[n].argv[i])
+						- ft_strlen(ft_strchr(s->cmds[n].argv[i], '+'))),
+					s->envp);
+				if (index_tp == -1)
+				{
+					printf("tem +, nao existe no envp e vai ver se existe no envt\n");
+					index_tp = env_var_index_getter(ft_substr(s->cmds[n].argv[i], 0,
+						ft_strlen(s->cmds[n].argv[i])
+						- ft_strlen(ft_strchr(s->cmds[n].argv[i], '+'))),
+					s->envt);
+				}
+			}
+			printf("valor de index_tp: %d\n", index_tp);
 			if (index_tp != -1)
 				bi_equal_upd(s, n, i);
 			else
 				bi_equal_new(s, n, i);
 		}
 		else
-			export_error(s->cmds[n].argv[i], 1);
+				export_error(s->cmds[n].argv[i], 1);
 	}
 	show_array(s->envt, "bi_equal envt");
 	//show_func(__func__, SUCCESS, NULL);
