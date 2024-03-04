@@ -31,11 +31,14 @@ void	bi_equal_upd(t_script *s, int n, int i)
 	else
 	{
 		printf("tem que atualizar envt\n");
+		char *primeira_parte = "NAda";
+		printf("o que esta na VA: %s\n", primeira_parte);
 		env_var_setter(ft_strchr(s->cmds[n].argv[i], '+') + 2,
-			ft_substr(s->cmds[n].argv[i], 0,
-				ft_strlen(s->cmds[n].argv[i])
-				- ft_strlen(ft_strchr(s->cmds[n].argv[i], '+'))),
-			&s->envp);
+			ft_strjoin(primeira_parte, 
+				ft_substr(s->cmds[n].argv[i], 0,
+					ft_strlen(s->cmds[n].argv[i])
+					- ft_strlen(ft_strchr(s->cmds[n].argv[i], '+')))),
+			&s->envt);
 	}
 }
 
@@ -96,7 +99,7 @@ int	bi_equal(t_script *s, int n)
 					s->envt);
 				}
 			}
-			printf("valor de index_tp: %d\n", index_tp);
+			printf("valor de index_tp: %d\n- Se valor -1 cria nova\n- Se valor != -1 atualiza env\n", index_tp);
 			if (index_tp != -1)
 				bi_equal_upd(s, n, i);
 			else
