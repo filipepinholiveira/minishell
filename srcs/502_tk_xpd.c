@@ -21,7 +21,7 @@ int	tk_var_xpd_splits_count(char *otk)
 {
 	int	i;
 	int	splits;
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 
 	splits = -1;
 	i = 0;
@@ -76,7 +76,7 @@ char	**tk_var_xpd(char *otk)
 	int		i;
 	char	**ntks;
 	int		spl;
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 
 	ntks = tk_var_xpd_init(otk);
 	printf("%s : (1) &ntks = %p\n", __func__, ntks);
@@ -112,7 +112,7 @@ char	*tk_env_var_expander(char *otk, t_script *s)
 {
 	char	**ntks;
 	char	*res;
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 
 	ntks = NULL;
 	ntks = tk_var_xpd(otk);

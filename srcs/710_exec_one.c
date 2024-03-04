@@ -19,7 +19,7 @@
 /// @return 		SUCCESS or ERROR
 int	exec_bi(int id, t_script *s, int i)
 {
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 	if (id == CMD_EQ)
 		g_exit_status = bi_equal(s, i);
 	else if (id == CMD_ECHO)
@@ -46,7 +46,7 @@ int	exec_bi(int id, t_script *s, int i)
 /// @param env 		Environment variables
 void	exec_ve(char **path, char **cmd, char **env)
 {
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 	char	*tmp;
 	int		i;
 	int		ret;
@@ -81,6 +81,8 @@ void	exec_ve(char **path, char **cmd, char **env)
 /// @return			SUCCESS or ERROR
 int	exec_one_fork(t_script *s, char **path)
 {
+	 show_func(__func__, MY_START, NULL);
+	
 	int	pid;
 	int	status;
 
@@ -110,6 +112,8 @@ int	exec_one_fork(t_script *s, char **path)
 /// @return 		SUCCESS or ERROR
 int	exec_one(t_script *s, char **path)
 {
+	 show_func(__func__, MY_START, NULL);
+	
 	int	id;
 
 	id = CMD_EX;

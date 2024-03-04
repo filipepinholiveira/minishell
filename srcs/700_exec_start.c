@@ -33,7 +33,7 @@ static int	get_path_index(char **envp)
 
 char	**split_path(char **envp)
 {
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 	int		i;
 	char	**path;
 	char *tmp;
@@ -60,7 +60,7 @@ char	**split_path(char **envp)
 /// @return 		SUCCESS or ERROR
 int execute(t_script *s)
 {
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 	char	**path;
 
 	// execute_show(s);

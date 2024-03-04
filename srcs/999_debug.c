@@ -21,7 +21,7 @@ void	execute_show(t_script *s)
 	j = -1;
 	if (!s || !DEBUG_ARRAY)
 		return ;
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 	printf("%s**********************************************************%s\n", SBHGRN, SRST);
 	printf("%s(->)  s->com_count: \t%i\n", SBHYLW, s->cmd_count);
 	while (++j < s->cmd_count)
@@ -137,6 +137,7 @@ int show_func(const char *func_name, int status, char *msg)
 			// show_func_msg(msg);
 		}
 	}
+	write(1, "\n", 1);
 	return (status);
 }
 

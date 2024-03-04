@@ -22,7 +22,7 @@
 /// @return		0 if success, 1 if failure
 int	parse_commands(t_token *tk, t_command *cmd, int i, int j)
 {
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 	int errors;
 
 	errors = 0;
@@ -65,7 +65,7 @@ int	parse_commands(t_token *tk, t_command *cmd, int i, int j)
 /// @return
 int	parser(t_script *s, char **line_buffer)
 {
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 	t_token	*tk;
 
 	tk = NULL;

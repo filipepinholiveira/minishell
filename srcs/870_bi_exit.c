@@ -19,7 +19,7 @@ int	ft_is_str_digit(char *str)
 {
 	int	i;
 
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 	i = 0;
 	while (str[i])
 	{
@@ -40,7 +40,7 @@ int	ft_is_str_digit(char *str)
 /// @return			SUCCESS
 int	exit_error_args(const char *msg, int system)
 {
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 
 	ft_putstr_fd("exit\n", 2);
 	ft_putstr_fd("Minishell: exit: ", 2);
@@ -52,7 +52,7 @@ int	exit_error_args(const char *msg, int system)
 
 // int	exit_error_notnum(const char *msg, int system)
 // {
-// 	// show_func(__func__, MY_START, NULL);
+// 	 show_func(__func__, MY_START, NULL);
 
 // 	ft_putstr_fd("Minishell: exit: ", 2);
 // 	ft_putstr_fd(msg, 2);
@@ -64,7 +64,7 @@ int	exit_error_args(const char *msg, int system)
 
 void	exit_go(t_script *s, char *arg, char *msg, int sys)
 {
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 
 	ft_putstr_fd("exit\n", 2);
 	if (sys > 0 && (arg || msg))
@@ -90,7 +90,7 @@ void	exit_go(t_script *s, char *arg, char *msg, int sys)
 /// @return			exit status or ERROR
 int	bi_exit(t_script *s, int n)
 {
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 	char *trim;
 
 	trim = NULL;

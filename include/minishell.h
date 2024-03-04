@@ -1039,6 +1039,19 @@ int		bi_exit(t_script *s, int n);
 /* ************************************************************************** */
 ///	880bi_equal.c
 /* ************************************************************************** */
+
+/// @brief 			Export TEMPORARY environment variables
+/// @param s 		Script structure with commans and args
+/// @param n 		Index of command to be executed
+/// @return 		SUCCESS or ERROR
+int		bi_equal(t_script *s, int n);
+
+int index_tp_getter(t_script *s, int n, int i);
+
+/* ************************************************************************** */
+///	882bi_equal_not_apend.c
+/* ************************************************************************** */
+
 /// @brief 			Update EXISTING TEMPORARY environment variables
 /// @param s 		Script structure with commans and args
 /// @param n 		Index of command to be executed
@@ -1051,12 +1064,15 @@ void	bi_equal_upd(t_script *s, int n, int i);
 /// @param i 		Index of argument to be checked
 void	bi_equal_new(t_script *s, int n, int i);
 
-/// @brief 			Export TEMPORARY environment variables
-/// @param s 		Script structure with commans and args
-/// @param n 		Index of command to be executed
-/// @return 		SUCCESS or ERROR
-int		bi_equal(t_script *s, int n);
+void	bi_equal_not_apend(t_script *s, int n, int i);
 
+/* ************************************************************************** */
+///	882bi_equal_apend.c
+/* ************************************************************************** */
+
+void	bi_equal_not_apend(t_script *s, int n, int i);
+
+void	bi_equal_apend(t_script *s, int n, int i);
 
 /* ************************************************************************** */
 //																			  */

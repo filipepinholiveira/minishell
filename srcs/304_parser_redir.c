@@ -41,7 +41,7 @@ void	fnames_clear(t_command *cmds, int max, t_token *tk)
 /// @return			0 if success, 1 if failure
 int	redir(t_token *tk, t_redirection *file)
 {
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 	int		ret;
 
 	if (file->name)

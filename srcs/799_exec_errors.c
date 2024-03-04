@@ -14,7 +14,7 @@
 
 int	fork_error(char **path)
 {
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 	write(2, "Error: fork failed\n", 19);
 	g_exit_status = 1;
 			free_array_name(path, "path");
@@ -25,7 +25,7 @@ int	fork_error(char **path)
 
 int	pipe_error(char **path)
 {
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 	write(2, "Error: pipe failed\n", 19);
 	g_exit_status = 1;
 	// free_array(path);

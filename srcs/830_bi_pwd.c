@@ -17,7 +17,7 @@
 /// @return			SUCCESS or ERROR
 int	bi_pwd(t_script *s, int n)
 {
-	// show_func(__func__, MY_START, ft_strjoin("execute bi: ", "pwd"));
+	 show_func(__func__, MY_START, ft_strjoin("execute bi: ", "pwd"));
 	char	*buf;
 
 	(void) n;

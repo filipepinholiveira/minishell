@@ -17,16 +17,16 @@
 /// @return		SUCCESS or ERROR
 int	var_name_check(char *var)
 {
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 	int	i;
 
 	i = 0;
-	//show_func(__func__, SHOW_MSG, ft_strdup(var));
+	// show_func(__func__, SHOW_MSG, ft_strdup(var));
 	if (var[i] && (!ft_isalpha(var[i]) || var[i] == '_'))
 		return (ERROR);
-	while (var[i] && var[i] != '=' && var[i] != '+')
+	while (var[i] && var[i] != '=')
 	{
-		if (!ft_isalnum(var[i]) && var[i] != '_')
+		if (!ft_isalnum(var[i]) && var[i] != '_' && (var[i] == '+' && var[i + 1] != '='))
 		{
 			//show_func(__func__, ERROR, NULL);
 			return (ERROR);
@@ -43,7 +43,7 @@ int	var_name_check(char *var)
 /// @param i 	Index of argument to be checked
 void	bi_export_upd_var(t_script *s, int n, int i)
 {
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 	char	*val;
 	char	*var;
 
@@ -72,7 +72,7 @@ void	bi_export_upd_var(t_script *s, int n, int i)
 /// @param i 	Index of argument to be checked
 void	bi_export_new_var(t_script *s, int n, int i)
 {
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 	char	*val;
 	char	*var;
 	int		j;
@@ -157,7 +157,7 @@ int	export_status(t_script *s, int n)
 /// @return 		SUCCESS or ERROR
 int	bi_export(t_script *s, int n)
 {
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 	int	i;
 
 	// show_array(s->envp, "1 bi_export envp");
@@ -197,7 +197,7 @@ char	**ordered_array(char **d, char t, int n, int j)
 	int	len_j;
 	int	res_cmp;
 
-	// show_func(__func__, MY_START, ft_strdup("Ordering Array..."));
+	 show_func(__func__, MY_START, ft_strdup("Ordering Array..."));
 	while (d[n] && d[n + 1])
 	{
 		j = n;

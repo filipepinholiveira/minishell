@@ -59,7 +59,7 @@ char 	**env_add_one(char **envx, char *new)
 	char	**new_array;
 	int		i;
 
-	// show_func(__func__, MY_START, new);
+	 show_func(__func__, MY_START, new);
 	i = 0;
 	while ((envx)[i])
 		i++;
@@ -129,7 +129,7 @@ int	env_var_setter(char *val, char *var, char ***envx)
 	char	*var_new;
 	char	*var_old;
 
-	// show_func(__func__, MY_START, ft_strjoin_free(ft_strjoin_free(ft_strdup(var), ft_strdup("=")), ft_strdup(val)));
+	 show_func(__func__, MY_START, ft_strjoin_free(ft_strjoin_free(ft_strdup(var), ft_strdup("=")), ft_strdup(val)));
 	if (val)
 		var_new = ft_strjoin_free(ft_strjoin(var, "="), ft_strdup(val));
 	else
@@ -187,7 +187,7 @@ char	*envx_var_getter(char *var, char **envx)
 	char	*ret;
 	int		len;
 	//int i;
-	// show_func(__func__, MY_START, ft_strdup(var));
+	 show_func(__func__, MY_START, ft_strdup(var));
 
 	if (!envx || !var)
 		return (NULL);
@@ -222,7 +222,7 @@ char	*env_var_getter(char *var, char **envp, char **envt)
 {
 	char	*retp;
 	char	*rett;
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 
 	retp = NULL;
 	rett = NULL;

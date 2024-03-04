@@ -37,7 +37,7 @@ int	bi_echo_flag(char *str)
 //int	bi_echo(t_command cmds)
 int	bi_echo(t_script *s, int n)
 {
-	// show_func(__func__, MY_START, ft_strjoin("bi: ", s->cmds[n].argv[0]));
+	 show_func(__func__, MY_START, ft_strjoin("bi: ", s->cmds[n].argv[0]));
 	int		i;
 	char	term;
 
@@ -66,7 +66,7 @@ int	bi_echo(t_script *s, int n)
 /// @return			SUCCESS if success, ERROR if error
 int	bi_env_upd(t_script *s, int n)
 {
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 	int i;
 
 	i = s->cmds[n].argc - 1;

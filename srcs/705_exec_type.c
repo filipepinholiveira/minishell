@@ -17,7 +17,7 @@ int	bi_equal_check(t_script *s, int n, int i)
 	char	**new_array;
 	int		j;
 
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 	j = 0;
 	while (s->cmds[n].argv[i])
 	{
@@ -50,7 +50,7 @@ int	bi_equal_check(t_script *s, int n, int i)
 /// @return 		Command id
 int exec_type(char *cmd)
 {
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 	int id;
 
 	id = CMD_EX;

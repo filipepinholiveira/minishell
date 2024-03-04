@@ -19,7 +19,7 @@
 /// @param pipeout	Pointer to the pipe to output result
 void	ex_child_1(t_script *s, char **path, int *pipeout)
 {
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 	if (s->cmds[0].in.name)
 		in_redir(s, 0, path);
 	if (s->cmds[0].out.name)
@@ -47,7 +47,7 @@ void	ex_child_1(t_script *s, char **path, int *pipeout)
 /// @param i 		Index of the command to execute
 void	ex_child_i(t_script *s, char **path, int **pipes, int i)
 {
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 	if (s->cmds[i].in.name)
 		in_redir(s, i, path);
 	else if (pipe_std_setter(pipes[0], STDIN_FILENO) == -1)
@@ -77,7 +77,7 @@ void	ex_child_i(t_script *s, char **path, int **pipes, int i)
 /// @param i
 void	ex_child_n(t_script *s, char **path, int *pipein, int i)
 {
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 	if (s->cmds[i].in.name)
 		in_redir(s, i, path);
 	else if (pipe_std_setter(pipein, STDIN_FILENO) == -1)
@@ -102,7 +102,7 @@ void	ex_child_n(t_script *s, char **path, int *pipein, int i)
 /// @param i 		Index of the command to execute
 void exec_go(t_script *s, char **path, int id, int i)
 {
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 	char *tmp;
 	char *msg;
 	struct stat buf;
