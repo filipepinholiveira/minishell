@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/29 17:28:35 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/04 18:03:04 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ char	**env_del_one(char **envx, char *del)
 	int		i;
 	int		j;
 
+	show_pointer(__func__, MY_START, del, envx);
 	i = 0;
 	while ((envx)[i])
 		i++;
@@ -46,8 +47,9 @@ char	**env_del_one(char **envx, char *del)
 		//i++;
 	}
 	new_array[j] = NULL;
-	printf("%s : %s%p%s : %p : 1 - new_array[%d] = %s%s\n", __func__, SHGRN, new_array + j, SBHYLW, new_array[j], j, new_array[j], SRST);
-	free_array(envx);
+	printf("%s : %s%p%s : %p : 2 - new_array[%d] = %s%s\n", __func__, SHGRN, new_array + j, SBHYLW, new_array[j], j, new_array[j], SRST);
+	// free_array(envx);
+	free_array_name(envx, "env_del_one envx");
 	// show_array(new_array, "envx added new");
 	return (new_array);
 }
@@ -57,11 +59,12 @@ char 	**env_add_one(char **envx, char *new)
 	char	**new_array;
 	int		i;
 
+	// show_func(__func__, MY_START, new);
 	i = 0;
 	while ((envx)[i])
 		i++;
 
-	show_pointer(__func__, D_MALLOC, "old -> envx -> ", envx);
+	show_pointer(__func__, D_MALLOC, "old -> envx", envx);
 	printf("%s%s : previous size = [%d] %s\n", SBHYLW, __func__, i, SRST);
 	i = i + 2;
 	new_array = ft_calloc(i, sizeof(char *));
@@ -74,15 +77,17 @@ char 	**env_add_one(char **envx, char *new)
 	while (envx[++i])
 	{
 		new_array[i] = ft_strdup(envx[i]);
-		printf("%s : %s%p%s : %p : 1 - new_array[%d] = %s%s\n", __func__,SHGRN, new_array + i,  SBHYLW, new_array[i], i, new_array[i], SRST);
+		if (!i)
+			printf("%s : %s%p%s : %p : first_item[%d] = %s%s\n", __func__,SHGRN, new_array + i,  SBHYLW, new_array[i], i, new_array[i], SRST);
 		//i++;
 	}
 	new_array[i] = new;
-	printf("%s : %s%p%s : %p : 2 - new_array[%d] = %s%s\n", __func__, SHGRN, new_array + i,  SBHYLW, new_array[i], i, new_array[i], SRST);
+	printf("%s : %s%p%s : %p :   new_item[%d] = %s%s\n", __func__, SHGRN, new_array + i,  SBHYLW, new_array[i], i, new_array[i], SRST);
 	new_array[++i] = NULL;
-	printf("%s : %s%p%s : %p : 2 - new_array[%d] = %s%s\n", __func__, SHGRN, new_array + i,  SBHYLW, new_array[i], i, new_array[i], SRST);
-	free_array(envx);
-	// show_array(new_array, "envx added new");
+	printf("%s : %s%p%s : %p          : terminator[%d] = %s%s\n", __func__, SHGRN, new_array + i,  SBHYLW, new_array[i], i, new_array[i], SRST);
+	// free_array(envx);
+	free_array_name(envx, "envx");
+	// show_array(new_array, "envx add one");
 	return (new_array);
 }
 
@@ -92,7 +97,7 @@ char 	**env_add_one(char **envx, char *new)
 /// @return			Index of the variable
 int	env_var_index_getter(char *var, char **envx)
 {
-	show_func(__func__, MY_START, NULL);
+	show_pointer(__func__, MY_START, var, envx);
 	int		i;
 
 	if (!envx)
@@ -101,10 +106,15 @@ int	env_var_index_getter(char *var, char **envx)
 	while (envx[i])
 	{
 		if (ft_strncmp(var, envx[i], ft_strlen(var)) == SUCCESS)
+		{
+			printf("%s : %s%p%s : %p : envx[%i] = %s%s\n", __func__, SHGRN, envx + i, SHBLU, envx[i], i, envx[i], SRST);
+			printf("%s%s : i = %d%s\n", SBHGRN, __func__, i, SRST);
 			return (i);
+		}
 		i++;
 	}
 	//show_func(__func__, SHOW_MSG, ft_strdup("var not found"));
+	printf("%s%s : i = %d%s\n", SBHGRN, __func__, -1, SRST);
 	return (-1);
 }
 
@@ -119,7 +129,7 @@ int	env_var_setter(char *val, char *var, char ***envx)
 	char	*var_new;
 	char	*var_old;
 
-	show_func(__func__, MY_START, ft_strdup(var));
+	// show_func(__func__, MY_START, ft_strjoin_free(ft_strjoin_free(ft_strdup(var), ft_strdup("=")), ft_strdup(val)));
 	if (val)
 		var_new = ft_strjoin_free(ft_strjoin(var, "="), ft_strdup(val));
 	else
@@ -128,7 +138,7 @@ int	env_var_setter(char *val, char *var, char ***envx)
 	if (i == -1 && *envx)
 	{
 		*envx = env_add_one(*envx, var_new);
-		show_pointer(__func__, D_MALLOC, "new -> envx -> ", (*envx));
+		show_pointer(__func__, D_MALLOC, "new -> envx", (*envx));
 	}
 	else if (i == -1 && !*envx)
 	{
@@ -145,14 +155,23 @@ int	env_var_setter(char *val, char *var, char ***envx)
 	}
 	else
 	{
-		var_old = (*envx)[i];
-		printf("%s%s : %p : %s[%i] = %s%s\n", SHRED, __func__, (*envx)[i], "var_old", i, (*envx)[i], SRST);
-		(*envx)[i] = var_new;
-		printf("%s%s : %p : %s[%i] = %s%s\n", SHYLW, __func__, (*envx)[i], "var_new", i, (*envx)[i], SRST);
-		// (*envx)[i] = ft_strjoin_free(var_new, ft_strdup(""));
-		free(var_old);
+
+		if (ft_strncmp(var_new, (*envx)[i], ft_max(ft_strlen((*envx)[i]), ft_strlen(var_new))) != SUCCESS)
+		{
+			var_old = (*envx)[i];
+			printf("%s%s : %p : %s[%i] = %s%s\n", SHRED, __func__, (*envx)[i], "var_old", i, (*envx)[i], SRST);
+			(*envx)[i] = var_new;
+			printf("%s%s : %p : %s[%i] = %s%s\n", SHYLW, __func__, (*envx)[i], "var_new", i, (*envx)[i], SRST);
+			// (*envx)[i] = ft_strjoin_free(var_new, ft_strdup(""));
+			ft_free(var_old);
+		}
+		else
+		{
+			free(var_new);
+			var_new = NULL;
+		}
 	}
-	show_func(__func__, SUCCESS, ft_strdup(var));
+	// show_func(__func__, SUCCESS, ft_strdup(var));
 	return (SUCCESS);
 }
 
@@ -168,7 +187,7 @@ char	*envx_var_getter(char *var, char **envx)
 	char	*ret;
 	int		len;
 	//int i;
-	show_func(__func__, MY_START, ft_strdup(var));
+	// show_func(__func__, MY_START, ft_strdup(var));
 
 	if (!envx || !var)
 		return (NULL);
@@ -180,7 +199,9 @@ char	*envx_var_getter(char *var, char **envx)
 	{
 		if (!ft_strncmp(tmp, *envx, len))
 		{
+			printf("%s : *envx = %p, %s\n",__func__, *envx, *envx);
 			ret = ft_strdup(*envx + len);
+			printf("%s : *envx = %p, %s\n",__func__, ret, ret);
 			break ;
 		}
 		envx++;
@@ -201,23 +222,14 @@ char	*env_var_getter(char *var, char **envp, char **envt)
 {
 	char	*retp;
 	char	*rett;
-	show_func(__func__, MY_START, NULL);
+	// show_func(__func__, MY_START, NULL);
 
 	retp = NULL;
 	rett = NULL;
 	if (envp)
-	{
-
-		show_func(__func__, SHOW_MSG, ft_strdup("envp calling"));
 		retp = envx_var_getter(var, envp);
-		show_func(__func__, SHOW_MSG, ft_strdup("envp return"));
-	}
 	if (envt)
-	{
-		show_func(__func__, SHOW_MSG, ft_strdup("envt calling"));
 		rett = envx_var_getter(var, envt);
-		show_func(__func__, SHOW_MSG, ft_strdup("envt return"));
-	}
 	if (!retp && !rett)
 		return (NULL);
 	else if (!retp && rett)

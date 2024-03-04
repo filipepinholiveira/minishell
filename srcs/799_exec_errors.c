@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:43:45 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/27 23:57:19 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/02 01:13:53 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,21 @@
 
 int	fork_error(char **path)
 {
-	show_func(__func__, MY_START, NULL);
+	// show_func(__func__, MY_START, NULL);
 	write(2, "Error: fork failed\n", 19);
 	g_exit_status = 1;
-	free_array(path);
+			free_array_name(path, "path");
+	// free_array(path);
+	free_array_name(path, "path");
 	return (1);
 }
 
 int	pipe_error(char **path)
 {
-	show_func(__func__, MY_START, NULL);
+	// show_func(__func__, MY_START, NULL);
 	write(2, "Error: pipe failed\n", 19);
 	g_exit_status = 1;
-	free_array(path);
+	// free_array(path);
+	free_array_name(path, "path");
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/29 17:13:46 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/01 12:48:54 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1076,6 +1076,7 @@ int		bi_equal(t_script *s, int n);
 /// @brief 			Frees the environment variables
 /// @param my_envp	Environment variables
 void	free_array(char **array);
+void	free_array_name(char **array, char *name);
 
 /// @brief 		Frees the token list
 /// @param head	Head of the token list

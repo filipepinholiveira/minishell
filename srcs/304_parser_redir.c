@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:28:14 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/29 13:54:45 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/02 01:13:53 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	fnames_clear(t_command *cmds, int max, t_token *tk)
 /// @return			0 if success, 1 if failure
 int	redir(t_token *tk, t_redirection *file)
 {
-	show_func(__func__, MY_START, NULL);
+	// show_func(__func__, MY_START, NULL);
 	int		ret;
 
 	if (file->name)

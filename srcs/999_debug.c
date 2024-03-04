@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:29:02 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/29 13:10:04 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/02 01:15:25 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	execute_show(t_script *s)
 	j = -1;
 	if (!s || !DEBUG_ARRAY)
 		return ;
-	show_func(__func__, MY_START, NULL);
+	// show_func(__func__, MY_START, NULL);
 	printf("%s**********************************************************%s\n", SBHGRN, SRST);
 	printf("%s(->)  s->com_count: \t%i\n", SBHYLW, s->cmd_count);
 	while (++j < s->cmd_count)
@@ -43,14 +43,13 @@ void	execute_show(t_script *s)
 		printf("%s(->)  \t.in.flag: \t%s%d\n", SBHYLW, SBHBLU, s->cmds[j].in.flag);
 		printf("%s(->)  \t.in->heredoc: \t%s%p%s\n", SBHYLW, SBHBLU,s->cmds[j].in.heredoc, SRST);
 		i = -1;
-		printf("%s**********************************************************%s\n", SBHGRN, SRST);
-		printf("\n");
+		printf("%s**********************************************************\n*%s\n", SBHGRN, SRST);
 	}
 	//show_func(__func__, SUCCESS, NULL);
 	return ;
 }
 
-void	show_func_msg(const char *msg)
+void show_func_msg(const char *msg)
 {
 	if (DEBUG_ALL)
 	{
@@ -69,7 +68,7 @@ void	show_func_msg(const char *msg)
 /// @param func_name	Name of the function
 /// @param status		Status of the function
 /// @return				Status of the function
-int	show_func(const char *func_name, int status, char *msg)
+int show_func(const char *func_name, int status, char *msg)
 {
 	int					i;
 	const t_debug_msg	debug_msg[14] = {
@@ -110,10 +109,8 @@ int	show_func(const char *func_name, int status, char *msg)
 			write(STDERR_FILENO, debug_msg[i].msg_header, 5);
 			write(STDERR_FILENO, func_name, ft_strlen(func_name));
 			write(STDERR_FILENO, debug_msg[i].msg, debug_msg[i].len);
-			show_func_msg(msg);
+			// show_func_msg(msg);
 		}
-		// if (msg)
-		// 	ft_free(msg);
 	}
 	else if (DEBUG_FREE && (status == D_FREE || status == D_MALLOC))
 	{
@@ -137,10 +134,8 @@ int	show_func(const char *func_name, int status, char *msg)
 			write(STDERR_FILENO, debug_msg[i].msg_header, 5);
 			write(STDERR_FILENO, func_name, ft_strlen(func_name));
 			write(STDERR_FILENO, debug_msg[i].msg, debug_msg[i].len);
-			show_func_msg(msg);
+			// show_func_msg(msg);
 		}
-		// if (msg)
-		// 	ft_free(msg);
 	}
 	return (status);
 }
@@ -150,9 +145,8 @@ int	show_func(const char *func_name, int status, char *msg)
 /// @return				void
 void	show_array(char **envx, const char *name)
 {
-	show_func(__func__, MY_START, NULL);
+	show_pointer(__func__, MY_START, name, (envx));
 	int i = 0;
-	show_pointer(__func__, D_MALLOC, "new -> envx -> ", (envx));
 
 	if (!envx || !DEBUG_ARRAY)
 		return ;
@@ -162,7 +156,7 @@ void	show_array(char **envx, const char *name)
 		i++;
 	}
 	printf("%s : %s%p%s : %p : %s[%i] = %s%s\n", __func__, SHGRN, envx + i, SHBLU, envx[i], name, i, envx[i], SRST);
-	show_func(__func__, SUCCESS, NULL);
+	// show_func(__func__, SUCCESS, NULL);
 }
 
 void show_token_list(t_token *token)
@@ -190,7 +184,7 @@ char	*ft_var_address(const char *varname, void *var)
 {
 	char	*ret;
 
-	ret = ft_strjoin(varname, ft_itoa_base((unsigned long)var, 'x'));
+	ret = ft_strjoin_free(ft_strjoin(varname, " -> "), ft_itoa_base((unsigned long)var, 'x'));
 	return (ret);
 }
 
@@ -202,6 +196,6 @@ void	show_pointer(const char *func, int status, const char *msg, void *ptr)
 		return ;
 	tmp = ft_var_address(msg, ptr);
 	show_func(func, status, tmp);
-	// if (tmp != NULL)
-	//  	ft_free(tmp);
+	if (tmp != NULL)
+	 	ft_free(tmp);
 }

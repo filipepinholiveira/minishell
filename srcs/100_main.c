@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:27:05 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/29 13:54:45 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/02 01:13:53 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	g_exit_status;
 /// @return 	array copy of system environment variables
 char	**envp_init(char **envp)
 {
-	show_func(__func__, MY_START, NULL);
+	// show_func(__func__, MY_START, NULL);
 	char	**ms_envp;
 	int		i;
 
@@ -32,7 +32,7 @@ char	**envp_init(char **envp)
 		return_error("", errno, 1);
 		return (NULL);
 	}
-	show_pointer(__func__, D_MALLOC, "NEW ARRAY envx -> ", ms_envp);
+	show_pointer(__func__, D_MALLOC, "NEW ARRAY envx", ms_envp);
 	i = -1;
 	while (envp[++i])
 	{
@@ -44,7 +44,7 @@ char	**envp_init(char **envp)
 		}
 	}
 	ms_envp[i] = NULL;
-	show_func(__func__, D_MALLOC, ft_strjoin("NEW ARRAY SIZE -> ", ft_itoa(i + 1)));
+	// show_func(__func__, D_MALLOC, ft_strjoin("NEW ARRAY SIZE -> ", ft_itoa(i + 1)));
 	return (ms_envp);
 
 }
@@ -64,7 +64,7 @@ void	struct_init(t_script *s)
 /// @return				void
 int	ms_loop(t_script *s)
 {
-	show_func(__func__, MY_START, NULL);
+	// show_func(__func__, MY_START, NULL);
 	int		status;
 	char	*line_buffer;
 
@@ -74,10 +74,10 @@ int	ms_loop(t_script *s)
 		struct_init(s);
 		signal_setter();
 		status = parser(s, &line_buffer);
-		show_func(__func__, SHOW_MSG, ft_strdup("parser returned"));
+		// show_func(__func__, SHOW_MSG, ft_strdup("parser returned"));
 		// ft_free_arr(&line_buffer);
 		ft_free(line_buffer);
-		show_func(__func__, SHOW_MSG, ft_strdup("1--------------"));
+		// show_func(__func__, SHOW_MSG, ft_strdup("1--------------"));
 
 		if (status == 1)
 			continue ;
@@ -114,10 +114,11 @@ int	main(int argc, char **argv, char **envp)
 		return_error("", errno, 1);
 		return (1);
 	}
-	show_pointer(__func__, D_MALLOC, "INIT ARRAY s.envt -> ", s.envt);
+	show_pointer(__func__, D_MALLOC, "INIT ARRAY s.envt", s.envt);
 	s.envt[0] = NULL;
 	termios_getter(&s.termios_p);
 	ms_loop(&s);
-	free_array(s.envp);
+	//free_array(s.envp);
+	free_array_name(s.envp, "s.envp");
 	return (0);
 }

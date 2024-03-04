@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 00:10:23 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/29 00:53:12 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/02 01:13:53 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_is_str_digit(char *str)
 {
 	int	i;
 
-	show_func(__func__, MY_START, NULL);
+	// show_func(__func__, MY_START, NULL);
 	i = 0;
 	while (str[i])
 	{
@@ -40,19 +40,19 @@ int	ft_is_str_digit(char *str)
 /// @return			SUCCESS
 int	exit_error_args(const char *msg, int system)
 {
-	show_func(__func__, MY_START, NULL);
+	// show_func(__func__, MY_START, NULL);
 
 	ft_putstr_fd("exit\n", 2);
 	ft_putstr_fd("Minishell: exit: ", 2);
 	ft_putstr_fd(msg, 2);
 	errno = system;
-	show_func(__func__, SUCCESS, NULL);
+	// show_func(__func__, SUCCESS, NULL);
 	return (system);
 }
 
 // int	exit_error_notnum(const char *msg, int system)
 // {
-// 	show_func(__func__, MY_START, NULL);
+// 	// show_func(__func__, MY_START, NULL);
 
 // 	ft_putstr_fd("Minishell: exit: ", 2);
 // 	ft_putstr_fd(msg, 2);
@@ -64,7 +64,7 @@ int	exit_error_args(const char *msg, int system)
 
 void	exit_go(t_script *s, char *arg, char *msg, int sys)
 {
-	show_func(__func__, MY_START, NULL);
+	// show_func(__func__, MY_START, NULL);
 
 	ft_putstr_fd("exit\n", 2);
 	if (sys > 0 && (arg || msg))
@@ -77,12 +77,12 @@ void	exit_go(t_script *s, char *arg, char *msg, int sys)
 	}
 	errno = sys;
 	free_commands(s->cmds, s->cmd_count);
-	printf("s.envp = %p\n", s->envp);
-	free_array(s->envp);
-	printf("s.envt = %p\n", s->envt);
-	free_array(s->envt);
+	// free_array(s->envp);
+	free_array_name(s->envp, "s->envp");
+	// free_array(s->envt);
+	free_array_name(s->envt, "s->envt");
 	exit(sys);
-	show_func(__func__, SUCCESS, NULL);
+	// show_func(__func__, SUCCESS, NULL);
 }
 
 /// @brief 			Builtin exit command limited to 9223372036854775807
@@ -90,7 +90,7 @@ void	exit_go(t_script *s, char *arg, char *msg, int sys)
 /// @return			exit status or ERROR
 int	bi_exit(t_script *s, int n)
 {
-	show_func(__func__, MY_START, NULL);
+	// show_func(__func__, MY_START, NULL);
 	char *trim;
 
 	trim = NULL;
@@ -99,7 +99,7 @@ int	bi_exit(t_script *s, int n)
 		exit_go(s, NULL, NULL, 0);
 	else if (s->cmds[n].argc > 2)
 	{
-		show_func(__func__, SUCCESS, ft_strdup(s->cmds[n].argv[2]));
+		// show_func(__func__, SUCCESS, ft_strdup(s->cmds[n].argv[2]));
 		g_exit_status = exit_error_args("too many arguments\n", 1);
 	}
 	else if (s->cmds[n].argc == 2)
@@ -115,6 +115,6 @@ int	bi_exit(t_script *s, int n)
 		else
 			exit_go(s, NULL, NULL, ft_atoi(trim) % 256);
 	}
-	show_func(__func__, SUCCESS, NULL);
+	// show_func(__func__, SUCCESS, NULL);
 	return (0);
 }

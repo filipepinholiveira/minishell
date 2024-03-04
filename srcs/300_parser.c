@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:28:14 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/29 13:54:45 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/02 01:13:53 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 /// @return		0 if success, 1 if failure
 int	parse_commands(t_token *tk, t_command *cmd, int i, int j)
 {
-	show_func(__func__, MY_START, NULL);
+	// show_func(__func__, MY_START, NULL);
 	int errors;
 
 	errors = 0;
@@ -65,7 +65,7 @@ int	parse_commands(t_token *tk, t_command *cmd, int i, int j)
 /// @return
 int	parser(t_script *s, char **line_buffer)
 {
-	show_func(__func__, MY_START, NULL);
+	// show_func(__func__, MY_START, NULL);
 	t_token	*tk;
 
 	tk = NULL;
@@ -81,7 +81,7 @@ int	parser(t_script *s, char **line_buffer)
 	s->cmd_count = cmds_counter(tk);
 	s->cmds = ft_calloc(s->cmd_count, sizeof(t_command));
 	// s->cmds = malloc(sizeof(t_command) * s->cmd_count);
-	show_pointer(__func__, D_MALLOC, "s->cmds -> ", s->cmds);
+	show_pointer(__func__, D_MALLOC, "s->cmds", s->cmds);
 	if (!s->cmds || s->cmd_count <= 0)
 	{
 		return_error("", errno, 1);

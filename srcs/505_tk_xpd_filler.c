@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/29 13:54:45 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/04 17:59:10 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,32 +21,39 @@ char	*tk_xpd_var_filler(char *ntk, t_script *s)
 {
 	int		i;
 	char	*tmp;
-	show_func(__func__, MY_START, NULL);
 
 	i = 1;
-	tmp = ntk;
+	// tmp = ntk;
+	printf("%s : &ntk = %p\n",__func__, &ntk[0]);
 	if (var_firstchar(ntk[i]) == SUCCESS)
 	{
-		show_func(__func__, SHOW_MSG, ft_strjoin("ntk[i] = ", ntk + 1));
-		show_func(__func__, SHOW_MSG, ft_strdup(*s->envp));
 		if (*s->envt)
-			show_func(__func__, SHOW_MSG, ft_strdup(*s->envt));
-		ntk = env_var_getter(ntk + 1, s->envp, s->envt);
-		show_func(__func__, SHOW_MSG, ft_strdup("ready with env_var_getter"));
+			tmp = env_var_getter(ntk + 1, s->envp, s->envt);
+		tmp = env_var_getter(ntk + 1, s->envp, NULL);
+		//printf("%s : env &ntk = %p, %s\n",__func__, ntk + 1, ntk + 1);
+		//printf("%s : env &tmp = %p, %s\n",__func__, tmp, tmp);
 	}
+	else if (ntk[i] == '0')
+		tmp = ft_strdup("minishell");
 	else if (ft_isdigit(ntk[i]))
-		ntk = ft_strdup("");
+		tmp = ft_strdup("");
 	else if (ntk[i] == '?' && g_exit_status >= 256)
-		ntk = ft_itoa(WEXITSTATUS(g_exit_status));
+		tmp = ft_itoa(WEXITSTATUS(g_exit_status));
 	else if (ntk[i] == '?' && g_exit_status < 256)
-		ntk = ft_itoa(g_exit_status);
+		tmp = ft_itoa(g_exit_status);
 	else if (ntk[i] == '$')
-		ntk = ft_itoa(getpid());
+		tmp = ft_itoa(getpid());
+	else if (!ntk[i])
+		tmp = ft_strdup("$");
 	else
-		ntk = ft_strdup(ntk + 1);
-	free(tmp);
-	show_func(__func__, SUCCESS, NULL);
-	return (ntk);
+	{
+		printf("%s : else %s\n",__func__, ntk);
+		// tmp = ft_strdup(ntk + 1);
+		tmp = ft_strdup(ntk);
+	}
+	free(ntk);
+	//printf("%s : tmp = %p\n", __func__, tmp);
+	return (tmp);
 }
 
 /// @attention	>token builder< set of functions
@@ -56,25 +63,27 @@ char	*tk_xpd_var_filler(char *ntk, t_script *s)
 /// @return
 char	*tk_xpd_filler(char ***ntks, t_script *s)
 {
-	int		split;
+	int		i;
 	char	*tmp;
-	show_func(__func__, MY_START, NULL);
+	char	*tmp2;
 
 	tmp = ft_strdup("");
-	split = -1;
-	while ((*ntks)[++split])
+	i = -1;
+	while ((*ntks)[++i])
+		printf("%s : ntks[%i] = \"%s\"\n",__func__, i, (*ntks)[i]);
+	i = -1;
+	while ((*ntks)[++i])
 	{
-		if ((*ntks)[split][0] == '$'
-			&& ((*ntks)[split][1] || (*ntks)[split + 1]))
+		tmp2 = (*ntks)[i];
+		if ((*ntks)[i][0] == '$' && ((*ntks)[i][1] || (*ntks)[i + 1]))
 		{
-			(*ntks)[split] = tk_xpd_var_filler((*ntks)[split], s);
-			if (!(*ntks)[split])
-				(*ntks)[split] = ft_strdup("");
+			(*ntks)[i] = tk_xpd_var_filler(tmp2, s);
+			if (!(*ntks)[i])
+				(*ntks)[i] = ft_strdup("");
 		}
 		else
-			(*ntks)[split] = tk_xpd_unquote((*ntks)[split]);
-		tmp = ft_strjoin_free(tmp, (*ntks)[split]);
+			(*ntks)[i] = tk_xpd_unquote(tmp2);
+		tmp = ft_strjoin(tmp, (*ntks)[i]);
 	}
-	show_func(__func__, SUCCESS, ft_strdup(tmp));
 	return (tmp);
 }

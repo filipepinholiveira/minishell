@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:10:37 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/02/29 13:54:45 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/02 01:13:53 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 int	tk_quotes_checker(char **str)
 {
 	char	*tmp;
-	show_func(__func__, MY_START, NULL);
+	// show_func(__func__, MY_START, NULL);
 
 	tmp = *str;
 	(*str) = ft_strchr((*str) + 1, **str);
@@ -50,7 +50,7 @@ char	*tk_xpd_unquote(char *str)
 {
 	char	*ret;
 	int		len;
-	show_func(__func__, MY_START, ft_strdup(str));
+	// show_func(__func__, MY_START, ft_strdup(str));
 
 	ret = NULL;
 	len = ft_strlen(str);
@@ -63,7 +63,7 @@ char	*tk_xpd_unquote(char *str)
 	else if (str[0] != '\"' && str[len - 1] != '\"')
 		ret = ft_strdup(str);
 	free(str);
-	show_func(__func__, SUCCESS, NULL);
+	// show_func(__func__, SUCCESS, NULL);
 	return (ret);
 }
 
@@ -76,7 +76,7 @@ char	*tk_xpd_unquote(char *str)
 void	tk_trim_spaces(t_token *tk)
 {
 	char	*tmp;
-	show_func(__func__, MY_START, NULL);
+	// show_func(__func__, MY_START, NULL);
 
 	while (tk)
 	{
