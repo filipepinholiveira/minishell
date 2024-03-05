@@ -25,21 +25,16 @@ int	bi_equal_check(t_script *s, int n, int i)
 		{
 			new_array = malloc(sizeof(char *) * (s->cmds[n].argc - i + 1));
 			while (s->cmds[n].argv[i])
-			{
-				new_array[j] = ft_strdup(s->cmds[n].argv[i]);
-				i++;
-				j++;
-			}
+				new_array[j++] = ft_strdup(s->cmds[n].argv[i++]);
 			new_array[j] = NULL;
 			s->cmds[n].argc = j;
 			free_array(s->cmds[n].argv);
-			// free_array_name(s->cmds[n].argv, "s->cmds[n].argv");
 			s->cmds[n].argv = new_array;
-			execute_show(s);
 			break ;
 		}
 		i++;
 	}
+	/* chamar a funçao if(exec_type = cmd_eq) --> bI_apend_check (s, n, 0) esse 0 é valido para exec_one) */
 	// show_func(__func__, SUCCESS, ft_strdup(s->cmds[n].argv[0]));
 	return (exec_type(s->cmds[n].argv[0]));
 }
