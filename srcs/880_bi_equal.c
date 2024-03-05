@@ -18,11 +18,12 @@
 /// @param i 		Index of argument to be checked
 void	bi_equal_upd(t_script *s, int n, int i)
 {
-	env_var_setter(ft_strchr(s->cmds[n].argv[i], '=') + 1,
-		ft_substr(s->cmds[n].argv[i], 0,
+	// estava a dar leak de memoria no substr dentro da env_var_setter, nao dava free
+	char *var = ft_substr(s->cmds[n].argv[i], 0,
 			ft_strlen(s->cmds[n].argv[i])
-			- ft_strlen(ft_strchr(s->cmds[n].argv[i], '='))),
-		&s->envp);
+			- ft_strlen(ft_strchr(s->cmds[n].argv[i], '=')));
+	env_var_setter(ft_strchr(s->cmds[n].argv[i], '=') + 1, var, &s->envp);
+		free(var);
 }
 
 /// @brief 			Creates NEW TEMPORARY environment variables

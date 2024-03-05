@@ -12,6 +12,7 @@ char 	* bi_apend_check(t_script *s, int n, int i)
     char *var_old;
     char *var_new;
     char *var_total;
+    char *new_str;
 
     var = ft_substr(s->cmds[n].argv[i], 0, ft_strlen(s->cmds[n].argv[i]) - ft_strlen(ft_strchr(s->cmds[n].argv[i], '+')));
     // if (var != NULL)
@@ -20,7 +21,7 @@ char 	* bi_apend_check(t_script *s, int n, int i)
     if (var_old == NULL)
         var_old = ft_strdup("");
     //printf("str var_old, o que estava antes: %s\n", var_old);
-    var_new = ft_substr(s->cmds[n].argv[i], ft_strlen(var) + 2, ~
+    var_new = ft_substr(s->cmds[n].argv[i], ft_strlen(var) + 2,
         ft_strlen(s->cmds[n].argv[i]) 
             - ft_strlen(ft_strchr(s->cmds[n].argv[i], '=')));
     // if (var_new != NULL)
@@ -28,11 +29,14 @@ char 	* bi_apend_check(t_script *s, int n, int i)
     var_total = ft_strjoin(var_old, var_new);
     // if (var_total != NULL)
     //     printf("str var_total, o que está na concatenaçao: %s\n", var_total);
+    new_str = var_total;
+    if (var_total)
+        free(var_total);
     if (var)
         free (var);
     if (var_old)
         free(var_old);
     if (var_new)
         free(var_new);
-    return (var_total);
+    return (new_str);
 }
