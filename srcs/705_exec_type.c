@@ -41,11 +41,22 @@ int	bi_equal_check(t_script *s, int n, int i)
 	{
 		while (s->cmds[n].argv[i])
 		{
-			bi_apend_check (s, n, i);
+			//bi_apend_check (s, n, i);
+			printf("Conteudo de s->cmds[n].argv[i]: %s\n", s->cmds[n].argv[i]);
+			if (ft_strchr(s->cmds[n].argv[i], '+') != NULL)
+			{
+				char *tmp;
+				char *inicio;
+				inicio = ft_substr(s->cmds[n].argv[i], 0, ft_strlen(s->cmds[n].argv[i]) - ft_strlen(ft_strchr(s->cmds[n].argv[i], '+')));
+				tmp = ft_strjoin("=", bi_apend_check(s, n, i));
+				s->cmds[n].argv[i] = ft_strjoin(inicio, tmp);
+				printf("Conteudo de s->cmds[n].argv[i] apos apend: %s\n", s->cmds[n].argv[i]);
+				free(tmp);
+				free(inicio);
+			}
 			i++;
-		}
 		// printf("testo o bi_apend\n");
-	}
+		}
 
 	/* chamar a funçao if(exec_type = cmd_eq) --> bI_apend_check (s, n, 0) esse 0 é valido para exec_one) sao 15 linhas!!!!
 	dentro do while
@@ -59,6 +70,7 @@ int	bi_equal_check(t_script *s, int n, int i)
 	 */
 	// show_func(__func__, SUCCESS, ft_strdup(s->cmds[n].argv[0])); 
 	return (CMD_EQ);
+	}
 }
 
 /// @brief 			Detects the type of commando to execute : a builtin and

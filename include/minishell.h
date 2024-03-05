@@ -1063,7 +1063,7 @@ int		bi_equal(t_script *s, int n);
 ///	882bi_apend_check.c
 /* ************************************************************************** */
 
-void	bi_apend_check(t_script *s, int n, int i);
+char 	*bi_apend_check(t_script *s, int n, int i);
 
 /* ************************************************************************** */
 //																			  */
