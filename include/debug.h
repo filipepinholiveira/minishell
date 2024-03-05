@@ -48,16 +48,16 @@
 #  define _MOUSE_TEST_ 1
 # endif
 # ifndef DEBUG_FREE
-#  define DEBUG_FREE 0
+#  define DEBUG_FREE 0 // para ver endereços de memoria
 # endif
 # ifndef DEBUG_ALL
-#  define DEBUG_ALL 1
+#  define DEBUG_ALL 1 // para ver tudo
 # endif
 # ifndef DEBUG_COLOR
 #  define DEBUG_COLOR 0
 # endif
 # ifndef DEBUG_ARRAY
-#  define DEBUG_ARRAY 1
+#  define DEBUG_ARRAY 1 // mostra endereço e conteudo de arrays
 # endif
 
 

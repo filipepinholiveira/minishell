@@ -138,6 +138,8 @@ int show_func(const char *func_name, int status, char *msg)
 		}
 	}
 	printf("\n");
+	if (msg != NULL)
+	 	ft_free(msg);
 	return (status);
 }
 

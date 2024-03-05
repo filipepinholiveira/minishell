@@ -17,7 +17,7 @@ int	bi_equal_check(t_script *s, int n, int i)
 	char	**new_array;
 	int		j;
 
-	// show_func(__func__, MY_START, NULL);
+	 show_func(__func__, MY_START, NULL);
 	j = 0;
 	while (s->cmds[n].argv[i])
 	{
@@ -34,9 +34,31 @@ int	bi_equal_check(t_script *s, int n, int i)
 		}
 		i++;
 	}
-	/* chamar a funçao if(exec_type = cmd_eq) --> bI_apend_check (s, n, 0) esse 0 é valido para exec_one) */
-	// show_func(__func__, SUCCESS, ft_strdup(s->cmds[n].argv[0]));
-	return (exec_type(s->cmds[n].argv[0]));
+	i = 0;
+	if (exec_type(s->cmds[n].argv[i]) != CMD_EQ)
+		return (exec_type(s->cmds[n].argv[0]));
+	else
+	{
+		while (s->cmds[n].argv[i])
+		{
+			bi_apend_check (s, n, i);
+			i++;
+		}
+		// printf("testo o bi_apend\n");
+	}
+
+	/* chamar a funçao if(exec_type = cmd_eq) --> bI_apend_check (s, n, 0) esse 0 é valido para exec_one) sao 15 linhas!!!!
+	dentro do while
+	en_var_getter criar val old, val novo --> if val null = ft_strdup("") 
+	
+	else : ft_strjoin(val old, val new)
+	
+	
+	criar var --> temp=strjoin
+	
+	 */
+	// show_func(__func__, SUCCESS, ft_strdup(s->cmds[n].argv[0])); 
+	return (CMD_EQ);
 }
 
 /// @brief 			Detects the type of commando to execute : a builtin and
