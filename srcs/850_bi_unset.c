@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:46:53 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/03/05 22:12:58 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/05 22:58:37 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int	bi_unset(t_script *s, int n)
 		if (!ft_strchr(var, '='))
 		{
 			if (env_var_index_getter(var, s->envp) >= 0)
-				env_del_one(var, s->envp);
+				s->envp = env_del_one(var, s->envp);
 			if (env_var_index_getter(var, s->envt) >= 0)
-				env_del_one(var, s->envt);
+				s->envt = env_del_one(var, s->envt);
 		}
 		i++;
 	}

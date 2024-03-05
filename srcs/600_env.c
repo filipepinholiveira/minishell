@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/03/05 22:33:15 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/05 23:03:14 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,15 @@ char	**env_del_one(char *del, char **envx)
 	j = 0;
 	while (envx[++i])
 	{
-		tmp = ft_substr(envx[i], 0, ft_strlen(envx[i])
-				- ft_strlen(ft_strchr(envx[i], '=')));
+		tmp = ft_substr((envx)[i], 0, ft_strlen((envx)[i])
+				- ft_strlen(ft_strchr((envx)[i], '=')));
 		if (ft_strncmp(tmp, del, ft_strlen(tmp)) != SUCCESS)
 		{
-			new_array[j] = ft_strdup(envx[i]);
+			new_array[j] = ft_strdup((envx)[i]);
 			j++;
 		}
 		free(tmp);
+		//free((envx)[i]);
 	}
 	new_array[j] = NULL;
 	free_array(envx);

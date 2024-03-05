@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:46:39 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/03/05 22:11:42 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/05 23:04:57 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	bi_export_upd_var(t_script *s, int n, int i)
 	env_var_setter(val, var, &s->envp);
 	if (env_var_index_getter(var, s->envt) != -1)
 		bi_unset_envt(s, n);
+	free (var);
 	//show_func(__func__, SUCCESS, NULL);
 }
 
