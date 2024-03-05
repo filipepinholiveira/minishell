@@ -6,7 +6,7 @@
 #    By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/24 21:23:27 by antoda-s          #+#    #+#              #
-#    Updated: 2024/03/04 17:30:12 by antoda-s         ###   ########.fr        #
+#    Updated: 2024/03/05 18:58:04 by antoda-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,8 +82,9 @@ OBJT = $(addprefix $(OBJDIRT), $(TEST:.c=.o))
 
 #compilation
 CC 			= cc
-CF 			= -Wall -Wextra -Werror -g
+#CF 			= -Wall -Wextra -Werror -g
 #CF 			= -Wall -Wextra -Werror -g -fsanitize=address
+CF 			= -Wall -Wextra -Werror -g -fsanitize=leak
 I_HEADER	= -I include
 I_LIBFT 	= -I libft
 LNK_LIBFT 	= -L $(LFT_PATH) -lft

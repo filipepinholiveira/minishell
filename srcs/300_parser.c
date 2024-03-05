@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:28:14 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/03/02 01:13:53 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/05 20:11:48 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	parser(t_script *s, char **line_buffer)
 	}
 	//tk_trim_spaces(tk);
 
-	show_token_list(tk);
+	// show_token_list(tk);
 
 	args_counter(tk, s);
 	fnames_clear(s->cmds, s->cmd_count, tk);

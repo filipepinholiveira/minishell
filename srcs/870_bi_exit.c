@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 00:10:23 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/03/02 01:13:53 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/05 21:27:14 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ void	exit_go(t_script *s, char *arg, char *msg, int sys)
 	}
 	errno = sys;
 	free_commands(s->cmds, s->cmd_count);
-	// free_array(s->envp);
-	free_array_name(s->envp, "s->envp");
-	// free_array(s->envt);
-	free_array_name(s->envt, "s->envt");
+	free_array(s->envp);
+	// free_array_name(s->envp, "s->envp");
+	free_array(s->envt);
+	// free_array_name(s->envt, "s->envt");
 	exit(sys);
 	// show_func(__func__, SUCCESS, NULL);
 }

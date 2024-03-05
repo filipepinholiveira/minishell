@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:10:37 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/03/02 01:13:53 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/05 18:18:36 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	tk_quotes_checker(char **str)
 		(*str) = tmp + ft_strlen(tmp);
 		return (ERROR);
 	}
+	// show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);
 }
 
@@ -85,5 +86,6 @@ void	tk_trim_spaces(t_token *tk)
 		free(tmp);
 		tk = tk->next;
 	}
+	// show_func(__func__, SUCCESS, NULL);
 	return ;
 }

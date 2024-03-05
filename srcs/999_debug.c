@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:29:02 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/03/02 01:15:25 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/05 17:27:44 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ int show_func(const char *func_name, int status, char *msg)
 			// show_func_msg(msg);
 		}
 	}
+	printf("\n");
 	return (status);
 }
 
@@ -169,6 +170,7 @@ void show_token_list(t_token *token)
 	printf("%s**********************************************************%s\n", SBHGRN, SRST);
 	while (tk_ptr)
 	{
+		printf("%s%p%s\n", SBHYLW, tk_ptr, SRST);
 		printf("%s-> token->content = '%s%s%s'%s\n",
 			SBHPPL, SBWHT, tk_ptr->content, SBHPPL, SRST);
 		printf("%s-> token->size = '%s%d%s'%s\n",

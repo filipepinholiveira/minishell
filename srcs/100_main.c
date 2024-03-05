@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:27:05 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/03/02 01:13:53 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/05 21:23:05 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	main(int argc, char **argv, char **envp)
 	s.envt[0] = NULL;
 	termios_getter(&s.termios_p);
 	ms_loop(&s);
-	//free_array(s.envp);
-	free_array_name(s.envp, "s.envp");
+	free_array(s.envp);
+	// free_array_name(s.envp, "s.envp");
 	return (0);
 }

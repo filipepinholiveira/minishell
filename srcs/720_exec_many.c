@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 19:26:05 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/03/02 01:13:53 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/05 21:26:09 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ int	exec_cmd_n(t_script *s, char **path, int *pipein)
 	if (pid == 0)
 		ex_child_n(s, path, pipein, i);
 	pipe_closer(pipein, NULL);
-	// free_array(path);
-	free_array_name(path, "path");
+	free_array(path);
+	// free_array_name(path, "path");
 	return (0);
 }
 

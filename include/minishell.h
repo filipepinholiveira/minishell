@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 19:28:06 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/03/01 12:48:54 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/05 22:11:08 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -636,7 +636,8 @@ void	tk_trim_spaces(t_token *tk);
 ///	600ms_env.c
 /* ************************************************************************** */
 
-char	**env_del_one(char **envx, char *del);
+char	**env_del_one(char *del, char **envx);
+// char	**env_del_one(char **envx, char *del);
 char	**env_add_one(char **envx, char *add);
 
 

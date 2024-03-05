@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/03/02 02:00:08 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/05 20:11:02 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	tk_var_xpd_splits_count(char *otk)
 		else
 			tk_var_xpd_else_c(otk, &i);
 	}
+	// show_func(__func__, SUCCESS, res);
 	return (splits + 1);
 }
 
@@ -48,21 +49,19 @@ int	tk_var_xpd_splits_count(char *otk)
 /// @return		pointer to the newly created array
 char	**tk_var_xpd_init(char *otk)
 {
-	// int		j;
 	char	**ntks;
 	int		spl;
+	// show_func(__func__, MY_START, NULL);
 
 	spl = tk_var_xpd_splits_count(otk);
-	ntks = ft_calloc(spl + 1, sizeof(char *));// * (spl + 1));
+	ntks = ft_calloc(spl + 1, sizeof(char *));
 	if (!ntks)
 	{
 		return_error("", errno, 1);
 		return (NULL);
 	}
 	ntks[spl] = NULL;
-	// j = -1;
-	// while (++j < spl)
-	// 	ntks[j] = NULL;
+	// show_func(__func__, SUCCESS, res);
 	return (ntks);
 }
 
@@ -79,7 +78,6 @@ char	**tk_var_xpd(char *otk)
 	// show_func(__func__, MY_START, NULL);
 
 	ntks = tk_var_xpd_init(otk);
-	printf("%s : (1) &ntks = %p\n", __func__, ntks);
 	spl = -1;
 	i = 0;
 	while (otk[i])
@@ -94,8 +92,7 @@ char	**tk_var_xpd(char *otk)
 		else
 			tk_var_xpd_else(otk, &ntks, &spl, &i);
 	}
-	// show_func(__func__, SUCCESS, ft_strdup(*ntks));
-	printf("%s : (2) &ntks = %p\n", __func__, ntks);
+	// show_func(__func__, SUCCESS, res);
 	return (ntks);
 }
 
@@ -117,11 +114,9 @@ char	*tk_env_var_expander(char *otk, t_script *s)
 	ntks = NULL;
 	ntks = tk_var_xpd(otk);
 	res = tk_xpd_filler(&ntks, s);
-	// show_func(__func__, SHOW_MSG, ft_strdup(*ntks));
+	// printf("%sALERT!! %s%s : dupped : address = %s%p%s\n", SBHRED, SRST, __func__, SHBLU, res, SRST);
 
-	printf("%s : (X) &ntks = %p\n", __func__, ntks);
-	//free_array(ntks);
-	//free_array_name(ntks, "ntks");//**************************************
-	// show_func(__func__, SUCCESS, ft_strdup(res));
+	free(ntks);
+	// show_func(__func__, SUCCESS, res);
 	return (res);
 }

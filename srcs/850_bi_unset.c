@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:46:53 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/03/02 01:13:53 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/05 22:12:58 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	bi_unset(t_script *s, int n)
 {
 	// show_func(__func__, MY_START, NULL);
 	int		i;
-	int		j;
 	char	*var;
 
 	env_var_setter(s->cmds[n].argv[s->cmds[n].argc - 1], "_", &s->envp);
@@ -29,17 +28,13 @@ int	bi_unset(t_script *s, int n)
 	i = 1;
 	while (s->cmds[n].argv[i])
 	{
-		if (!ft_strchr(s->cmds[n].argv[i], '='))
+		var = s->cmds[n].argv[i];
+		if (!ft_strchr(var, '='))
 		{
-			j = env_var_index_getter(s->cmds[n].argv[i], s->envp);
-			while (j >= 0 && s->envp[j] && s->envp[j + 1])
-			{
-				var = s->envp[j];
-				s->envp[j] = ft_strdup(s->envp[j + 1]);
-				free(var);
-				j++;
-			}
-			s->envp[j] = NULL;
+			if (env_var_index_getter(var, s->envp) >= 0)
+				env_del_one(var, s->envp);
+			if (env_var_index_getter(var, s->envt) >= 0)
+				env_del_one(var, s->envt);
 		}
 		i++;
 	}

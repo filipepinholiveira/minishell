@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 19:25:54 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/03/02 01:43:28 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/05 21:25:59 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,8 @@ int	exec_one(t_script *s, char **path)
 		id = exec_type(s->cmds[0].argv[0]);
 	if (id == CMD_EXIT)
 	{
-		// free_array(path);
-		free_array_name(path, "path");
+		free_array(path);
+		// free_array_name(path, "path");
 		if (exec_bi(id, s, 0))
 		{
 			// show_func(__func__, ERROR, ft_strdup("exec_bi execution error"));
@@ -138,8 +138,8 @@ int	exec_one(t_script *s, char **path)
 		// show_func(__func__, SHOW_MSG,  ft_strdup("exec_one parent : <cd>, <unset>, <export with args>, <exit>"));
 		if (exec_bi(id, s, 0))
 		{
-			// free_array(path);
-			free_array_name(path, "path");
+			free_array(path);
+			// free_array_name(path, "path");
 			// show_func(__func__, ERROR, ft_strdup("exec_bi execution error"));
 			return (ERROR);
 		}
@@ -149,15 +149,15 @@ int	exec_one(t_script *s, char **path)
 		// show_func(__func__, SHOW_MSG, ft_strdup("exec_one child : <export without args>, <echo>, <env>, <pwd>, <execve>"));
 		if (exec_one_fork(s, path))
 		{
-			// free_array(path);
-			free_array_name(path, "path");
+			free_array(path);
+			// free_array_name(path, "path");
 			// show_func(__func__, ERROR, ft_strdup("exec_one_fork execution error"));
 			return (ERROR);
 		}
 	}
 	bi_env_upd(s, 0);
-	// free_array(path);
-	free_array_name(path, "path");
+	free_array(path);
+	// free_array_name(path, "path");
 	// show_func(__func__, SUCCESS, ft_strdup("execute one succefully completed"));
 	return (SUCCESS);
 }

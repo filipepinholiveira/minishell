@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:46:39 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/03/02 01:13:53 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/05 22:11:42 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,10 @@ void	bi_export_upd_var(t_script *s, int n, int i)
 	char	*val;
 	char	*var;
 
-	show_array(s->envp, "1 bi_export_upd_var envp");
-
 	var = ft_substr(s->cmds[n].argv[i], 0,
 			ft_strlen(s->cmds[n].argv[i])
 			- ft_strlen(ft_strchr(s->cmds[n].argv[i], '=')));
-	printf("%s : var -> %s\n", __func__, var);
-	//show_func(__func__, SHOW_MSG, ft_strjoin("var -> ", var));
 	val = ft_strchr(s->cmds[n].argv[i], '=') + 1;
-	printf("%s : val -> %s\n", __func__, val);
-	//show_func(__func__, SHOW_MSG, ft_strjoin("val -> ", val));
 
 	env_var_setter(val, var, &s->envp);
 	if (env_var_index_getter(var, s->envt) != -1)
@@ -78,29 +72,19 @@ void	bi_export_new_var(t_script *s, int n, int i)
 	int		j;
 
 	var = s->cmds[n].argv[i];
-	printf("%s : 1 - var -> %s\n", __func__, var);
-	show_pointer(__func__, SHOW_MSG, "envp", s->envp);
 	j = env_var_index_getter(var, s->envp);
 	if (j >= 0)
-	{
-		printf("%s : \t\t 2 -EXPORT VAR EXISTS ALREADY IN P : rec @ envp -> %s\n", __func__,s->envp[j]);
 		return ;
-	}
-	show_pointer(__func__, SHOW_MSG, "envt", s->envt);
 	j = env_var_index_getter(var, s->envt);
 	if (j >= 0)
 	{
-		printf("%s : \t\t 3 - EXPORT VAR EXIST IN T : var @ envt -> %s\n", __func__,s->envt[j]);
 		val = env_var_getter(var, NULL, s->envt);
-		printf("%s : \t\t 4 - EXPORT VAR val IN T : val @ envt = '%s'\n", __func__, val);
 		env_var_setter(val, var, &s->envp);
-		s->envt = env_del_one(s->envt, var);
-		//bi_unset_envt(s, n);
+		s->envt = env_del_one(var, s->envt);
+		free(val);
 	}
 	else
 		env_var_setter(NULL, var, &s->envp);
-	show_pointer(__func__, D_MALLOC, "envp", s->envp);
-	show_pointer(__func__, D_MALLOC, "envt", s->envt);
 	//show_func(__func__, SUCCESS, NULL);
 }
 void	export_print(char *str)
@@ -142,8 +126,8 @@ int	export_status(t_script *s, int n)
 		i = -1;
 		while (order[++i])
 			export_print(order[i]);
-		// free_array(order);
-		free_array_name(order, "order");
+		free_array(order);
+		// free_array_name(order, "order");
 	}
 	else if (s->cmds[n].argv[1][0] == '\0')
 		return (return_error("Syntax error", 1, 2));
@@ -160,12 +144,10 @@ int	bi_export(t_script *s, int n)
 	// show_func(__func__, MY_START, NULL);
 	int	i;
 
-	// show_array(s->envp, "1 bi_export envp");
 	if (!s->envp || !s->cmds[n].argv[1] || !s->cmds[n].argv[1][0])
 	{
 		if (export_status(s, n))
 			return (1);
-		// show_array(s->envp, "2 bi_export envp");
 		return (0);
 	}
 	i = 1;
@@ -182,7 +164,6 @@ int	bi_export(t_script *s, int n)
 			export_error(s->cmds[n].argv[i], 1);
 		i++;
 	}
-	// show_array(s->envp, "3 bi_export envp");
 	// show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);
 }

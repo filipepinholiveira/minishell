@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 19:25:54 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/03/02 01:13:53 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/05 21:25:22 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ int	bi_equal_check(t_script *s, int n, int i)
 			}
 			new_array[j] = NULL;
 			s->cmds[n].argc = j;
-			// free_array(s->cmds[n].argv);
-			free_array_name(s->cmds[n].argv, "s->cmds[n].argv");
+			free_array(s->cmds[n].argv);
+			// free_array_name(s->cmds[n].argv, "s->cmds[n].argv");
 			s->cmds[n].argv = new_array;
 			execute_show(s);
 			break ;

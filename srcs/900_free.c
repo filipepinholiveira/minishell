@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 12:26:48 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/03/02 01:42:04 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/05 22:15:53 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 void	free_array(char **array)
 {
 
-	show_pointer(__func__, MY_START, "", array);
+	// show_pointer(__func__, MY_START, "", array);
 	int	i;
 
 	if (!array)
@@ -110,8 +110,8 @@ void	free_cmds_path(t_script *script, char **path)
 {
 	// show_func(__func__, MY_START, NULL);
 	free_commands(script->cmds, script->cmd_count);
-	// free_array(path);
-	free_array_name(path, "path");
+	free_array(path);
+	// free_array_name(path, "path");
 	// show_func(__func__, SUCCESS, NULL);
 }
 
