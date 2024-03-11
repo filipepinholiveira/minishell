@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:10:37 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/03/05 18:18:36 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/10 23:51:47 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 /// @return		ERROR (unclosed), SUCCES (closed)
 int	tk_quotes_checker(char **str)
 {
+	show_func(__func__, MY_START, NULL);
 	char	*tmp;
-	// show_func(__func__, MY_START, NULL);
 
 	tmp = *str;
 	(*str) = ft_strchr((*str) + 1, **str);
@@ -34,10 +34,8 @@ int	tk_quotes_checker(char **str)
 		(*str) = tmp + ft_strlen(tmp);
 		return (ERROR);
 	}
-	// show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);
 }
-
 
 /// @brief 		Unquotes a string. Special rules applies
 ///				- removes ' from limits = 'string'
@@ -49,9 +47,9 @@ int	tk_quotes_checker(char **str)
 /// @return		A new unquoted string
 char	*tk_xpd_unquote(char *str)
 {
+	show_func(__func__, MY_START, NULL);
 	char	*ret;
 	int		len;
-	// show_func(__func__, MY_START, ft_strdup(str));
 
 	ret = NULL;
 	len = ft_strlen(str);
@@ -64,7 +62,6 @@ char	*tk_xpd_unquote(char *str)
 	else if (str[0] != '\"' && str[len - 1] != '\"')
 		ret = ft_strdup(str);
 	free(str);
-	// show_func(__func__, SUCCESS, NULL);
 	return (ret);
 }
 
@@ -76,8 +73,8 @@ char	*tk_xpd_unquote(char *str)
 /// @return			NOTHING
 void	tk_trim_spaces(t_token *tk)
 {
+	show_func(__func__, MY_START, NULL);
 	char	*tmp;
-	// show_func(__func__, MY_START, NULL);
 
 	while (tk)
 	{
@@ -86,6 +83,5 @@ void	tk_trim_spaces(t_token *tk)
 		free(tmp);
 		tk = tk->next;
 	}
-	// show_func(__func__, SUCCESS, NULL);
 	return ;
 }

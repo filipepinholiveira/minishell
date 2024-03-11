@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 00:09:56 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/03/02 01:13:53 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/10 23:46:52 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 /// @return			SUCCESS or ERROR
 int	bi_env(t_script *s, int n)
 {
+	show_func(__func__, MY_START, NULL);
 	int	count;
 
-	// show_func(__func__, MY_START, NULL);
-	env_var_setter("env","_", &s->envp);
+	env_var_setter("env", "_", &s->envp);
 	(void)n;
 	count = 0;
 	while (s->envp[count] != NULL)
@@ -33,7 +33,5 @@ int	bi_env(t_script *s, int n)
 		}
 		count++;
 	}
-	//free_commands(s->cmds, 0);
-	// show_func(__func__, SUCCESS, NULL);
 	return (count);
 }

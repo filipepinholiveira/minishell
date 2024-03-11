@@ -6,13 +6,12 @@
 #    By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/24 21:23:27 by antoda-s          #+#    #+#              #
-#    Updated: 2024/03/05 18:58:04 by antoda-s         ###   ########.fr        #
+#    Updated: 2024/03/10 23:54:35 by antoda-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # name
 NAME 		= minishell
-NAMET 		= test
 
 # libs and includes
 LIBFT 		= libft.a
@@ -26,9 +25,6 @@ INCLUDES 	= ./include/
 # sources and objects dirs
 SRCDIR 	= srcs/
 OBJDIR 	= build/
-
-SRCDIRT 	= s-tester/
-OBJDIRT 	= builder/
 
 # sources and objects base project
 # FILES	=	main.c 				# Top level function
@@ -48,12 +44,16 @@ FILES	+=	504_tk_xpd_count.c
 FILES	+=	505_tk_xpd_filler.c
 FILES	+=	506_tk_xpd_split.c
 FILES	+=	507_tk_quotes.c
-FILES	+=	600_env.c
+FILES	+=	600_env_setter.c
+FILES	+=	610_env_getter.c
 FILES	+=	700_exec_start.c
 FILES	+=	705_exec_type.c
 FILES	+=	710_exec_one.c
+FILES	+=	711_exec_bi.c
+FILES	+=	712_exec_ve.c
 FILES	+=	720_exec_many.c
 FILES	+=	730_exec_childs.c
+FILES	+=	731_exec_go.c
 FILES	+=	740_exec_redirs.c
 FILES	+=	750_exec_heredoc.c
 FILES	+=	760_exec_pipes.c
@@ -62,29 +62,24 @@ FILES	+=	810_bi_echo.c
 FILES	+=	820_bi_cd.c
 FILES	+=	830_bi_pwd.c
 FILES	+=	840_bi_export.c
+FILES	+=	845_bi_export_status.c
 FILES	+=	850_bi_unset.c
 FILES	+=	860_bi_env.c
 FILES	+=	870_bi_exit.c
 FILES	+=	880_bi_equal.c
+FILES	+=	890_bi_append.c
 FILES	+=	900_free.c
 FILES	+=	910_errors.c
 FILES	+=	999_debug.c
 
-TEST	=	test.c
-TEST	+=	test1.c
-TEST	+=	test2.c
-
 SRC = $(addprefix $(SRCDIR), $(FILES))
 OBJ = $(addprefix $(OBJDIR), $(FILES:.c=.o))
 
-SRCT = $(addprefix $(SRCDIRT), $(TEST))
-OBJT = $(addprefix $(OBJDIRT), $(TEST:.c=.o))
-
 #compilation
 CC 			= cc
-#CF 			= -Wall -Wextra -Werror -g
-#CF 			= -Wall -Wextra -Werror -g -fsanitize=address
-CF 			= -Wall -Wextra -Werror -g -fsanitize=leak
+CF 			= -Wall -Wextra -Werror -g
+CFA 			= -Wall -Wextra -Werror -g -fsanitize=address
+CFL 			= -Wall -Wextra -Werror -g -fsanitize=leak
 I_HEADER	= -I include
 I_LIBFT 	= -I libft
 LNK_LIBFT 	= -L $(LFT_PATH) -lft
@@ -126,7 +121,7 @@ all: $(LIBFT) $(OBJ) $(NAME)
 $(NAME):
 	@printf "\n$(_SUCCESS) $(GRN)$(NAME) objects ready!                $(WTH)\n"
 	@printf "\n$(_INFO) $(CYN)Generating $(NAME) executable...$(WTH)\n"
-	$(CC) $(CF) $(OBJ) $(LNK_LIBFT) $(LNK_READLINE) -o $@
+	$(CC) $(CFL) $(OBJ) $(LNK_LIBFT) $(LNK_READLINE) -o $@
 	@printf "$(GRN)█$(WHT)"
 
 mkbuilddir:

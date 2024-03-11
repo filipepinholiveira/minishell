@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 19:00:01 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/03/05 20:11:02 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/10 23:50:39 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 /// @return		number of splits needed to properly create an array
 int	tk_var_xpd_splits_count(char *otk)
 {
+	show_func(__func__, MY_START, NULL);
 	int	i;
 	int	splits;
-	// show_func(__func__, MY_START, NULL);
 
 	splits = -1;
 	i = 0;
@@ -37,7 +37,6 @@ int	tk_var_xpd_splits_count(char *otk)
 		else
 			tk_var_xpd_else_c(otk, &i);
 	}
-	// show_func(__func__, SUCCESS, res);
 	return (splits + 1);
 }
 
@@ -49,9 +48,9 @@ int	tk_var_xpd_splits_count(char *otk)
 /// @return		pointer to the newly created array
 char	**tk_var_xpd_init(char *otk)
 {
+	show_func(__func__, MY_START, NULL);
 	char	**ntks;
 	int		spl;
-	// show_func(__func__, MY_START, NULL);
 
 	spl = tk_var_xpd_splits_count(otk);
 	ntks = ft_calloc(spl + 1, sizeof(char *));
@@ -61,7 +60,6 @@ char	**tk_var_xpd_init(char *otk)
 		return (NULL);
 	}
 	ntks[spl] = NULL;
-	// show_func(__func__, SUCCESS, res);
 	return (ntks);
 }
 
@@ -72,10 +70,10 @@ char	**tk_var_xpd_init(char *otk)
 /// @return		the token's array with expanded args
 char	**tk_var_xpd(char *otk)
 {
+	show_func(__func__, MY_START, NULL);
 	int		i;
 	char	**ntks;
 	int		spl;
-	// show_func(__func__, MY_START, NULL);
 
 	ntks = tk_var_xpd_init(otk);
 	spl = -1;
@@ -92,7 +90,6 @@ char	**tk_var_xpd(char *otk)
 		else
 			tk_var_xpd_else(otk, &ntks, &spl, &i);
 	}
-	// show_func(__func__, SUCCESS, res);
 	return (ntks);
 }
 
@@ -107,16 +104,13 @@ char	**tk_var_xpd(char *otk)
 /// @return				String with ARGS replaced by envp vars
 char	*tk_env_var_expander(char *otk, t_script *s)
 {
+	show_func(__func__, MY_START, NULL);
 	char	**ntks;
 	char	*res;
-	// show_func(__func__, MY_START, NULL);
 
 	ntks = NULL;
 	ntks = tk_var_xpd(otk);
 	res = tk_xpd_filler(&ntks, s);
-	// printf("%sALERT!! %s%s : dupped : address = %s%p%s\n", SBHRED, SRST, __func__, SHBLU, res, SRST);
-
 	free(ntks);
-	// show_func(__func__, SUCCESS, res);
 	return (res);
 }

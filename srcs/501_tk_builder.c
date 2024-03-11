@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 19:10:37 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/03/05 18:12:30 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/10 23:50:27 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 /// @return		clean content
 void	tk_rm_blank(t_token *head)
 {
+	show_func(__func__, MY_START, NULL);
 	t_token	*tmp;
-	// show_func(__func__, MY_START, NULL);
 
 	while (head)
 	{
@@ -35,7 +35,6 @@ void	tk_rm_blank(t_token *head)
 		else
 			head = head->next;
 	}
-	// show_func(__func__, SUCCESS, NULL);
 	return ;
 }
 
@@ -46,7 +45,7 @@ void	tk_rm_blank(t_token *head)
 ///				and token type
 t_ops	tk_type_getter(const char *s)
 {
-	// show_func(__func__, MY_START, NULL);
+	show_func(__func__, MY_START, NULL);
 	t_ops		blank;
 	int			i;
 	const t_ops	ops[14] = {{">>", 2, TK_R_OUT}, {"<<", 2, TK_R_IN},
@@ -62,7 +61,6 @@ t_ops	tk_type_getter(const char *s)
 		if (!ft_strncmp(s, ops[i].op, ops[i].size))
 			return (ops[i]);
 	}
-	// show_func(__func__, SUCCESS, NULL);
 	return (blank);
 }
 
@@ -73,9 +71,9 @@ t_ops	tk_type_getter(const char *s)
 /// @return		1 if success, 0 if error
 int	tk_getter(char *str, t_token **tk_lst)
 {
+	show_func(__func__, MY_START, NULL);
 	t_ops	ptr;
 	char	*prev;
-	// show_func(__func__, MY_START, NULL);
 
 	prev = str;
 	while (str && *str)
@@ -97,7 +95,6 @@ int	tk_getter(char *str, t_token **tk_lst)
 	}
 	if (prev != str)
 		tk_lst_addback(tk_lst, tk_addnew(prev, str - prev, TK_NAME));
-	// show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);
 }
 
@@ -112,9 +109,9 @@ int	tk_getter(char *str, t_token **tk_lst)
 /// @return		SUCCESS if valid, ERROR if invalid
 int	tk_builder(char **line, t_token **tk, t_script *s)
 {
+	show_func(__func__, MY_START, NULL);
 	t_token	*tk_ptr;
 	char	*content;
-	// show_func(__func__, MY_START, NULL);
 
 	if (tk_getter(*line, tk) == ERROR)
 	{
@@ -129,6 +126,5 @@ int	tk_builder(char **line, t_token **tk, t_script *s)
 		ft_free(content);
 		tk_ptr = tk_ptr->next;
 	}
-	// show_func(__func__, SUCCESS, NULL);
 	return (SUCCESS);
 }
