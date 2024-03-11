@@ -44,7 +44,8 @@ int	return_error(const char *msg, int errms, int errbash)
 	g_exit_status = errms;
 	if (errbash)
 	{
-		g_exit_status = errno;
+		if (!errms)
+			g_exit_status = errno;
 		perror(msg);
 	}
 	else

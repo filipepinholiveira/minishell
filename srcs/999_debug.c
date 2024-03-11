@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 23:29:02 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/03/05 17:27:44 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/06 19:13:35 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	execute_show(t_script *s)
 	return ;
 }
 
-void show_func_msg(const char *msg)
+void	show_func_msg(const char *msg)
 {
 	if (DEBUG_ALL)
 	{
@@ -138,8 +138,7 @@ int show_func(const char *func_name, int status, char *msg)
 		}
 	}
 	printf("\n");
-	if (msg != NULL)
-	 	ft_free(msg);
+
 	return (status);
 }
 
@@ -200,6 +199,6 @@ void	show_pointer(const char *func, int status, const char *msg, void *ptr)
 		return ;
 	tmp = ft_var_address(msg, ptr);
 	show_func(func, status, tmp);
-	if (tmp != NULL)
-	 	ft_free(tmp);
+	// if (tmp != NULL)
+	//  	ft_free(tmp);
 }

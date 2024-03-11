@@ -6,7 +6,7 @@
 /*   By: antoda-s <antoda-s@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:44:19 by antoda-s          #+#    #+#             */
-/*   Updated: 2024/03/05 21:52:33 by antoda-s         ###   ########.fr       */
+/*   Updated: 2024/03/08 00:12:30 by antoda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 /// @return 		SUCCESS or ERROR
 int	change_dir(char *path, char ***envp)
 {
-	// show_func(__func__, MY_START, ft_strdup(path));
 	int		ret;
 	char	*pwd;
 
@@ -26,7 +25,11 @@ int	change_dir(char *path, char ***envp)
 	pwd = getcwd(pwd, MAX_PATH_LEN);
 	ret = chdir(path);
 	if (ret == -1)
-		return (return_error(path, 1, 1));
+	{
+		write(1, "Minishell: cd: ", 15);
+		(return_error(path, 0, 1));
+		return (ERROR);
+	}
 	env_var_setter(pwd, "OLDPWD", envp);
 	ft_free(pwd);
 	pwd = NULL;
@@ -41,7 +44,6 @@ int	change_dir(char *path, char ***envp)
 /// @return			SUCCESS or ERROR
 int	bi_cd(t_script *s, int n)
 {
-	// show_func(__func__, MY_START, ft_strjoin_free(ft_strdup("execute bi: "), ft_trdup(s->cmds[n].argv[0])));
 	char	*home;
 	int		status;
 
@@ -52,7 +54,7 @@ int	bi_cd(t_script *s, int n)
 		if (home == NULL)
 		{
 			free(home);
-			return (return_error("Minishell: cd: HOME not set", 1, 0));
+			return (return_error("cd: HOME not set", 1, 0));
 		}
 		status = change_dir(home, &s->envp);
 		free(home);
